@@ -16,7 +16,7 @@ router.post('/login', async (req, res) => {
             return res.status(401).json("Password or email is incorrect");
         }
 
-        const validPassword = await compare(password, user.rows[0].password);
+        const validPassword = await compare(password, user.rows[0].password); //Fix this line (error: could not compare password without bcrypt)
 
         if(!validPassword){
             return res.status(401).json("Password or email is incorrect");
@@ -40,3 +40,5 @@ router.post('/logout', async(req, res) => {
         
     }
 });
+
+module.exports = router;
