@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { compare } = require('bcrypt');
 const pool = require('../db');
+const bcrypt = require('bcrypt');
 const jwtGenerator = require('../utils/jwtGenerator');
 const checkAuth = require('../middleware/checkAuth');
 
@@ -16,7 +17,7 @@ router.post('/login', async (req, res) => {
             return res.status(401).json("Password or email is incorrect");
         }
 
-        const validPassword = await compare(password, user.rows[0].password); //Fix this line (error: could not compare password without bcrypt)
+        const validPassword = await bcrypt.compare(password, user.rows[0].password);
 
         if(!validPassword){
             return res.status(401).json("Password or email is incorrect");
