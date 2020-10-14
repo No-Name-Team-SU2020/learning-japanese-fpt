@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { compare } = require('bcrypt');
 const pool = require('../db');
+const jwtGenerator = require('../utils/jwtGenerator');
 const checkAuth = require('../middleware/checkAuth');
 
 //login
@@ -21,8 +22,13 @@ router.post('/login', async (req, res) => {
             return res.status(401).json("Password or email is incorrect");
         }
 
+        const token = jwtGenerator(user.rows[0].user_name);
+
+        return res.json({token}); //check if token is given
+
     } catch (error) {
-        
+        console.error(error.message);
+        res.status(500).send("Server error");
     }
 });
 
