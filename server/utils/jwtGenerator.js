@@ -8,7 +8,7 @@ function jwtGenerator(user_name){
         }
     }
 
-    return jwt.sign(payload, process.env.jwtSecret, {expiresIn: "12h"});
+    return jwt.sign(payload, process.env.accessTokenSecret, {expiresIn: "12h"});
 }
 
 module.exports = jwtGenerator;

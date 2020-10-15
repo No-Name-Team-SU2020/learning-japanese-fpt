@@ -8,7 +8,7 @@ function jwtRefresher(user_name){
         }
     }
 
-    return jwt.sign(payload, process.env.jwtSecret);
+    return jwt.sign(payload, process.env.refreshTokenSecret);
 }
 
 module.exports = jwtRefresher;
