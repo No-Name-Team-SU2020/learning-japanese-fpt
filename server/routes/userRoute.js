@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const { compare } = require('bcrypt');
 const pool = require('../db');
 const bcrypt = require('bcrypt');
 const jwtGenerator = require('../utils/jwtGenerator');
+const jwtRefresher = require('../utils/jwtRefresher');
 const checkAuth = require('../middleware/checkAuth');
 
 //login
@@ -24,8 +24,9 @@ router.post('/login', async (req, res) => {
         }
 
         const token = jwtGenerator(user.rows[0].user_name);
+        const refreshToken = jwtRefresher(user.rows[0].user_name);
 
-        return res.json({token}); //check if token is given
+        return res.json({token, refreshToken}); //check if token is given
 
     } catch (error) {
         console.error(error.message);
@@ -34,11 +35,15 @@ router.post('/login', async (req, res) => {
 });
 
 //logout
-router.post('/logout', async(req, res) => {
+router.delete('/logout', async(req, res) => {
     try {
-        
+        let refreshTokens = [];
+        //const refreshToken = req.body.token;
+        refreshTokens = refreshTokens.filter(token => token !== req.body.token)
+        res.sendStatus(204);
     } catch (error) {
-        
+        console.error(error.message);
+        res.status(500).send("Server error");
     }
 });
 
