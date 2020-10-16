@@ -4,7 +4,7 @@ require('dotenv').config();
 function jwtGenerator(user_name){
     const payload = {
         user: {
-            id: user_name
+            id: user_name,
         }
     }
 

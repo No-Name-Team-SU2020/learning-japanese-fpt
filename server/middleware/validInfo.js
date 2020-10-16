@@ -1,5 +1,5 @@
 module.exports = (req, res, next) => {
-    const { email, password, role } = req.body;
+    const { email, password } = req.body;
   
     function validEmail(userEmail) {
       return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userEmail);
@@ -12,6 +12,6 @@ module.exports = (req, res, next) => {
         return res.status(401).json("Invalid Email");
       }
     }
-  
+
     next();
   };

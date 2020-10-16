@@ -6,6 +6,7 @@ const jwtGenerator = require('../utils/jwtGenerator');
 const jwtRefresher = require('../utils/jwtRefresher');
 const checkAuth = require('../middleware/checkAuth');
 const validInfo = require('../middleware/validInfo');
+import permit from "../middleware/checkRole";
 
 let refreshTokens = [];
 
@@ -17,16 +18,19 @@ router.post('/login', validInfo, async (req, res) => {
         const user = await pool.query("SELECT * FROM users WHERE email = $1", 
         [email]);
 
+        //check if user exist in database
         if(user.rows.length === 0){
-            return res.status(401).json("Password or email is incorrect");
+            return res.status(401).json("User not found");
         }
 
+        //check valid password
         const validPassword = await bcrypt.compare(password, user.rows[0].password);
 
         if(!validPassword){
             return res.status(401).json("Password or email is incorrect");
         }
 
+        //generate token for user
         token = jwtGenerator(user.rows[0].user_name);
         refreshToken = jwtRefresher(user.rows[0].user_name);
         refreshTokens.push(refreshToken)
@@ -44,6 +48,7 @@ router.delete('/logout', checkAuth, async(req, res) => {
     try {
         //const refreshToken = req.body.token;
         refreshTokens = refreshTokens.filter(token => token !== req.body.token)
+        //token successfully removed
         res.status(204).send("Logged out");
     } catch (error) {
         console.error(error.message);
@@ -51,7 +56,7 @@ router.delete('/logout', checkAuth, async(req, res) => {
     }
 });
 
-router.get('/viewProfile', async(req, res) => {
+router.get('/viewProfile', permit(), async(req, res) => {
     try {
         const {user_name} = req.body;
         
@@ -59,7 +64,7 @@ router.get('/viewProfile', async(req, res) => {
         [user_name]);
 
         if(user.rows.length === 0){
-            res.status(404).send("User not found");
+            res.status(401).send("User profile not found");
         }
         else{
             res.json(user.rows[0]);
