@@ -6,7 +6,7 @@ const jwtGenerator = require('../utils/jwtGenerator');
 const jwtRefresher = require('../utils/jwtRefresher');
 const checkAuth = require('../middleware/checkAuth');
 const validInfo = require('../middleware/validInfo');
-import permit from "../middleware/checkRole";
+const checkRole = require('../middleware/checkRole');
 
 let refreshTokens = [];
 
@@ -56,7 +56,7 @@ router.delete('/logout', checkAuth, async(req, res) => {
     }
 });
 
-router.get('/viewProfile', permit(), async(req, res) => {
+router.get('/viewProfile', checkAuth, checkRole('Student', 'Teacher'), async(req, res) => {
     try {
         const {user_name} = req.body;
         

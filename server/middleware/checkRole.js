@@ -1,11 +1,11 @@
 const pool = require('../db');
 
-export function permit(...permittedRoles) {
+module.exports = function permit(...permittedRoles) {
     return (req, res, next) => {
-        const { user } = req.body
+        const { user } = req
 
-        const user_role = await pool.query
-            ("SELECT user_name,role_name "
+        const user_role = pool.query
+            ("SELECT role_name "
                 + "FROM public.users, public.role "
                 + "WHERE 'role'.role_id = users.role_id");
 
