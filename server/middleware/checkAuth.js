@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+//check if user is really user lol
 module.exports = async (req, res, next) => {
     try {
         const jwtToken = req.header("token");

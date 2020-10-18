@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const pool = require('../db');
+const db = require('../db');
+const User = require('../models/User');
 const bcrypt = require('bcrypt');
 //const jwt = require('jsonwebtoken');
 const jwtGenerator = require('../utils/jwtGenerator');
@@ -15,16 +16,17 @@ router.post('/login', validInfo, async (req, res) => {
     try {
         const {email, password} = req.body;
 
-        const user = await pool.query("SELECT * FROM users WHERE email = $1", 
-        [email]);
+        const user = await User.findOne({ where: { email: email } })
+        // await pool.query("SELECT * FROM users WHERE email = $1", 
+        // [email]);
 
         //check if user exist in database
-        if(user.rows.length === 0){
+        if(!user){
             return res.status(401).json("User not found");
         }
 
         //check valid password
-        const validPassword = await bcrypt.compare(password, user.rows[0].password);
+        const validPassword = await bcrypt.compare(password, User.password);
 
         if(!validPassword){
             return res.status(401).json("Password or email is incorrect");
@@ -56,12 +58,14 @@ router.delete('/logout', checkAuth, async(req, res) => {
     }
 });
 
-router.get('/viewProfile', checkAuth, checkRole('Student', 'Teacher'), async(req, res) => {
+//view profile
+router.get('/viewProfile', checkAuth, async(req, res) => {
     try {
         const {user_name} = req.body;
         
-        const user = await pool.query("SELECT display_name, email FROM users WHERE user_name = $1",
-        [user_name]);
+        const user = await User.findOne({ user_name: user_name})
+        // await pool.query("SELECT display_name, email FROM users WHERE user_name = $1",
+        // [user_name]);
 
         if(user.rows.length === 0){
             res.status(401).send("User profile not found");

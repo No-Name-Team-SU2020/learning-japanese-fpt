@@ -1,5 +1,6 @@
 const pool = require('../db');
 
+//check user role, have to look into it later
 module.exports = function permit(...permittedRoles) {
     return (req, res, next) => {
         const { user } = req
