@@ -3,16 +3,12 @@ const pool = require('../db');
 const bcrypt = require('bcrypt');
 //const jwt = require('jsonwebtoken');
 const jwtGenerator = require('../utils/jwtGenerator');
-<<<<<<< HEAD
-// const checkAuth = require('../middleware/checkAuth');
-=======
 const jwtRefresher = require('../utils/jwtRefresher');
 const checkAuth = require('../middleware/checkAuth');
 const validInfo = require('../middleware/validInfo');
 const checkRole = require('../middleware/checkRole');
 
 let refreshTokens = [];
->>>>>>> e54054b2e88c5ffd1b1eefdc4e73b66182bc4977
 
 //login
 router.post('/login', validInfo, async (req, res) => {
@@ -22,14 +18,9 @@ router.post('/login', validInfo, async (req, res) => {
         const user = await pool.query("SELECT * FROM users WHERE email = $1",
             [email]);
 
-<<<<<<< HEAD
-        if (user.rows.length === 0) {
-            return res.status(401).json("Password or email is incorrect1");
-=======
         //check if user exist in database
         if(user.rows.length === 0){
             return res.status(401).json("User not found");
->>>>>>> e54054b2e88c5ffd1b1eefdc4e73b66182bc4977
         }
 
         //check valid password
@@ -44,11 +35,7 @@ router.post('/login', validInfo, async (req, res) => {
         refreshToken = jwtRefresher(user.rows[0].user_name);
         refreshTokens.push(refreshToken)
 
-<<<<<<< HEAD
-        return res.json({ token }); //check if token is givens
-=======
         return res.json({token, refreshToken}); //check if token is given
->>>>>>> e54054b2e88c5ffd1b1eefdc4e73b66182bc4977
 
     } catch (error) {
         console.error(error.message);
@@ -57,13 +44,6 @@ router.post('/login', validInfo, async (req, res) => {
 });
 
 //logout
-<<<<<<< HEAD
-router.post('/logout', async (req, res) => {
-    try {
-
-    } catch (error) {
-
-=======
 router.delete('/logout', checkAuth, async(req, res) => {
     try {
         //const refreshToken = req.body.token;
@@ -93,7 +73,6 @@ router.get('/viewProfile', checkAuth, checkRole('Student', 'Teacher'), async(req
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Server error");
->>>>>>> e54054b2e88c5ffd1b1eefdc4e73b66182bc4977
     }
 });
 module.exports = router;
