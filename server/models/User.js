@@ -20,23 +20,24 @@ const User = db.define('users', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    role_id:{
+    role_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references:{
+        references: {
             model: 'role',
             key: 'role_id'
         }
     },
-    //freezeTableName: true,
-    // instanceMethods: {
-    //     generateHash(password){
-    //         return bcrypt.hash(password, bcrypt.genSalt(10));
-    //     },
-    //     validPassword(password){
-    //         return bcrypt.compare(password, this.password);
-    //     }
-    // }
-});
+}, {
+    instanceMethods: {
+        generateHash(password) {
+            return bcrypt.hash(password, bcrypt.genSaltSync(10));
+        },
+        validPassword(password) {
+            return bcrypt.compare(password, this.password);
+        }
+    }
+}
+);
 
 module.exports = User;

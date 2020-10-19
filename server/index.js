@@ -6,8 +6,10 @@ var bodyParser = require('body-parser');
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
-// parse application/json
-app.use(bodyParser.json())
+//Test database connection
+db.authenticate()
+    .then(() => console.log('Database connect successfully!'))
+    .catch(err => console.log('Error' + err))
 
 app.use(express.json());
 app.use(cors());
