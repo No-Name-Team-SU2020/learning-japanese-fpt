@@ -2,9 +2,8 @@ const router = require('express').Router();
 const db = require('../db');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-//const jwt = require('jsonwebtoken');
-const jwtGenerator = require('../utils/jwtGenerator');
-const jwtRefresher = require('../utils/jwtRefresher');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 const checkAuth = require('../middleware/checkAuth');
 const validInfo = require('../middleware/validInfo');
 const checkRole = require('../middleware/checkRole');
@@ -26,15 +25,27 @@ router.post('/login', validInfo, async (req, res) => {
         }
 
         //check valid password
-        const validPassword = await bcrypt.compare(password, User.password);
+        const validPassword = await bcrypt.compare(password, user.password);
 
         if(!validPassword){
             return res.status(401).json("Password or email is incorrect");
         }
 
         //generate token for user
-        token = jwtGenerator(user.rows[0].user_name);
-        refreshToken = jwtRefresher(user.rows[0].user_name);
+        token = jwt.sign({
+            id: user.user_name,
+        },
+        process.env.accessTokenSecret,{
+            expiresIn: "12h"
+        });
+
+        //generate refresh token
+        refreshToken = jwt.sign({
+            id: user.user_name,
+        },
+            process.env.refreshTokenSecret,
+        );
+
         refreshTokens.push(refreshToken)
 
         return res.json({token, refreshToken}); //check if token is given
@@ -45,7 +56,7 @@ router.post('/login', validInfo, async (req, res) => {
     }
 });
 
-//logout
+//logout (could be not needed, might be removed later)
 router.delete('/logout', checkAuth, async(req, res) => {
     try {
         //const refreshToken = req.body.token;
@@ -59,19 +70,21 @@ router.delete('/logout', checkAuth, async(req, res) => {
 });
 
 //view profile
-router.get('/viewProfile', checkAuth, async(req, res) => {
+router.get('/view-profile',checkAuth, async(req, res) => {
     try {
         const {user_name} = req.body;
         
-        const user = await User.findOne({ user_name: user_name})
+        const user = await User.findOne( {where: { user_name: user_name}})
         // await pool.query("SELECT display_name, email FROM users WHERE user_name = $1",
         // [user_name]);
 
-        if(user.rows.length === 0){
+        if(!user){
             res.status(401).send("User profile not found");
         }
         else{
-            res.json(user.rows[0]);
+            res.json({
+                data: user
+            })
         }
 
     } catch (error) {

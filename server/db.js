@@ -21,6 +21,10 @@ const db = new Sequelize('Capstone_Project', 'postgres', '09001210', {
         acquire: 30000,
         idle: 10000
       },
+
+      define: {
+        timestamps: false
+      }
   });
 
 module.exports = db;

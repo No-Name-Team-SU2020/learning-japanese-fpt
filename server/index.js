@@ -5,7 +5,7 @@ const cors = require('cors');
 //Database
 const db = require('./db');
 
-//Test Database
+//Test database connection
 db.authenticate()
     .then(() => console.log('Database connect successfully!'))
     .catch(err => console.log('Error' + err))
