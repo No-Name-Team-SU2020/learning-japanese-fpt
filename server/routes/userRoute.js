@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const db = require('../db');
 const User = require('../models/User');
+const Class = require('../models/Class');
+const Subject = require('../models/Subject');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -70,10 +72,11 @@ router.delete('/logout', checkAuth, async(req, res) => {
 });
 
 //view profile
-router.get('/view-profile',checkAuth, async(req, res) => {
+router.get('/profile',checkAuth, async(req, res) => {
     try {
         const {user_name} = req.body;
         
+        //get user profile by their user_name
         const user = await User.findOne( {where: { user_name: user_name}})
         // await pool.query("SELECT display_name, email FROM users WHERE user_name = $1",
         // [user_name]);
@@ -93,4 +96,80 @@ router.get('/view-profile',checkAuth, async(req, res) => {
     }
 });
 
+//basic search
+router.get('/search', async(req,res) => {
+    try {
+        
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Server error");
+    }
+});
+
+//view all class
+router.get('/class', checkAuth, async(req,res) => {
+    try {
+        const classes = await Class.findAll({
+            attributes: ['class_name']
+        });
+
+        if(!classes){
+            res.status(404).send("Something wrong");
+        }
+        else{
+            return res.json({classes});
+        }
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Server error");
+    }
+});
+
+//view all subject
+router.get('/subject', checkAuth, async(req, res) => {
+    try {
+        const subject = await Subject.findAll({
+            attributes: ['subject_name']
+        });
+
+        if(!subject){
+            res.status(404).send("Something wrong");
+        }
+        else{
+            return res.json({subject});
+        }
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Server error");
+    }
+});
+
+//
+router.get('/subject/:subjectId', checkAuth, async(req,res) => {
+    try {
+        const subject_id = req.params.subjectId;
+
+        const subject_detail = await Subject.find({
+            
+        })
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Server error");
+    }
+});
+
+//
+router.get('/class/:classId', checkAuth, async(req,res) => {
+    try {
+        const class_id = req.params.classId;
+
+        const class_detail = await Class.findOne({
+            
+        })
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Server error");
+    }
+});
 module.exports = router;

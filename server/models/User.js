@@ -18,7 +18,8 @@ const User = db.define('users', {
     },
     password: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        select: false
     },
     role_id: {
         type: Sequelize.INTEGER,
