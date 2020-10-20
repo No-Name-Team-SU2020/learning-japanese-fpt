@@ -11,7 +11,11 @@ const Class = db.define('class', {
     class_name: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+},
+    {
+        freezeTableName: true
     }
-});
+);
 
 module.exports = Class;
