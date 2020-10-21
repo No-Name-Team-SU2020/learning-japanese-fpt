@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 require('dotenv').config();
 
-//check if user is really user lol
+//check admin
 module.exports = async (req, res, next) => {
     try {
         const jwtToken = req.header("token");
@@ -20,9 +20,9 @@ module.exports = async (req, res, next) => {
             return res.status(401).send("User not found");
         }
 
-        // if(user.role_id !== 1){
-        //     return res.status(401).send("You are not admin");
-        // }
+        if(user.role_id !== 1){
+            return res.status(401).send("You are not admin");
+        }
 
         req.user = payload.user;
         next();

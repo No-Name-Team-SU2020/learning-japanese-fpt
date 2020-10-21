@@ -12,7 +12,6 @@ const Role = db.define('role', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    //freezeTableName = true
 });
 
 module.exports = Role;

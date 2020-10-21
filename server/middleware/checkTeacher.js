@@ -20,9 +20,9 @@ module.exports = async (req, res, next) => {
             return res.status(401).send("User not found");
         }
 
-        // if(user.role_id !== 1){
-        //     return res.status(401).send("You are not admin");
-        // }
+        if(user.role_id !== 2){
+            return res.status(401).send("You are not teacher");
+        }
 
         req.user = payload.user;
         next();

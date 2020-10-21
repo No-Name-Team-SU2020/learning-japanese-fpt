@@ -12,6 +12,10 @@ const Subject = db.define('subject', {
         type: Sequelize.STRING,
         allowNull: false
     }
-});
+},
+{
+    freezeTableName: true
+}
+);
 
 module.exports = Subject;
