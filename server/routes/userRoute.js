@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const db = require('../db');
+const { Op } = require("sequelize");
 const User = require('../models/User');
 const Class = require('../models/Class');
 const Subject = require('../models/Subject');
@@ -96,10 +97,31 @@ router.get('/profile',checkAuth, async(req, res) => {
     }
 });
 
-//basic search
-router.get('/search', async(req,res) => {
+//basic search, search for user by username or display name
+router.get('/search',checkAuth, async(req,res) => {
+    const input = req.body.input;
+
     try {
-        
+        const user = await User.findAll({
+            where: {
+                [Op.and]: [
+                    {
+                        [Op.or]: [
+                            {user_name: new RegExp(input, 'i')},
+                            {display_name: new RegExp(input, 'i')}
+                        ]
+                    }
+                ]
+            },
+            limit: 10
+        })
+
+        if(!user || user.length === 0){
+            return res.status(404).send("No user founded");
+        }
+        return res.json({
+            data: user
+        })
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Server error");
@@ -128,9 +150,7 @@ router.get('/class', checkAuth, async(req,res) => {
 //view all subject
 router.get('/subject', checkAuth, async(req, res) => {
     try {
-        const subject = await Subject.findAll({
-            attributes: ['subject_name']
-        });
+        const subject = await Subject.findAll();
 
         if(!subject){
             res.status(404).send("Something wrong");
@@ -144,32 +164,40 @@ router.get('/subject', checkAuth, async(req, res) => {
     }
 });
 
-//
-router.get('/subject/:subjectId', checkAuth, async(req,res) => {
-    try {
-        const subject_id = req.params.subjectId;
+// //
+// router.get('/:subjectId', checkAuth, async(req,res) => {
+//     try {
+//         const subject_id = req.params.subjectId;
 
-        const subject_detail = await Subject.find({
-            
-        })
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send("Server error");
-    }
-});
+//         const subject_detail = await Subject.findAll({
+//             where: {
+//                 subject_id: subject_id
+//             }
+//         })
 
-//
-router.get('/class/:classId', checkAuth, async(req,res) => {
-    try {
-        const class_id = req.params.classId;
+//         return res.json({subject_detail});
+//     } catch (error) {
+//         console.error(error.message);
+//         res.status(500).send("Server error");
+//     }
+// });
 
-        const class_detail = await Class.findOne({
-            
-        })
+// //
+// router.get('/:classId', checkAuth, async(req,res) => {
+//     try {
+//         const class_id = req.params.classId;
 
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send("Server error");
-    }
-});
+//         const class_detail = await Class.findAll({
+//             where: {
+//                 class_id: class_id
+//             }
+//         })
+
+//         return res.json({class_detail});
+//     } catch (error) {
+//         console.error(error.message);
+//         res.status(500).send("Server error");
+//     }
+// });
+
 module.exports = router;
