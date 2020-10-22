@@ -51,7 +51,12 @@ router.post('/login', validInfo, async (req, res) => {
 
         refreshTokens.push(refreshToken)
 
-        return res.json({token, refreshToken}); //check if token is given
+        return res.json({
+            data: {
+                token: token,
+                user: user.user_name,
+            }
+        }) //check if token is given
 
     } catch (error) {
         console.error(error.message);
