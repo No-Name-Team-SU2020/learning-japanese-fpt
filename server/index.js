@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const checkAdmin = require('./middleware/checkAdmin');
 
 //Database
 const db = require('./db');
@@ -15,7 +16,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use(require('./routes/userRoute.js'));
-app.use('/admin', require('./routes/adminRoute.js'));
+app.use('/admin',checkAdmin, require('./routes/adminRoute.js'));
 
 app.listen(3000, () => {
     console.log('Listening to port 3000');

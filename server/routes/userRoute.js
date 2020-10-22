@@ -164,7 +164,7 @@ router.get('/subject', checkAuth, async(req, res) => {
     }
 });
 
-// //
+// // Temporarily disable
 // router.get('/:subjectId', checkAuth, async(req,res) => {
 //     try {
 //         const subject_id = req.params.subjectId;
