@@ -163,7 +163,9 @@ router.get('/subject/:subjectId', checkAuth, async(req,res) => {
 router.get('/class/:classId', checkAuth, async(req,res) => {
     try {
         const class_id = req.params.classId;
+
         const class_detail = await Class.findOne({
+            
         })
 
     } catch (error) {
