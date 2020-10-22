@@ -3,15 +3,11 @@ const app = express();
 const cors = require('cors');
 const checkAdmin = require('./middleware/checkAdmin');
 
-//Database
-const db = require('./db');
-
 //Test database connection
 db.authenticate()
     .then(() => console.log('Database connect successfully!'))
     .catch(err => console.log('Error' + err))
 
-//middleware
 app.use(express.json());
 app.use(cors());
 

@@ -16,7 +16,7 @@ let refreshTokens = [];
 //login
 router.post('/login', validInfo, async (req, res) => {
     try {
-        const {email, password} = req.body;
+        const { email, password } = req.body;
 
         const user = await User.findOne({ where: { email: email } })
         // await pool.query("SELECT * FROM users WHERE email = $1", 
@@ -30,8 +30,8 @@ router.post('/login', validInfo, async (req, res) => {
         //check valid password
         const validPassword = await bcrypt.compare(password, user.password);
 
-        if(!validPassword){
-            return res.status(401).json("Password or email is incorrect");
+        if (!validPassword) {
+            return res.status(401).json("Password or email is incorrect2");
         }
 
         //generate token for user
@@ -96,6 +96,7 @@ router.get('/profile',checkAuth, async(req, res) => {
         res.status(500).send("Server error");
     }
 });
+module.exports = router;
 
 //basic search, search for user by username or display name
 router.get('/search',checkAuth, async(req,res) => {
