@@ -27,21 +27,25 @@ const Question = db.define('question', {
         type: Sequelize.STRING,
         allowNull: true
     },
-    group_id: {
+    lesson_id: {
         type: Sequelize.STRING,
         allowNull: false,
         references: {
-            model: 'question_group',
-            key: 'group_id'
+            model: 'lesson',
+            key: 'lesson_id'
         }
     },
     correct_answer: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
     },
     answer_select: {
         type: Sequelize.STRING,
         allowNull: true
     },
-});
+},
+{
+    freezeTableName: true
+}
+);
 module.exports = Question;

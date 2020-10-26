@@ -32,5 +32,9 @@ const Lesson = db.define('lesson', {
             key: 'time_id'
         }
     }
-});
+},
+{
+    freezeTableName: true
+}
+);
 module.exports = Lesson;

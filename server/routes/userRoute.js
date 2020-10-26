@@ -18,7 +18,11 @@ router.post('/login', validInfo, async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        const user = await User.findOne({ where: { email: email } })
+        const user = await User.findOne({
+             where: { 
+                 email: email
+            } 
+        });
         // await pool.query("SELECT * FROM users WHERE email = $1", 
         // [email]);
 
@@ -51,12 +55,14 @@ router.post('/login', validInfo, async (req, res) => {
 
         refreshTokens.push(refreshToken)
 
+        //return token and username
         return res.json({
             data: {
+                message: "Login successfully !",
                 token: token,
                 user: user.user_name,
             }
-        }) //check if token is given
+        })
 
     } catch (error) {
         console.error(error.message);
@@ -70,7 +76,11 @@ router.delete('/logout', checkAuth, async(req, res) => {
         //const refreshToken = req.body.token;
         refreshTokens = refreshTokens.filter(token => token !== req.body.token)
         //token successfully removed
-        res.status(204).send("Logged out");
+        res.status(204).json(
+            {
+                message: "Logged out"
+            }
+        )
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Server error");
@@ -83,7 +93,11 @@ router.get('/profile',checkAuth, async(req, res) => {
         const {user_name} = req.body;
         
         //get user profile by their user_name
-        const user = await User.findOne( {where: { user_name: user_name}})
+        const user = await User.findOne({
+            where: { 
+                user_name: user_name
+            }
+        });
         // await pool.query("SELECT display_name, email FROM users WHERE user_name = $1",
         // [user_name]);
 
@@ -92,6 +106,7 @@ router.get('/profile',checkAuth, async(req, res) => {
         }
         else{
             res.json({
+                message: "Found user profile",
                 data: user
             })
         }
@@ -120,12 +135,13 @@ router.get('/search',checkAuth, async(req,res) => {
                 ]
             },
             limit: 10
-        })
+        });
 
         if(!user || user.length === 0){
             return res.status(404).send("No user founded");
         }
         return res.json({
+            message: "Found user",
             data: user
         })
     } catch (error) {
@@ -145,7 +161,12 @@ router.get('/class', checkAuth, async(req,res) => {
             res.status(404).send("Something wrong");
         }
         else{
-            return res.json({classes});
+            return res.json(
+                {
+                    message: "All classes found",
+                    data: classes
+                }
+            );
         }
     } catch (error) {
         console.error(error.message);
@@ -156,13 +177,18 @@ router.get('/class', checkAuth, async(req,res) => {
 //view all subject
 router.get('/subject', checkAuth, async(req, res) => {
     try {
-        const subject = await Subject.findAll();
+        const subjects = await Subject.findAll();
 
-        if(!subject){
+        if(!subjects){
             res.status(404).send("Something wrong");
         }
         else{
-            return res.json({subject});
+            return res.json(
+                {
+                    message: "All subjects found",
+                    data: subjects
+                }
+            );
         }
     } catch (error) {
         console.error(error.message);
