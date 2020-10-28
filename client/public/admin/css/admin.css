@@ -288,7 +288,7 @@ section {
 }
 .page-container {
     background: #e5e5e5;
-    padding-left: 300px;
+    /* padding-left: 300px; */
 }
 
 @media (max-width: 991px) {
@@ -460,10 +460,10 @@ section {
     cursor: pointer;
 }
 
-.au-btn:hover {
+/* .au-btn:hover {
     color: #fff;
     background: #3868cd;
-}
+} */
 
 .au-btn--blue2 {
     background: #00aced;
@@ -487,12 +487,12 @@ section {
     background: #4272d7;
 }
 
-.au-btn--green {
+/* .au-btn--green {
     background: #63c76a;
-}
+} */
 
-.au-btn--green:hover {
-    background: #59bd60;
+/* .au-btn--green:hover {
+    background: #59bd60; */
 }
 
 .au-btn-plus {
@@ -14656,4 +14656,66 @@ section {
 .vue-lists ul, .vue-lists ol {
     padding-left: 30px;
 }
+/*add new css*/
+.optiop-a{
+    background-color :unset;
+    font-size: 1000px;
 
+}
+.demo2{
+    font-size: 210px;
+}
+.question-cont{
+    background-color: white;
+}
+.btnSearch{
+    background-color: #4a413f;
+    margin-left: 10px;
+}
+
+.create-content{
+    margin: 40px 250px;
+}
+
+.txtArea1{
+    margin-left: 50px;
+   
+}
+
+.btn-create{
+    margin-left: 300px;
+    background: #00ad5f;
+    
+    text-transform: uppercase;
+    border-radius: 5px;
+    padding: 0 20px;
+    line-height: 40px;
+    font-size: 14px;
+}
+.btn-create:focus {
+    outline: 1px dotted;
+    outline: 5px auto -webkit-focus-ring-color;
+    cursor: pointer;
+}
+
+.btn-create1:focus {
+    outline: 1px dotted;
+    outline: 5px auto -webkit-focus-ring-color;
+    border-color: #7ec796;
+}
+
+.btn-create1{
+    background: red;
+    padding: 0 20px;
+    line-height: 40px;
+    font-size: 14px;
+    text-transform: uppercase;
+    border-radius: 5px;
+  
+    
+}
+
+.title{
+    text-align: center;
+    margin-bottom: 80px;
+}
