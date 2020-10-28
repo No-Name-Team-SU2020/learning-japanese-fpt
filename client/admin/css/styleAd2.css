@@ -4,8 +4,11 @@
     margin-right: 30px;
     
 }
-*{left: 0;
-    top: 0;}
+.content{
+   margin-top: -400px;
+    text-align: center;
+    font-size: 40px;
+}
 /* html {
     height: 100%;
     margin: 0;
@@ -32,7 +35,7 @@ body {
     padding: 26px 30px;
 }
 .admin-body{
-    background-image: url('../img/jp_bg.jpg');
+    
     height: 500px;
     width: 100%;
     background-size: cover;

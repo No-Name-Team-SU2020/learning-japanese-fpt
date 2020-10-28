@@ -1192,6 +1192,7 @@ section {
     left: 300px;
     height: 75px;
     z-index: 3;
+    margin-left: -325px;
 }
 
 .header-desktop .section__content {
@@ -1577,7 +1578,7 @@ section {
 }
 
 .menu-sidebar {
-    width: 300px;
+    width: 280px;
     position: fixed;
     left: 0;
     top: 0;
@@ -1622,6 +1623,7 @@ section {
     height: -webkit-calc(100vh - 75px);
     height: -moz-calc(100vh - 75px);
     height: calc(100vh - 75px);
+    width: 290px;
 }
 
 .navbar-sidebar {
@@ -2247,6 +2249,10 @@ section {
 
 .navbar-sidebar2 .navbar__list li:hover > a {
     color: #4272d7;
+}
+
+.menu-sidebar__content js-scrollbar1{
+    
 }
 
 .navbar-sidebar2 .navbar__list li a {
