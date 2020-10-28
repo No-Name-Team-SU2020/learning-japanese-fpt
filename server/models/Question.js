@@ -3,9 +3,10 @@ const db = require('../db');
 
 const Question = db.define('question', {
     question_id: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        allowNull: false
+        autoIncrement: true,
+        allowNull: false,
     },
     question_content: {
         type: Sequelize.STRING,
@@ -30,6 +31,7 @@ const Question = db.define('question', {
     lesson_id: {
         type: Sequelize.STRING,
         allowNull: false,
+        onDelete: 'CASCADE',
         references: {
             model: 'lesson',
             key: 'lesson_id'

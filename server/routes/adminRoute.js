@@ -84,4 +84,107 @@ router.get('/question', checkAuth, async(req, res) => {
         res.status(500).send("Server error");
     }
 });
+
+//create new question
+router.post('/question', checkAuth, async(req, res) => {
+    try {
+        const { id } = req.body;
+
+        const currentLesson = await Lesson.findOne({
+            where: {
+                lesson_id: id
+            },
+            attributes: ['lesson_id']
+        });
+    
+        const { question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
+    
+        const newQuestion = await Question.create({
+            question_content,
+            option_a,
+            option_b,
+            option_c,
+            option_d,
+            //lesson_id: currentLesson,
+            correct_answer,
+        });
+
+        return res.status(200).json({
+            message: 'Question created successfully',
+            data: newQuestion
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Server error");
+    }
+});
+
+//update question
+router.put('/question', checkAuth, async(req, res) => {
+    try {
+        const { id, question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
+
+        // const findQuestion = await Question.findOne({
+        //     where: {
+        //         question_id: id
+        //     }
+        // });
+
+        // if(!findQuestion){
+        //     return res.status(404).json({
+        //         message: 'Question not found',
+        //     })
+        // }
+
+        const updateQuestion = await Question.update({
+            question_content,
+            option_a,
+            option_b,
+            option_c,
+            option_d,
+            correct_answer,
+            where: {
+                question_id: id
+            }
+        });
+
+        return res.status(200).json({
+            message: 'Update successfully',
+            data: updateQuestion
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Server error");
+    }
+});
+
+//delete question
+router.delete('/question', checkAuth, async(req, res) => {
+    try {
+        const { id } = req.body;
+
+        const deleteQuestion = await Question.destroy({
+            where: {
+                question_id: id
+            }
+        });
+
+        if(!deleteQuestion) {
+            return res.json({
+                message: 'Question cannot deleted',
+            });
+        }
+
+        return res.json({
+            message: 'Question deleted successfully',
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Server error");
+    }
+});
+
 module.exports = router;
