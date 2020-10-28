@@ -493,7 +493,7 @@ section {
 
 /* .au-btn--green:hover {
     background: #59bd60; */
-}
+/* } */
 
 .au-btn-plus {
     position: absolute;
@@ -14665,4 +14665,8 @@ section {
 .btnSearch{
     background-color: #4a413f;
     margin-left: 10px;
+}
+.table-edit{
+    margin-left: auto;
+    margin-right: auto;
 }
