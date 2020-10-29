@@ -14674,23 +14674,50 @@ section {
 }
 
 .create-content{
-    margin: 40px 250px;
+    margin: 0.5px 250px ;
+    /* margin-left: 60px; */
 }
 
+
+.txtArea{
+    margin-left: 20px;
+}
 .txtArea1{
-    margin-left: 50px;
+    margin-left: 70px;
    
 }
 
+.create-content{
+    background: rgb(180, 176, 176);
+    width: 700px;
+    height: 700px;
+    padding: 30px;
+    border-radius: 23px;
+}
+.body-create{
+    
+    
+}
 .btn-create{
-    margin-left: 300px;
+    margin-left: 350px;
     background: #00ad5f;
     
     text-transform: uppercase;
     border-radius: 5px;
-    padding: 0 20px;
-    line-height: 40px;
+    padding: 0 30px;
+    line-height: 50px;
     font-size: 14px;
+}
+
+.btn-create1{
+    background: red;
+    padding: 0 30px;
+    line-height: 50px;
+    font-size: 14px;
+    text-transform: uppercase;
+    border-radius: 5px;
+  
+    
 }
 .btn-create:focus {
     outline: 1px dotted;
@@ -14704,16 +14731,7 @@ section {
     border-color: #7ec796;
 }
 
-.btn-create1{
-    background: red;
-    padding: 0 20px;
-    line-height: 40px;
-    font-size: 14px;
-    text-transform: uppercase;
-    border-radius: 5px;
-  
-    
-}
+
 
 .title{
     text-align: center;
