@@ -51,14 +51,14 @@ const Login = ({ setAuth }) => {
           name="email"
           value={email}
           onChange={e => onChange(e)}
-          className="form-control my-3"
+          className="form-control"
         />
         <input
           type="password"
           name="password"
           value={password}
           onChange={e => onChange(e)}
-          className="form-control my-3"
+          className="form-control"
         />
         <button class="btn btn-success btn-block">Submit</button>
       </form>

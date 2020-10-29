@@ -13,6 +13,15 @@ const checkRole = require("../middleware/checkRole");
 
 let refreshTokens = [];
 
+router.post("/verify", checkAuth, (req, res) => {
+  try {
+    res.json(true);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
 //login
 router.post("/login", validInfo, async (req, res) => {
   try {
