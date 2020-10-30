@@ -1,3 +1,4 @@
+
 import React, { Fragment, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -51,14 +52,14 @@ const Login = ({ setAuth }) => {
           name="email"
           value={email}
           onChange={e => onChange(e)}
-          className="form-control"
+          className="form-control my-3"
         />
         <input
           type="password"
           name="password"
           value={password}
           onChange={e => onChange(e)}
-          className="form-control"
+          className="form-control my-3"
         />
         <button class="btn btn-success btn-block">Submit</button>
       </form>
