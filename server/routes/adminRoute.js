@@ -23,7 +23,10 @@ router.get('/subject', checkAuth, async(req, res) => {
         }
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Server error");
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
     }
 });
 
@@ -52,7 +55,10 @@ router.get('/lesson', checkAuth, async(req,res) => {
         }
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Server error");
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
     }
 });
 
@@ -81,7 +87,10 @@ router.get('/question', checkAuth, async(req, res) => {
         }
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Server error");
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
     }
 });
 
@@ -96,16 +105,59 @@ router.post('/question', checkAuth, async(req, res) => {
             },
             attributes: ['lesson_id']
         });
-    
-        const { question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
-    
+
+        const { question_id, question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
+
+        if(!question_content ) {
+            return res.status(301).json({
+                message: "question content is not valid",
+                data: null,
+            });
+        }
+
+        if(!option_a ) {
+            return res.status(301).json({
+                message: "option A content is not valid",
+                data: null,
+            });
+        }
+
+        if(!option_b ) {
+            return res.status(301).json({
+                message: "option B content is not valid",
+                data: null,
+            });
+        }
+
+        if(!option_c ) {
+            return res.status(301).json({
+                message: "option C content is not valid",
+                data: null,
+            });
+        }
+
+        if(!option_d ) {
+            return res.status(301).json({
+                message: "option D content is not valid",
+                data: null,
+            });
+        }
+
+        if(!correct_answer ) {
+            return res.status(301).json({
+                message: "correct answer is not valid",
+                data: null,
+            });
+        }
+
         const newQuestion = await Question.create({
+            question_id,
             question_content,
             option_a,
             option_b,
             option_c,
             option_d,
-            //lesson_id: currentLesson,
+            lesson_id: currentLesson.lesson_id,
             correct_answer,
         });
 
@@ -116,7 +168,10 @@ router.post('/question', checkAuth, async(req, res) => {
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Server error");
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
     }
 });
 
@@ -156,7 +211,10 @@ router.put('/question', checkAuth, async(req, res) => {
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Server error");
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
     }
 });
 
@@ -183,7 +241,10 @@ router.delete('/question', checkAuth, async(req, res) => {
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Server error");
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
     }
 });
 

@@ -66,7 +66,10 @@ router.post('/login', validInfo, async (req, res) => {
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Server error");
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
     }
 });
 
@@ -83,7 +86,10 @@ router.delete('/logout', checkAuth, async(req, res) => {
         )
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Server error");
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
     }
 });
 
@@ -113,7 +119,10 @@ router.get('/profile',checkAuth, async(req, res) => {
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Server error");
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
     }
 });
 module.exports = router;
@@ -146,7 +155,10 @@ router.get('/search',checkAuth, async(req,res) => {
         })
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Server error");
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
     }
 });
 
@@ -170,7 +182,10 @@ router.get('/class', checkAuth, async(req,res) => {
         }
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Server error");
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
     }
 });
 
@@ -192,7 +207,10 @@ router.get('/subject', checkAuth, async(req, res) => {
         }
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Server error");
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
     }
 });
 
