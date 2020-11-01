@@ -1,25 +1,250 @@
 const router = require('express').Router();
-const Question_Group = require('../models/Question_Group');
+const Subject = require('../models/Subject');
 const Question = require('../models/Question');
+const Lesson = require('../models/Lesson');
 const checkAuth = require('../middleware/checkAuth');
 const checkRole = require('../middleware/checkRole');
 
-//view question group
-router.get('/question-group',checkAuth, async(req, res) => {
+//view all subject for admin
+router.get('/subject', checkAuth, async(req, res) => {
     try {
-        const group = await Question_Group.findAll({
-            attributes: ['group_name']
-        });
+        const subjects = await Subject.findAll();
 
-        if(!group){
+        if(!subjects){
             res.status(404).send("Something wrong");
         }
         else{
-            return res.json({group});
+            return res.json(
+                {
+                    message: "All subjects found",
+                    data: subjects
+                }
+            );
         }
     } catch (error) {
         console.error(error.message);
-        res.status(500).send("Server error");
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//view all lesson in a subject
+router.get('/lesson', checkAuth, async(req,res) => {
+    try {
+        const { id } = req.body;
+
+        const lessons = await Lesson.findAll({
+            where: {
+                subject_id: id
+            },
+            attributes: ['lesson_id', 'lesson_content', 'lesson_name']
+        });
+
+        if(!lessons){
+            res.status(404).send("Something wrong");
+        }
+        else{
+            return res.json(
+                {
+                    message: "Lessons found",
+                    data: lessons
+                }
+            )
+        }
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//view all question in a lesson
+router.get('/question', checkAuth, async(req, res) => {
+    try {
+        const { id } = req.body;
+
+        const questions = await Question.findAll({
+            where: {
+                lesson_id: id
+            },
+            attributes: ['question_content', 'option_a', 'option_b', 'option_c', 'option_d', 'correct_answer']
+        });
+
+        if(!questions){
+            res.status(404).send("Something wrong");
+        }
+        else{
+            return res.json(
+                {
+                    message: "All questions found",
+                    data: questions
+                }
+            )
+        }
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//create new question
+router.post('/question', checkAuth, async(req, res) => {
+    try {
+        const { id } = req.body;
+
+        const currentLesson = await Lesson.findOne({
+            where: {
+                lesson_id: id
+            },
+            attributes: ['lesson_id']
+        });
+
+        const { question_id, question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
+
+        if(!question_content ) {
+            return res.status(301).json({
+                message: "question content is not valid",
+                data: null,
+            });
+        }
+
+        if(!option_a ) {
+            return res.status(301).json({
+                message: "option A content is not valid",
+                data: null,
+            });
+        }
+
+        if(!option_b ) {
+            return res.status(301).json({
+                message: "option B content is not valid",
+                data: null,
+            });
+        }
+
+        if(!option_c ) {
+            return res.status(301).json({
+                message: "option C content is not valid",
+                data: null,
+            });
+        }
+
+        if(!option_d ) {
+            return res.status(301).json({
+                message: "option D content is not valid",
+                data: null,
+            });
+        }
+
+        if(!correct_answer ) {
+            return res.status(301).json({
+                message: "correct answer is not valid",
+                data: null,
+            });
+        }
+
+        const newQuestion = await Question.create({
+            question_id,
+            question_content,
+            option_a,
+            option_b,
+            option_c,
+            option_d,
+            lesson_id: currentLesson.lesson_id,
+            correct_answer,
+        });
+
+        return res.status(200).json({
+            message: 'Question created successfully',
+            data: newQuestion
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//update question
+router.put('/question', checkAuth, async(req, res) => {
+    try {
+        const { id, question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
+
+        // const findQuestion = await Question.findOne({
+        //     where: {
+        //         question_id: id
+        //     }
+        // });
+
+        // if(!findQuestion){
+        //     return res.status(404).json({
+        //         message: 'Question not found',
+        //     })
+        // }
+
+        const updateQuestion = await Question.update({
+            question_content,
+            option_a,
+            option_b,
+            option_c,
+            option_d,
+            correct_answer,
+            where: {
+                question_id: id
+            }
+        });
+
+        return res.status(200).json({
+            message: 'Update successfully',
+            data: updateQuestion
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//delete question
+router.delete('/question', checkAuth, async(req, res) => {
+    try {
+        const { id } = req.body;
+
+        const deleteQuestion = await Question.destroy({
+            where: {
+                question_id: id
+            }
+        });
+
+        if(!deleteQuestion) {
+            return res.json({
+                message: 'Question cannot deleted',
+            });
+        }
+
+        return res.json({
+            message: 'Question deleted successfully',
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
     }
 });
 

@@ -1,22 +1,22 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const cors = require("cors");
-const checkAdmin = require("./middleware/checkAdmin");
+const cors = require('cors');
+const checkAdmin = require('./middleware/checkAdmin');
 
 //Database
-const db = require("./db");
+const db = require('./db');
 
 //Test database connection
 db.authenticate()
-  .then(() => console.log("Database connect successfully!"))
-  .catch((err) => console.log("Error" + err));
+    .then(() => console.log('Database connect successfully!'))
+    .catch(err => console.log('Error' + err))
 
 app.use(express.json());
 app.use(cors());
 
-app.use(require("./routes/userRoute.js"));
-app.use("/admin", checkAdmin, require("./routes/adminRoute.js"));
+app.use(require('./routes/userRoute.js'));
+app.use('/admin', checkAdmin, require('./routes/adminRoute.js'));
 
 app.listen(3000, () => {
-  console.log("Listening to port 3000");
+    console.log('Listening to port 3000');
 });

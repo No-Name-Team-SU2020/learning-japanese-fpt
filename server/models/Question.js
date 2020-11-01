@@ -3,9 +3,10 @@ const db = require('../db');
 
 const Question = db.define('question', {
     question_id: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        allowNull: false
+        autoIncrement: true,
+        allowNull: false,
     },
     question_content: {
         type: Sequelize.STRING,
@@ -27,21 +28,26 @@ const Question = db.define('question', {
         type: Sequelize.STRING,
         allowNull: true
     },
-    group_id: {
+    lesson_id: {
         type: Sequelize.STRING,
         allowNull: false,
+        onDelete: 'CASCADE',
         references: {
-            model: 'question_group',
-            key: 'group_id'
+            model: 'lesson',
+            key: 'lesson_id'
         }
     },
     correct_answer: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
     },
     answer_select: {
         type: Sequelize.STRING,
         allowNull: true
     },
-});
+},
+{
+    freezeTableName: true
+}
+);
 module.exports = Question;
