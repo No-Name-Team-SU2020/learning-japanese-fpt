@@ -1,5 +1,7 @@
 const Sequelize = require('Sequelize');
 const db = require('../db');
+const Teacher = require('../models/Teacher');
+const Class = require('../models/Class');
 
 const Teacher_Class = db.define('teacher_class', {
     teacher_class_id: {
@@ -25,5 +27,13 @@ const Teacher_Class = db.define('teacher_class', {
             key: 'class_id'
         }
     },
-});
+},
+    {
+        freezeTableName: true
+    }
+);
+
+Teacher.belongsToMany(Class, { through: Teacher_Class });
+Class.belongsToMany(Teacher, { through: Teacher_Class });
+
 module.exports = Teacher_Class;

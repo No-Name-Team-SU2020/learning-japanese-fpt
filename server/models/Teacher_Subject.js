@@ -25,5 +25,9 @@ const Teacher_Subject = db.define('teacher_subject', {
             key: 'subject_id'
         }
     },
-});
+},
+    {
+        freezeTableName: true
+    }
+);
 module.exports = Teacher_Subject;

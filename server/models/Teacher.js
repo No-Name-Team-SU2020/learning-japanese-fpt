@@ -20,5 +20,9 @@ const Teacher = db.define('teacher', {
             key: 'user_name'
         }
     },
-});
+},
+    {
+        freezeTableName: true
+    }
+);
 module.exports = Teacher;

@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const checkAuth = require('../middleware/checkAuth');
 const validInfo = require('../middleware/validInfo');
-const checkRole = require('../middleware/checkRole');
+//const checkRole = require('../middleware/checkRole');
 
 let refreshTokens = [];
 
@@ -57,8 +57,8 @@ router.post('/login', validInfo, async (req, res) => {
 
         //return token and username
         return res.json({
+            message: "Login successfully!",
             data: {
-                message: "Login successfully !",
                 token: token,
                 user: user.user_name,
             }

@@ -46,8 +46,8 @@ const Question = db.define('question', {
         allowNull: true
     },
 },
-{
-    freezeTableName: true
-}
+    {
+        freezeTableName: true
+    }
 );
 module.exports = Question;

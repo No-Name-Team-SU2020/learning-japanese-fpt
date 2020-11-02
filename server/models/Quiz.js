@@ -1,17 +1,21 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
-const User = require('./User');
 
-const Role = db.define('role', {
-    role_id: {
+const Quiz = db.define('quiz', {
+    quiz_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
         allowNull: false
     },
 
-    role_name: {
+    quiz_name: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+
+    score: {
+        type: Sequelize.DOUBLE,
     },
 },
     {
@@ -19,4 +23,4 @@ const Role = db.define('role', {
     }
 );
 
-module.exports = Role;
+module.exports = Quiz;

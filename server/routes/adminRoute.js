@@ -3,7 +3,7 @@ const Subject = require('../models/Subject');
 const Question = require('../models/Question');
 const Lesson = require('../models/Lesson');
 const checkAuth = require('../middleware/checkAuth');
-const checkRole = require('../middleware/checkRole');
+//const checkRole = require('../middleware/checkRole');
 
 //view all subject for admin
 router.get('/subject', checkAuth, async(req, res) => {

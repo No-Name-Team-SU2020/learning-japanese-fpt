@@ -33,8 +33,8 @@ const Lesson = db.define('lesson', {
         }
     }
 },
-{
-    freezeTableName: true
-}
+    {
+        freezeTableName: true
+    }
 );
 module.exports = Lesson;

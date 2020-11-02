@@ -39,7 +39,11 @@ const User = db.define('users', {
             return bcrypt.compare(password, this.password);
         }
     }
-}
+},
+
+    {
+        freezeTableName: true
+    }
 );
 
 module.exports = User;

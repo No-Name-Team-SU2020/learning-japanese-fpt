@@ -25,5 +25,9 @@ const Student_Class = db.define('student_class', {
             key: 'class_id'
         }
     },
-});
+},
+    {
+        freezeTableName: true
+    }
+);
 module.exports = Student_Class;
