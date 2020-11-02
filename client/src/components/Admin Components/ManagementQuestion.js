@@ -58,7 +58,9 @@ export default class ManagementQuestion extends Component {
                             </div>
                           </div>
                           <div className="email__footer">
-                            <a href="https://magic.reactjs.net/htmltojsx.htm">See all emails</a>
+                            <a href="https://magic.reactjs.net/htmltojsx.htm">
+                              See all emails
+                            </a>
                           </div>
                         </div>
                       </div>
@@ -97,7 +99,9 @@ export default class ManagementQuestion extends Component {
                             </div>
                           </div>
                           <div className="notifi__footer">
-                            <a href="https://magic.reactjs.net/htmltojsx.htm">All notifications</a>
+                            <a href="https://magic.reactjs.net/htmltojsx.htm">
+                              All notifications
+                            </a>
                           </div>
                         </div>
                       </div>
@@ -108,7 +112,10 @@ export default class ManagementQuestion extends Component {
                           <img src="images/daumoi.jpg" alt="John Doe" />
                         </div>
                         <div className="content">
-                          <a className="js-acc-btn" href="https://magic.reactjs.net/htmltojsx.htm">
+                          <a
+                            className="js-acc-btn"
+                            href="https://magic.reactjs.net/htmltojsx.htm"
+                          >
                             john doe
                           </a>
                         </div>
@@ -121,7 +128,9 @@ export default class ManagementQuestion extends Component {
                             </div>
                             <div className="content">
                               <h5 className="name">
-                                <a href="https://magic.reactjs.net/htmltojsx.htm">john doe</a>
+                                <a href="https://magic.reactjs.net/htmltojsx.htm">
+                                  john doe
+                                </a>
                               </h5>
                               <span className="email">johndoe@example.com</span>
                             </div>

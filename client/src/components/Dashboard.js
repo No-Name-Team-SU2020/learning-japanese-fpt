@@ -6,13 +6,12 @@ const Dashboard = ({ setAuth }) => {
 
   const getProfile = async () => {
     try {
-      const res = await fetch("http://localhost:3000/dashboard/", {
+      const res = await fetch("http://localhost:3000/dashboard", {
         method: "POST",
-        headers: { jwt_token: localStorage.token }
+        headers: { token: localStorage.token }
       });
-
       const parseData = await res.json();
-      setName(parseData.user_name);
+      setName(parseData.user);
     } catch (err) {
       console.error(err.message);
     }

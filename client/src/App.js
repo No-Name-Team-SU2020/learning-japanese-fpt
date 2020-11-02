@@ -21,11 +21,9 @@ function App() {
     try {
       const res = await fetch("http://localhost:3000/verify", {
         method: "POST",
-        headers: { jwt_token: localStorage.token }
+        headers: { token: localStorage.token }
       });
-
       const parseRes = await res.json();
-
       parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
     } catch (err) {
       console.error(err.message);

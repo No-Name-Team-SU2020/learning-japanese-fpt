@@ -13,6 +13,13 @@ const checkRole = require('../middleware/checkRole');
 
 let refreshTokens = [];
 
+router.get("/verify", checkAuth, (req, res) => {
+    res.json(true);
+});
+router.post("/dashboard", checkAuth, (req, res) => {
+
+});
+
 //login
 router.post('/login', validInfo, async (req, res) => {
     try {
@@ -35,11 +42,11 @@ router.post('/login', validInfo, async (req, res) => {
         const validPassword = await bcrypt.compare(password, user.password);
 
         if (!validPassword) {
-            return res.status(401).json("Password or email is incorrect2");
+            return res.status(401).json("Password or email is incorrect");
         }
 
         //generate token for user
-        token = jwt.sign({
+        const token = jwt.sign({
             id: user.user_name,
         },
         process.env.accessTokenSecret,{
@@ -57,12 +64,13 @@ router.post('/login', validInfo, async (req, res) => {
 
         //return token and username
         return res.json({
+          message: "Login successfully!",
             data: {
-                message: "Login successfully !",
                 token: token,
                 user: user.user_name,
             }
         })
+
 
     } catch (error) {
         console.error(error.message);
@@ -249,5 +257,6 @@ router.get('/subject', checkAuth, async(req, res) => {
 //         res.status(500).send("Server error");
 //     }
 // });
+
 
 module.exports = router;

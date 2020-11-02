@@ -1,39 +1,35 @@
-
 import React, { Fragment, useState } from "react";
 import { toast } from "react-toastify";
 
 const Login = ({ setAuth }) => {
   const [inputs, setInputs] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const { email, password } = inputs;
 
-  const onChange = e =>
+  const onChange = (e) =>
     setInputs({ ...inputs, [e.target.name]: e.target.value });
 
-  const onSubmitForm = async e => {
+  const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
       const body = { email, password };
-      const response = await fetch(
-        "http://localhost:3000/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json"
-          },
-          body: JSON.stringify(body)
-        }
-      );
+      const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
 
       const parseRes = await response.json();
 
-      if (parseRes.jwtToken) {
-        localStorage.setItem("token", parseRes.jwtToken);
+      if (parseRes.data.token) {
+        localStorage.setItem("token", parseRes.token);
         setAuth(true);
-        toast.success("Logged in Successfully");
+        toast.success("Logged in Successfully");       
       } else {
         setAuth(false);
         toast.error(parseRes);
@@ -51,17 +47,17 @@ const Login = ({ setAuth }) => {
           type="text"
           name="email"
           value={email}
-          onChange={e => onChange(e)}
+          onChange={(e) => onChange(e)}
           className="form-control my-3"
         />
         <input
           type="password"
           name="password"
           value={password}
-          onChange={e => onChange(e)}
+          onChange={(e) => onChange(e)}
           className="form-control my-3"
         />
-        <button class="btn btn-success btn-block">Submit</button>
+        <button className="btn btn-success btn-block">Submit</button>
       </form>
     </Fragment>
   );
