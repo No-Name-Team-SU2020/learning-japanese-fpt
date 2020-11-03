@@ -14,9 +14,18 @@ const Quiz = db.define('quiz', {
         allowNull: false
     },
 
-    score: {
-        type: Sequelize.DOUBLE,
+    number_of_question: {
+        type: Sequelize.INTEGER,
     },
+
+    create_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
+    },
+
+    end_time: {
+        type: Sequelize.DATE,
+    }
 },
     {
         freezeTableName: true

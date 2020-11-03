@@ -36,6 +36,43 @@ router.get('/class', checkAuth, async(req, res) =>{
     }
 });
 
+//create quiz
+router.post('/quiz', checkAuth, async(req, res) => {
+    try {
+        
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
 
+//update quiz
+router.put('/quiz', checkAuth, async(req, res) => {
+    try {
+        
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//delete quiz
+router.delete('/quiz', checkAuth, async(req, res) => {
+    try {
+        
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
 
 module.exports = router
