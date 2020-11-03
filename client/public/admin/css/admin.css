@@ -14670,3 +14670,31 @@ section {
     margin-left: auto;
     margin-right: auto;
 }
+.edit-data{
+    margin: 40px 250px;
+}
+#question-name{
+    margin-left: 50px;
+}
+.lb-content{
+
+}
+.txtArea{
+    margin-left: 30px;
+}
+#sbCreate{
+    background-color: teal;
+    border-radius: 10px;
+    padding:8px;
+    margin-right: 50px;
+    margin-left: 368px;
+}
+#sbCancel{
+    background-color: tomato;
+    border-radius: 10px;
+    padding:8px;
+    margin-right: 50px;
+}
+.areaContent{
+    margin-left: 20px;
+}
