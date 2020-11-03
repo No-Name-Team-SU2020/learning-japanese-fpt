@@ -14689,14 +14689,18 @@ section {
 
 .create-content{
     background: rgb(180, 176, 176);
-    width: 700px;
-    height: 700px;
-    padding: 30px;
+    width: 800px;
+    height: 750px;
+    padding: 35px;
     border-radius: 23px;
 }
 .body-create{
     
     
+}
+
+.selectid{
+    margin-left: 73.5px;
 }
 .btn-create{
     margin-left: 350px;
