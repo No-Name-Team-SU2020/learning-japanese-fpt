@@ -1169,7 +1169,7 @@ section {
 
 @media (max-width: 991px) {
     .header-desktop {
-        position: relative;
+        /* position: relative; */
         top: 0;
         left: 0;
         height: 170px;

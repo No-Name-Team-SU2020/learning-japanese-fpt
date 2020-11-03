@@ -14701,42 +14701,48 @@ section {
     padding:8px;
     margin-right: 50px;
 }
-#btn-cancel{
+.btn-cancel{
     background-color: tomato;
     border-radius: 10px;
     padding:8px;
+    color: white;
+
 }
-#btn-update{
-    background-color: teal;
+.btn-update{
+    color: white;
+    background-color: #32c15e;
     border-radius: 10px;
     padding:8px;
-    margin-right: 50px;
-    margin-left: 425px;
+    margin-right: 35px;
+    margin-left: 345px;
 }
 .areaContent{
     margin-left: 20px;
 }
-
-.create-content{
-    margin: 0.5px 250px ;
-    /* margin-left: 60px; */
-}
-
-
-.txtArea{
+.create-option{
     margin-left: 20px;
 }
-.txtArea1{
+
+
+
+
+
+.areaContent{
+    margin-left: 20px;
+}
+#txt-option{
     margin-left: 70px;
-   
+
 }
 
 .create-content{
     background: rgb(180, 176, 176);
     width: 700px;
-    height: 700px;
+    /* height: 700px; */
     padding: 30px;
     border-radius: 23px;
+    margin: 10px auto ;
+
 }
 .body-create{
     
@@ -14745,7 +14751,6 @@ section {
 .btn-create{
     margin-left: 350px;
     background: #00ad5f;
-    
     text-transform: uppercase;
     border-radius: 5px;
     padding: 0 30px;
@@ -14753,31 +14758,26 @@ section {
     font-size: 14px;
 }
 
-.btn-create1{
-    background: red;
-    padding: 0 30px;
-    line-height: 50px;
-    font-size: 14px;
-    text-transform: uppercase;
-    border-radius: 5px;
-  
-    
-}
+
 .btn-create:focus {
     outline: 1px dotted;
     outline: 5px auto -webkit-focus-ring-color;
     cursor: pointer;
 }
 
-.btn-create1:focus {
-    outline: 1px dotted;
-    outline: 5px auto -webkit-focus-ring-color;
-    border-color: #7ec796;
-}
-
-
 
 .title{
     text-align: center;
     margin-bottom: 80px;
+}
+.list-id{
+    margin-left: 70px;
+}
+.edit-option p{
+    background-color: white;
+    border-radius: 10px;
+    /* height: 50px; */
+    padding: 10px;
+
+
 }
