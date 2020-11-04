@@ -160,6 +160,10 @@
     </header> -->
     <!-- END HEADER MOBILE-->
 
+    <!-- MENU SIDEBAR-->
+
+    <!-- END MENU SIDEBAR-->
+
 
     <!-- PAGE CONTAINER-->
     <div class="page-container">
@@ -312,123 +316,117 @@
             <div class="create-content">
               <div class="body-create">
                 <h1 id="title-create">FPT EDUCATION</h1>
-                <h2 id="subtitle-create">Edit Question</h2>
-                <div class="question-edit">
+                <h2 id="subtitle-create">Create Question</h2>
+                <div class="create-option">
+                  <div class="about-content">
+                    <label id="lbl-content" for="fname">Question content:</label>
+                    <div class="edit-content">
+                      <p contenteditable="true" placeholder="Input here"></p>
+                    </div>
+                  </div>
+
+                  <div class="about-option">
+                    <label id="lbl-option">Option A: </label>
+                    <div class="edit-option">
+                      <p contenteditable="true" placeholder="Input here"></p>
+                    </div>
+                  </div>
+                  <div class="about-option">
+                    <label id="lbl-option">Option B: </label>
+                    <div class="edit-option">
+                      <p contenteditable="true" placeholder="Input here"></p>
+                    </div>
+                  </div>
+                  <div class="about-option">
+                    <label id="lbl-option">Option C: </label>
+                    <div class="edit-option">
+                      <p contenteditable="true" placeholder="Input here"></p>
+                    </div>
+                  </div>
+
+                  <div class="about-option">
+                    <label id="lbl-option">Option D: </label>
+                    <div class="edit-option">
+                      <p contenteditable="true" placeholder="Input here"></p>
+                    </div>
+                  </div>
+
+                  <div class="about-option">
+                    <label id="lbl-option">Correct Answer: </label>
+                    <div class="edit-answer">
+                      <p contenteditable="true" placeholder="Input here"></p>
+                    </div>
+                  </div>
+
 
                   <div class="about-list">
-                    <label id="lbl-edit">Subject :</label>
-                    <select class="list-edit">
-                      <option value="option-1" disabled selected hidden>Japanese 1 </option>
-                      <option value="5">Japanese 2</option>
-                      <option value="5">Japanese 3</option>
-                    </select>
-                  </div>
-                  <div class="about-list">
-                    <label id="lbl-edit">Lesson :</label>
-                    <select class="list-edit">
-                      <option value="option-1" disabled selected hidden>Lesson 1</option>
-                      <option value="5">1</option>
-                      <option value="5">2</option>
-                      <option value="5">3</option>
+                    <label id="lbl-list">Lesson :</label>
+                    <select class="list-id">
+                      <option value="option-1" disabled selected hidden>Select Lesson </option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
                     </select><br><br>
                   </div>
-                  <div class="about-list">
-                    <label id="lbl-edit">Question ID :</label>
-                    <label id="lbl-id">01</label>
-                  </div>
+
+
+                  <input id="btn-create" class="btn-create" type="submit" value="Create">
+                  <input id="btn-cancel" type="submit" class="btn-cancel" value="Cancel">
+
                 </div>
 
               </div>
-
-              <div class="create-option">
-                <div class="about-content">
-                  <label id="lbl-content" for="fname">Question content:</label>
-                  <div class="edit-content">
-                    <p contenteditable="true" placeholder="Input here"></p>
-                  </div>
-                </div>
-
-                <div class="about-option">
-                  <label id="lbl-option">Option A: </label>
-                  <div class="edit-option">
-                    <p contenteditable="true" placeholder="Input here"></p>
-                  </div>
-                </div>
-                <div class="about-option">
-                  <label id="lbl-option">Option B: </label>
-                  <div class="edit-option">
-                    <p contenteditable="true" placeholder="Input here"></p>
-                  </div>
-                </div>
-                <div class="about-option">
-                  <label id="lbl-option">Option C: </label>
-                  <div class="edit-option">
-                    <p contenteditable="true" placeholder="Input here"></p>
-                  </div>
-                </div>
-
-                <div class="about-option">
-                  <label id="lbl-option">Option D: </label>
-                  <div class="edit-option">
-                    <p contenteditable="true" placeholder="Input here"></p>
-                  </div>
-                </div>
-
-                <div class="about-option">
-                  <label id="lbl-option">Correct Answer: </label>
-                  <div class="edit-answer">
-                    <p contenteditable="true" placeholder="Input here"></p>
-                  </div>
-                </div>
-
-
-
-
-
-                <input id="btn-create" class="btn-create" type="submit" value="Update">
-                <input id="btn-cancel" type="submit" class="btn-cancel" value="Cancel">
-
-              </div>
-
             </div>
-          </div>
-          <div class="row footer">
-            <div class="col-md-12">
-              <div class="copyright">
-                <p>Copyright © 2020 FPT University. All rights reserved. Template by <a
-                    href="https://colorlib.com">JLMS</a>.</p>
+            <div class="row footer">
+              <div class="col-md-12">
+                <div class="copyright">
+                  <p>Copyright © 2020 FPT University. All rights reserved. Template by <a
+                      href="https://colorlib.com">JLMS</a>.</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
+      </div>
+      <!-- <div class="row">
+        <div class="col-md-12">
+          <div class="copyright">
+            <p>Copyright © 2020 Japanese. All rights reserved. Template by <a
+                href="https://colorlib.com">JLMS</a>.</p>
+          </div>
+        </div>
+      </div> -->
     </div>
 
+  </div>
 
-    <!-- Jquery JS-->
-    <script src="bootstrap/vendor/jquery-3.2.1.min.js"></script>
-    <!-- Bootstrap JS-->
-    <script src="bootstrap/vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="bootstrap/vendor/bootstrap-4.1/bootstrap.min.js"></script>
-    <!-- Vendor JS       -->
-    <script src="bootstrap/vendor/slick/slick.min.js">
-    </script>
-    <script src="bootstrap/vendor/wow/wow.min.js"></script>
-    <script src="bootstrap/vendor/animsition/animsition.min.js"></script>
-    <script src="bootstrap/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
-    </script>
-    <script src="bootstrap/vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="bootstrap/vendor/counter-up/jquery.counterup.min.js">
-    </script>
-    <script src="bootstrap/vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="bootstrap/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="bootstrap/vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="bootstrap/vendor/select2/select2.min.js">
-    </script>
 
-    <!-- Main JS-->
-    <script src="js/main.js"></script>
+  <!-- Jquery JS-->
+  <script src="bootstrap/vendor/jquery-3.2.1.min.js"></script>
+  <!-- Bootstrap JS-->
+  <script src="bootstrap/vendor/bootstrap-4.1/popper.min.js"></script>
+  <script src="bootstrap/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+  <!-- Vendor JS       -->
+  <script src="bootstrap/vendor/slick/slick.min.js">
+  </script>
+  <script src="bootstrap/vendor/wow/wow.min.js"></script>
+  <script src="bootstrap/vendor/animsition/animsition.min.js"></script>
+  <script src="bootstrap/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+  </script>
+  <script src="bootstrap/vendor/counter-up/jquery.waypoints.min.js"></script>
+  <script src="bootstrap/vendor/counter-up/jquery.counterup.min.js">
+  </script>
+  <script src="bootstrap/vendor/circle-progress/circle-progress.min.js"></script>
+  <script src="bootstrap/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+  <script src="bootstrap/vendor/chartjs/Chart.bundle.min.js"></script>
+  <script src="bootstrap/vendor/select2/select2.min.js">
+  </script>
+
+  <!-- Main JS-->
+  <script src="js/main.js"></script>
 </body>
 
 </html>

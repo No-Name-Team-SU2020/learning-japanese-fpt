@@ -193,9 +193,10 @@ strong {
 
 .title-5 {
     text-transform: capitalize;
-    font-size: 22px;
+    font-size: 25px;
     font-weight: 500;
     color: #393939;
+
 }
 
 .title-6 {
@@ -318,6 +319,7 @@ section {
 .main-content {
     padding-top: 116px;
     min-height: 100vh;
+    
 }
 
 @media (max-width: 991px) {
@@ -1192,6 +1194,7 @@ section {
     left: 300px;
     height: 75px;
     z-index: 3;
+    margin-left: -325px;
 }
 
 .header-desktop .section__content {
@@ -1577,7 +1580,7 @@ section {
 }
 
 .menu-sidebar {
-    width: 300px;
+    width: 280px;
     position: fixed;
     left: 0;
     top: 0;
@@ -1622,6 +1625,7 @@ section {
     height: -webkit-calc(100vh - 75px);
     height: -moz-calc(100vh - 75px);
     height: calc(100vh - 75px);
+    width: 290px;
 }
 
 .navbar-sidebar {
@@ -2247,6 +2251,10 @@ section {
 
 .navbar-sidebar2 .navbar__list li:hover > a {
     color: #4272d7;
+}
+
+.menu-sidebar__content js-scrollbar1{
+    
 }
 
 .navbar-sidebar2 .navbar__list li a {
@@ -14657,7 +14665,7 @@ section {
 
 }
 .demo2{
-    font-size: 50px;
+    font-size: 210px;
 }
 .question-cont{
     background-color: white;
@@ -14669,4 +14677,212 @@ section {
 .table-edit{
     margin-left: auto;
     margin-right: auto;
+}
+.edit-data{
+    margin: 40px 250px;
+}
+#question-name{
+    margin-left: 50px;
+}
+.lb-content{
+
+}
+.txtArea{
+    margin-left: 30px;
+}
+#sbCreate{
+    background-color: teal;
+    border-radius: 10px;
+    padding:8px;
+    margin-right: 50px;
+    margin-left: 368px;
+}
+#sbCancel{
+    background-color: #fd647a;
+    border-radius: 10px;
+    padding:8px;
+    margin-right: 50px;
+}
+.btn-cancel{
+    background-color: #fd647a;
+    border-radius: 10px;
+    padding:8px;
+    color: white;
+    font-weight: 600;
+    float: right;
+
+}
+.btn-update{
+    font-weight: 600;
+    color: white;
+    background-color: #32c15e;
+    border-radius: 10px;
+    padding:8px;
+    margin-right: 40px;
+    margin-left: 445px;
+}
+.areaContent{
+    margin-left: 20px;
+}
+.create-option{
+    margin-left: 20px;
+}
+
+
+
+
+
+.areaContent{
+    margin-left: 20px;
+}
+#txt-option{
+    margin-left: 70px;
+
+}
+
+.create-content{
+    background-color: #f36523;
+    width: 800px;
+    /* height: 700px; */
+    padding: 30px;
+    border-radius: 23px;
+    margin: 10px auto ;
+
+}
+.body-create{
+    
+    
+}
+.btn-create{
+    font-weight: 600;
+    color: white;
+    background-color: #32c15e;
+    border-radius: 10px;
+    padding:8px;
+    margin-left: 80%;
+}
+
+
+.btn-create:focus {
+    outline: 1px dotted;
+    outline: 5px auto -webkit-focus-ring-color;
+    cursor: pointer;
+}
+
+
+#subtitle-create{
+    margin-left: 40px;
+    margin-bottom: 50px;
+    font-family: serif;
+    font-weight: 600;
+    color: white;
+    margin-top: 40px;
+
+}
+#title-create{
+    color: white;
+    letter-spacing: 5px;
+    text-align: center;
+    margin-bottom: 10px;
+    font-family: serif;
+    font-weight: 600;
+    border-bottom: 1px solid;
+}
+.list-id{
+    margin-left: 120px;
+}
+.edit-option p{
+    box-shadow: 0 .125rem 0 0;
+    /* background-color: #dccece; */
+    border-radius: 5px;
+    /* height: 50px; */
+    /* padding: 10px; */
+    color: white;
+
+}
+.edit-option{
+    margin-left: 140px;
+    width: 400px;
+}
+.edit-answer {
+    margin-left: 95px;
+    width: 400px;
+  
+    color: white;
+}
+.edit-answer p{
+    box-shadow: 0 0.125rem 0 0;
+    /* background-color: #dccece; */
+    border-radius: 5px;
+    /* height: 50px; */
+    /* padding: 10px; */
+}
+#lbl-option{
+    /* color:#403c3c; */
+    font-weight: bold;
+color: white;
+    font-family: serif;
+}
+#lbl-content{
+    /* color: #403c3c; */
+    font-weight: bold;
+    color: white;
+
+    font-size: 20px;   
+     font-family: serif;
+}
+#lbl-list{
+color: white;
+
+    /* color: #403c3c; */
+    font-weight: bold;
+    font-size: 20px;   
+     font-family: serif;
+}
+.main-content {
+    
+}
+.about-content{
+    display: inline-flex;
+    margin-bottom: 20px;
+}
+.about-option{
+        display: inline-flex;
+        margin-top: 10px;
+}
+.about-list{
+    margin-top: 20px;
+}
+.edit-content{
+    margin-left: 20px;
+    width: 500px;
+}
+.edit-content p{
+    box-shadow: 0 .125rem 0 0;
+    /* background-color: #dccece; */
+    border-radius: 5px;
+    /* height: 50px; */
+    /* padding: 10px; */
+    color: white;
+}
+.footer{
+    margin-top: 10px;
+    font-weight: 600;
+}
+.list-edit{
+    display: inline;
+}
+.question-edit{
+    display: inline-flex;
+    margin-bottom: 20px;
+}
+.list-edit{
+    margin-left: 30px;
+}
+#lbl-edit{
+    margin-left: 20px;
+    font-weight: bold;
+    color: white;
+    font-size: 20px;
+    font-family: serif;
 }
