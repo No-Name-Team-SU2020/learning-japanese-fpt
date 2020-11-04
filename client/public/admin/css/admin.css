@@ -14683,7 +14683,7 @@ section {
     margin-left: 50px;
 }
 .lb-content{
-
+    font-weight: 600;
 }
 .txtArea{
     margin-left: 30px;
@@ -14721,9 +14721,14 @@ section {
 }
 .create-option{
     margin-left: 20px;
+    font-weight: 600;
 }
 
-
+.app-name{
+    text-align: center;
+    font-size: 60px;
+    
+}
 
 
 
@@ -14779,9 +14784,14 @@ section {
 .title{
     text-align: center;
     margin-bottom: 80px;
+    font-weight: 600;
+    margin-top: 20px;
+    border-top: 2px solid black;
+    
 }
 .list-id{
     margin-left: 70px;
+    width: 150px;
 }
 .edit-option p{
     background-color: white;
