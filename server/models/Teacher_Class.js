@@ -15,7 +15,7 @@ const Teacher_Class = db.define('teacher_class', {
         type: Sequelize.STRING,
         allowNull: false,
         references: {
-            model: 'teacher',
+            model: Teacher,
             key: 'teacher_id'
         }
     },
@@ -23,17 +23,18 @@ const Teacher_Class = db.define('teacher_class', {
         type: Sequelize.STRING,
         allowNull: false,
         references: {
-            model: 'class',
+            model: Class,
             key: 'class_id'
         }
     },
 },
     {
         freezeTableName: true
-    }
+    },
+    
 );
 
-Teacher.belongsToMany(Class, { through: Teacher_Class });
-Class.belongsToMany(Teacher, { through: Teacher_Class });
+Teacher.belongsToMany(Class, {through: Teacher_Class, foreignKey: 'teacher_id'});
+Class.belongsToMany(Teacher, {through: Teacher_Class, foreignKey: 'class_id'});
 
 module.exports = Teacher_Class;

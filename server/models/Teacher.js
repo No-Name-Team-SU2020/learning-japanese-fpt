@@ -25,4 +25,5 @@ const Teacher = db.define('teacher', {
         freezeTableName: true
     }
 );
+
 module.exports = Teacher;

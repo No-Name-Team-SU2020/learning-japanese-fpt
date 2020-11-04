@@ -10,24 +10,57 @@ router.get('/class', checkAuth, async(req, res) =>{
     try {
         // const {class_id} = req.body;
 
-        const teacher_id = req.body;
-        const teacher = await Teacher.findByPk(teacher_id);
+        const { teacher_id } = req.body;
+        // const teacher = await Teacher.findOne({
+        //     where: {
+        //         teacher_id: teacher_id
+        //     },
+        //     attributes: ['teacher_id']
+        // });
 
-        const classes = await Teacher_Class.findAll({
-            where: {teacher},
-            attributes: ['class_id', 'teacher_id'],
+        const data = await Teacher.findAll({
+            where: {teacher_id},
+            attributes: ['teacher_name'],
             include: [
-                {model: Teacher, through: {attributes: ['teacher_name']}},
-                {model: Class, through: {attributes: ['class_name']}}
+                {model: Class},
+                //{model: Class, through: {attributes: ['class_name']}}
             ]
         });
 
         return res.json({
-            message: "Classes found!",
-            data: classes
+            message: "classes found!",
+            data: data
         })
 
 
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//view all quiz
+router.get('/quiz', checkAuth, async(req, res) => {
+    try {
+        const { id } = req.body;
+
+        const quizzes = await Quiz.findAll({
+
+        })
+
+        if(!quizzes){
+            return res.status(404).json({
+                message: "Something wrong"
+            });
+        }
+
+        return res.status(200).json({
+            message: "Found all quizzess",
+            data: quizzes
+        });
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -149,7 +182,7 @@ router.delete('/quiz', checkAuth, async(req, res) => {
         return res.json({
             message: 'Quiz deleted successfully',
         });
-        
+
     } catch (error) {
         console.error(error.message);
         res.status(500).json({

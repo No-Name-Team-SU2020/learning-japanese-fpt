@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
-const User = require('./User');
+//const User = require('./User');
 
 const Role = db.define('role', {
     role_id: {

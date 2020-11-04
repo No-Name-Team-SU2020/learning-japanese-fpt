@@ -6,14 +6,14 @@ const checkAuth = require('../middleware/checkAuth');
 //const checkRole = require('../middleware/checkRole');
 
 //view all subject for admin
-router.get('/subject', checkAuth, async(req, res) => {
+router.get('/subject', checkAuth, async (req, res) => {
     try {
         const subjects = await Subject.findAll();
 
-        if(!subjects){
+        if (!subjects) {
             res.status(404).send("Something wrong");
         }
-        else{
+        else {
             return res.json(
                 {
                     message: "All subjects found",
@@ -31,7 +31,7 @@ router.get('/subject', checkAuth, async(req, res) => {
 });
 
 //view all lesson in a subject
-router.get('/lesson', checkAuth, async(req,res) => {
+router.get('/lesson', checkAuth, async (req, res) => {
     try {
         const { id } = req.body;
 
@@ -42,10 +42,10 @@ router.get('/lesson', checkAuth, async(req,res) => {
             attributes: ['lesson_id', 'lesson_content', 'lesson_name']
         });
 
-        if(!lessons){
+        if (!lessons) {
             res.status(404).send("Something wrong");
         }
-        else{
+        else {
             return res.json(
                 {
                     message: "Lessons found",
@@ -63,7 +63,7 @@ router.get('/lesson', checkAuth, async(req,res) => {
 });
 
 //view all question in a lesson
-router.get('/question', checkAuth, async(req, res) => {
+router.get('/question', checkAuth, async (req, res) => {
     try {
         const { id } = req.body;
 
@@ -74,10 +74,10 @@ router.get('/question', checkAuth, async(req, res) => {
             attributes: ['question_content', 'option_a', 'option_b', 'option_c', 'option_d', 'correct_answer']
         });
 
-        if(!questions){
+        if (!questions) {
             res.status(404).send("Something wrong");
         }
-        else{
+        else {
             return res.json(
                 {
                     message: "All questions found",
@@ -95,7 +95,7 @@ router.get('/question', checkAuth, async(req, res) => {
 });
 
 //create new question
-router.post('/question', checkAuth, async(req, res) => {
+router.post('/question', checkAuth, async (req, res) => {
     try {
         const { id } = req.body;
 
@@ -108,42 +108,42 @@ router.post('/question', checkAuth, async(req, res) => {
 
         const { question_id, question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
 
-        if(!question_content ) {
+        if (!question_content) {
             return res.status(301).json({
                 message: "question content is not valid",
                 data: null,
             });
         }
 
-        if(!option_a ) {
+        if (!option_a) {
             return res.status(301).json({
                 message: "option A content is not valid",
                 data: null,
             });
         }
 
-        if(!option_b ) {
+        if (!option_b) {
             return res.status(301).json({
                 message: "option B content is not valid",
                 data: null,
             });
         }
 
-        if(!option_c ) {
+        if (!option_c) {
             return res.status(301).json({
                 message: "option C content is not valid",
                 data: null,
             });
         }
 
-        if(!option_d ) {
+        if (!option_d) {
             return res.status(301).json({
                 message: "option D content is not valid",
                 data: null,
             });
         }
 
-        if(!correct_answer ) {
+        if (!correct_answer) {
             return res.status(301).json({
                 message: "correct answer is not valid",
                 data: null,
@@ -176,7 +176,7 @@ router.post('/question', checkAuth, async(req, res) => {
 });
 
 //update question
-router.put('/question', checkAuth, async(req, res) => {
+router.put('/question', checkAuth, async (req, res) => {
     try {
         const { id, question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
 
@@ -192,6 +192,48 @@ router.put('/question', checkAuth, async(req, res) => {
         //     })
         // }
 
+        // if(!question_content ) {
+        //     return res.status(301).json({
+        //         message: "question content is not valid",
+        //         data: null,
+        //     });
+        // }
+
+        // if(!option_a ) {
+        //     return res.status(301).json({
+        //         message: "option A content is not valid",
+        //         data: null,
+        //     });
+        // }
+
+        // if(!option_b ) {
+        //     return res.status(301).json({
+        //         message: "option B content is not valid",
+        //         data: null,
+        //     });
+        // }
+
+        // if(!option_c ) {
+        //     return res.status(301).json({
+        //         message: "option C content is not valid",
+        //         data: null,
+        //     });
+        // }
+
+        // if(!option_d ) {
+        //     return res.status(301).json({
+        //         message: "option D content is not valid",
+        //         data: null,
+        //     });
+        // }
+
+        // if(!correct_answer ) {
+        //     return res.status(301).json({
+        //         message: "correct answer is not valid",
+        //         data: null,
+        //     });
+        // }
+
         const updateQuestion = await Question.update({
             question_content,
             option_a,
@@ -199,6 +241,8 @@ router.put('/question', checkAuth, async(req, res) => {
             option_c,
             option_d,
             correct_answer,
+        },
+        {
             where: {
                 question_id: id
             }
@@ -219,7 +263,7 @@ router.put('/question', checkAuth, async(req, res) => {
 });
 
 //delete question
-router.delete('/question', checkAuth, async(req, res) => {
+router.delete('/question', checkAuth, async (req, res) => {
     try {
         const { id } = req.body;
 
@@ -229,7 +273,7 @@ router.delete('/question', checkAuth, async(req, res) => {
             }
         });
 
-        if(!deleteQuestion) {
+        if (!deleteQuestion) {
             return res.json({
                 message: 'Question cannot deleted',
             });
