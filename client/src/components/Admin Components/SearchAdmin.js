@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import PageNavigation from './PageNavigation';
+//import PageNavigation from './PageNavigation';
 
 class Search extends React.Component {
 
@@ -18,7 +18,9 @@ class Search extends React.Component {
 		};
 
 		this.cancel = '';
+		this.handleClick = this.handleClick.bind(this);
 	}
+
 
 	getPageCount = ( total, denominator ) => {
 		const divisible	= 0 === total % denominator;
@@ -87,6 +89,17 @@ class Search extends React.Component {
 			} );
 		}
 	};
+	handleClick = ( searchUrl) =>{
+		searchUrl.preventDefault();
+		const GetsearchUrl = 'prev' === searchUrl
+			? this.state.loading + 1
+			: this.state.loading - 2;
+		if( ! this.state.loading ){
+			this.setState({ loading: true, message: ''}, ()=>{
+				this.ePageClick(GetsearchUrl, this.state.query);
+			});
+		} 
+	}
 
 	renderSearchResults = () => {
 		const { results } = this.state;

@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 
 //components
 
-import Login from "./components/Login";
+import Login from "./components/Login/Login";
 import Dashboard from "./components/Dashboard";
 
 toast.configure();

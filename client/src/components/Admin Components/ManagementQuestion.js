@@ -1,6 +1,31 @@
-import React, { Component } from "react";
+import React, { Component, Fragment, useState, useEffect } from "react";
+import axios from "axios";
+import TableRow from "./TableRow";
 
 export default class ManagementQuestion extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  tabRow() {
+    return this.state.persons.map(function (object, i) {
+      return <TableRow obj={object} key={i} />;
+    });
+  }
+  componentDidMount() {
+    window.scrollTo(0, 0);
+    axios
+      .get("http://localhost:3000/question")
+      .then((response) => {
+        console.log(response.data);
+        this.setState({ persons: response.data });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   render() {
     return (
       <div className="page-wrapper">
@@ -9,7 +34,7 @@ export default class ManagementQuestion extends Component {
             <div className="section__content section__content--p30">
               <div className="container-fluid">
                 <div className="header-wrap">
-                  <a className="logo" href="index.html">
+                  <a className="logo" href="http://localhost:3000/question">
                     <img src="images/fpt logo.png" alt="CoolAdmin" />
                   </a>
                   <div className="header-button">
@@ -264,150 +289,6 @@ export default class ManagementQuestion extends Component {
                             {/* <span class="status--process ">ＦＰＴだいがくで べんきょうしました</span> */}
                             <td> ＦＰＴだいがくで べんきょうしました</td>
                             <td>去年から べんきょうしました。</td>
-                            <td>
-                              <div className="table-data-feature">
-                                {/* <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
-                              <i class="zmdi zmdi-mail-send"></i> */}
-                                <button
-                                  className="item"
-                                  data-toggle="tooltip"
-                                  data-placement="top"
-                                  title="Edit"
-                                >
-                                  <i className="zmdi zmdi-edit" />
-                                </button>
-                                <button
-                                  className="item"
-                                  data-toggle="tooltip"
-                                  data-placement="top"
-                                  title="Delete"
-                                >
-                                  <i className="zmdi zmdi-delete" />
-                                </button>
-                                <button
-                                  className="item"
-                                  data-toggle="tooltip"
-                                  data-placement="top"
-                                  title="More"
-                                >
-                                  <i className="zmdi zmdi-more" />
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr className="spacer" />
-                          <tr className="tr-shadow">
-                            <td>
-                              Heloo
-                              {/* <label class="au-checkbox">
-                            <input type="checkbox">
-                            <span class="au-checkmark"></span>
-                          </label> */}
-                            </td>
-                            <td>Lori Lynch</td>
-                            <td>
-                              <span className="block-email">
-                                john@example.com
-                              </span>
-                            </td>
-                            <td className="desc">iPhone X 64Gb Grey</td>
-                            <td>2018-09-29 05:57</td>
-                            <td>
-                              <span className="status--process">Processed</span>
-                            </td>
-                            <td>$999.00</td>
-                            <td>
-                              <div className="table-data-feature">
-                                {/* <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
-                              <i class="zmdi zmdi-mail-send"></i> */}
-                                <button
-                                  className="item"
-                                  data-toggle="tooltip"
-                                  data-placement="top"
-                                  title="Edit"
-                                >
-                                  <i className="zmdi zmdi-edit" />
-                                </button>
-                                <button
-                                  className="item"
-                                  data-toggle="tooltip"
-                                  data-placement="top"
-                                  title="Delete"
-                                >
-                                  <i className="zmdi zmdi-delete" />
-                                </button>
-                                <button
-                                  className="item"
-                                  data-toggle="tooltip"
-                                  data-placement="top"
-                                  title="More"
-                                >
-                                  <i className="zmdi zmdi-more" />
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr className="spacer" />
-                          <tr className="tr-shadow">
-                            <td>Heloo</td>
-                            <td>Lori Lynch</td>
-                            <td>
-                              <span className="block-email">
-                                lyn@example.com
-                              </span>
-                            </td>
-                            <td className="desc">iPhone X 256Gb Black</td>
-                            <td>2018-09-25 19:03</td>
-                            <td>
-                              <span className="status--denied">Denied</span>
-                            </td>
-                            <td>$1199.00</td>
-                            <td>
-                              <div className="table-data-feature">
-                                {/* <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
-                              <i class="zmdi zmdi-mail-send"></i> */}
-                                <button
-                                  className="item"
-                                  data-toggle="tooltip"
-                                  data-placement="top"
-                                  title="Edit"
-                                >
-                                  <i className="zmdi zmdi-edit" />
-                                </button>
-                                <button
-                                  className="item"
-                                  data-toggle="tooltip"
-                                  data-placement="top"
-                                  title="Delete"
-                                >
-                                  <i className="zmdi zmdi-delete" />
-                                </button>
-                                <button
-                                  className="item"
-                                  data-toggle="tooltip"
-                                  data-placement="top"
-                                  title="More"
-                                >
-                                  <i className="zmdi zmdi-more" />
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr className="spacer" />
-                          <tr className="tr-shadow">
-                            <td>Heloo</td>
-                            <td>Lori Lynch</td>
-                            <td>
-                              <span className="block-email ">
-                                doe@example.com
-                              </span>
-                            </td>
-                            <td className="desc">Camera C430W 4k</td>
-                            <td>2018-09-24 19:10</td>
-                            <td>
-                              <span className="status--process">Processed</span>
-                            </td>
-                            <td>$699.00</td>
                             <td>
                               <div className="table-data-feature">
                                 {/* <button class="item" data-toggle="tooltip" data-placement="top" title="Send">

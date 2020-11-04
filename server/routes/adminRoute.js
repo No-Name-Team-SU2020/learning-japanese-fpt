@@ -9,7 +9,6 @@ const checkRole = require('../middleware/checkRole');
 router.get('/subject', checkAuth, async(req, res) => {
     try {
         const subjects = await Subject.findAll();
-
         if(!subjects){
             res.status(404).send("Something wrong");
         }
@@ -63,13 +62,14 @@ router.get('/lesson', checkAuth, async(req,res) => {
 });
 
 //view all question in a lesson
-router.get('/question', checkAuth, async(req, res) => {
+router.get('/adminquestion', checkAuth, async(req, res) => {
     try {
         const { id } = req.body;
 
         const questions = await Question.findAll({
             where: {
                 lesson_id: id
+                
             },
             attributes: ['question_content', 'option_a', 'option_b', 'option_c', 'option_d', 'correct_answer']
         });

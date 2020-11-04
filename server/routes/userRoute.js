@@ -17,7 +17,7 @@ router.get("/verify", checkAuth, (req, res) => {
     res.json(true);
 });
 router.post("/dashboard", checkAuth, (req, res) => {
-
+ //
 });
 
 //login
@@ -222,41 +222,35 @@ router.get('/subject', checkAuth, async(req, res) => {
     }
 });
 
-// // Temporarily disable
-// router.get('/:subjectId', checkAuth, async(req,res) => {
-//     try {
-//         const subject_id = req.params.subjectId;
-
-//         const subject_detail = await Subject.findAll({
-//             where: {
-//                 subject_id: subject_id
-//             }
-//         })
-
-//         return res.json({subject_detail});
-//     } catch (error) {
-//         console.error(error.message);
-//         res.status(500).send("Server error");
-//     }
-// });
-
-// //
-// router.get('/:classId', checkAuth, async(req,res) => {
-//     try {
-//         const class_id = req.params.classId;
-
-//         const class_detail = await Class.findAll({
-//             where: {
-//                 class_id: class_id
-//             }
-//         })
-
-//         return res.json({class_detail});
-//     } catch (error) {
-//         console.error(error.message);
-//         res.status(500).send("Server error");
-//     }
-// });
+// Temporarily disable
+router.get('/:subjectId', checkAuth, async(req,res) => {
+    try {
+        const subject_id = req.params.subjectId;
+        const subject_detail = await Subject.findAll({
+            where: {
+                subject_id: subject_id
+            }
+        })
+        return res.json({subject_detail});
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Server error");
+    }
+});
+router.get('/:classId', checkAuth, async(req,res) => {
+    try {
+        const class_id = req.params.classId;
+        const class_detail = await Class.findAll({
+            where: {
+                class_id: class_id
+            }
+        })
+        return res.json({class_detail});
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Server error");
+    }
+});
 
 
 module.exports = router;
