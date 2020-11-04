@@ -318,6 +318,7 @@ section {
 .main-content {
     padding-top: 116px;
     min-height: 100vh;
+    
 }
 
 @media (max-width: 991px) {
@@ -14696,25 +14697,28 @@ section {
     margin-left: 368px;
 }
 #sbCancel{
-    background-color: tomato;
+    background-color: #fd647a;
     border-radius: 10px;
     padding:8px;
     margin-right: 50px;
 }
 .btn-cancel{
-    background-color: tomato;
+    background-color: #fd647a;
     border-radius: 10px;
     padding:8px;
     color: white;
+    font-weight: 600;
+    float: right;
 
 }
 .btn-update{
+    font-weight: 600;
     color: white;
     background-color: #32c15e;
     border-radius: 10px;
     padding:8px;
-    margin-right: 35px;
-    margin-left: 345px;
+    margin-right: 40px;
+    margin-left: 445px;
 }
 .areaContent{
     margin-left: 20px;
@@ -14749,8 +14753,8 @@ section {
 }
 
 .create-content{
-    background: rgb(180, 176, 176);
-    width: 700px;
+    background-color: #f36523;
+    width: 800px;
     /* height: 700px; */
     padding: 30px;
     border-radius: 23px;
@@ -14764,13 +14768,12 @@ section {
     width: 150px;
 }
 .btn-create{
-    margin-left: 350px;
-    background: #00ad5f;
-    text-transform: uppercase;
-    border-radius: 5px;
-    padding: 0 30px;
-    line-height: 50px;
-    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    background-color: #32c15e;
+    border-radius: 10px;
+    padding:8px;
+    margin-left: 80%;
 }
 
 
@@ -14781,8 +14784,20 @@ section {
 }
 
 
-.title{
+#subtitle-create{
+    margin-left: 40px;
+    margin-bottom: 50px;
+    font-family: serif;
+    font-weight: 600;
+    color: white;
+    margin-top: 40px;
+
+}
+#title-create{
+    color: white;
+    letter-spacing: 5px;
     text-align: center;
+<<<<<<< HEAD
     margin-bottom: 80px;
     font-weight: 600;
     margin-top: 20px;
@@ -14792,12 +14807,78 @@ section {
 .list-id{
     margin-left: 70px;
     width: 150px;
+=======
+    margin-bottom: 10px;
+    font-family: serif;
+    font-weight: 600;
+    border-bottom: 1px solid;
+}
+.list-id{
+    margin-left: 120px;
+>>>>>>> d2e840587bbbd258e9672dde49ca748a6554b2e7
 }
 .edit-option p{
-    background-color: white;
-    border-radius: 10px;
+    box-shadow: 0 .125rem 0 0;
+    /* background-color: #dccece; */
+    border-radius: 5px;
     /* height: 50px; */
-    padding: 10px;
+    /* padding: 10px; */
+    color: white;
 
+}
+.edit-option{
+    margin-left: 140px;
+    width: 400px;
+}
+#lbl-option{
+    /* color:#403c3c; */
+    font-weight: bold;
+color: white;
+    font-family: serif;
+}
+#lbl-content{
+    /* color: #403c3c; */
+    font-weight: bold;
+    color: white;
 
+    font-size: 20px;   
+     font-family: serif;
+}
+#lbl-list{
+color: white;
+
+    /* color: #403c3c; */
+    font-weight: bold;
+    font-size: 20px;   
+     font-family: serif;
+}
+.main-content {
+    
+}
+.about-content{
+    display: inline-flex;
+    margin-bottom: 20px;
+}
+.about-option{
+        display: inline-flex;
+        margin-top: 10px;
+}
+.about-list{
+    margin-top: 20px;
+}
+.edit-content{
+    margin-left: 20px;
+    width: 500px;
+}
+.edit-content p{
+    box-shadow: 0 .125rem 0 0;
+    /* background-color: #dccece; */
+    border-radius: 5px;
+    /* height: 50px; */
+    /* padding: 10px; */
+    color: white;
+}
+.footer{
+    margin-top: 10px;
+    font-weight: 600;
 }
