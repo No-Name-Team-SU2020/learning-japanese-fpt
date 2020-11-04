@@ -193,9 +193,10 @@ strong {
 
 .title-5 {
     text-transform: capitalize;
-    font-size: 22px;
+    font-size: 25px;
     font-weight: 500;
     color: #393939;
+
 }
 
 .title-6 {
@@ -14803,6 +14804,19 @@ section {
     margin-left: 140px;
     width: 400px;
 }
+.edit-answer {
+    margin-left: 95px;
+    width: 400px;
+  
+    color: white;
+}
+.edit-answer p{
+    box-shadow: 0 0.125rem 0 0;
+    /* background-color: #dccece; */
+    border-radius: 5px;
+    /* height: 50px; */
+    /* padding: 10px; */
+}
 #lbl-option{
     /* color:#403c3c; */
     font-weight: bold;
@@ -14854,4 +14868,21 @@ color: white;
 .footer{
     margin-top: 10px;
     font-weight: 600;
+}
+.list-edit{
+    display: inline;
+}
+.question-edit{
+    display: inline-flex;
+    margin-bottom: 20px;
+}
+.list-edit{
+    margin-left: 30px;
+}
+#lbl-edit{
+    margin-left: 20px;
+    font-weight: bold;
+    color: white;
+    font-size: 20px;
+    font-family: serif;
 }
