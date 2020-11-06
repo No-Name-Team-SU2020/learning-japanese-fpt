@@ -4,9 +4,12 @@ const Teacher = require('../models/Teacher');
 const Class = require('../models/Class');
 const Teacher_Class = require('../models/Teacher_Class');
 const Quiz = require('../models/Quiz');
+const Subject = require('../models/Subject');
+const Class_Subject = require('../models/Class_Subject');
+const Lesson = require('../models/Lesson');
 
 //view all classes of teacher
-router.get('/class', checkAuth, async(req, res) =>{
+router.get('/class', checkAuth, async (req, res) => {
     try {
         // const {class_id} = req.body;
 
@@ -19,16 +22,22 @@ router.get('/class', checkAuth, async(req, res) =>{
         // });
 
         const data = await Teacher.findAll({
-            where: {teacher_id},
+            where: { teacher_id },
             attributes: ['teacher_name'],
             include: [
-                {model: Class},
+                { model: Class },
                 //{model: Class, through: {attributes: ['class_name']}}
             ]
         });
 
+        if (!data) {
+            return res.status(301).json({
+                message: "Something wrong",
+            })
+        }
+
         return res.json({
-            message: "classes found!",
+            message: "classes found",
             data: data
         })
 
@@ -42,8 +51,75 @@ router.get('/class', checkAuth, async(req, res) =>{
     }
 });
 
+//view subject base on class
+router.get('/subject', checkAuth, async (req, res) => {
+    try {
+        const { class_id } = req.body;
+
+        const data = await Class.findAll({
+            where: { class_id },
+            attributes: ['class_name'],
+            include: [
+                { model: Subject }
+            ]
+        });
+
+        if (!data) {
+            return res.status(301).json({
+                message: "Something wrong",
+            })
+        }
+
+        return res.json({
+            message: "subjects found",
+            data: data
+        });
+
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//view all lesson in a subject
+router.get('/lesson', checkAuth, async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        const lessons = await Lesson.findAll({
+            where: {
+                subject_id: id
+            },
+            attributes: ['lesson_id', 'lesson_content', 'lesson_name']
+        });
+
+        if (!lessons) {
+            return res.status(301).json({
+                message: "Something wrong"
+            });
+        }
+
+        return res.json(
+            {
+                message: "Lessons found",
+                data: lessons
+            }
+        )
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
 //view all quiz
-router.get('/quiz', checkAuth, async(req, res) => {
+router.get('/quiz', checkAuth, async (req, res) => {
     try {
         const { id } = req.body;
 
@@ -51,8 +127,8 @@ router.get('/quiz', checkAuth, async(req, res) => {
 
         })
 
-        if(!quizzes){
-            return res.status(404).json({
+        if (!quizzes) {
+            return res.status(301).json({
                 message: "Something wrong"
             });
         }
@@ -71,25 +147,25 @@ router.get('/quiz', checkAuth, async(req, res) => {
 });
 
 //create quiz
-router.post('/quiz', checkAuth, async(req, res) => {
+router.post('/quiz', checkAuth, async (req, res) => {
     try {
-        const { quiz_name, number_of_question, end_time} = req.body;
+        const { quiz_name, number_of_question, end_time } = req.body;
 
-        if(!quiz_name) {
+        if (!quiz_name) {
             return res.status(301).json({
                 message: "quiz name is not valid",
                 data: null,
             });
         }
 
-        if(!number_of_question) {
+        if (!number_of_question) {
             return res.status(301).json({
                 message: "number of question is not valid",
                 data: null,
             });
         }
 
-        if(!end_time) {
+        if (!end_time) {
             return res.status(301).json({
                 message: "end time is not valid",
                 data: null,
@@ -98,8 +174,8 @@ router.post('/quiz', checkAuth, async(req, res) => {
 
         const newQuiz = await Quiz.create({
             quiz_name,
-             number_of_question,
-             end_time,
+            number_of_question,
+            end_time,
         });
 
         return res.status(200).json({
@@ -117,25 +193,25 @@ router.post('/quiz', checkAuth, async(req, res) => {
 });
 
 //update quiz
-router.put('/quiz', checkAuth, async(req, res) => {
+router.put('/quiz', checkAuth, async (req, res) => {
     try {
-        const { quiz_name, number_of_question, end_time} = req.body;
+        const { quiz_name, number_of_question, end_time } = req.body;
 
-        if(!quiz_name) {
+        if (!quiz_name) {
             return res.status(301).json({
                 message: "quiz name is not valid",
                 data: null,
             });
         }
 
-        if(!number_of_question) {
+        if (!number_of_question) {
             return res.status(301).json({
                 message: "number of question is not valid",
                 data: null,
             });
         }
 
-        if(!end_time) {
+        if (!end_time) {
             return res.status(301).json({
                 message: "end time is not valid",
                 data: null,
@@ -144,8 +220,8 @@ router.put('/quiz', checkAuth, async(req, res) => {
 
         const updateQuiz = await Quiz.update({
             quiz_name,
-             number_of_question,
-             end_time,
+            number_of_question,
+            end_time,
         });
 
         return res.status(200).json({
@@ -163,7 +239,7 @@ router.put('/quiz', checkAuth, async(req, res) => {
 });
 
 //delete quiz
-router.delete('/quiz', checkAuth, async(req, res) => {
+router.delete('/quiz', checkAuth, async (req, res) => {
     try {
         const { id } = req.body;
 
@@ -173,7 +249,7 @@ router.delete('/quiz', checkAuth, async(req, res) => {
             }
         });
 
-        if(!deleteQuiz) {
+        if (!deleteQuiz) {
             return res.json({
                 message: 'Quiz cannot deleted',
             });

@@ -28,14 +28,18 @@ router.post('/login', validInfo, async (req, res) => {
 
         //check if user exist in database
         if(!user){
-            return res.status(401).json("User not found");
+            return res.status(401).json({
+                message: "User not found"
+            });
         }
 
         //check valid password
         const validPassword = await bcrypt.compare(password, user.password);
 
         if (!validPassword) {
-            return res.status(401).json("Password or email is incorrect2");
+            return res.status(401).json({
+                message: "Password or email is incorrect"
+            });
         }
 
         //generate token for user
@@ -79,11 +83,10 @@ router.delete('/logout', checkAuth, async(req, res) => {
         //const refreshToken = req.body.token;
         refreshTokens = refreshTokens.filter(token => token !== req.body.token)
         //token successfully removed
-        res.status(204).json(
-            {
-                message: "Logged out"
-            }
-        )
+        res.status(204).json({
+            message: "Logged out"
+        });
+
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -108,7 +111,10 @@ router.get('/profile',checkAuth, async(req, res) => {
         // [user_name]);
 
         if(!user){
-            res.status(401).send("User profile not found");
+            return res.status(401).json({
+                message: "User profile not found",
+                data: null
+            });
         }
         else{
             res.json({
@@ -213,41 +219,5 @@ router.get('/subject', checkAuth, async(req, res) => {
         });
     }
 });
-
-// // Temporarily disable
-// router.get('/:subjectId', checkAuth, async(req,res) => {
-//     try {
-//         const subject_id = req.params.subjectId;
-
-//         const subject_detail = await Subject.findAll({
-//             where: {
-//                 subject_id: subject_id
-//             }
-//         })
-
-//         return res.json({subject_detail});
-//     } catch (error) {
-//         console.error(error.message);
-//         res.status(500).send("Server error");
-//     }
-// });
-
-// //
-// router.get('/:classId', checkAuth, async(req,res) => {
-//     try {
-//         const class_id = req.params.classId;
-
-//         const class_detail = await Class.findAll({
-//             where: {
-//                 class_id: class_id
-//             }
-//         })
-
-//         return res.json({class_detail});
-//     } catch (error) {
-//         console.error(error.message);
-//         res.status(500).send("Server error");
-//     }
-// });
 
 module.exports = router;

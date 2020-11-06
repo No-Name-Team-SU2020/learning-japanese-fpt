@@ -11,16 +11,17 @@ router.get('/subject', checkAuth, async (req, res) => {
         const subjects = await Subject.findAll();
 
         if (!subjects) {
-            res.status(404).send("Something wrong");
+            return res.status(301).json({
+                message: "Something wrong",
+                data: null
+            });
         }
-        else {
-            return res.json(
-                {
-                    message: "All subjects found",
-                    data: subjects
-                }
-            );
-        }
+        return res.json(
+            {
+                message: "All subjects found",
+                data: subjects
+            }
+        );
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -43,16 +44,19 @@ router.get('/lesson', checkAuth, async (req, res) => {
         });
 
         if (!lessons) {
-            res.status(404).send("Something wrong");
+            return res.status(301).json({
+                message: "Something wrong",
+                data: null
+            });
         }
-        else {
-            return res.json(
-                {
-                    message: "Lessons found",
-                    data: lessons
-                }
-            )
-        }
+
+        return res.json(
+            {
+                message: "Lessons found",
+                data: lessons
+            }
+        )
+
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -75,16 +79,17 @@ router.get('/question', checkAuth, async (req, res) => {
         });
 
         if (!questions) {
-            res.status(404).send("Something wrong");
+            return res.status(301).json({
+                message: "Something wrong",
+                data: null
+            });
         }
-        else {
-            return res.json(
-                {
-                    message: "All questions found",
-                    data: questions
-                }
-            )
-        }
+        return res.json(
+            {
+                message: "All questions found",
+                data: questions
+            }
+        )
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -242,11 +247,11 @@ router.put('/question', checkAuth, async (req, res) => {
             option_d,
             correct_answer,
         },
-        {
-            where: {
-                question_id: id
-            }
-        });
+            {
+                where: {
+                    question_id: id
+                }
+            });
 
         return res.status(200).json({
             message: 'Update successfully',
