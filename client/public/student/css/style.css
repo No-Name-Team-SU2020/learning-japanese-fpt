@@ -56,6 +56,23 @@ position: relative;
   background-image: url(../images/bgjp.jpg);
 }
 
+/*Quiz html*/
+.quiz-content{
+  box-shadow: 0 0.25rem 1.25rem rgb(191 169 169 / 85%)
+}
+.about-test-content{
+  width: auto;
+}
+.option-choice{
+  list-style-type: none;
+}
+.content-question{
+  margin-left: 10px;
+}
+.question-item{
+  margin-top: 30px;
+  margin-left: 30px;
+}
 /*Close new css*/
 @font-face {
   font-family: 'icomoon';
@@ -371,7 +388,7 @@ body.offcanvas #fh5co-main, body.offcanvas .fh5co-nav-toggle {
   text-decoration: none;
 }
 .work-item a:hover img, .work-item a:active img, .work-item a:focus img {
-  border: 10px solid #000;
+  border: 10px solid  burlywood;
 }
 
 .fh5co-services {
