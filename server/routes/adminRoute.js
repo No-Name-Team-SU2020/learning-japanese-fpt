@@ -181,13 +181,13 @@ router.post('/question', checkAuth, async (req, res) => {
 });
 
 //update question
-router.put('/question/:questionId', checkAuth, async (req, res) => {
+router.put('/question/', checkAuth, async (req, res) => {
     try {
-        const id = req.params;
+        //const questionId = req.params;
 
-        const { question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
+        const { questionId, question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
 
-        if(!id){
+        if(!questionId){
             return res.status(404).json({
                 message: 'Question not found',
             })
@@ -203,7 +203,7 @@ router.put('/question/:questionId', checkAuth, async (req, res) => {
         },
             {
                 where: {
-                    question_id: id
+                    question_id: questionId
                 }
             });
 
@@ -222,9 +222,9 @@ router.put('/question/:questionId', checkAuth, async (req, res) => {
 });
 
 //delete question
-router.delete('/question/:questionId', checkAuth, async (req, res) => {
+router.delete('/question', checkAuth, async (req, res) => {
     try {
-        const id = req.params;
+        const { id } = req.body;
 
         const deleteQuestion = await Question.destroy({
             where: {
