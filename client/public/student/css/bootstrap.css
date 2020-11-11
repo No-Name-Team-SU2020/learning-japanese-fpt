@@ -1578,7 +1578,8 @@ pre code {
   }
 
   .col-lg-6 {
-    width: 50%;
+    /* width: 50%; */
+    width: 100%;
   }
 
   .col-lg-7 {
