@@ -118,6 +118,39 @@ router.get('/lesson', checkAuth, async (req, res) => {
     }
 });
 
+//view all question in a lesson
+router.get('/question', checkAuth, async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        const questions = await Question.findAll({
+            where: {
+                lesson_id: id
+            },
+            attributes: ['question_content', 'option_a', 'option_b', 'option_c', 'option_d', 'correct_answer']
+        });
+
+        if (!questions) {
+            return res.status(301).json({
+                message: "Something wrong",
+                data: null
+            });
+        }
+        return res.json(
+            {
+                message: "All questions found",
+                data: questions
+            }
+        )
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
 //view all quiz
 router.get('/quiz', checkAuth, async (req, res) => {
     try {
@@ -197,26 +230,26 @@ router.put('/quiz', checkAuth, async (req, res) => {
     try {
         const { quiz_name, number_of_question, end_time } = req.body;
 
-        if (!quiz_name) {
-            return res.status(301).json({
-                message: "quiz name is not valid",
-                data: null,
-            });
-        }
+        // if (!quiz_name) {
+        //     return res.status(301).json({
+        //         message: "quiz name is not valid",
+        //         data: null,
+        //     });
+        // }
 
-        if (!number_of_question) {
-            return res.status(301).json({
-                message: "number of question is not valid",
-                data: null,
-            });
-        }
+        // if (!number_of_question) {
+        //     return res.status(301).json({
+        //         message: "number of question is not valid",
+        //         data: null,
+        //     });
+        // }
 
-        if (!end_time) {
-            return res.status(301).json({
-                message: "end time is not valid",
-                data: null,
-            });
-        }
+        // if (!end_time) {
+        //     return res.status(301).json({
+        //         message: "end time is not valid",
+        //         data: null,
+        //     });
+        // }
 
         const updateQuiz = await Quiz.update({
             quiz_name,

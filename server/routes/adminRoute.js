@@ -181,13 +181,13 @@ router.post('/question', checkAuth, async (req, res) => {
 });
 
 //update question
-router.put('/question/', checkAuth, async (req, res) => {
+router.put('/question', checkAuth, async (req, res) => {
     try {
         //const questionId = req.params;
 
         const { questionId, question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
 
-        if(!questionId){
+        if (!questionId) {
             return res.status(404).json({
                 message: 'Question not found',
             })
@@ -234,12 +234,13 @@ router.delete('/question', checkAuth, async (req, res) => {
 
         if (!deleteQuestion) {
             return res.json({
-                message: 'Question cannot deleted',
+                message: 'Question cannot be deleted',
             });
         }
 
         return res.json({
             message: 'Question deleted successfully',
+            data: deleteQuestion
         });
 
     } catch (error) {

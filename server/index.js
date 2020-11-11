@@ -19,6 +19,8 @@ app.use(require('./routes/userRoute.js'));
 app.use('/admin', checkAdmin, require('./routes/adminRoute.js'));
 app.use('/teacher', checkTeacher, require('./routes/teacherRoute.js'));
 
-app.listen(3000, () => {
-    console.log('Listening to port 3000');
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log('Listening to port ' + PORT);
 });

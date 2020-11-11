@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
+const Class = require('./Class');
 
 const Quiz = db.define('quiz', {
     quiz_id: {
@@ -25,11 +26,27 @@ const Quiz = db.define('quiz', {
 
     end_time: {
         type: Sequelize.DATE,
+    },
+
+    class_id: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        references: {
+            model: Class,
+            key: 'class_id'
+        }
     }
 },
     {
         freezeTableName: true
     }
 );
+
+Class.hasMany(Quiz);
+Quiz.belongsTo(Class, {
+    foreignKey: {
+        name: 'class_id'
+    }
+});
 
 module.exports = Quiz;
