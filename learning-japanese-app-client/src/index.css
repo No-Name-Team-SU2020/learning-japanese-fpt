@@ -1,0 +1,97 @@
+/** @format */
+:root {
+	--orange-color: #f57032;
+	--grey-color: #e5e5e5;
+	--light-color: #f5f5f5;
+	--dark-color: #000;
+	--red-color: rgb(220, 24, 24);
+}
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+		"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+		sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	padding-right: 0 !important;
+	overflow-x: hidden;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+		monospace;
+}
+.app-container {
+	max-width: 1250px;
+	margin: auto;
+}
+.header-container {
+	max-width: 1250px;
+	margin: auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 0;
+}
+.body {
+	margin-top: 120px;
+}
+a {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: none;
+}
+button:focus {
+	outline: none !important;
+}
+/*  customize styles */
+.bg-orange {
+	background-color: var(--orange-color);
+	color: white;
+}
+.MuiFormControl-root {
+	margin-bottom: 15px !important;
+}
+.MuiTableRow-root {
+	transition: all 0.3s ease;
+}
+.MuiTableRow-root:hover {
+	background-color: var(--light-color);
+}
+.form-w-500 {
+	width: 500px;
+}
+.loader {
+	margin: 20px auto;
+	width: 100px;
+}
+li {
+	list-style-type: none;
+}
+
+.form-control-radio label {
+	margin-left: 8px;
+	display: inline-block;
+	position: relative;
+	bottom: 1px;
+}
+.text-gray {
+	color: gray;
+}
+.icon-extra-large {
+	font-size: 3rem;
+}
+.img-hover-border {
+	transition: all 0.3s ease;
+	cursor: pointer;
+	border: 5px solid transparent;
+}
+.img-hover-border:hover {
+	border-color: var(--orange-color);
+}
+/*  */
