@@ -1,4 +1,4 @@
 step 1 : git add .
 step 2 : git commit -m 'message/....'
-step 3 :  git push heroku master
+step 3 :  git push heroku main
 step 4 : heroku open to open app on browser
