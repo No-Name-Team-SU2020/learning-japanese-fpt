@@ -1415,7 +1415,7 @@ padding-bottom: 100px;
   border-radius: 3px;
 }
 .top-campaign {
-  padding-bottom: 97px;
+  /* padding-bottom: 97px; */
   margin-bottom: 40px;
 }
 .table-top-campaign.table td {
@@ -1514,4 +1514,77 @@ padding-bottom: 100px;
 
 .table-top-campaign.table tr:last-child td {
   border-bottom: none;
+}
+.title-detail{
+  color: red;
+  padding-top: 10px;;
+}
+#btn-submit{
+  border-radius: 10px;
+  background-color:#45ad51;
+  text-align: center;
+  float: right;
+  margin-top: 31px;
+}
+#btn-submit{
+  font-size: initial;
+  color: cornsilk;
+  border-radius: 26px;
+  background-color: #484c49;
+  text-align: center;
+  float: right;
+  margin-top: 31px;
+  font-weight: 500;
+}
+.title-lesson{
+  margin-top: 20px;
+  list-style: none;
+  width: 100%;
+  
+}
+#li-lesson a{
+  list-style: none;
+  color: #e78026;
+  text-decoration: none;
+  font-weight: 400;
+    font-size: 16px;
+}
+#li-lesson {
+  list-style: none;
+}
+.std-lesson-content{
+  width: 100%;
+}
+#li-lesson{
+display: block;
+}
+.lesson-test{
+  margin-left: 40px;
+  float: right;
+}
+.session-test{
+  float: right;
+}
+
+.session-title h3{
+  margin-bottom: -25px;
+  font-weight: 200;
+  font-size: 20px;
+    
+}
+
+#li-session{
+  list-style: none;
+}
+.student-session{
+  margin: 20px 0 ;
+}
+.session-test{
+ font-weight: 900;
+ font-size: 15px;
+ margin-right: 20px;
+ margin-left: 20px;
+}
+.lesson-ul{
+  margin-bottom: 15px;
 }
