@@ -10,7 +10,11 @@ const db = require('./db');
 //Test database connection
 db.authenticate()
     .then(() => console.log('Database connect successfully!'))
-    .catch(err => console.log('Error' + err))
+    .catch(err => console.log('Error' + err));
+
+app.get('/', (req, res) => {
+    res.json({msg : 'Success'});
+});
 
 app.use(express.json());
 app.use(cors());
@@ -19,6 +23,8 @@ app.use(require('./routes/userRoute.js'));
 app.use('/admin', checkAdmin, require('./routes/adminRoute.js'));
 // app.use('/teacher', checkTeacher, require('./routes/teacherRoute.js'));
 
-app.listen(3000, () => {
-    console.log('Listening to port 3000');
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log('Listening to port ' + PORT);
 });

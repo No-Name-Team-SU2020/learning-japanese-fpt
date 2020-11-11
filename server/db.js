@@ -20,3 +20,4 @@ const db = new Sequelize('Capstone_Project', 'postgres', 'Nousems2you.', {
   });
 
 module.exports = db;
+
