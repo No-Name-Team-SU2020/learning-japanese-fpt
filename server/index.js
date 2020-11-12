@@ -12,6 +12,11 @@ db.authenticate()
     .then(() => console.log('Database connect successfully!'))
     .catch(err => console.log('Error' + err))
 
+
+app.get('/', (req, res) => {
+    res.json({ msg: 'Success' });
+});
+
 app.use(express.json());
 app.use(cors());
 
