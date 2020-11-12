@@ -167,7 +167,7 @@ router.get('/quiz', checkAuth, async (req, res) => {
         }
 
         return res.status(200).json({
-            message: "Found all quizzess",
+            message: "Found all quizzes",
             data: quizzes
         });
     } catch (error) {
