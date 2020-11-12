@@ -1588,3 +1588,16 @@ display: block;
 .lesson-ul{
   margin-bottom: 15px;
 }
+.log-out{
+ 
+  margin: auto;
+  width: 80%;
+  margin-top: 80px;
+  border-top: 1px solid #808080;
+ 
+}
+.log-out a{
+  font-weight: 800;
+  text-decoration: none;
+  color: rgb(13 12 12 / 50%);
+}
