@@ -14,7 +14,7 @@ db.authenticate()
 
 
 app.get('/', (req, res) => {
-    res.json({ msg: 'Success' });
+    res.json({ msg: 'Success !' });
 });
 
 app.use(express.json());
