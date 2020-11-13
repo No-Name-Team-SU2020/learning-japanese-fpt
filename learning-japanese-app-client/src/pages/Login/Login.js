@@ -14,10 +14,9 @@ const Login = () => {
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
-
   };
 
-  return (
+return (
     <div className="form-w-500 mx-auto my-5 shadow p-3 rounded">
       <h1 className="mt-5 text-center">Login</h1>
       <form onSubmit={onSubmitForm}>
