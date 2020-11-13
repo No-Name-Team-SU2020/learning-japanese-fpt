@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 
 
 //New connecting method with sequelize
-const db = new Sequelize('Capstone_Project', 'postgres', 'Nousems2you.', {
+const db = new Sequelize('Capstone_Project', 'postgres', '09001210', {
     host: 'localhost',
     dialect: 'postgres',
 
