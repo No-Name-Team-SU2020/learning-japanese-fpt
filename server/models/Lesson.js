@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
+const Subject = require('./Subject');
 
 const Lesson = db.define('lesson', {
     lesson_id: {
@@ -20,7 +21,7 @@ const Lesson = db.define('lesson', {
         type: Sequelize.STRING,
         allowNull: false,
         references: {
-            model: 'subject',
+            model: Subject,
             key: 'subject_id'
         }
     },
@@ -33,8 +34,16 @@ const Lesson = db.define('lesson', {
         }
     }
 },
-{
-    freezeTableName: true
-}
+    {
+        freezeTableName: true
+    }
 );
+
+Subject.hasMany(Lesson);
+Lesson.belongsTo(Subject, {
+    foreignKey: {
+        name: 'subject_id'
+    }
+});
+
 module.exports = Lesson;

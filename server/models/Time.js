@@ -11,9 +11,13 @@ const Time = db.fefine('time', {
         type: Sequelize.DATE,
         allowNull: true
     },
-    finished_time: {
+    finish_time: {
         type: Sequelize.DATE,
         allowNull: false
     }
-});
+},
+    {
+        freezeTableName: true
+    }
+);
 module.exports = Time;

@@ -26,7 +26,7 @@ const User = db.define('users', {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-            model: 'role',
+            model: Role,
             key: 'role_id'
         }
     },
@@ -39,7 +39,18 @@ const User = db.define('users', {
             return bcrypt.compare(password, this.password);
         }
     }
-}
+},
+
+    {
+        freezeTableName: true
+    }
 );
+
+User.hasOne(Role);
+Role.belongsTo(User, {
+    foreignKey: {
+        name: 'role_id'
+    }
+});
 
 module.exports = User;

@@ -3,23 +3,25 @@ const Subject = require('../models/Subject');
 const Question = require('../models/Question');
 const Lesson = require('../models/Lesson');
 const checkAuth = require('../middleware/checkAuth');
-const checkRole = require('../middleware/checkRole');
+//const checkRole = require('../middleware/checkRole');
 
 //view all subject for admin
-router.get('/subject', checkAuth, async(req, res) => {
+router.get('/subject', checkAuth, async (req, res) => {
     try {
         const subjects = await Subject.findAll();
-        if(!subjects){
-            res.status(404).send("Something wrong");
+
+        if (!subjects) {
+            return res.status(301).json({
+                message: "Something wrong",
+                data: null
+            });
         }
-        else{
-            return res.json(
-                {
-                    message: "All subjects found",
-                    data: subjects
-                }
-            );
-        }
+        return res.json(
+            {
+                message: "All subjects found",
+                data: subjects
+            }
+        );
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -30,7 +32,7 @@ router.get('/subject', checkAuth, async(req, res) => {
 });
 
 //view all lesson in a subject
-router.get('/lesson', checkAuth, async(req,res) => {
+router.get('/lesson', checkAuth, async (req, res) => {
     try {
         const { id } = req.body;
 
@@ -41,17 +43,20 @@ router.get('/lesson', checkAuth, async(req,res) => {
             attributes: ['lesson_id', 'lesson_content', 'lesson_name']
         });
 
-        if(!lessons){
-            res.status(404).send("Something wrong");
+        if (!lessons) {
+            return res.status(301).json({
+                message: "Something wrong",
+                data: null
+            });
         }
-        else{
-            return res.json(
-                {
-                    message: "Lessons found",
-                    data: lessons
-                }
-            )
-        }
+
+        return res.json(
+            {
+                message: "Lessons found",
+                data: lessons
+            }
+        )
+
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -62,7 +67,7 @@ router.get('/lesson', checkAuth, async(req,res) => {
 });
 
 //view all question in a lesson
-router.get('/adminquestion', checkAuth, async(req, res) => {
+router.get('/question', checkAuth, async (req, res) => {
     try {
         const { id } = req.body;
 
@@ -74,17 +79,18 @@ router.get('/adminquestion', checkAuth, async(req, res) => {
             attributes: ['question_content', 'option_a', 'option_b', 'option_c', 'option_d', 'correct_answer']
         });
 
-        if(!questions){
-            res.status(404).send("Something wrong");
+        if (!questions) {
+            return res.status(301).json({
+                message: "Something wrong",
+                data: null
+            });
         }
-        else{
-            return res.json(
-                {
-                    message: "All questions found",
-                    data: questions
-                }
-            )
-        }
+        return res.json(
+            {
+                message: "All questions found",
+                data: questions
+            }
+        )
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -95,7 +101,7 @@ router.get('/adminquestion', checkAuth, async(req, res) => {
 });
 
 //create new question
-router.post('/question', checkAuth, async(req, res) => {
+router.post('/question', checkAuth, async (req, res) => {
     try {
         const { id } = req.body;
 
@@ -106,44 +112,44 @@ router.post('/question', checkAuth, async(req, res) => {
             attributes: ['lesson_id']
         });
 
-        const { question_id, question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
+        const { question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
 
-        if(!question_content ) {
+        if (!question_content || question_content.length === 0) {
             return res.status(301).json({
                 message: "question content is not valid",
                 data: null,
             });
         }
 
-        if(!option_a ) {
+        if (!option_a || option_a.length === 0) {
             return res.status(301).json({
                 message: "option A content is not valid",
                 data: null,
             });
         }
 
-        if(!option_b ) {
+        if (!option_b || option_b.length === 0) {
             return res.status(301).json({
                 message: "option B content is not valid",
                 data: null,
             });
         }
 
-        if(!option_c ) {
+        if (!option_c || option_c.length === 0) {
             return res.status(301).json({
                 message: "option C content is not valid",
                 data: null,
             });
         }
 
-        if(!option_d ) {
+        if (!option_d || option_d.length === 0) {
             return res.status(301).json({
                 message: "option D content is not valid",
                 data: null,
             });
         }
 
-        if(!correct_answer ) {
+        if (!correct_answer || correct_answer.length === 0) {
             return res.status(301).json({
                 message: "correct answer is not valid",
                 data: null,
@@ -151,7 +157,7 @@ router.post('/question', checkAuth, async(req, res) => {
         }
 
         const newQuestion = await Question.create({
-            question_id,
+            //question_id,
             question_content,
             option_a,
             option_b,
@@ -176,21 +182,17 @@ router.post('/question', checkAuth, async(req, res) => {
 });
 
 //update question
-router.put('/question', checkAuth, async(req, res) => {
+router.put('/question', checkAuth, async (req, res) => {
     try {
-        const { id, question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
+        //const questionId = req.params;
 
-        // const findQuestion = await Question.findOne({
-        //     where: {
-        //         question_id: id
-        //     }
-        // });
+        const { questionId, question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
 
-        // if(!findQuestion){
-        //     return res.status(404).json({
-        //         message: 'Question not found',
-        //     })
-        // }
+        if (!questionId) {
+            return res.status(404).json({
+                message: 'Question not found',
+            })
+        }
 
         const updateQuestion = await Question.update({
             question_content,
@@ -199,10 +201,12 @@ router.put('/question', checkAuth, async(req, res) => {
             option_c,
             option_d,
             correct_answer,
-            where: {
-                question_id: id
-            }
-        });
+        },
+            {
+                where: {
+                    question_id: questionId
+                }
+            });
 
         return res.status(200).json({
             message: 'Update successfully',
@@ -219,7 +223,7 @@ router.put('/question', checkAuth, async(req, res) => {
 });
 
 //delete question
-router.delete('/question', checkAuth, async(req, res) => {
+router.delete('/question', checkAuth, async (req, res) => {
     try {
         const { id } = req.body;
 
@@ -229,14 +233,15 @@ router.delete('/question', checkAuth, async(req, res) => {
             }
         });
 
-        if(!deleteQuestion) {
+        if (!deleteQuestion) {
             return res.json({
-                message: 'Question cannot deleted',
+                message: 'Question cannot be deleted',
             });
         }
 
         return res.json({
             message: 'Question deleted successfully',
+            data: deleteQuestion
         });
 
     } catch (error) {
