@@ -25,14 +25,6 @@ const Lesson = db.define('lesson', {
             key: 'subject_id'
         }
     },
-    time_id: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        references: {
-            model: 'time',
-            key: 'time_id'
-        }
-    }
 },
     {
         freezeTableName: true

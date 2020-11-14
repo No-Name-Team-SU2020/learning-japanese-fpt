@@ -19,7 +19,8 @@ const Quiz = db.define('quiz', {
         type: Sequelize.INTEGER,
     },
 
-    create_at: {
+    //get current date time from computer
+    start_time: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW
     },
