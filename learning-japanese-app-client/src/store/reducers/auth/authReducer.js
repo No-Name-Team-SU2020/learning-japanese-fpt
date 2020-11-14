@@ -2,7 +2,8 @@ const initialState = {
   isAuthenticated: false,
   token: null,
   loading: false,
-  error: null
+  error: null,
+  role: 'student'
 }
 
 const reducer = (state = initialState, action) => {

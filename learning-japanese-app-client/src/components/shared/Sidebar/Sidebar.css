@@ -18,21 +18,21 @@
 	top: 0;
 	background-color: var(--light-color);
 	min-height: 100vh;
-	max-width: 250px;
+	max-width: 320px;
 	padding: 60px 15px;
 	transition: all 0.3s ease;
 	z-index: 100;
 }
 
 .main-sidebar img {
-	width: 210px;
+	width: 250px;
 }
-@media (max-width: 767px) {
+@media (max-width: 991px) {
 	.main-sidebar {
-		transform: translateX(-300px);
+		transform: translateX(-100%);
 	}
 	.main-sidebar.hide {
-		transform: translateX(-300px);
+		transform: translateX(-100%);
 	}
 	.main-sidebar.show {
 		transform: translateX(0);

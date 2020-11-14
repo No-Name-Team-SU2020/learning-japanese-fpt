@@ -12,6 +12,23 @@ import { Link } from 'react-router-dom';
 const Header = () => {
   const [openMessages, setOpenMessages] = useState(false);
   const [openNotifications, setOpenNotifications] = useState(false);
+  const [openProfileMenu, setOpenProfileMenu] = useState(false);
+
+  const toggleMessagesHandler = () => {
+    setOpenMessages(!openMessages);
+    setOpenNotifications(false);
+    setOpenProfileMenu(false);
+  }
+  const toggleNotificationsHandler = () => {
+    setOpenNotifications(!openNotifications);
+    setOpenMessages(false);
+    setOpenProfileMenu(false);
+  }
+  const toggleProfileMenuHandler = () => {
+    setOpenProfileMenu(!openProfileMenu);
+    setOpenMessages(false);
+    setOpenNotifications(false);
+  }
   return (
     <header className="fixed-top shadow-sm bg-white">
       <div className="header-container">
@@ -19,7 +36,7 @@ const Header = () => {
           <img src={main_logo} alt="left logo" />
         </Link>
         <div className="d-flex align-items-center justify-content-between" style={{ minWidth: '300px' }}>
-          <IconButton onClick={() => setOpenMessages(!openMessages)}>
+          <IconButton onClick={toggleMessagesHandler}>
             <Badge color="primary" badgeContent={1}>
               <MailIcon />
             </Badge>
@@ -27,7 +44,7 @@ const Header = () => {
               Messages
             </SubMenu>
           </IconButton>
-          <IconButton onClick={() => setOpenNotifications(!openNotifications)}>
+          <IconButton onClick={toggleNotificationsHandler}>
             <Badge color="secondary" badgeContent={1}>
               <NotificationsIcon />
             </Badge>
@@ -36,11 +53,11 @@ const Header = () => {
             </SubMenu>
           </IconButton>
           <Avatar src="https://images.pexels.com/photos/5177790/pexels-photo-5177790.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" />
-          <ProfileMenu />
+          <ProfileMenu show={openProfileMenu} toggleMenu={toggleProfileMenuHandler} />
         </div>
       </div>
     </header>
-  )
+  );
 }
 
 export default Header;

@@ -73,7 +73,9 @@ button:focus {
 li {
 	list-style-type: none;
 }
-
+.border-left-red-lg {
+	border-left: 3px var(--red-color) solid;
+}
 .form-control-radio label {
 	margin-left: 8px;
 	display: inline-block;
@@ -94,4 +96,34 @@ li {
 .img-hover-border:hover {
 	border-color: var(--orange-color);
 }
+.not-found-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	line-height: 1.9;
+	text-align: center;
+	padding: 25px 0;
+	height: 90vh;
+}
+.description {
+	line-height: 1.9;
+}
 /*  */
+
+/*  transition css */
+
+.my-node-enter {
+	opacity: 0;
+}
+.my-node-enter-active {
+	opacity: 1;
+	transition: opacity 200ms;
+}
+.my-node-exit {
+	opacity: 1;
+}
+.my-node-exit-active {
+	opacity: 0;
+	transition: opacity 200ms;
+}

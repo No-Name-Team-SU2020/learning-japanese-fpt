@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import ArrowIcon from '@material-ui/icons/ArrowDropDown';
 import SubMenu from '../../../ui/SubMenu/SubMenu';
@@ -11,16 +11,14 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Avatar } from '@material-ui/core';
 
-const ProfileMenu = () => {
-  const [openMenu, setOpenMenu] = useState(false);
-  const handleToggleMenu = () => setOpenMenu(!openMenu);
+const ProfileMenu = ({ show, toggleMenu }) => {
 
   return (
     <div style={{ position: 'relative' }}>
-      <Button aria-controls="profile-menu" aria-haspopup="true" onClick={handleToggleMenu}>
+      <Button aria-controls="profile-menu" aria-haspopup="true" onClick={toggleMenu}>
         John Doe <ArrowIcon />
       </Button>
-      <SubMenu show={openMenu}>
+      <SubMenu show={show}>
         <div className="d-flex align-items-center">
           <Avatar src="https://images.pexels.com/photos/5177790/pexels-photo-5177790.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" />
           <h5 className="ml-3">John Doe</h5>

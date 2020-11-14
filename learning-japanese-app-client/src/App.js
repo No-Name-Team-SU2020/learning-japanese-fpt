@@ -1,34 +1,26 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-// import Header from "./components/shared/Header/Header";
-import Home from "./pages/Home/Home";
-import Login from "./pages/Login/Login";
-import ManageQuestion from "./pages/ManageQuestion/ManageQuestion";
-import QuestionList from "./pages/QuestionList/QuestionList";
-import Register from "./pages/Register/Register";
+import { BrowserRouter as Router } from "react-router-dom";
+// import ManageQuestion from "./pages/ManageQuestion/ManageQuestion";
+// import QuestionList from "./pages/QuestionList/QuestionList";
+import { useSelector } from "react-redux";
+import StudentLayout from "./layout/StudentLayout/StudentLayout";
+import UnAuthorizedLayout from "./layout/UnAuthorizedLayout/UnAuthorizedLayout";
 
 const App = () => {
-
+  const { role, isAuthenticated } = useSelector(state => state.auth);
   return (
     <Router>
-      {/* <Header /> */}
-      {/* <div className="body"> */}
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/question-list">
-          <QuestionList />
-        </Route>
-        <Route path="/register">
-          <Register />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/question-management">
-          <ManageQuestion />
-        </Route>
-      </Switch>
-      {/* </div> */}
+      {
+        !isAuthenticated ? (<UnAuthorizedLayout />) : (
+          role === 'student' && <StudentLayout />
+        )
+      }
+      {
+        /* <Switch>
+            <Route path="/question-list" component={QuestionList} />
+            <Route path="/question-management" component={ManageQuestion} />
+          </Switch> */
+      }
     </Router>
   );
 }

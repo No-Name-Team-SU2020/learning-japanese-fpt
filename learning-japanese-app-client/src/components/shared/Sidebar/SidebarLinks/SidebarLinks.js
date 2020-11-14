@@ -8,8 +8,9 @@ const SidebarLinks = () => {
       <li><NavLink to="/syllabus" activeClassName="active-sidebar-link"> SYLLABUS </NavLink></li>
       <li><NavLink to="/calendar" activeClassName="active-sidebar-link"> CALENDAR </NavLink></li>
       <li><NavLink to="/about" activeClassName="active-sidebar-link"> ABOUT </NavLink></li>
+      <li><NavLink to="/login" activeClassName="active-sidebar-link"> LOGOUT </NavLink></li>
     </nav>
-  )
+  );
 }
 
 export default SidebarLinks;

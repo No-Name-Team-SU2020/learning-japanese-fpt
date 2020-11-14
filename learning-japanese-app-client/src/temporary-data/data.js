@@ -51,7 +51,7 @@ export const tempQuestions = [
   }
 ];
 
-export const elementaryList = [
+export const subjectList = [
   {
     id: '1',
     image: 'https://images.pexels.com/photos/4348401/pexels-photo-4348401.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
@@ -135,5 +135,108 @@ export const quotes = [
     avatar: 'https://c.files.bbci.co.uk/13605/production/_111256397_060306797-1.jpg',
     title: '“Do not compare yourself with anyone in this world.. If you do so, you are insulting yourself.”',
     name: 'Bill Gates'
+  }
+];
+
+export const lessonBySubjects = [
+  {
+    id: '1',
+    name: 'Android Environment Development Setting'
+  },
+  {
+    id: '2',
+    name: 'Android Layout'
+  },
+  {
+    id: '3',
+    name: 'Android Architecture - Activity life cycle'
+  }
+];
+
+export const grammars = [
+  {
+    id: '1',
+    foreignLang: '~ 　は　～',
+    vietnamese: 'thì, là, ở'
+  },
+  {
+    id: '2',
+    foreignLang: '~ 　は　～',
+    vietnamese: 'cũng, đến mức, đến cả'
+  }
+];
+
+export const syllabusItems = [
+  {
+    id: '1',
+    topics: [
+      {
+        id: '1',
+        name: '(*) Giới thiệu khái quát về chương trình'
+      },
+      {
+        id: '2',
+        name: '(*) Giới thiệu về tiếng Nhật'
+      },
+      {
+        id: '3',
+        name: '(*) Học Hiragana 20 chữ đầu tiên '
+      },
+      {
+        id: '4',
+        name: '(*) Chào hỏi cơ bản 1'
+      }
+    ],
+    studentMaterials: 'Tự học Kana',
+    teacherMaterials: 'Nhập môn Kana Tự học Kana',
+    activity: 'Tự luyện Hiragana'
+  },
+  {
+    id: '2',
+    topics: [
+      {
+        id: '1',
+        name: '(*) Giới thiệu khái quát về chương trình'
+      },
+      {
+        id: '2',
+        name: '(*) Giới thiệu về tiếng Nhật'
+      },
+      {
+        id: '3',
+        name: '(*) Học Hiragana 20 chữ đầu tiên '
+      },
+      {
+        id: '4',
+        name: '(*) Chào hỏi cơ bản 1'
+      }
+    ],
+    studentMaterials: 'Tự học Kana',
+    teacherMaterials: 'Nhập môn Kana Tự học Kana',
+    activity: 'Tự luyện Hiragana'
+  },
+  {
+    id: '3',
+    topics: [
+      {
+        id: '1',
+        name: '(*) Giới thiệu khái quát về chương trình'
+      },
+      {
+        id: '2',
+        name: '(*) Giới thiệu về tiếng Nhật'
+      },
+      {
+        id: '3',
+        name: '(*) Học Hiragana 20 chữ đầu tiên '
+      },
+      {
+        id: '4',
+        name: '(*) Chào hỏi cơ bản 1'
+      }
+    ],
+    studentMaterials: 'Tự học Kana',
+    teacherMaterials: 'Nhập môn Kana Tự học Kana',
+    activity: 'Tự luyện Hiragana'
   }
 ]
