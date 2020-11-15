@@ -12,15 +12,29 @@
     float: right;
   }
   
-  .session-title h3{
+  /* .session-title h3{
     margin-bottom: -25px;
     font-weight: 200;
     font-size: 20px;
       
-  }
+  } */
+  
   .session-test{
-   font-weight: 900;
-   font-size: 15px;
+   font-size: 17px;
    margin-right: 20px;
    margin-left: 20px;
   }
+  .quiz-mana{
+    box-shadow: 0 0.25rem 1.25rem rgb(191 169 169 / 85%);
+    margin-bottom: 20px;
+    display: grid;
+  }
+  .session-content{
+    padding: 10px 0 0 26px;
+  }
+  .session-content a{
+    font-weight: 500;
+   
+    color: tomato;
+  }
+ 
