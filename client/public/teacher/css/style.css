@@ -285,3 +285,29 @@
     outline: none;
     color: #da1212;
   } */
+  .btn-management{
+    float: right;
+    margin-top: 20px;
+}
+.student-session{
+    margin: 20px 0 ;
+  }
+  #li-session{
+    list-style: none;
+  }
+  .session-test{
+    float: right;
+  }
+  
+  .session-title h3{
+    margin-bottom: -25px;
+    font-weight: 200;
+    font-size: 20px;
+      
+  }
+  .session-test{
+   font-weight: 900;
+   font-size: 15px;
+   margin-right: 20px;
+   margin-left: 20px;
+  }
