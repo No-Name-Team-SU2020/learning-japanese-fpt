@@ -65,6 +65,7 @@ router.post('/login', validInfo, async (req, res) => {
             data: {
                 token: token,
                 user: user.user_name,
+                role: user.role_id,
             }
         })
 

@@ -21,11 +21,11 @@ app.use(express.json());
 app.use(cors());
 
 app.use(require('./routes/userRoute.js'));
-app.use('/student', require('./routes/studentRoute.js'));
-app.use('/admin', checkAdmin, require('./routes/adminRoute.js'));
-app.use('/teacher', checkTeacher, require('./routes/teacherRoute.js'));
+app.use('/api/student', require('./routes/studentRoute.js'));
+app.use('/api/admin', checkAdmin, require('./routes/adminRoute.js'));
+app.use('/api/teacher', checkTeacher, require('./routes/teacherRoute.js'));
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
     console.log('Listening to port ' + PORT);

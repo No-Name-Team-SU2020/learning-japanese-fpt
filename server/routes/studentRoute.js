@@ -75,7 +75,6 @@ router.get('/subject', checkAuth, async(req, res) => {
             error: error
         });
     }
-
 });
 
 //view all lesson in a subject

@@ -68,9 +68,31 @@ router.post('/subject', checkAuth, async(req, res) => {
 });
 
 //update subject
-router.put('/subject', checkAuth, async(req, res) => {
+router.put('/subject/:subjectId', checkAuth, async(req, res) => {
     try {
-        const
+        const subjectId = req.params.subjectId;
+
+        const { subject_name } = req.body;
+
+        if (!subjectId) {
+            return res.status(404).json({
+                message: 'Subject not found',
+            });
+        }
+
+        const updateSubject = await Subject.update({
+            subject_name,
+        },
+            {
+                where: {
+                    subject_id: subjectId
+                }
+            });
+
+        return res.status(200).json({
+            message: 'Update successfully',
+            data: updateSubject
+        });
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -81,9 +103,26 @@ router.put('/subject', checkAuth, async(req, res) => {
 });
 
 //delete subject
-router.delete('/subject', checkAuth, async(req, res) => {
+router.delete('/subject/:subjectId', checkAuth, async(req, res) => {
     try {
-        const
+        const subjectId = req.params.subjectId;
+
+        const deleteSubject = await Subject.destroy({
+            where: {
+                subject_id: subjectId
+            }
+        });
+
+        if (!deleteSubject) {
+            return res.json({
+                message: 'Subject cannot be deleted',
+            });
+        }
+
+        return res.json({
+            message: 'Subject deleted successfully',
+            data: deleteSubject
+        });
     } catch (error) {
         console.error(error.message);
         res.status(500).json({

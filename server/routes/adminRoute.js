@@ -69,11 +69,14 @@ router.post('/subject', checkAuth, async (req, res) => {
 });
 
 //update subject
-router.put('/subject', checkAuth, async (req, res) => {
+router.put('/subject/:subjectId', checkAuth, async (req, res) => {
     try {
-        const { subject_id, subject_name } = req.body;
 
-        if (!subject_id) {
+        const subjectId = req.params.subjectId;
+
+        const { subject_name } = req.body;
+
+        if (!subjectId) {
             return res.status(404).json({
                 message: 'Subject not found',
             });
@@ -84,7 +87,7 @@ router.put('/subject', checkAuth, async (req, res) => {
         },
             {
                 where: {
-                    subject_id: subject_id
+                    subject_id: subjectId
                 }
             });
 
@@ -102,13 +105,13 @@ router.put('/subject', checkAuth, async (req, res) => {
 });
 
 //delete subject
-router.delete('/subject', checkAuth, async (req, res) => {
+router.delete('/subject/:subjectId', checkAuth, async (req, res) => {
     try {
-        const { id } = req.body;
+        const subjectId = req.params.subjectId;
 
         const deleteSubject = await Subject.destroy({
             where: {
-                subject_id: id
+                subject_id: subjectId
             }
         });
 
@@ -223,11 +226,13 @@ router.post('/lesson', checkAuth, async (req, res) => {
 });
 
 //update lesson
-router.put('/lesson', checkAuth, async (req, res) => {
+router.put('/lesson/:lessonId', checkAuth, async (req, res) => {
     try {
-        const { lesson_id, lesson_content, lesson_name } = req.body;
+        const lessonId = req.params.lessonId;
 
-        if (!lesson_id) {
+        const { lesson_content, lesson_name } = req.body;
+
+        if (!lessonId) {
             return res.status(404).json({
                 message: 'Lesson not found',
             });
@@ -239,7 +244,7 @@ router.put('/lesson', checkAuth, async (req, res) => {
         },
             {
                 where: {
-                    lesson_id: lesson_id
+                    lesson_id: lessonId
                 }
             });
 
@@ -257,13 +262,13 @@ router.put('/lesson', checkAuth, async (req, res) => {
 });
 
 //delete lesson
-router.delete('/lesson', checkAuth, async (req, res) => {
+router.delete('/lesson/:lessonId', checkAuth, async (req, res) => {
     try {
-        const { id } = req.body;
+        const lessonId = req.params.lessonId;
 
         const deleteLesson = await Lesson.destroy({
             where: {
-                lesson_id: id
+                lesson_id: lessonId
             }
         });
 
@@ -401,11 +406,11 @@ router.post('/question', checkAuth, async (req, res) => {
 });
 
 //update question
-router.put('/question', checkAuth, async (req, res) => {
+router.put('/question/:questionId', checkAuth, async (req, res) => {
     try {
-        //const questionId = req.params;
+        const questionId = req.params.questionId;
 
-        const { questionId, question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
+        const { question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
 
         if (!questionId) {
             return res.status(404).json({
@@ -442,13 +447,13 @@ router.put('/question', checkAuth, async (req, res) => {
 });
 
 //delete question
-router.delete('/question', checkAuth, async (req, res) => {
+router.delete('/question/:questionId', checkAuth, async (req, res) => {
     try {
-        const { id } = req.body;
+        const questionId = req.params.questionId;
 
         const deleteQuestion = await Question.destroy({
             where: {
-                question_id: id
+                question_id: questionId
             }
         });
 

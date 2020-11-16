@@ -3,10 +3,8 @@ const moment = require('moment');
 const checkAuth = require('../middleware/checkAuth');
 const Teacher = require('../models/Teacher');
 const Class = require('../models/Class');
-const Teacher_Class = require('../models/Teacher_Class');
 const Quiz = require('../models/Quiz');
 const Subject = require('../models/Subject');
-const Class_Subject = require('../models/Class_Subject');
 const Lesson = require('../models/Lesson');
 
 //view all classes of teacher
@@ -211,9 +209,9 @@ router.post('/quiz', checkAuth, async (req, res) => {
             });
         }
 
-        if(start_time) {
+        if (start_time) {
             const parsed = moment(String(create_at), 'x')
-            if(!parsed.isValid()){
+            if (!parsed.isValid()) {
                 return res.status(301).json({
                     message: "start time is not valid",
                     data: null,
@@ -223,16 +221,16 @@ router.post('/quiz', checkAuth, async (req, res) => {
 
         if (end_time) {
             const momentEndTime = moment(String(end_time), 'x');
-            if(!momentEndTime.isValid()) {
+            if (!momentEndTime.isValid()) {
                 return res.status(301).json({
                     message: "start time is not valid",
                     data: null,
                 });
             }
 
-            if(start_time) {
+            if (start_time) {
                 const momentStartTime = moment(String(start_time), 'x');
-                if(momentStartTime.isBefore(momentStartTime)) {
+                if (momentStartTime.isBefore(momentStartTime)) {
                     return res.status(301).json({
                         message: "end time cannot happen before start time",
                         data: null,
@@ -264,42 +262,27 @@ router.post('/quiz', checkAuth, async (req, res) => {
 });
 
 //update quiz
-router.put('/quiz', checkAuth, async (req, res) => {
+router.put('/quiz/:quizId', checkAuth, async (req, res) => {
     try {
+        const quizId = req.params.quizId;
+
         const { quiz_name, number_of_question, end_time } = req.body;
-
-        // if (!quiz_name) {
-        //     return res.status(301).json({
-        //         message: "quiz name is not valid",
-        //         data: null,
-        //     });
-        // }
-
-        // if (!number_of_question) {
-        //     return res.status(301).json({
-        //         message: "number of question is not valid",
-        //         data: null,
-        //     });
-        // }
-
-        // if (!end_time) {
-        //     return res.status(301).json({
-        //         message: "end time is not valid",
-        //         data: null,
-        //     });
-        // }
 
         const updateQuiz = await Quiz.update({
             quiz_name,
             number_of_question,
             end_time,
-        });
+        },
+            {
+                where: {
+                    quiz_id: quizId
+                }
+            });
 
         return res.status(200).json({
             message: 'Update successfully',
             data: updateQuiz
         });
-
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -310,13 +293,13 @@ router.put('/quiz', checkAuth, async (req, res) => {
 });
 
 //delete quiz
-router.delete('/quiz', checkAuth, async (req, res) => {
+router.delete('/quiz/:quizId', checkAuth, async (req, res) => {
     try {
-        const { id } = req.body;
+        const quizId = req.params.quizId;
 
         const deleteQuiz = await Quiz.destroy({
             where: {
-                quiz_id: id
+                quiz_id: quizId
             }
         });
 
@@ -329,7 +312,7 @@ router.delete('/quiz', checkAuth, async (req, res) => {
         return res.json({
             message: 'Quiz deleted successfully',
         });
-
+        
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
