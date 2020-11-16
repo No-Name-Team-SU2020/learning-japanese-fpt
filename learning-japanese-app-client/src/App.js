@@ -15,12 +15,6 @@ const App = () => {
           role === 'student' && <StudentLayout />
         )
       }
-      {
-        /* <Switch>
-            <Route path="/question-list" component={QuestionList} />
-            <Route path="/question-management" component={ManageQuestion} />
-          </Switch> */
-      }
     </Router>
   );
 }
