@@ -1,5 +1,5 @@
 //const Pool = require('pg').Pool
-const Sequelize = require('sequelize');
+const sequelize = require('sequelize');
 
 
 //New connecting method with sequelize
