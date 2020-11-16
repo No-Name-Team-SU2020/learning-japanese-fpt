@@ -12,7 +12,7 @@ db.authenticate()
     .then(() => console.log('Database connect successfully!'))
     .catch(err => console.log('Error' + err))
 
-
+//Test deploy
 app.get('/', (req, res) => {
     res.json({ msg: 'Success!'});
 });

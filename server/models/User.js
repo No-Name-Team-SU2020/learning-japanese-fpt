@@ -1,29 +1,29 @@
-const Sequelize = require('sequelize');
+const sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
 const db = require('../db');
 const Role = require('./Role');
 
 const User = db.define('users', {
     user_name: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         primaryKey: true,
         allowNull: false
     },
     display_name: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         allowNull: false
     },
     email: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         allowNull: false
     },
     password: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         allowNull: false,
         select: false
     },
     role_id: {
-        type: Sequelize.INTEGER,
+        type: sequelize.INTEGER,
         allowNull: false,
         references: {
             model: Role,

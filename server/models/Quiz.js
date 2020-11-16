@@ -1,36 +1,36 @@
-const Sequelize = require('sequelize');
+const sequelize = require('sequelize');
 const db = require('../db');
 const Class = require('./Class');
 
 const Quiz = db.define('quiz', {
     quiz_id: {
-        type: Sequelize.INTEGER,
+        type: sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
     },
 
     quiz_name: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         allowNull: false
     },
 
     number_of_question: {
-        type: Sequelize.INTEGER,
+        type: sequelize.INTEGER,
     },
 
     //get current date time from computer
     start_time: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW
+        type: sequelize.DATE,
+        defaultValue: sequelize.NOW
     },
 
     end_time: {
-        type: Sequelize.DATE,
+        type: sequelize.DATE,
     },
 
     class_id: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         allowNull: false,
         references: {
             model: Class,

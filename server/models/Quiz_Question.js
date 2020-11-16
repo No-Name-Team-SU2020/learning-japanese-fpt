@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const sequelize = require('sequelize');
 const db = require('../db');
 const Quiz = require('./Quiz');
 const Question = require('./Question');
@@ -6,14 +6,14 @@ const Question = require('./Question');
 const Quiz_Question = db.define('quiz_question', {
 
     quiz_question_id: {
-        type: Sequelize.INTEGER,
+        type: sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
     },
 
     quiz_id: {
-        type: Sequelize.INTEGER,
+        type: sequelize.INTEGER,
         allowNull: false,
         references: {
             model: Quiz,
@@ -22,7 +22,7 @@ const Quiz_Question = db.define('quiz_question', {
     },
 
     question_id: {
-        type: Sequelize.INTEGER,
+        type: sequelize.INTEGER,
         allowNull: false,
         references: {
             model: Question,

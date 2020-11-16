@@ -1,18 +1,18 @@
-const Sequelize = require('sequelize');
+const sequelize = require('sequelize');
 const db = require('../db');
 const Class = require('./Class');
 const Subject = require('./Subject');
 
 const Class_Subject = db.define('class_subject', {
     class_subject_id: {
-        type: Sequelize.INTEGER,
+        type: sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
     },
 
     class_id: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         allowNull: false,
         references: {
             model: Class,
@@ -21,7 +21,7 @@ const Class_Subject = db.define('class_subject', {
     },
 
     subject_id: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         allowNull: false,
         references: {
             model: Subject,
