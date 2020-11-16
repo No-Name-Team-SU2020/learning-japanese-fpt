@@ -31,6 +31,107 @@ router.get('/subject', checkAuth, async (req, res) => {
     }
 });
 
+//create new subject
+router.post('/subject', checkAuth, async (req, res) => {
+    try {
+        const { subject_id, subject_name } = req.body;
+
+        if (!subject_id) {
+            return res.status(301).json({
+                message: "subject id is not valid",
+                data: null,
+            });
+        }
+
+        if (!subject_name) {
+            return res.status(301).json({
+                message: "subject name is not valid",
+                data: null,
+            });
+        }
+
+        const newSubject = await Subject.create({
+            subject_id,
+            subject_name,
+        });
+
+        return res.status(200).json({
+            message: 'Subject created successfully',
+            data: newSubject
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//update subject
+router.put('/subject', checkAuth, async (req, res) => {
+    try {
+        const { subject_id, subject_name } = req.body;
+
+        if (!subject_id) {
+            return res.status(404).json({
+                message: 'Subject not found',
+            });
+        }
+
+        const updateSubject = await Subject.update({
+            subject_name,
+        },
+            {
+                where: {
+                    subject_id: subject_id
+                }
+            });
+
+        return res.status(200).json({
+            message: 'Update successfully',
+            data: updateSubject
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//delete subject
+router.delete('/subject', checkAuth, async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        const deleteSubject = await Subject.destroy({
+            where: {
+                subject_id: id
+            }
+        });
+
+        if (!deleteSubject) {
+            return res.json({
+                message: 'Subject cannot be deleted',
+            });
+        }
+
+        return res.json({
+            message: 'Subject deleted successfully',
+            data: deleteSubject
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
 //view all lesson in a subject
 router.get('/lesson', checkAuth, async (req, res) => {
     try {
@@ -57,6 +158,125 @@ router.get('/lesson', checkAuth, async (req, res) => {
             }
         )
 
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//create new lesson
+router.post('/lesson', checkAuth, async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        const currentSubject = await Subject.findOne({
+            where: {
+                subject_id: id
+            },
+            attributes: ['subject_id']
+        });
+
+        const { lesson_id, lesson_content, lesson_name } = req.body;
+
+        if (!lesson_id) {
+            return res.status(301).json({
+                message: "lesson id is not valid",
+                data: null,
+            });
+        }
+
+        if (!lesson_content) {
+            return res.status(301).json({
+                message: "lesson content is not valid",
+                data: null,
+            });
+        }
+
+        if (!lesson_name) {
+            return res.status(301).json({
+                message: "lesson name is not valid",
+                data: null,
+            });
+        }
+
+        const newLesson = await Lesson.create({
+            lesson_id,
+            lesson_content,
+            lesson_name,
+            subject_id: currentSubject.subject_id,
+        });
+
+        return res.status(200).json({
+            message: 'Lesson created successfully',
+            data: newLesson
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//update lesson
+router.put('/lesson', checkAuth, async (req, res) => {
+    try {
+        const { lesson_id, lesson_content, lesson_name } = req.body;
+
+        if (!lesson_id) {
+            return res.status(404).json({
+                message: 'Lesson not found',
+            });
+        }
+
+        const updateLesson = await Lesson.update({
+            lesson_content,
+            lesson_name,
+        },
+            {
+                where: {
+                    lesson_id: lesson_id
+                }
+            });
+
+        return res.status(200).json({
+            message: 'Update successfully',
+            data: updateLesson
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//delete lesson
+router.delete('/lesson', checkAuth, async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        const deleteLesson = await Lesson.destroy({
+            where: {
+                lesson_id: id
+            }
+        });
+
+        if(!deleteLesson){
+            return res.json({
+                message: 'Lesson cannot be deleted',
+            });
+        }
+
+        return res.json({
+            message: 'Lesson deleted successfully',
+            data: deleteLesson
+        });
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -190,7 +410,7 @@ router.put('/question', checkAuth, async (req, res) => {
         if (!questionId) {
             return res.status(404).json({
                 message: 'Question not found',
-            })
+            });
         }
 
         const updateQuestion = await Question.update({
