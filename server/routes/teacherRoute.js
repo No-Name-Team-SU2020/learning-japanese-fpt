@@ -8,7 +8,7 @@ const Subject = require('../models/Subject');
 const Lesson = require('../models/Lesson');
 
 //view all classes of teacher
-router.get('/class', checkAuth, async (req, res) => {
+router.get('/teacher-class', checkAuth, async (req, res) => {
     try {
         // const {class_id} = req.body;
 
@@ -51,7 +51,7 @@ router.get('/class', checkAuth, async (req, res) => {
 });
 
 //view subject base on class
-router.get('/subject', checkAuth, async (req, res) => {
+router.get('/class-subject', checkAuth, async (req, res) => {
     try {
         const { class_id } = req.body;
 
@@ -247,7 +247,7 @@ router.post('/quiz', checkAuth, async (req, res) => {
             class_id: currentClass,
         });
 
-        return res.status(200).json({
+        return res.status(201).json({
             message: 'Quiz created successfully',
             data: newQuiz
         });

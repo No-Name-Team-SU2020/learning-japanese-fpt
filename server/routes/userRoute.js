@@ -23,8 +23,6 @@ router.post('/login', validInfo, async (req, res) => {
                  email: email
             } 
         });
-        // await pool.query("SELECT * FROM users WHERE email = $1", 
-        // [email]);
 
         //check if user exist in database
         if(!user){
@@ -43,18 +41,20 @@ router.post('/login', validInfo, async (req, res) => {
         }
 
         //generate token for user
-        token = jwt.sign({
+        accessToken = jwt.sign({
             id: user.user_name,
         },
         process.env.accessTokenSecret,{
-            expiresIn: "12h"
+            expiresIn: "15s" 
         });
 
         //generate refresh token
         refreshToken = jwt.sign({
             id: user.user_name,
         },
-            process.env.refreshTokenSecret,
+            process.env.refreshTokenSecret,{
+                expiresIn: "8h"
+            }
         );
 
         refreshTokens.push(refreshToken)
@@ -63,9 +63,10 @@ router.post('/login', validInfo, async (req, res) => {
         return res.json({
             message: "Login successfully!",
             data: {
-                token: token,
+                accessToken: accessToken,
+                refreshToken: refreshToken,
                 user: user.user_name,
-                role: user.role_id,
+                role: user.role_id
             }
         })
 
@@ -100,7 +101,7 @@ router.delete('/logout', checkAuth, async(req, res) => {
 //view profile
 router.get('/profile',checkAuth, async(req, res) => {
     try {
-        const {user_name} = req.body;
+        const { user_name } = req.body;
         
         //get user profile by their user_name
         const user = await User.findOne({
@@ -108,8 +109,6 @@ router.get('/profile',checkAuth, async(req, res) => {
                 user_name: user_name
             }
         });
-        // await pool.query("SELECT display_name, email FROM users WHERE user_name = $1",
-        // [user_name]);
 
         if(!user){
             return res.status(401).json({
@@ -120,8 +119,8 @@ router.get('/profile',checkAuth, async(req, res) => {
         else{
             res.json({
                 message: "Found user profile",
-                data: user
-            })
+                data: user,
+            });
         }
 
     } catch (error) {
@@ -132,7 +131,6 @@ router.get('/profile',checkAuth, async(req, res) => {
         });
     }
 });
-module.exports = router;
 
 //basic search, search for user by username or display name
 router.get('/search',checkAuth, async(req,res) => {
