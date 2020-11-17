@@ -11,7 +11,7 @@ module.exports = async (req, res, next) => {
             return res.status(403).json("User not authorized");
         }
 
-        const payload = jwt.verify(jwtToken, process.env.accessTokenSecret);
+        const payload = jwt.verify(jwtToken, process.env.refreshTokenSecret);
 
         //check if user exist on db
         const user = await User.findByPk(payload.id)

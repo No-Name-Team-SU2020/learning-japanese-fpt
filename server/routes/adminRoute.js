@@ -55,7 +55,7 @@ router.post('/subject', checkAuth, async (req, res) => {
             subject_name,
         });
 
-        return res.status(200).json({
+        return res.status(201).json({
             message: 'Subject created successfully',
             data: newSubject
         });
@@ -212,7 +212,7 @@ router.post('/lesson', checkAuth, async (req, res) => {
             subject_id: currentSubject.subject_id,
         });
 
-        return res.status(200).json({
+        return res.status(201).json({
             message: 'Lesson created successfully',
             data: newLesson
         });
@@ -392,7 +392,7 @@ router.post('/question', checkAuth, async (req, res) => {
             correct_answer,
         });
 
-        return res.status(200).json({
+        return res.status(201).json({
             message: 'Question created successfully',
             data: newQuestion
         });
