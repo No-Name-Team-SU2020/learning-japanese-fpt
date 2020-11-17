@@ -402,11 +402,11 @@ router.post('/question', checkAuth, async (req, res) => {
 });
 
 //update question
-router.put('/question', checkAuth, async (req, res) => {
+router.put('/question/:questionId', checkAuth, async (req, res) => {
     try {
-        //const questionId = req.params;
+        const questionId = req.params.questionId;
 
-        const { questionId, question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
+        const { question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
 
         if (!questionId) {
             return res.status(404).json({
@@ -443,7 +443,7 @@ router.put('/question', checkAuth, async (req, res) => {
 });
 
 //delete question
-router.delete('/question', checkAuth, async (req, res) => {
+router.delete('/question/question', checkAuth, async (req, res) => {
     try {
         const { id } = req.body;
 
