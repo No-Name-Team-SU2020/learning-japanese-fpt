@@ -22,9 +22,9 @@ app.use(express.json());
 app.use(cors());
 
 app.use(require('./routes/userRoute.js'));
-app.use('/students', checkAuth, require('./routes/studentRoute.js'));
-app.use('/admins', checkAdmin, require('./routes/adminRoute.js'));
-app.use('/teachers', checkTeacher, require('./routes/teacherRoute.js'));
+app.use('/student', checkAuth, require('./routes/studentRoute.js'));
+app.use('/admin', checkAdmin, require('./routes/adminRoute.js'));
+app.use('/teacher', checkTeacher, require('./routes/teacherRoute.js'));
 
 const PORT = process.env.PORT || 5000;
 
