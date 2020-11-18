@@ -20,7 +20,6 @@ const User = db.define('users', {
     password: {
         type: sequelize.STRING,
         allowNull: false,
-        select: false
     },
     role_id: {
         type: sequelize.INTEGER,
@@ -30,20 +29,26 @@ const User = db.define('users', {
             key: 'role_id'
         }
     },
-}, {
-    instanceMethods: {
-        generateHash(password) {
-            return bcrypt.hash(password, bcrypt.genSaltSync(10));
-        },
-        validPassword(password) {
-            return bcrypt.compare(password, this.password);
-        }
-    }
 },
+    {
+        defaultScope: {
+            attributes: { exclude: ['password'] }
+        }
+    },
+    {
+        instanceMethods: {
+            generateHash(password) {
+                return bcrypt.hash(password, bcrypt.genSaltSync(10));
+            },
+            validPassword(password) {
+                return bcrypt.compare(password, this.password);
+            }
+        }
+    },
 
     {
-        freezeTableName: true
-    }
+        freezeTableName: true,
+    },
 );
 
 User.hasOne(Role);
