@@ -4,31 +4,35 @@ require('dotenv').config();
 
 //check if user is really user lol
 module.exports = async (req, res, next) => {
+    const token = req.header('token');
+
+    if(!token){
+        return res.status(401).json("No token");
+    }
+
+    const payload = jwt.verify(token, process.env.refreshTokenSecret);
+
     try {
-        const jwtToken = req.header("token");
-
-        if(!jwtToken){
-            return res.status(403).json("User not authorized");
-        }
-
-        const payload = jwt.verify(jwtToken, process.env.refreshTokenSecret);
-
         //check if user exist on db
         const user = await User.findOne({
             where: {
                 user_name: payload.id
             },
+            attributes: {
+                exclude: ['password']
+            }
         });
 
         if(!user){
-            return res.status(401).send("User not found");
+            return res.status(404).send("User not found");
         }
 
         req.user = user;
+        req.token = token;
         next();
         
     } catch (error) {
         console.log(error.message)
-        return res.status(403).json("Error");
+        return res.status(403).json("Not authorized to access resources");
     }
 }

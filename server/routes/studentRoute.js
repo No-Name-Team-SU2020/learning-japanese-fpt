@@ -11,7 +11,7 @@ const Student_Subject = require('../models/Student_Subject');
 const Lesson = require('../models/Lesson');
 
 //view all classes of student
-router.get('/class', checkAuth, async (req, res) => {
+router.get('/student-class', checkAuth, async (req, res) => {
     try {
 
         const { student_id } = req.body;
@@ -45,7 +45,7 @@ router.get('/class', checkAuth, async (req, res) => {
 });
 
 //view all subjects of student
-router.get('/subject', checkAuth, async(req, res) => {
+router.get('/student-subject', checkAuth, async(req, res) => {
     try {
         const { student_id } = req.body;
 

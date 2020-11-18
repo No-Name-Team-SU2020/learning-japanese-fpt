@@ -9,7 +9,6 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const checkAuth = require('../middleware/checkAuth');
 const validInfo = require('../middleware/validInfo');
-//const checkRole = require('../middleware/checkRole');
 
 let refreshTokens = [];
 
@@ -41,7 +40,7 @@ router.post('/login', validInfo, async (req, res) => {
         }
 
         //generate token for user
-        accessToken = jwt.sign({
+        const accessToken = jwt.sign({
             id: user.user_name,
         },
         process.env.accessTokenSecret,{
@@ -49,7 +48,7 @@ router.post('/login', validInfo, async (req, res) => {
         });
 
         //generate refresh token
-        refreshToken = jwt.sign({
+        const refreshToken = jwt.sign({
             id: user.user_name,
         },
             process.env.refreshTokenSecret,{
@@ -79,13 +78,16 @@ router.post('/login', validInfo, async (req, res) => {
     }
 });
 
-//logout (could be not needed, might be removed later)
-router.delete('/logout', checkAuth, async(req, res) => {
+//logout (might not be needed, might be removed later)
+router.post('/logout', checkAuth, async(req, res) => {
     try {
         //const refreshToken = req.body.token;
-        refreshTokens = refreshTokens.filter(token => token !== req.body.token)
+        // refreshTokens = refreshTokens.filter((refreshToken) => {
+        //     return refreshToken.token !== req.token
+        // })
+        refreshTokens.splice(0, refreshTokens.length)
         //token successfully removed
-        res.status(204).json({
+        res.status(200).json({
             message: "Logged out"
         });
 

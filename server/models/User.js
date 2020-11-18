@@ -31,11 +31,7 @@ const User = db.define('users', {
     },
 },
     {
-        defaultScope: {
-            attributes: { exclude: ['password'] }
-        }
-    },
-    {
+        freezeTableName: true,
         instanceMethods: {
             generateHash(password) {
                 return bcrypt.hash(password, bcrypt.genSaltSync(10));
@@ -43,13 +39,19 @@ const User = db.define('users', {
             validPassword(password) {
                 return bcrypt.compare(password, this.password);
             }
-        }
-    },
+        },
+        // defaultScope: {
+        //     attributes: { exclude: ['password'] }
+        // },
+    });
 
-    {
-        freezeTableName: true,
-    },
-);
+    // User.prototype.generateHash = function (password) {
+    //     return bcrypt.hash(password, bcrypt.genSaltSync(10))
+    // }
+
+    // User.prototype.validPassword = function(password) {
+    //     return bcrypt.compare(password, this.password)
+    // }
 
 User.hasOne(Role);
 Role.belongsTo(User, {
