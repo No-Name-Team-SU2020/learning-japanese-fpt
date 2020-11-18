@@ -14,13 +14,17 @@ module.exports = async (req, res, next) => {
         const payload = jwt.verify(jwtToken, process.env.refreshTokenSecret);
 
         //check if user exist on db
-        const user = await User.findByPk(payload.id)
+        const user = await User.findOne({
+            where: {
+                user_name: payload.id
+            },
+        });
 
         if(!user){
             return res.status(401).send("User not found");
         }
 
-        req.user = payload.user;
+        req.user = user;
         next();
         
     } catch (error) {

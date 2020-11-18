@@ -108,27 +108,10 @@ router.delete('/logout', checkAuth, async(req, res) => {
 //view profile
 router.get('/profile',checkAuth, async(req, res) => {
     try {
-        const { user_name } = req.body;
-        
-        //get user profile by their user_name
-        const user = await User.findOne({
-            where: { 
-                user_name: user_name
-            }
-        });
-
-        if(!user){
-            return res.status(401).json({
-                message: "User profile not found",
-                data: null
-            });
-        }
-        else{
-            res.json({
-                message: "Found user profile",
-                data: user,
-            });
-        }
+        res.status(200).json({
+            message: "Found user profile",
+            data: req.user
+        })
 
     } catch (error) {
         console.error(error.message);
