@@ -31,11 +31,11 @@ const Lesson = db.define('lesson', {
     }
 );
 
-Subject.hasMany(Lesson);
-Lesson.belongsTo(Subject, {
-    foreignKey: {
-        name: 'subject_id'
-    }
-});
+// Subject.hasMany(Lesson);
+// Lesson.belongsTo(Subject, {
+//     foreignKey: {
+//         name: 'subject_id'
+//     }
+// });
 
 module.exports = Lesson;
