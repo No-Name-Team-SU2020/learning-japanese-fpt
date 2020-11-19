@@ -13,12 +13,12 @@ const Student_Class = require('../models/Student_Class');
 
 
 //view all classes of teacher
-router.get('/teacher-class', checkAuth, async (req, res) => {
+router.get('/teacher-classes/:teacherId', checkAuth, async (req, res) => {
     try {
-        const { teacher_id } = req.body;
+        const teacherId = req.params.teacherId;
 
         const data = await Teacher.findAll({
-            where: { teacher_id },
+            where: { teacher_id: teacherId },
             attributes: ['teacher_name'],
             include: [
                 { model: Class, through: {attributes: []} },
@@ -47,12 +47,12 @@ router.get('/teacher-class', checkAuth, async (req, res) => {
 });
 
 //view all student inside teacher class
-router.get('/class-student', checkAuth, async(req, res) => {
+router.get('/class-students/:classId', checkAuth, async(req, res) => {
     try {
-        const { class_id } = req.body;
+        const classId = req.params.classId;
 
         const data = await Class.findAll({
-            where: { class_id },
+            where: { class_id: classId },
             attributes: ['class_name'],
             include: [
                 { model: Student, through: {attributes: []}}
@@ -66,78 +66,11 @@ router.get('/class-student', checkAuth, async(req, res) => {
         }
 
         return res.json({
-            message: "subjects found",
+            message: "students found",
             data: data
         });
 
 
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
-
-//view subject base on class
-router.get('/class-subject', checkAuth, async (req, res) => {
-    try {
-        const { class_id } = req.body;
-
-        const data = await Class.findAll({
-            where: { class_id },
-            attributes: ['class_name'],
-            include: [
-                { model: Subject, through: {attributes: []}}
-            ]
-        });
-
-        if (!data) {
-            return res.status(301).json({
-                message: "Something wrong",
-            })
-        }
-
-        return res.json({
-            message: "subjects found",
-            data: data
-        });
-
-
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
-
-//view all lesson in a subject
-router.get('/lesson', checkAuth, async (req, res) => {
-    try {
-        const { id } = req.body;
-
-        const lessons = await Lesson.findAll({
-            where: {
-                subject_id: id
-            },
-            attributes: ['lesson_id', 'lesson_content', 'lesson_name']
-        });
-
-        if (!lessons) {
-            return res.status(301).json({
-                message: "Something wrong"
-            });
-        }
-
-        return res.json(
-            {
-                message: "Lessons found",
-                data: lessons
-            }
-        )
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
