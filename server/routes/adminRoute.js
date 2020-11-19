@@ -6,7 +6,7 @@ const checkAuth = require('../middleware/checkAuth');
 //const checkRole = require('../middleware/checkRole');
 
 //view all subject for admin
-router.get('/subject', checkAuth, async (req, res) => {
+router.get('/subjects', checkAuth, async (req, res) => {
     try {
         const subjects = await Subject.findAll();
 
@@ -32,7 +32,7 @@ router.get('/subject', checkAuth, async (req, res) => {
 });
 
 //create new subject
-router.post('/subject', checkAuth, async (req, res) => {
+router.post('/subjects', checkAuth, async (req, res) => {
     try {
         const { subject_id, subject_name } = req.body;
 
@@ -69,7 +69,7 @@ router.post('/subject', checkAuth, async (req, res) => {
 });
 
 //update subject
-router.put('/subject/:subjectId', checkAuth, async (req, res) => {
+router.put('/subjects/:subjectId', checkAuth, async (req, res) => {
     try {
 
         const subjectId = req.params.subjectId;
@@ -105,7 +105,7 @@ router.put('/subject/:subjectId', checkAuth, async (req, res) => {
 });
 
 //delete subject
-router.delete('/subject/:subjectId', checkAuth, async (req, res) => {
+router.delete('/subjects/:subjectId', checkAuth, async (req, res) => {
     try {
         const subjectId = req.params.subjectId;
 
@@ -136,13 +136,13 @@ router.delete('/subject/:subjectId', checkAuth, async (req, res) => {
 });
 
 //view all lesson in a subject
-router.get('/lesson', checkAuth, async (req, res) => {
+router.get('/lessons/:subjectId', checkAuth, async (req, res) => {
     try {
-        const { id } = req.body;
+        const subjectId = req.params.subjectId;
 
         const lessons = await Lesson.findAll({
             where: {
-                subject_id: id
+                subject_id: subjectId
             },
             attributes: ['lesson_id', 'lesson_content', 'lesson_name']
         });
@@ -171,13 +171,13 @@ router.get('/lesson', checkAuth, async (req, res) => {
 });
 
 //create new lesson
-router.post('/lesson', checkAuth, async (req, res) => {
+router.post('/lessons', checkAuth, async (req, res) => {
     try {
-        const { id } = req.body;
+        const { subject_id } = req.body;
 
         const currentSubject = await Subject.findOne({
             where: {
-                subject_id: id
+                subject_id: subject_id
             },
             attributes: ['subject_id']
         });
@@ -226,7 +226,7 @@ router.post('/lesson', checkAuth, async (req, res) => {
 });
 
 //update lesson
-router.put('/lesson/:lessonId', checkAuth, async (req, res) => {
+router.put('/lessons/:lessonId', checkAuth, async (req, res) => {
     try {
         const lessonId = req.params.lessonId;
 
@@ -262,7 +262,7 @@ router.put('/lesson/:lessonId', checkAuth, async (req, res) => {
 });
 
 //delete lesson
-router.delete('/lesson/:lessonId', checkAuth, async (req, res) => {
+router.delete('/lessons/:lessonId', checkAuth, async (req, res) => {
     try {
         const lessonId = req.params.lessonId;
 
@@ -292,14 +292,13 @@ router.delete('/lesson/:lessonId', checkAuth, async (req, res) => {
 });
 
 //view all question in a lesson
-router.get('/question', checkAuth, async (req, res) => {
+router.get('/questions/:lessonId', checkAuth, async (req, res) => {
     try {
-        const { id } = req.body;
+        const lessonId = req.params.lessonId;
 
         const questions = await Question.findAll({
             where: {
-                lesson_id: id
-                
+                lesson_id: lessonId
             },
             attributes: ['question_content', 'option_a', 'option_b', 'option_c', 'option_d', 'correct_answer']
         });
@@ -326,13 +325,13 @@ router.get('/question', checkAuth, async (req, res) => {
 });
 
 //create new question
-router.post('/question', checkAuth, async (req, res) => {
+router.post('/questions', checkAuth, async (req, res) => {
     try {
-        const { id } = req.body;
+        const { lesson_id } = req.body;
 
         const currentLesson = await Lesson.findOne({
             where: {
-                lesson_id: id
+                lesson_id: lesson_id
             },
             attributes: ['lesson_id']
         });
@@ -407,7 +406,7 @@ router.post('/question', checkAuth, async (req, res) => {
 });
 
 //update question
-router.put('/question/:questionId', checkAuth, async (req, res) => {
+router.put('/questions/:questionId', checkAuth, async (req, res) => {
     try {
         const questionId = req.params.questionId;
 
@@ -448,7 +447,7 @@ router.put('/question/:questionId', checkAuth, async (req, res) => {
 });
 
 //delete question
-router.delete('/question/:questionId', checkAuth, async (req, res) => {
+router.delete('/questions/:questionId', checkAuth, async (req, res) => {
     try {
         const questionId = req.params.questionId;
 

@@ -4,38 +4,46 @@ require('dotenv').config();
 
 //check admin
 module.exports = async (req, res, next) => {
+    const token = req.header('token');
+
+    if(!token){
+        return res.status(401).json("No token");
+    }
+
+    const payload = jwt.verify(token, process.env.refreshTokenSecret);
+
     try {
-        const jwtToken = req.header("token");
-
-        if(!jwtToken){
-            return res.status(403).json("User not authorized");
-        }
-
-        const payload = jwt.verify(jwtToken, process.env.refreshTokenSecret);
-
         //check if user exist on db
         const user = await User.findOne({
             where: {
                 user_name: payload.id
+            },
+            attributes: {
+                exclude: ['password']
             }
         });
 
         if(!user){
-            return res.status(401).send("User not found");
+            return res.status(404).send("User not found");
         }
 
         if(user.role_id !== 1){
-            return res.status(401).send("You are not admin");
+            return res.status(403).send("You are not admin");
         }
 
         req.user = user;
+        req.token = token;
         next();
         
     } catch (error) {
         console.log(error.message)
+<<<<<<< HEAD
         return res.status(403).json({
             message: "Admin error",
             error: error
         });
+=======
+        return res.status(403).json("Not authorized to access resources");
+>>>>>>> 743d33c0544f6b0ec61e0ef8af9c6e1b5d3ce808
     }
 }
