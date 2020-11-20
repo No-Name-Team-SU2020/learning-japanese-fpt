@@ -1,77 +1,37 @@
-import React, { Fragment, useState, useEffect } from "react";
-import "react-toastify/dist/ReactToastify.css";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect
-} from "react-router-dom";
+import React, { Fragment, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import StudentLayout from "./layout/StudentLayout/StudentLayout";
+import UnAuthorizedLayout from "./layout/UnAuthorizedLayout/UnAuthorizedLayout";
+import AlertList from "./components/ui/AlertList/AlertList";
+import FullScreenLoading from './components/ui/FullScreenLoading/FullScreenLoading';
+import { getProfile } from "./store/actions/user/user";
+import TeacherLayout from "./layout/TeacherLayout/TeacherLayout";
+import AdminLayout from './layout/AdminLayout/AdminLayout';
+import { BrowserRouter as Router } from "react-router-dom";
 
-import { toast } from "react-toastify";
-
-//components
-
-import Login from "./components/Login/Login";
-import Dashboard from "./components/Dashboard";
-
-toast.configure();
-
-function App() {
-  const checkAuthenticated = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/verify", {
-        method: "POST",
-        headers: { token: localStorage.token }
-      });
-      const parseRes = await res.json();
-      parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
-    } catch (err) {
-      console.error(err.message);
-    }
-    
-  };
+const App = () => {
+  const { isAuthenticated, token } = useSelector(state => state.auth);
+  const { loading, profile } = useSelector(state => state.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    checkAuthenticated();
-  }, []);
-
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const setAuth = boolean => {
-    setIsAuthenticated(boolean);
-  };
+    if (isAuthenticated) dispatch(getProfile(token));
+  }, [dispatch, token, isAuthenticated]);
 
   return (
-    <Fragment>
-      <Router>
-        <div className="container">
-          <Switch>
-            <Route
-              exact
-              path="/login"
-              render={props =>
-                !isAuthenticated ? (
-                  <Login {...props} setAuth={setAuth} />
-                ) : (
-                  <Redirect to="/dashboard" />
-                )
-              }
-            />
-            <Route
-              exact
-              path="/dashboard"
-              render={props =>
-                isAuthenticated ? (
-                  <Dashboard {...props} setAuth={setAuth} />
-                ) : (
-                  <Redirect to="/login" />
-                )
-              }
-            />
-          </Switch>
-        </div>
-      </Router>
-    </Fragment>
+    <Router>
+      {
+        loading && <FullScreenLoading />
+      }
+      {
+        !isAuthenticated ? (<UnAuthorizedLayout />) : (<Fragment>
+          {profile?.role_id === 3 && <StudentLayout />}
+          {profile?.role_id === 2 && <TeacherLayout />}
+          {profile?.role_id === 1 && <AdminLayout />}
+        </Fragment>)
+      }
+      <AlertList />
+    </Router>
   );
 }
 

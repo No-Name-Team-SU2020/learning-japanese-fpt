@@ -1,0 +1,22 @@
+/** @format */
+
+.custom-image-slider {
+	height: 300px;
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.slick-dots li.slick-active button:before {
+	color: white !important;
+}
+.slick-dots li button:before {
+	font-size: 18px !important;
+}
+.h-80 {
+	height: 50px;
+}
+.MuiAvatar-root {
+	width: 50px !important;
+	height: 50px !important;
+}
