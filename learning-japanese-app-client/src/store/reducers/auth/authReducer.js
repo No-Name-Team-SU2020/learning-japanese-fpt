@@ -1,15 +1,51 @@
+import * as actionTypes from '../../actions/types';
+import jwtDecode from 'jwt-decode';
+
+let refreshToken = localStorage.getItem('refreshToken');
+
+const decodedToken = jwtDecode(refreshToken);
+
+if(decodedToken.exp*1000 < new Date().getTime()) {
+  refreshToken = null;
+}
+
 const initialState = {
-  isAuthenticated: false,
-  token: null,
+  isAuthenticated: refreshToken ? true : false,
+  token: refreshToken ? refreshToken : null,
   loading: false,
-  error: null,
-  role: 'student'
+  error: null
 }
 
 const reducer = (state = initialState, action) => {
-  const { type } = action;
+  const { type, payload } = action;
   switch (type)
   {
+    case actionTypes.AUTH_USER_START:
+      return {
+        ...state,
+        loading: true
+      }
+    case actionTypes.AUTH_USER_SUCCESS:
+      localStorage.setItem('refreshToken', payload.refreshToken);
+      return {
+        loading: false,
+        isAuthenticated: true,
+        token: payload.refreshToken,
+        error: null
+      }
+    case actionTypes.AUTH_USER_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload
+      }
+    case actionTypes.LOGOUT:
+      return {
+        loading: false,
+        isAuthenticated: false,
+        token: null,
+        error: null
+      }
     default: return state;
   }
 }

@@ -10,18 +10,22 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Avatar } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { authLogout } from '../../../../store/actions/auth/auth';
 
 const ProfileMenu = ({ show, toggleMenu }) => {
+  const dispatch = useDispatch();
+  const { profile } = useSelector(state => state.user);
 
   return (
     <div style={{ position: 'relative' }}>
       <Button aria-controls="profile-menu" aria-haspopup="true" onClick={toggleMenu}>
-        John Doe <ArrowIcon />
+      {profile?.display_name} <ArrowIcon />
       </Button>
       <SubMenu show={show}>
         <div className="d-flex align-items-center">
           <Avatar src="https://images.pexels.com/photos/5177790/pexels-photo-5177790.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" />
-          <h5 className="ml-3">John Doe</h5>
+          <h5 className="ml-3"> {profile?.display_name} </h5>
         </div>
         <List>
           <ListItem button>
@@ -36,7 +40,7 @@ const ProfileMenu = ({ show, toggleMenu }) => {
             </ListItemIcon>
             <ListItemText primary="Settings" />
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={() => dispatch(authLogout())}>
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>

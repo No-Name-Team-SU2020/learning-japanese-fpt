@@ -4,69 +4,83 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useHistory } from 'react-router-dom';
-import { subjects, lessons } from '../../../temporary-data/data';
+import { useSelector, useDispatch } from 'react-redux';
+import { createQuestion } from '../../../store/actions/admin';
+import Loader from '../../ui/Loader/Loader';
 
 const CreateQuestionForm = () => {
   const history = useHistory();
+  const { subjectList } = useSelector(state => state.adminSubjectList);
+  const { lessonList } = useSelector(state => state.adminLessonList);
+  const {loading, error} = useSelector(state => state.adminQuestionList);
+  const dispatch = useDispatch();
+
   const [question, setQuestion] = useState({
-    title: "",
-    optionA: "",
-    optionB: "",
-    optionC: "",
-    optionD: "",
-    correctAnswer: "",
-    lesson: "js",
-    subject: 'dm'
-  })
+    question_content: "",
+    option_a: "",
+    option_b: "",
+    option_c: "",
+    option_d: "",
+    correct_answer: "",
+    lesson_id: "",
+    subject_id: ""
+  });
+
   const handleChange = (e) => {
     setQuestion(prevState => ({
       ...prevState,
       [e.target.name]: e.target.value
-    }))
+    }));
   }
   const submitHandler = e => {
     e.preventDefault();
-    console.log(question);
+    dispatch(createQuestion(question));
   }
   return (
     <div className="bg-light p-4 rounded shadow">
       <h1 className="border-bottom pb-2 text-center">FPT EDUCATION</h1>
+      {
+        loading && <Loader />
+      }
+      {
+        error && <div className="alert alert-danger" role="alert"> {error} </div>
+      }
       <h3>Create Question</h3>
       <form onSubmit={submitHandler}>
         <Grid container spacing={3}>
           <Grid item md={4}>
             Question content:
-        </Grid>
+          </Grid>
           <Grid item md={8}>
-            <TextField label="Question content" variant="outlined" name="title"
-              fullWidth value={question.title} onChange={handleChange} />
+            <TextField label="Question content" variant="outlined" name="question_content" required
+              fullWidth value={question.question_content} onChange={handleChange} />
           </Grid>
         </Grid>
         <Grid container spacing={3}>
           <Grid item md={4}>
             Option A:
-        </Grid>
+          </Grid>
           <Grid item md={8}>
-            <TextField label="Option A:" variant="outlined" name="optionA"
-              fullWidth value={question.optionA} onChange={handleChange} />
+            <TextField label="Option A:" variant="outlined" name="option_a" required
+              fullWidth value={question.option_a} onChange={handleChange} />
           </Grid>
         </Grid>
         <Grid container spacing={3}>
           <Grid item md={4}>
             Option B:
-        </Grid>
+          </Grid>
           <Grid item md={8}>
-            <TextField label="Option B:" variant="outlined" name="optionB"
-              fullWidth value={question.optionB} onChange={handleChange} />
+            <TextField label="Option B:" variant="outlined" name="option_b" required
+              fullWidth value={question.option_b} onChange={handleChange} />
           </Grid>
         </Grid>
         <Grid container spacing={3}>
           <Grid item md={4}>
             Option C :
-        </Grid>
+          </Grid>
           <Grid item md={8}>
-            <TextField label=" Option C :" variant="outlined" name="optionC"
-              fullWidth value={question.optionC} onChange={handleChange} />
+            <TextField label=" Option C :" variant="outlined" name="option_c" required
+              fullWidth value={question.option_c} onChange={handleChange} />
           </Grid>
         </Grid>
         <Grid container spacing={3}>
@@ -74,8 +88,8 @@ const CreateQuestionForm = () => {
             Option D :
         </Grid>
           <Grid item md={8}>
-            <TextField label=" Option D :" variant="outlined" name="optionD"
-              fullWidth value={question.optionD} onChange={handleChange} />
+            <TextField label=" Option D :" variant="outlined" name="option_d" required
+              fullWidth value={question.option_d} onChange={handleChange} />
           </Grid>
         </Grid>
         <Grid container spacing={3}>
@@ -83,8 +97,8 @@ const CreateQuestionForm = () => {
             Correct Answer :
         </Grid>
           <Grid item md={8}>
-            <TextField label="Correct Answer :" variant="outlined" name="correctAnswer"
-              fullWidth value={question.correctAnswer} onChange={handleChange} />
+            <TextField label="Correct Answer :" variant="outlined" name="correct_answer" required
+              fullWidth value={question.correct_answer} onChange={handleChange} />
           </Grid>
         </Grid>
         <Grid container spacing={3}>
@@ -94,14 +108,15 @@ const CreateQuestionForm = () => {
           <Grid item md={8}>
             <TextField
               select
-              value={question.subject}
+              value={question.subject_id}
               onChange={handleChange}
-              name="subject"
+              name="subject_id"
               fullWidth
+              required
               helperText="Please select the subject">
-              {subjects.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+              {subjectList.map((option) => (
+                <MenuItem key={option.subject_id} value={option.subject_id}>
+                  {option.subject_name}
                 </MenuItem>
               ))}
             </TextField>
@@ -113,15 +128,16 @@ const CreateQuestionForm = () => {
           </Grid>
           <Grid item md={8}>
             <TextField
-              id="standard-select-currency"
               select
-              value={question.lesson}
+              value={question.lesson_id}
+              name="lesson_id"
               onChange={handleChange}
               helperText="Please select your currency"
+              required
               fullWidth>
-              {lessons.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+              {lessonList.map((option) => (
+                <MenuItem key={option.lesson_id} value={option.lesson_id}>
+                  {option.lesson_name}
                 </MenuItem>
               ))}
             </TextField>

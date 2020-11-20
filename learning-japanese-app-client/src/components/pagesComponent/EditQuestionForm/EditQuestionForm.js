@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { subjects, lessons } from '../../../temporary-data/data';
 import MenuItem from '@material-ui/core/MenuItem';
+import { useHistory } from 'react-router-dom';
 
 const EditQuestionForm = () => {
   const [question, setQuestion] = useState({
@@ -15,7 +16,15 @@ const EditQuestionForm = () => {
     correctAnswer: "",
     lesson: "js",
     subject: ""
-  })
+  });
+  const history = useHistory();
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 100,
+      behavior: 'smooth'
+    });
+  });
   const handleChange = (e) => {
     setQuestion(prevState => ({
       ...prevState,
@@ -124,6 +133,7 @@ const EditQuestionForm = () => {
               fullWidth value={question.correctAnswer} onChange={handleChange} />
           </Grid>
         </Grid>
+
         <Grid container spacing={3}>
           <Grid item md={4}>
           </Grid>
@@ -131,12 +141,11 @@ const EditQuestionForm = () => {
             <Button type="submit" variant="contained" color="primary" className="mr-3">
               Update
             </Button>
-            <Button variant="contained" color="secondary">
+            <Button variant="contained" color="secondary" onClick={() => history.push('/')}>
               Cancel
             </Button>
           </Grid>
         </Grid>
-        {/* Update file after done */}
       </form>
     </div>
   )

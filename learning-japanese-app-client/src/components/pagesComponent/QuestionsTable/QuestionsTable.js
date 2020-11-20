@@ -3,12 +3,12 @@ import { TableContainer, Table, TableHead, TableRow, TableBody, TableCell, Table
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import { tempQuestions } from '../../../temporary-data/data';
+import { useHistory } from 'react-router-dom';
 
-const QuestionTable = () => {
-  const [questions] = useState(tempQuestions);
+const QuestionTable = ({ questionList }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const history = useHistory();
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
   };
@@ -33,19 +33,21 @@ const QuestionTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {questions.map((question) => (
-              <TableRow key={question.id}>
+            {questionList.map((question) => (
+              <TableRow key={question.question_id}>
                 <TableCell component="th" scope="row">
-                  {question.id}
+                  { question.question_id }
                 </TableCell>
-                <TableCell>{question.title}</TableCell>
-                <TableCell>{question.optionA}</TableCell>
-                <TableCell>{question.optionB}</TableCell>
-                <TableCell>{question.optionC}</TableCell>
-                <TableCell>{question.optionD}</TableCell>
-                <TableCell>{question.correctAnswer}</TableCell>
+                <TableCell>{question.question_content}</TableCell>
+                <TableCell>{question.option_a}</TableCell>
+                <TableCell>{question.option_b}</TableCell>
+                <TableCell>{question.option_c}</TableCell>
+                <TableCell>{question.option_d}</TableCell>
+                <TableCell>{question.correct_answer}</TableCell>
                 <TableCell>
-                  <IconButton> <EditIcon /> </IconButton>
+                  <IconButton onClick={ () => history.push(`/manage-question/question/edit/${question.question_id}`) }>
+                    <EditIcon /> 
+                  </IconButton>
                   <IconButton> <DeleteIcon /> </IconButton>
                   <IconButton> <MoreHorizIcon /> </IconButton>
                 </TableCell>
@@ -57,7 +59,7 @@ const QuestionTable = () => {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={questions.length}
+        count={questionList.length}
         rowsPerPage={rowsPerPage}
         page={currentPage}
         onChangePage={handleChangePage}

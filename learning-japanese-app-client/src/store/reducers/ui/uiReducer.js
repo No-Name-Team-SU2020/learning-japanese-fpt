@@ -1,11 +1,13 @@
-import { SIDEBAR_SHOW, SIDEBAR_HIDE, SIDEBAR_TOGGLE } from '../../actions/types';
+import { SIDEBAR_SHOW, SIDEBAR_HIDE, SIDEBAR_TOGGLE, ALERT_ADD, ALERT_REMOVE } from '../../actions/types';
 
 const initialState = {
-  showSidebar: false
+  showSidebar: false,
+  alertList: []
 }
 
 const reducer = (state = initialState, action) => {
-  switch (action.type)
+  const { type, payload } = action;
+  switch (type)
   {
     case SIDEBAR_SHOW:
       return {
@@ -21,6 +23,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         showSidebar: !state.showSidebar
+      }
+    case ALERT_ADD:
+      return {
+        ...state,
+        alertList: [...state.alertList, payload]
+      }
+    case ALERT_REMOVE:
+      return {
+        ...state,
+        alertList: state.alertList.filter(alert => alert.id !== payload)
       }
     default: return state;
   }

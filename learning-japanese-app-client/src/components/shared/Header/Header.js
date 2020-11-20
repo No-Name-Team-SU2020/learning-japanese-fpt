@@ -33,9 +33,9 @@ const Header = () => {
     <header className="fixed-top shadow-sm bg-white">
       <div className="header-container">
         <Link to="/">
-          <img src={main_logo} alt="left logo" />
+          <img src={main_logo} alt="left logo" className="w-50" />
         </Link>
-        <div className="d-flex align-items-center justify-content-between" style={{ minWidth: '300px' }}>
+        <div className="d-flex align-items-center justify-content-between" style={{ minWidth: '340px' }}>
           <IconButton onClick={toggleMessagesHandler}>
             <Badge color="primary" badgeContent={1}>
               <MailIcon />
