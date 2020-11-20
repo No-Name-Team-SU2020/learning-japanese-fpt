@@ -4,13 +4,6 @@ const Class = require('./Class');
 const Student = require('./Student');
 
 const Student_Class = db.define('student_class', {
-    student_class_id: {
-        type: sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false
-
-    },
     student_id: {
         type: sequelize.STRING,
         allowNull: false,

@@ -4,13 +4,6 @@ const Class = require('./Class');
 const Subject = require('./Subject');
 
 const Class_Subject = db.define('class_subject', {
-    class_subject_id: {
-        type: sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false
-    },
-
     class_id: {
         type: sequelize.STRING,
         allowNull: false,

@@ -1,6 +1,6 @@
 const sequelize = require('sequelize');
 const db = require('../db');
-const Class = require('./Class');
+const Lesson = require('./Lesson');
 
 const Quiz = db.define('quiz', {
     quiz_id: {
@@ -20,21 +20,21 @@ const Quiz = db.define('quiz', {
     },
 
     //get current date time from computer
-    start_time: {
-        type: sequelize.DATE,
-        defaultValue: sequelize.NOW
-    },
+    // start_time: {
+    //     type: sequelize.DATE,
+    //     defaultValue: sequelize.NOW
+    // },
 
-    end_time: {
-        type: sequelize.DATE,
-    },
+    // end_time: {
+    //     type: sequelize.DATE,
+    // },
 
-    class_id: {
+    lesson_id: {
         type: sequelize.STRING,
         allowNull: false,
         references: {
-            model: Class,
-            key: 'class_id'
+            model: Lesson,
+            key: 'lesson_id'
         }
     }
 },
@@ -43,11 +43,11 @@ const Quiz = db.define('quiz', {
     }
 );
 
-Class.hasMany(Quiz);
-Quiz.belongsTo(Class, {
-    foreignKey: {
-        name: 'class_id'
-    }
-});
+// Class.hasMany(Quiz);
+// Quiz.belongsTo(Class, {
+//     foreignKey: {
+//         name: 'class_id'
+//     }
+// });
 
 module.exports = Quiz;

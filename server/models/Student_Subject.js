@@ -4,13 +4,6 @@ const Student = require('./Student');
 const Subject = require('./Subject');
 
 const Student_Subject = db.define('student_subject', {
-    student_subject_id: {
-        type: sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false
-
-    },
     student_id: {
         type: sequelize.STRING,
         allowNull: false,

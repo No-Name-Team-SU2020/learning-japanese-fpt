@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const sequelize = require('sequelize');
 const checkAuth = require('../middleware/checkAuth');
 const Student = require('../models/Student');
 const Class = require('../models/Class');
@@ -68,6 +69,35 @@ router.get('/student-subject', checkAuth, async(req, res) => {
             data: data
         });
 
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//
+router.get('/questions/:lessonId', checkAuth, async(req, res) => {
+    try {
+        const lessonId = req.params.lessonId;
+
+        const questions = await Question.findAll({
+            order: [
+                sequelize.literal('random()')
+            ],
+            limit: 2,
+            where: {
+                lesson_id: lessonId
+            },
+            attributes: ['question_id', 'question_content', 'option_a', 'option_b', 'option_c', 'option_d']
+        });
+
+        return res.status(200).json({
+            message: "quiz created successfully",
+            data: questions
+        })
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
