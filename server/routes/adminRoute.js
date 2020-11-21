@@ -2,6 +2,7 @@ const router = require('express').Router();
 const Subject = require('../models/Subject');
 const Question = require('../models/Question');
 const Lesson = require('../models/Lesson');
+const Class = require('../models/Class');
 const checkAuth = require('../middleware/checkAuth');
 
 //view all classes
@@ -10,21 +11,50 @@ router.get('/classes', checkAuth, async(req, res) => {
         const classes = await Class.findAll();
 
         if(!classes){
-            return res.status(301).json({
+            return res.json({
                 message: "Something wrong",
-                data: null
             });
         }
 
-        return res.status(200).json(
+        return res.json(
             {
-                message: "All subjects found",
+                message: "Classes found",
                 data: classes
             }
         );
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//view class by id
+router.get('/classes/:classId', checkAuth, async(req, res) => {
+    try {
+        const classId = req.params.classId;
+
+        const findClass = await Class.findOne({
+            where: {
+                class_id: classId
+            }
+        });
+
+        if(!findClass){
+            return res.json({
+                message: "Class not found"
+            })
+        }
+
+        return res.json({
+            message: "Found class",
+            data: findClass
+        })
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
             message: "Server error",
             error: error
         });
@@ -37,14 +67,14 @@ router.post('/classes', checkAuth, async (req, res) => {
         const { class_id, class_name } = req.body;
 
         if (!class_id) {
-            return res.status(301).json({
+            return res.json({
                 message: "class id is not valid",
                 data: null,
             });
         }
 
         if (!class_name) {
-            return res.status(301).json({
+            return res.json({
                 message: "class name is not valid",
                 data: null,
             });
@@ -55,13 +85,13 @@ router.post('/classes', checkAuth, async (req, res) => {
             class_name,
         });
 
-        return res.status(201).json({
+        return res.json({
             message: 'Class created successfully',
             data: newClass
         });
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Server error",
             error: error
         });
@@ -77,7 +107,7 @@ router.put('/classes/:classId', checkAuth, async (req, res) => {
         const { class_name } = req.body;
 
         if (!classId) {
-            return res.status(404).json({
+            return res.json({
                 message: 'Class not found',
             });
         }
@@ -91,13 +121,13 @@ router.put('/classes/:classId', checkAuth, async (req, res) => {
                 }
             });
 
-        return res.status(200).json({
+        return res.json({
             message: 'Update successfully',
             data: updateClass
         });
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Server error",
             error: error
         });
@@ -117,18 +147,18 @@ router.delete('/classes/:classId', checkAuth, async (req, res) => {
 
         if (!deleteClass) {
             return res.json({
-                message: 'Subject cannot be deleted',
+                message: 'Class cannot be deleted',
             });
         }
 
-        return res.status(200).json({
+        return res.json({
             message: 'Class deleted successfully',
             data: deleteClass
         });
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Server error",
             error: error
         });
@@ -141,9 +171,8 @@ router.get('/subjects', checkAuth, async (req, res) => {
         const subjects = await Subject.findAll();
 
         if (!subjects) {
-            return res.status(301).json({
+            return res.json({
                 message: "Something wrong",
-                data: null
             });
         }
         return res.json(
@@ -154,7 +183,37 @@ router.get('/subjects', checkAuth, async (req, res) => {
         );
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//view subject by id
+router.get('/subjects/:subjectId', checkAuth, async(req, res) => {
+    try {
+        const subjectId = req.params.subjectId;
+
+        const findSubject = await Subject.findOne({
+            where: {
+                subject_id: subjectId
+            }
+        });
+
+        if(!findSubject){
+            return res.json({
+                message: "Subject not found"
+            })
+        }
+
+        return res.json({
+            message: "Subject found",
+            data: findSubject
+        })
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
             message: "Server error",
             error: error
         });
@@ -167,14 +226,14 @@ router.post('/subjects', checkAuth, async (req, res) => {
         const { subject_id, subject_name } = req.body;
 
         if (!subject_id) {
-            return res.status(301).json({
+            return res.json({
                 message: "subject id is not valid",
                 data: null,
             });
         }
 
         if (!subject_name) {
-            return res.status(301).json({
+            return res.json({
                 message: "subject name is not valid",
                 data: null,
             });
@@ -185,13 +244,13 @@ router.post('/subjects', checkAuth, async (req, res) => {
             subject_name,
         });
 
-        return res.status(201).json({
+        return res.json({
             message: 'Subject created successfully',
             data: newSubject
         });
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Server error",
             error: error
         });
@@ -207,7 +266,7 @@ router.put('/subjects/:subjectId', checkAuth, async (req, res) => {
         const { subject_name } = req.body;
 
         if (!subjectId) {
-            return res.status(404).json({
+            return res.json({
                 message: 'Subject not found',
             });
         }
@@ -221,13 +280,13 @@ router.put('/subjects/:subjectId', checkAuth, async (req, res) => {
                 }
             });
 
-        return res.status(200).json({
+        return res.json({
             message: 'Update successfully',
             data: updateSubject
         });
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Server error",
             error: error
         });
@@ -258,7 +317,7 @@ router.delete('/subjects/:subjectId', checkAuth, async (req, res) => {
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Server error",
             error: error
         });
@@ -266,7 +325,7 @@ router.delete('/subjects/:subjectId', checkAuth, async (req, res) => {
 });
 
 //view all lesson in a subject
-router.get('/lessons/:subjectId', checkAuth, async (req, res) => {
+router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
     try {
         const subjectId = req.params.subjectId;
 
@@ -278,9 +337,8 @@ router.get('/lessons/:subjectId', checkAuth, async (req, res) => {
         });
 
         if (!lessons) {
-            return res.status(301).json({
+            return res.json({
                 message: "Something wrong",
-                data: null
             });
         }
 
@@ -293,7 +351,38 @@ router.get('/lessons/:subjectId', checkAuth, async (req, res) => {
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//view lesson by lesson id
+router.get('/lessons/:lessonId', checkAuth, async(req, res) => {
+    try {
+
+        const lessonId = req.params.lessonId;
+
+        const findLesson = await Lesson.findOne({
+            where: {
+                lesson_id: lessonId
+            }
+        });
+
+        if(!findLesson){
+            return res.json({
+                message: "Lesson not found"
+            })
+        }
+
+        return res.json({
+            message: "lesson found",
+            data: findLesson
+        })
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
             message: "Server error",
             error: error
         });
@@ -303,11 +392,11 @@ router.get('/lessons/:subjectId', checkAuth, async (req, res) => {
 //create new lesson
 router.post('/lessons', checkAuth, async (req, res) => {
     try {
-        const { subject_id } = req.body;
+        const subjectId = req.params.subjectId;
 
         const currentSubject = await Subject.findOne({
             where: {
-                subject_id: subject_id
+                subject_id: subjectId
             },
             attributes: ['subject_id']
         });
@@ -315,21 +404,21 @@ router.post('/lessons', checkAuth, async (req, res) => {
         const { lesson_id, lesson_content, lesson_name } = req.body;
 
         if (!lesson_id) {
-            return res.status(301).json({
+            return res.json({
                 message: "lesson id is not valid",
                 data: null,
             });
         }
 
         if (!lesson_content) {
-            return res.status(301).json({
+            return res.json({
                 message: "lesson content is not valid",
                 data: null,
             });
         }
 
         if (!lesson_name) {
-            return res.status(301).json({
+            return res.json({
                 message: "lesson name is not valid",
                 data: null,
             });
@@ -342,7 +431,7 @@ router.post('/lessons', checkAuth, async (req, res) => {
             subject_id: currentSubject.subject_id,
         });
 
-        return res.status(201).json({
+        return res.json({
             message: 'Lesson created successfully',
             data: newLesson
         });
@@ -422,7 +511,7 @@ router.delete('/lessons/:lessonId', checkAuth, async (req, res) => {
 });
 
 //view all question in a lesson
-router.get('/questions/:lessonId', checkAuth, async (req, res) => {
+router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
     try {
         const lessonId = req.params.lessonId;
 
@@ -434,9 +523,8 @@ router.get('/questions/:lessonId', checkAuth, async (req, res) => {
         });
 
         if (!questions) {
-            return res.status(301).json({
+            return res.json({
                 message: "Something wrong",
-                data: null
             });
         }
         return res.json(
@@ -447,7 +535,37 @@ router.get('/questions/:lessonId', checkAuth, async (req, res) => {
         )
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//view question by id
+router.get('/questions/:questionId', checkAuth, async(req, res) => {
+    try {
+        const questionId = req.params.questionId;
+
+        const findQuestion = await Question.findOne({
+            where: {
+                question_id: questionId
+            } 
+        });
+
+        if(!findQuestion){
+            return res.json({
+                message: "Question not found"
+            })
+        }
+
+        return res.json({
+            message: "Question found",
+            data: findQuestion
+        })
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
             message: "Server error",
             error: error
         });
@@ -455,13 +573,13 @@ router.get('/questions/:lessonId', checkAuth, async (req, res) => {
 });
 
 //create new question
-router.post('/questions', checkAuth, async (req, res) => {
+router.post('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
     try {
-        const { lesson_id } = req.body;
+        const lessonId = req.params.lessonId;
 
         const currentLesson = await Lesson.findOne({
             where: {
-                lesson_id: lesson_id
+                lesson_id: lessonId
             },
             attributes: ['lesson_id']
         });
@@ -469,42 +587,42 @@ router.post('/questions', checkAuth, async (req, res) => {
         const { question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
 
         if (!question_content || question_content.length === 0) {
-            return res.status(301).json({
+            return res.json({
                 message: "question content is not valid",
                 data: null,
             });
         }
 
         if (!option_a || option_a.length === 0) {
-            return res.status(301).json({
+            return res.json({
                 message: "option A content is not valid",
                 data: null,
             });
         }
 
         if (!option_b || option_b.length === 0) {
-            return res.status(301).json({
+            return res.json({
                 message: "option B content is not valid",
                 data: null,
             });
         }
 
         if (!option_c || option_c.length === 0) {
-            return res.status(301).json({
+            return res.json({
                 message: "option C content is not valid",
                 data: null,
             });
         }
 
         if (!option_d || option_d.length === 0) {
-            return res.status(301).json({
+            return res.json({
                 message: "option D content is not valid",
                 data: null,
             });
         }
 
         if (!correct_answer || correct_answer.length === 0) {
-            return res.status(301).json({
+            return res.json({
                 message: "correct answer is not valid",
                 data: null,
             });
@@ -521,14 +639,14 @@ router.post('/questions', checkAuth, async (req, res) => {
             correct_answer,
         });
 
-        return res.status(201).json({
+        return res.json({
             message: 'Question created successfully',
             data: newQuestion
         });
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Server error",
             error: error
         });
@@ -543,7 +661,7 @@ router.put('/questions/:questionId', checkAuth, async (req, res) => {
         const { question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
 
         if (!questionId) {
-            return res.status(404).json({
+            return res.json({
                 message: 'Question not found',
             });
         }
@@ -562,14 +680,14 @@ router.put('/questions/:questionId', checkAuth, async (req, res) => {
                 }
             });
 
-        return res.status(200).json({
+        return res.json({
             message: 'Update successfully',
             data: updateQuestion
         });
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Server error",
             error: error
         });
@@ -600,7 +718,7 @@ router.delete('/questions/:questionId', checkAuth, async (req, res) => {
 
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Server error",
             error: error
         });
