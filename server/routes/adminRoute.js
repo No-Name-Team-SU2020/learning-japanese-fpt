@@ -3,14 +3,15 @@ const Subject = require('../models/Subject');
 const Question = require('../models/Question');
 const Lesson = require('../models/Lesson');
 const Class = require('../models/Class');
+const { Op } = require('sequelize');
 const checkAuth = require('../middleware/checkAuth');
 
 //view all classes
-router.get('/classes', checkAuth, async(req, res) => {
+router.get('/classes', checkAuth, async (req, res) => {
     try {
         const classes = await Class.findAll();
 
-        if(!classes){
+        if (!classes) {
             return res.json({
                 message: "Something wrong",
             });
@@ -32,7 +33,7 @@ router.get('/classes', checkAuth, async(req, res) => {
 });
 
 //view class by id
-router.get('/classes/:classId', checkAuth, async(req, res) => {
+router.get('/classes/:classId', checkAuth, async (req, res) => {
     try {
         const classId = req.params.classId;
 
@@ -42,7 +43,7 @@ router.get('/classes/:classId', checkAuth, async(req, res) => {
             }
         });
 
-        if(!findClass){
+        if (!findClass) {
             return res.json({
                 message: "Class not found"
             })
@@ -191,7 +192,7 @@ router.get('/subjects', checkAuth, async (req, res) => {
 });
 
 //view subject by id
-router.get('/subjects/:subjectId', checkAuth, async(req, res) => {
+router.get('/subjects/:subjectId', checkAuth, async (req, res) => {
     try {
         const subjectId = req.params.subjectId;
 
@@ -201,7 +202,7 @@ router.get('/subjects/:subjectId', checkAuth, async(req, res) => {
             }
         });
 
-        if(!findSubject){
+        if (!findSubject) {
             return res.json({
                 message: "Subject not found"
             })
@@ -359,7 +360,7 @@ router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
 });
 
 //view lesson by lesson id
-router.get('/lessons/:lessonId', checkAuth, async(req, res) => {
+router.get('/lessons/:lessonId', checkAuth, async (req, res) => {
     try {
 
         const lessonId = req.params.lessonId;
@@ -370,7 +371,7 @@ router.get('/lessons/:lessonId', checkAuth, async(req, res) => {
             }
         });
 
-        if(!findLesson){
+        if (!findLesson) {
             return res.json({
                 message: "Lesson not found"
             })
@@ -491,7 +492,7 @@ router.delete('/lessons/:lessonId', checkAuth, async (req, res) => {
             }
         });
 
-        if(!deleteLesson){
+        if (!deleteLesson) {
             return res.json({
                 message: 'Lesson cannot be deleted',
             });
@@ -543,17 +544,17 @@ router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
 });
 
 //view question by id
-router.get('/questions/:questionId', checkAuth, async(req, res) => {
+router.get('/questions/:questionId', checkAuth, async (req, res) => {
     try {
         const questionId = req.params.questionId;
 
         const findQuestion = await Question.findOne({
             where: {
                 question_id: questionId
-            } 
+            }
         });
 
-        if(!findQuestion){
+        if (!findQuestion) {
             return res.json({
                 message: "Question not found"
             })
@@ -719,6 +720,35 @@ router.delete('/questions/:questionId', checkAuth, async (req, res) => {
     } catch (error) {
         console.error(error.message);
         return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//search for question
+router.get('/search', checkAuth, async (req, res) => {
+    try {
+        const { input } = req.query;
+
+        const questions = await Question.findAll({
+            where: {
+                question_content: {
+                    [Op.like]: '%' + input + '%'
+                }
+            }
+        });
+
+        if (!questions || questions.length === 0) {
+            return res.json("No question founded");
+        }
+        return res.json({
+            message: "Found question",
+            data: questions
+        })
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
             message: "Server error",
             error: error
         });

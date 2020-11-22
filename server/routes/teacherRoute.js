@@ -11,7 +11,6 @@ const Teacher_Class = require('../models/Teacher_Class');
 const Class_Subject = require('../models/Class_Subject');
 const Student_Class = require('../models/Student_Class');
 
-
 //view all classes of teacher
 router.get('/teacher-classes/:teacherId', checkAuth, async (req, res) => {
     try {
@@ -80,6 +79,7 @@ router.get('/class-students/:classId', checkAuth, async(req, res) => {
     }
 });
 
+//Tính từ dòng này thì code ở dưới tạm không dùng
 //view all quiz
 router.get('/quiz', checkAuth, async (req, res) => {
     try {
