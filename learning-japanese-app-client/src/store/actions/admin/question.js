@@ -1,6 +1,7 @@
 import {
   ADMIN_GET_QUESTIONS, ADMIN_GET_QUESTIONS_FAILED, ADMIN_GET_QUESTIONS_START, ADMIN_GET_QUESTIONS_SUCCESS,
-  ADMIN_CREATE_QUESTION, ADMIN_CREATE_QUESTION_FAILED, ADMIN_CREATE_QUESTION_START, ADMIN_CREATE_QUESTION_SUCCESS
+  ADMIN_CREATE_QUESTION, ADMIN_CREATE_QUESTION_FAILED, ADMIN_CREATE_QUESTION_START, ADMIN_CREATE_QUESTION_SUCCESS,
+  ADMIN_DELETE_QUESTION, ADMIN_DELETE_QUESTION_FAILED, ADMIN_DELETE_QUESTION_START, ADMIN_DELETE_QUESTION_SUCCESS
 } from '../types';
 
 export const getQuestions = (lessonId) => ({
@@ -34,5 +35,24 @@ export const createQuestionStart = () => ({ type: ADMIN_CREATE_QUESTION_START })
 
 export const createQuestionFailed = (error) => ({
   type: ADMIN_CREATE_QUESTION_FAILED,
+  payload: error
+});
+
+export const deleteQuestion = (qId) => ({
+  type: ADMIN_DELETE_QUESTION,
+  qId
+});
+
+export const deleteQuestionStart = () => ({
+  type: ADMIN_DELETE_QUESTION_START
+});
+
+export const deleteQuestionSuccess = (qId) => ({
+  type: ADMIN_DELETE_QUESTION_SUCCESS,
+  payload : qId
+});
+
+export const deleteQuestionFailed = (error) => ({
+  type: ADMIN_DELETE_QUESTION_FAILED,
   payload: error
 });

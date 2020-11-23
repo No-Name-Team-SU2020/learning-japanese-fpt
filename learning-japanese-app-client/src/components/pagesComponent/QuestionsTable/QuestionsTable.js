@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
-import { TableContainer, Table, TableHead, TableRow, TableBody, TableCell, TablePagination, IconButton} from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import { useHistory } from 'react-router-dom';
+import { TableContainer, Table, TableHead, TableRow, TableBody, TableCell, TablePagination, Button} from '@material-ui/core';
+import ConfirmAction from '../../shared/ConfirmAction';
+import QuestionItem from './QuestionItem';
+import { useDispatch } from 'react-redux';
+import { deleteQuestion } from '../../../store/actions/admin/index';
 
 const QuestionTable = ({ questionList }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const history = useHistory();
+  const dispatch = useDispatch();
+  const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
+  const [selectedQuestion, setSelectionQuestion] = useState(0);
+
+  const openModal = (qId) => {
+    setOpenDeleteConfirm(true);
+    setSelectionQuestion(qId);
+    console.log(qId, typeof qId);
+  };
+  const closeModal = () => setOpenDeleteConfirm(false);
+
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
   };
@@ -16,14 +26,18 @@ const QuestionTable = ({ questionList }) => {
     setRowsPerPage(+event.target.value);
     setCurrentPage(0);
   };
+  const handleDeleteQuestionHandler = () => {
+    dispatch(deleteQuestion(selectedQuestion));
+    closeModal();
+  }
   return (
     <>
       <TableContainer className="shadow rounded">
         <Table aria-label="questions table">
           <TableHead>
             <TableRow>
-              <TableCell>Question ID</TableCell>
-              <TableCell>QUESTION CONTENT	</TableCell>
+              <TableCell>ID</TableCell>
+              <TableCell style={{ width : '250px' }} >QUESTION CONTENT</TableCell>
               <TableCell>OPTION A	</TableCell>
               <TableCell>OPTION B	</TableCell>
               <TableCell>OPTION C	</TableCell>
@@ -34,25 +48,12 @@ const QuestionTable = ({ questionList }) => {
           </TableHead>
           <TableBody>
             {questionList.map((question) => (
-              <TableRow key={question.question_id}>
-                <TableCell component="th" scope="row">
-                  { question.question_id }
-                </TableCell>
-                <TableCell>{question.question_content}</TableCell>
-                <TableCell>{question.option_a}</TableCell>
-                <TableCell>{question.option_b}</TableCell>
-                <TableCell>{question.option_c}</TableCell>
-                <TableCell>{question.option_d}</TableCell>
-                <TableCell>{question.correct_answer}</TableCell>
-                <TableCell>
-                  <IconButton onClick={ () => history.push(`/manage-question/question/edit/${question.question_id}`) }>
-                    <EditIcon /> 
-                  </IconButton>
-                  <IconButton> <DeleteIcon /> </IconButton>
-                  <IconButton> <MoreHorizIcon /> </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
+               <QuestionItem
+                key={question.question_id} 
+                question={question}
+                showConfirm={ () => openModal(+question.question_id)}
+                /> 
+               ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -65,6 +66,15 @@ const QuestionTable = ({ questionList }) => {
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
+      <ConfirmAction open={openDeleteConfirm} close={closeModal}>
+        <h5 className="mb-4">Are you sure ? This can not be undone</h5>
+        <Button variant="contained" color="secondary" className="mr-2" onClick={handleDeleteQuestionHandler}>
+          Confirm
+        </Button>
+        <Button variant="contained" color="default" onClick={closeModal}>
+          Cancel
+        </Button>
+      </ConfirmAction>
     </>
   );
 }

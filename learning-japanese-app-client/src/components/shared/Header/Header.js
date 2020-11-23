@@ -30,7 +30,7 @@ const Header = () => {
     setOpenNotifications(false);
   }
   return (
-    <header className="fixed-top shadow-sm bg-white">
+    <header className="main-header shadow-sm bg-white">
       <div className="header-container">
         <Link to="/">
           <img src={main_logo} alt="left logo" className="w-50" />

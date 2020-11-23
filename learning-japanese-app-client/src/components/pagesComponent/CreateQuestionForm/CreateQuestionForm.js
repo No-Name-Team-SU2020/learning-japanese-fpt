@@ -39,12 +39,6 @@ const CreateQuestionForm = () => {
   return (
     <div className="bg-light p-4 rounded shadow">
       <h1 className="border-bottom pb-2 text-center">FPT EDUCATION</h1>
-      {
-        loading && <Loader />
-      }
-      {
-        error && <div className="alert alert-danger" role="alert"> {error} </div>
-      }
       <h3>Create Question</h3>
       <form onSubmit={submitHandler}>
         <Grid container spacing={3}>
@@ -143,6 +137,12 @@ const CreateQuestionForm = () => {
             </TextField>
           </Grid>
         </Grid>
+        {
+        loading && <Loader />
+        }
+        {
+          error && <div className="alert alert-danger" role="alert"> {error} </div>
+        }
         <Grid container spacing={3}>
           <Grid item md={4}>
           </Grid>

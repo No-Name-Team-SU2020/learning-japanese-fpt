@@ -3,7 +3,8 @@
 .SubMenu {
 	transition: all 0.3s ease;
 	position: absolute;
-	top: 68px;
+	z-index : 15;
+	top: 65px;
 	background-color: white;
 	padding: 15px;
 	min-width: 250px;

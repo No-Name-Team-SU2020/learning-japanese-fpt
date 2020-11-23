@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FilterQuestionEngine from '../../components/formElement/FilterQuestionEngine/FilterQuestionEngine';
+import FilterQuestionEngineSkeleton from '../../components/formElement/FilterQuestionEngine/Skeleton';
 import QuestionsTable from '../../components/pagesComponent/QuestionsTable/QuestionsTable';
 import Loader from '../../components/ui/Loader/Loader';
 import { getQuestions, getSubjects, getLessons } from '../../store/actions/admin';
@@ -29,10 +30,6 @@ const QuestionList = () => {
   return (
     <div className="app-container">
       <h1>Question List Table</h1>
-
-      {
-        (loading || adminSubjectList.loading || adminLessonList.loading)  && <Loader />
-      }
       {
         error && <div className="alert alert-danger" role="alert"> {error} </div>
       }
@@ -42,15 +39,20 @@ const QuestionList = () => {
       {
         adminLessonList.error && <div className="alert alert-danger" role="alert"> {adminLessonList.error} </div>
       }
-      <FilterQuestionEngine 
-      lesson={lesson}
-      subject={subject}
-      changeLesson={setLesson} 
-      changeSubject={setSubject} 
-      lessons={adminLessonList.lessonList}
-      subjects={adminSubjectList.subjectList}
-      />
-      <QuestionsTable questionList={questionList} />
+      {
+        (adminSubjectList.loading || adminLessonList.loading) ? <FilterQuestionEngineSkeleton/> :
+          <FilterQuestionEngine 
+            lesson={lesson}
+            subject={subject}
+            changeLesson={setLesson} 
+            changeSubject={setSubject} 
+            lessons={adminLessonList.lessonList}
+            subjects={adminSubjectList.subjectList}
+            />
+      }
+      {
+        loading  ?  <Loader /> : <QuestionsTable questionList={questionList} />
+      }
     </div>
   );
 }

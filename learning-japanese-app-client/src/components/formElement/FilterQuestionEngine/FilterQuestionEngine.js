@@ -28,7 +28,8 @@ const FilterQuestionEngine = ( { subject, lesson, changeLesson, changeSubject, l
                 <MenuItem key={option.subject_id} value={option.subject_id}>
                   {option.subject_name}
                 </MenuItem>
-              ))}
+              ))
+            }
             </TextField>
           </Grid>
           <Grid item md={3}>
@@ -55,11 +56,11 @@ const FilterQuestionEngine = ( { subject, lesson, changeLesson, changeSubject, l
               variant="outlined" />
           </Grid>
           <Grid item md={3}>
-            <Button size="large" variant="contained" color="secondary"> <SearchIcon /> Search </Button>
+            <Button variant="contained" color="secondary"> <SearchIcon /> Search </Button>
           </Grid>
         </Grid>
       </form>
-      <Button variant="contained" color="primary" onClick={() => history.push('/manage-question')}>
+      <Button variant="contained" color="primary" onClick={() => history.push('/manage-question/create')}>
         <AddIcon /> Create Question
       </Button>
     </div>

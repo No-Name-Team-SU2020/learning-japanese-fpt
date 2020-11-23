@@ -11,3 +11,7 @@ export const createQuestionRequest = async (question) => {
     }
   });
 }
+
+export const deleteQuestionRequest = async (qId) => {
+  return axios.delete(`/admin/questions/${qId}`);
+}

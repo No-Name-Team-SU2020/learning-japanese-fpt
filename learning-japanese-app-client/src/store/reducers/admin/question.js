@@ -1,6 +1,7 @@
 import {
   ADMIN_GET_QUESTIONS_FAILED, ADMIN_GET_QUESTIONS_SUCCESS, ADMIN_GET_QUESTIONS_START,
-  ADMIN_CREATE_QUESTION_START, ADMIN_CREATE_QUESTION_SUCCESS, ADMIN_CREATE_QUESTION_FAILED
+  ADMIN_CREATE_QUESTION_START, ADMIN_CREATE_QUESTION_SUCCESS, ADMIN_CREATE_QUESTION_FAILED,
+  ADMIN_DELETE_QUESTION_FAILED, ADMIN_DELETE_QUESTION_START, ADMIN_DELETE_QUESTION_SUCCESS
 } from '../../actions/types';
 
 const initialState = {
@@ -15,6 +16,7 @@ const reducer = (state = initialState, action) => {
   {
     case ADMIN_GET_QUESTIONS_START:
     case ADMIN_CREATE_QUESTION_START:
+    case ADMIN_DELETE_QUESTION_START:
       return {
         ...state,
         loading: true
@@ -27,6 +29,7 @@ const reducer = (state = initialState, action) => {
       }
     case ADMIN_GET_QUESTIONS_FAILED:
     case ADMIN_CREATE_QUESTION_FAILED:
+    case ADMIN_DELETE_QUESTION_FAILED:
       return {
         ...state,
         loading: false,
@@ -36,6 +39,13 @@ const reducer = (state = initialState, action) => {
       return {
         loading: false,
         questionList: [...state.questionList, payload],
+        error: null
+      }
+    case ADMIN_DELETE_QUESTION_SUCCESS:
+      console.log(payload, typeof payload);
+      return {
+        loading: false,
+        questionList: state.questionList.filter(q => q.question_id !== payload),
         error: null
       }
     default: return state;

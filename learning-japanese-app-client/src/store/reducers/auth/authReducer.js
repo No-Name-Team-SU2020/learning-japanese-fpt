@@ -3,10 +3,11 @@ import jwtDecode from 'jwt-decode';
 
 let refreshToken = localStorage.getItem('refreshToken');
 
-const decodedToken = jwtDecode(refreshToken);
-
-if(decodedToken.exp*1000 < new Date().getTime()) {
-  refreshToken = null;
+if(refreshToken) {
+  const decodedToken = jwtDecode(refreshToken);
+  if(decodedToken.exp*1000 < new Date().getTime()) {
+    refreshToken = null;
+  }
 }
 
 const initialState = {
