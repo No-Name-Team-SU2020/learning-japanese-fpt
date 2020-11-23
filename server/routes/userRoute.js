@@ -117,39 +117,4 @@ router.get('/profile',checkAuth, async(req, res) => {
     }
 });
 
-//basic search, search for user by username or display name
-router.get('/search',checkAuth, async(req,res) => {
-    const input = req.body.input;
-
-    try {
-        const user = await User.findAll({
-            where: {
-                [Op.and]: [
-                    {
-                        [Op.or]: [
-                            {user_name: new RegExp(input, 'i')},
-                            {display_name: new RegExp(input, 'i')}
-                        ]
-                    }
-                ]
-            },
-            limit: 10
-        });
-
-        if(!user || user.length === 0){
-            return res.status(404).send("No user founded");
-        }
-        return res.json({
-            message: "Found user",
-            data: user
-        })
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
-
 module.exports = router;

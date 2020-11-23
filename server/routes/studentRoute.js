@@ -44,71 +44,6 @@ router.get('/student-subjects/:studentId', checkAuth, async(req, res) => {
     }
 });
 
-//view all lesson in a subject
-router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
-    try {
-        const subjectId = req.params.subjectId;
-
-        const lessons = await Lesson.findAll({
-            where: {
-                subject_id: subjectId
-            },
-            attributes: ['lesson_id', 'lesson_content', 'lesson_name']
-        });
-
-        if (!lessons) {
-            return res.json({
-                message: "Something wrong",
-            });
-        }
-
-        return res.json(
-            {
-                message: "Lessons found",
-                data: lessons
-            }
-        )
-
-    } catch (error) {
-        console.error(error.message);
-        return res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
-
-//view lesson by lesson id
-router.get('/lessons/:lessonId', checkAuth, async (req, res) => {
-    try {
-
-        const lessonId = req.params.lessonId;
-
-        const findLesson = await Lesson.findOne({
-            where: {
-                lesson_id: lessonId
-            }
-        });
-
-        if (!findLesson) {
-            return res.json({
-                message: "Lesson not found"
-            })
-        }
-
-        return res.json({
-            message: "lesson found",
-            data: findLesson
-        })
-    } catch (error) {
-        console.error(error.message);
-        return res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
-
 //testing
 router.get('/questions/:lessonId', checkAuth, async(req, res) => {
     try {
@@ -124,14 +59,14 @@ router.get('/questions/:lessonId', checkAuth, async(req, res) => {
         // question[answer] => question.c
 
 
-        const toDB = JSON.stringify(hashAnswer);
-        const toHash = JSON.parse()
+        // const toDB = JSON.stringify(hashAnswer);
+        // const toHash = JSON.parse()
 
         const questions = await Question.findAll({
             order: [
                 sequelize.literal('random()')
             ],
-            limit: 2,
+            limit: 10,
             where: {
                 lesson_id: lessonId
             },
