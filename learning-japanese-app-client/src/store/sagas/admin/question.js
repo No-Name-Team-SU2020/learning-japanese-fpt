@@ -1,10 +1,11 @@
 import { takeEvery, put, takeLeading } from 'redux-saga/effects';
 import { getQuestionsFailed, getQuestionsStart, getQuestionsSuccess,
   createQuestionStart, createQuestionSuccess,createQuestionFailed,
-  deleteQuestionFailed, deleteQuestionStart, deleteQuestionSuccess
+  deleteQuestionFailed, deleteQuestionStart, deleteQuestionSuccess,
+  updateQuestionFailed, updateQuestionStart, updateQuestionSuccess
 } from '../../actions/admin/question';
-import { ADMIN_GET_QUESTIONS, ADMIN_CREATE_QUESTION, ADMIN_DELETE_QUESTION } from '../../actions/types';
-import { getQuestionsRequest, createQuestionRequest, deleteQuestionRequest } from '../../api/admin';
+import { ADMIN_GET_QUESTIONS, ADMIN_CREATE_QUESTION, ADMIN_DELETE_QUESTION, ADMIN_UPDATE_QUESTION } from '../../actions/types';
+import { getQuestionsRequest, createQuestionRequest, deleteQuestionRequest, updateQuestionRequest } from '../../api/admin';
 import { alert } from '../../actions/ui/ui';
 import history from '../../../utils/history';
 
@@ -47,10 +48,25 @@ function* deleteQuestionWorker(action) {
   }
 }
 
-function* getQuestionsWatcher() {
+function* updateQuestionWorker(action) {
+  yield put(updateQuestionStart());
+  try
+  {
+    const res = yield updateQuestionRequest(action.qId, action.updatedQuestion);
+    yield put(alert('success', 'Updated Question Successfully'));
+    yield put(updateQuestionSuccess(action.qId, res.data.data));
+    history.back();
+  } catch (error)
+  {
+    yield put(updateQuestionFailed(error.response?.data?.message || 'Something went wrong'));
+  }
+}
+
+function* adminQuestionsWatcher() {
   yield takeEvery(ADMIN_GET_QUESTIONS, getQuestionsWorker);
   yield takeLeading(ADMIN_CREATE_QUESTION, createQuestionWorker);
   yield takeLeading(ADMIN_DELETE_QUESTION, deleteQuestionWorker);
+  yield takeLeading(ADMIN_UPDATE_QUESTION, updateQuestionWorker);
 }
 
-export { getQuestionsWatcher };
+export { adminQuestionsWatcher };

@@ -15,7 +15,6 @@ const QuestionTable = ({ questionList }) => {
   const openModal = (qId) => {
     setOpenDeleteConfirm(true);
     setSelectionQuestion(qId);
-    console.log(qId, typeof qId);
   };
   const closeModal = () => setOpenDeleteConfirm(false);
 

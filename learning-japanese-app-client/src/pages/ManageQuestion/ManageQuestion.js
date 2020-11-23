@@ -4,8 +4,7 @@ import CreateQuestionForm from '../../components/pagesComponent/CreateQuestionFo
 import EditQuestionForm from '../../components/pagesComponent/EditQuestionForm/EditQuestionForm';
 
 const ManageQuestion = ({ match }) => {
-
-  return (
+  return (  
     <div className="w-50 mx-auto my-5">
       <Route path={`${match.url}/question/edit/:qId`}>
         <EditQuestionForm />

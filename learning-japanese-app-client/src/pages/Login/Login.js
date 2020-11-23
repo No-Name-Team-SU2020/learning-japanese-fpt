@@ -23,8 +23,8 @@ const Login = () => {
   };
 
   return (
-    <div className="form-w-500 mx-auto my-5 shadow p-3 rounded">
-      <h1 className="mt-5 text-center">Login</h1>
+    <div className="form-w-500 mx-auto my-5 shadow p-3 pt-0 rounded">
+      <h1 className="my-4 text-center">Login</h1>
       {
         loading && <SpinnerLoader />
       }
@@ -37,7 +37,7 @@ const Login = () => {
           name="email"
           value={email}
           onChange={(e) => onChange(e)}
-          className="form-control my-3"
+          className="form-control form-control-lg my-3"
           placeholder="Enter your email"
         />
         <input
@@ -45,14 +45,11 @@ const Login = () => {
           name="password"
           value={password}
           onChange={(e) => onChange(e)}
-          className="form-control my-3"
+          className="form-control form-control-lg my-3"
           placeholder="Enter password"
         />
-        <button className="btn btn-info btn-block">Submit</button>
+        <button className="btn btn-info btn-lg btn-block">Submit</button>
       </form>
-      <p className="mt-3">
-        Do not have an account ? <Link to="/register">Register</Link>
-      </p>
       <p className="mt-3">
         Forgot password ? <Link to="/reset-password">Reset Password</Link>
       </p>

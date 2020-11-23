@@ -1,20 +1,20 @@
-import * as actionTypes from '../types';
+import { AUTH_USER, AUTH_USER_START, AUTH_USER_SUCCESS, AUTH_USER_FAILED, LOGOUT } from '../types';
 
 export const authUser = (credentials) => ({
-  type: actionTypes.AUTH_USER,
+  type: AUTH_USER,
   credentials
 });
 
-export const authUserStart = () => ({ type: actionTypes.AUTH_USER_START });
+export const authUserStart = () => ({ type: AUTH_USER_START });
 
 export const authUserSuccess = (data) => ({
-  type: actionTypes.AUTH_USER_SUCCESS,
+  type: AUTH_USER_SUCCESS,
   payload: data
 });
 
 export const authUserFailed = (error) => ({
-  type: actionTypes.AUTH_USER_FAILED,
+  type: AUTH_USER_FAILED,
   payload: error
 });
 
-export const authLogout = () => ({ type: actionTypes.LOGOUT });
+export const authLogout = () => ({ type: LOGOUT });

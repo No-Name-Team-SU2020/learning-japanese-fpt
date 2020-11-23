@@ -1,7 +1,8 @@
 import {
   ADMIN_GET_QUESTIONS, ADMIN_GET_QUESTIONS_FAILED, ADMIN_GET_QUESTIONS_START, ADMIN_GET_QUESTIONS_SUCCESS,
   ADMIN_CREATE_QUESTION, ADMIN_CREATE_QUESTION_FAILED, ADMIN_CREATE_QUESTION_START, ADMIN_CREATE_QUESTION_SUCCESS,
-  ADMIN_DELETE_QUESTION, ADMIN_DELETE_QUESTION_FAILED, ADMIN_DELETE_QUESTION_START, ADMIN_DELETE_QUESTION_SUCCESS
+  ADMIN_DELETE_QUESTION, ADMIN_DELETE_QUESTION_FAILED, ADMIN_DELETE_QUESTION_START, ADMIN_DELETE_QUESTION_SUCCESS,
+  ADMIN_UPDATE_QUESTION, ADMIN_UPDATE_QUESTION_FAILED, ADMIN_UPDATE_QUESTION_START, ADMIN_UPDATE_QUESTION_SUCCESS
 } from '../types';
 
 export const getQuestions = (lessonId) => ({
@@ -54,5 +55,27 @@ export const deleteQuestionSuccess = (qId) => ({
 
 export const deleteQuestionFailed = (error) => ({
   type: ADMIN_DELETE_QUESTION_FAILED,
+  payload: error
+});
+
+export const updateQuestion = (qId, updatedQuestion) => ({
+  type: ADMIN_UPDATE_QUESTION,
+  qId,
+  updatedQuestion
+});
+
+export const updateQuestionStart = () => ({
+  type: ADMIN_UPDATE_QUESTION_START
+});
+
+export const updateQuestionSuccess = (qId, updatedQuestion) => ({
+  type: ADMIN_UPDATE_QUESTION_SUCCESS,
+  payload : {
+    qId, updatedQuestion
+  }
+});
+
+export const updateQuestionFailed = (error) => ({
+  type: ADMIN_UPDATE_QUESTION_FAILED,
   payload: error
 });

@@ -1,19 +1,22 @@
-import * as actionTypes from '../types';
+import { USER_GET_PROFILE, USER_GET_PROFILE_START, USER_GET_PROFILE_SUCCESS, USER_GET_PROFILE_FAILED,
+  USER_CLEAR_PROFILE
+} from '../types';
 
 export const getProfile = (token) => ({
-  type: actionTypes.USER_GET_PROFILE,
+  type: USER_GET_PROFILE,
   token
 });
 
-export const getProfileStart = () => ({ type: actionTypes.USER_GET_PROFILE_START });
+export const getProfileStart = () => ({ type: USER_GET_PROFILE_START });
 
 export const getProfileSuccess = (profile) => ({
-  type: actionTypes.USER_GET_PROFILE_SUCCESS,
+  type: USER_GET_PROFILE_SUCCESS,
   payload: profile
 });
 
 export const getProfileFailed = (error) => ({
-  type: actionTypes.USER_GET_PROFILE_FAILED,
+  type: USER_GET_PROFILE_FAILED,
   payload: error
 });
 
+export const clearProfile = () => ({ type: USER_CLEAR_PROFILE });

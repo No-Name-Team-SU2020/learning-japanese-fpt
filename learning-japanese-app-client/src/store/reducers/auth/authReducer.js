@@ -5,6 +5,7 @@ let refreshToken = localStorage.getItem('refreshToken');
 
 if(refreshToken) {
   const decodedToken = jwtDecode(refreshToken);
+
   if(decodedToken.exp*1000 < new Date().getTime()) {
     refreshToken = null;
   }
@@ -41,6 +42,7 @@ const reducer = (state = initialState, action) => {
         error: payload
       }
     case actionTypes.LOGOUT:
+      localStorage.removeItem('refreshToken');
       return {
         loading: false,
         isAuthenticated: false,

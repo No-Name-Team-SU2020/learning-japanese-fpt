@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Grid, MenuItem, TextField } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import { useHistory } from 'react-router-dom';
 import SearchIcon from '@material-ui/icons/Search';
+import OptionMenu from './OptionMenu';
 
 const FilterQuestionEngine = ( { subject, lesson, changeLesson, changeSubject, lessons, subjects} ) => {
-  const history = useHistory();
   const [questionTitle, setQuestionTitle] = useState('');
 
   const submitHandler = e => {
@@ -24,7 +22,7 @@ const FilterQuestionEngine = ( { subject, lesson, changeLesson, changeSubject, l
               onChange={e => changeSubject(e.target.value)}
               fullWidth
               variant="outlined">
-              {subjects.map((option) => (
+              {subjects?.map((option) => (
                 <MenuItem key={option.subject_id} value={option.subject_id}>
                   {option.subject_name}
                 </MenuItem>
@@ -40,7 +38,7 @@ const FilterQuestionEngine = ( { subject, lesson, changeLesson, changeSubject, l
               onChange={e => changeLesson(e.target.value)}
               fullWidth
               variant="outlined">
-              {lessons.map((option) => (
+              {lessons?.map((option) => (
                 <MenuItem key={option.lesson_id} value={option.lesson_id}>
                   {option.lesson_name}
                 </MenuItem>
@@ -56,13 +54,11 @@ const FilterQuestionEngine = ( { subject, lesson, changeLesson, changeSubject, l
               variant="outlined" />
           </Grid>
           <Grid item md={3}>
-            <Button variant="contained" color="secondary"> <SearchIcon /> Search </Button>
+            <Button variant="contained" size="large" color="primary"> <SearchIcon /> Search </Button>
           </Grid>
         </Grid>
       </form>
-      <Button variant="contained" color="primary" onClick={() => history.push('/manage-question/create')}>
-        <AddIcon /> Create Question
-      </Button>
+      <OptionMenu />
     </div>
   );
 }
