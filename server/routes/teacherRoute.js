@@ -11,7 +11,6 @@ const Teacher_Class = require('../models/Teacher_Class');
 const Class_Subject = require('../models/Class_Subject');
 const Student_Class = require('../models/Student_Class');
 
-
 //view all classes of teacher
 router.get('/teacher-classes/:teacherId', checkAuth, async (req, res) => {
     try {
@@ -80,15 +79,19 @@ router.get('/class-students/:classId', checkAuth, async(req, res) => {
     }
 });
 
+//Tính từ dòng này thì code ở dưới tạm không dùng
 //view all quiz
 router.get('/quiz', checkAuth, async (req, res) => {
     try {
-        const { id } = req.body;
+        const { lesson_id } = req.body;
 
         const quizzes = await Quiz.findAll({
-            where: {
-                class_id: id
-            }
+            include: [{
+                model: Subject,
+                where: {
+                    lesson_id: lesson_id
+                }
+            }]
         });
 
         if (!quizzes) {
@@ -114,16 +117,17 @@ router.get('/quiz', checkAuth, async (req, res) => {
 router.post('/quiz', checkAuth, async (req, res) => {
     try {
 
-        const { id } = req.body;
+        const { subject_id } = req.body;
 
-        const currentClass = await Class.findOne({
+        const currentSubject = await Subject.findOne({
             where: {
-                class_id: id
+                subject_id: subject_id
             },
-            attributes: ['class_id']
+            attributes: ['subject_id']
         });
 
-        const { quiz_name, number_of_question, start_time, end_time } = req.body;
+        // const { quiz_name, number_of_question, start_time, end_time } = req.body;
+        const { quiz_name, number_of_question } = req.body;
 
         if (!quiz_name) {
             return res.status(301).json({
@@ -139,42 +143,42 @@ router.post('/quiz', checkAuth, async (req, res) => {
             });
         }
 
-        if (start_time) {
-            const parsed = moment(String(create_at), 'x')
-            if (!parsed.isValid()) {
-                return res.status(301).json({
-                    message: "start time is not valid",
-                    data: null,
-                });
-            }
-        }
+        // if (start_time) {
+        //     const parsed = moment(String(create_at), 'x')
+        //     if (!parsed.isValid()) {
+        //         return res.status(301).json({
+        //             message: "start time is not valid",
+        //             data: null,
+        //         });
+        //     }
+        // }
 
-        if (end_time) {
-            const momentEndTime = moment(String(end_time), 'x');
-            if (!momentEndTime.isValid()) {
-                return res.status(301).json({
-                    message: "start time is not valid",
-                    data: null,
-                });
-            }
+        // if (end_time) {
+        //     const momentEndTime = moment(String(end_time), 'x');
+        //     if (!momentEndTime.isValid()) {
+        //         return res.status(301).json({
+        //             message: "start time is not valid",
+        //             data: null,
+        //         });
+        //     }
 
-            if (start_time) {
-                const momentStartTime = moment(String(start_time), 'x');
-                if (momentStartTime.isBefore(momentStartTime)) {
-                    return res.status(301).json({
-                        message: "end time cannot happen before start time",
-                        data: null,
-                    });
-                }
-            }
-        }
+        //     if (start_time) {
+        //         const momentStartTime = moment(String(start_time), 'x');
+        //         if (momentStartTime.isBefore(momentStartTime)) {
+        //             return res.status(301).json({
+        //                 message: "end time cannot happen before start time",
+        //                 data: null,
+        //             });
+        //         }
+        //     }
+        // }
 
         const newQuiz = await Quiz.create({
             quiz_name,
             number_of_question,
-            create_at,
+            start_time,
             end_time,
-            class_id: currentClass,
+            subject_id: currentSubject,
         });
 
         return res.status(201).json({

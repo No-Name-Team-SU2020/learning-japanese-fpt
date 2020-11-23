@@ -4,13 +4,6 @@ const Teacher = require('../models/Teacher');
 const Class = require('../models/Class');
 
 const Teacher_Class = db.define('teacher_class', {
-    teacher_class_id: {
-        type: sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false
-
-    },
     teacher_id: {
         type: sequelize.STRING,
         allowNull: false,

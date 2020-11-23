@@ -2,13 +2,6 @@ const sequelize = require('sequelize');
 const db = require('../db');
 
 const Teacher_Subject = db.define('teacher_subject', {
-    teacher_subject_id: {
-        type: sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false
-
-    },
     teacher_id: {
         type: sequelize.STRING,
         allowNull: false,

@@ -4,14 +4,6 @@ const Quiz = require('./Quiz');
 const Question = require('./Question');
 
 const Quiz_Question = db.define('quiz_question', {
-
-    quiz_question_id: {
-        type: sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false
-    },
-
     quiz_id: {
         type: sequelize.INTEGER,
         allowNull: false,

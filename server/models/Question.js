@@ -14,7 +14,7 @@ const Question = db.define('question', {
     },
     option_a: {
         type: sequelize.STRING,
-        allowNull: true
+        allowNull: true,
     },
     option_b: {
         type: sequelize.STRING,
@@ -40,10 +40,6 @@ const Question = db.define('question', {
     correct_answer: {
         type: sequelize.STRING,
         allowNull: false
-    },
-    answer_select: {
-        type: sequelize.STRING,
-        allowNull: true
     },
 },
     {
