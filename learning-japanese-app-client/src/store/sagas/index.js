@@ -2,7 +2,7 @@ import { all } from 'redux-saga/effects';
 import { authUserWatcher } from './auth/auth';
 import { alertWatcher } from './ui/ui';
 import { getProfileWatcher } from './user/user';
-import { adminQuestionsWatcher, adminSubjectsWatcher, getLessonsWatcher } from './admin';
+import { adminQuestionsWatcher, adminSubjectsWatcher, adminlessonsWatcher, adminClassWatcher } from './admin';
 
 function* rootSaga() {
   yield all([
@@ -11,7 +11,8 @@ function* rootSaga() {
     getProfileWatcher(),
     adminQuestionsWatcher(),
     adminSubjectsWatcher(),
-    getLessonsWatcher()
+    adminlessonsWatcher(), 
+    adminClassWatcher()
   ])
 }
 

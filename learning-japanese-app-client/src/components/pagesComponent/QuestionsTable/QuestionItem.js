@@ -3,7 +3,6 @@ import { IconButton, TableCell, TableRow } from "@material-ui/core";
 import { useHistory } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 const QuestionItem = ({ question, showConfirm }) => {
   const history = useHistory();
@@ -30,9 +29,6 @@ const QuestionItem = ({ question, showConfirm }) => {
         </IconButton>
         <IconButton onClick={showConfirm}>
           <DeleteIcon />
-        </IconButton>
-        <IconButton>
-          <MoreHorizIcon />
         </IconButton>
       </TableCell>
     </TableRow>

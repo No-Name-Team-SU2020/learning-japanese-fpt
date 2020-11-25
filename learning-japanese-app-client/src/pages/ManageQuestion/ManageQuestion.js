@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import CreateQuestionForm from '../../components/pagesComponent/CreateQuestionForm/CreateQuestionForm';
-import EditQuestionForm from '../../components/pagesComponent/EditQuestionForm/EditQuestionForm';
+import CreateQuestionForm from '../../components/formElement/CreateQuestionForm/CreateQuestionForm';
+import EditQuestionForm from '../../components/formElement/EditQuestionForm/EditQuestionForm';
 
 const ManageQuestion = ({ match }) => {
   return (  

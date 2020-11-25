@@ -134,3 +134,24 @@ li {
 	opacity: 0;
 	transition: opacity 200ms;
 }
+.search-result {
+	position: absolute;
+	background-color: white;
+	box-shadow: 0 1px 5px 1px rgba(0,0,0,0.5);
+	padding: 20px;
+	border-radius: 4px;
+	z-index: 5;
+	min-width: 370px;
+	top: 105px;
+	transition: all 0.3s ease;
+	transform: scale(0);
+	max-height: 350px;
+	overflow-y: scroll;
+}
+.search-result.show {
+	transform: scale(1);
+}
+
+.search-result.hide {
+	transform: scale(0);
+}

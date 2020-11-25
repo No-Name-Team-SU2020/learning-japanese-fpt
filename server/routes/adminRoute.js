@@ -326,7 +326,7 @@ router.delete('/subjects/:subjectId', checkAuth, async (req, res) => {
 });
 
 //create new lesson
-router.post('/lessons', checkAuth, async (req, res) => {
+router.post('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
     try {
         const subjectId = req.params.subjectId;
 

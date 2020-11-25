@@ -49,10 +49,10 @@ const OptionMenu = () => {
           <ListItemText primary="Create Question" onClick={() => history.push('/manage-question/create')} />
         </StyledMenuItem>
         <StyledMenuItem>
-          <ListItemText primary="Create Subject" onClick={() => history.push('/manage-subject')} />
+          <ListItemText primary="Manage Subject" onClick={() => history.push('/manage-subject')} />
         </StyledMenuItem>
         <StyledMenuItem>
-          <ListItemText primary="Create Lesson" onClick={() => history.push('/manage-lesson/create')} />
+          <ListItemText primary="Manage Lesson" onClick={() => history.push('/manage-lesson/create')} />
         </StyledMenuItem>
       </Menu>
     </div>

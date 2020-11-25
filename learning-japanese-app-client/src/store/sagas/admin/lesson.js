@@ -1,7 +1,9 @@
 import { takeEvery, put } from 'redux-saga/effects';
-import { getLessonsStart, getLessonsSuccess, getLessonsFailed } from '../../actions/admin';
-import { ADMIN_GET_LESSONS } from '../../actions/types';
-import { getLessonsRequest } from '../../api/admin';
+import { getLessonsStart, getLessonsSuccess, getLessonsFailed,
+  getSingleLessonFailed, getSingleLessonStart, getSingleLessonSuccess
+} from '../../actions/admin';
+import { ADMIN_GET_LESSONS, ADMIN_GET_SINGLE_LESSON } from '../../actions/types';
+import { getLessonsRequest, getSingleLessonRequest } from '../../api/admin';
 
 function* getLessonsWorker(action) {
   yield put(getLessonsStart());
@@ -15,8 +17,21 @@ function* getLessonsWorker(action) {
   }
 }
 
-function* getLessonsWatcher() {
-  yield takeEvery(ADMIN_GET_LESSONS, getLessonsWorker);
+function* getSingleLessonWorker(action) {
+  yield put(getSingleLessonStart());
+  try
+  {
+    const res = yield getSingleLessonRequest(action.lessonId);
+    yield put(getSingleLessonSuccess(res.data.data));
+  } catch (error)
+  {
+    yield put(getSingleLessonFailed(error.response?.data?.message || 'Something went wrong'));
+  }
 }
 
-export { getLessonsWatcher };
+function* adminlessonsWatcher() {
+  yield takeEvery(ADMIN_GET_LESSONS, getLessonsWorker);
+  yield takeEvery(ADMIN_GET_SINGLE_LESSON, getSingleLessonWorker);
+}
+
+export { adminlessonsWatcher };

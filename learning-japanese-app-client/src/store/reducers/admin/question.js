@@ -2,7 +2,8 @@ import {
   ADMIN_GET_QUESTIONS_FAILED, ADMIN_GET_QUESTIONS_SUCCESS, ADMIN_GET_QUESTIONS_START,
   ADMIN_CREATE_QUESTION_START, ADMIN_CREATE_QUESTION_SUCCESS, ADMIN_CREATE_QUESTION_FAILED,
   ADMIN_DELETE_QUESTION_FAILED, ADMIN_DELETE_QUESTION_START, ADMIN_DELETE_QUESTION_SUCCESS,
-  ADMIN_UPDATE_QUESTION_FAILED, ADMIN_UPDATE_QUESTION_START, ADMIN_UPDATE_QUESTION_SUCCESS
+  ADMIN_UPDATE_QUESTION_FAILED, ADMIN_UPDATE_QUESTION_START, ADMIN_UPDATE_QUESTION_SUCCESS,
+  GLOBAL_FIND_QUESTION_SUCCESS, GLOBAL_FIND_QUESTION_FAILED, GLOBAL_FIND_QUESTION_START
 } from '../../actions/types';
 
 const initialState = {
@@ -23,12 +24,6 @@ const reducer = (state = initialState, action) => {
         ...state,
         loading: true
       }
-    case ADMIN_GET_QUESTIONS_SUCCESS:
-      return {
-        loading: false,
-        questionList: payload,
-        error: null
-      }
     case ADMIN_GET_QUESTIONS_FAILED:
     case ADMIN_CREATE_QUESTION_FAILED:
     case ADMIN_DELETE_QUESTION_FAILED:
@@ -38,6 +33,12 @@ const reducer = (state = initialState, action) => {
         loading: false,
         error: payload
       }
+    case ADMIN_GET_QUESTIONS_SUCCESS:
+        return {
+          loading: false,
+          questionList: payload,
+          error: null
+        }
     case ADMIN_CREATE_QUESTION_SUCCESS:
       return {
         loading: false,
@@ -51,8 +52,8 @@ const reducer = (state = initialState, action) => {
         questionList: state.questionList.filter(q => q.question_id !== payload),
         error: null
       }
-    case ADMIN_UPDATE_QUESTION_SUCCESS:
-      return {
+    case ADMIN_UPDATE_QUESTION_SUCCESS: 
+      return  {
         loading: false,
         questionList: state.questionList.map(q => q.question_id === payload.qId ? payload.updatedQuestion : q ),
         error: null
@@ -62,3 +63,30 @@ const reducer = (state = initialState, action) => {
 }
 
 export default reducer;
+
+const findQuestionReducer = (state = { loading: false, error: null, findedQuestion : null } , action) => {
+  const { type, payload } = action;
+  switch (type)
+  {
+    case GLOBAL_FIND_QUESTION_START:
+      return {
+        ...state,
+        loading: true
+      }
+    case GLOBAL_FIND_QUESTION_SUCCESS:
+      return {
+        loading: false,
+        findedQuestion: payload,
+        error: null
+      }
+    case GLOBAL_FIND_QUESTION_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload
+      }
+    default: return state;
+  }
+}
+
+export {findQuestionReducer} ;

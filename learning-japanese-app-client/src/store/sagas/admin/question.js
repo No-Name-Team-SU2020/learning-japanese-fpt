@@ -1,11 +1,18 @@
-import { takeEvery, put, takeLeading } from 'redux-saga/effects';
+import { takeEvery, put, takeLeading, takeLatest } from 'redux-saga/effects';
 import { getQuestionsFailed, getQuestionsStart, getQuestionsSuccess,
   createQuestionStart, createQuestionSuccess,createQuestionFailed,
   deleteQuestionFailed, deleteQuestionStart, deleteQuestionSuccess,
-  updateQuestionFailed, updateQuestionStart, updateQuestionSuccess
+  updateQuestionFailed, updateQuestionStart, updateQuestionSuccess,
+  findQuestionFailed, findQuestionStart, findQuestionSuccess
 } from '../../actions/admin/question';
-import { ADMIN_GET_QUESTIONS, ADMIN_CREATE_QUESTION, ADMIN_DELETE_QUESTION, ADMIN_UPDATE_QUESTION } from '../../actions/types';
-import { getQuestionsRequest, createQuestionRequest, deleteQuestionRequest, updateQuestionRequest } from '../../api/admin';
+import {
+  ADMIN_GET_QUESTIONS, ADMIN_CREATE_QUESTION, ADMIN_DELETE_QUESTION, ADMIN_UPDATE_QUESTION, 
+  GLOBAL_FIND_QUESTION
+  } from '../../actions/types';
+import {
+  getQuestionsRequest, createQuestionRequest, deleteQuestionRequest, updateQuestionRequest,
+  searchQuestionRequest
+  } from '../../api/admin';
 import { alert } from '../../actions/ui/ui';
 import history from '../../../utils/history';
 
@@ -18,6 +25,18 @@ function* getQuestionsWorker(action) {
   } catch (error)
   {
     yield put(getQuestionsFailed(error.response?.data?.message || 'Something went wrong'));
+  }
+}
+
+function* findQuestionWorker(action) {
+  yield put(findQuestionStart());
+  try
+  {
+    const res = yield searchQuestionRequest(action.term);
+    yield put(findQuestionSuccess(res.data.data));
+  } catch (error)
+  {
+    yield put(findQuestionFailed(error.response?.data?.message || 'Something went wrong'));
   }
 }
 
@@ -67,6 +86,7 @@ function* adminQuestionsWatcher() {
   yield takeLeading(ADMIN_CREATE_QUESTION, createQuestionWorker);
   yield takeLeading(ADMIN_DELETE_QUESTION, deleteQuestionWorker);
   yield takeLeading(ADMIN_UPDATE_QUESTION, updateQuestionWorker);
+  yield takeLatest(GLOBAL_FIND_QUESTION, findQuestionWorker);
 }
 
 export { adminQuestionsWatcher };

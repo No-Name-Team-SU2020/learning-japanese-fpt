@@ -2,9 +2,10 @@ import { combineReducers } from 'redux';
 import authReducer from './auth/authReducer';
 import uiReducer from './ui/uiReducer';
 import userReducer from './user/user';
-import adminQuestionListReducer from './admin/question';
+import adminQuestionListReducer, { findQuestionReducer } from './admin/question';
 import adminSubjectListReducer from './admin/subject';
-import adminLessonListReducer from './admin/lesson';
+import adminLessonListReducer, { singleLessonReducer } from './admin/lesson';
+import adminClassListReducer, { adminSingleClassReducer } from './admin/class';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -12,7 +13,11 @@ const rootReducer = combineReducers({
   user: userReducer,
   adminQuestionList: adminQuestionListReducer,
   adminSubjectList: adminSubjectListReducer,
-  adminLessonList: adminLessonListReducer
+  adminLessonList: adminLessonListReducer,
+  singleLesson: singleLessonReducer,
+  findQuestion: findQuestionReducer,
+  adminClassList: adminClassListReducer,
+  adminSingleClass: adminSingleClassReducer,
 });
 
 export default rootReducer;

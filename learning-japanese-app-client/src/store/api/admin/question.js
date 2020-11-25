@@ -1,11 +1,11 @@
 import axios from '../axios';
 
 export const getQuestionsRequest = async (lessonId) => {
-  return axios.get(`/admin/questions/${lessonId}`);
+  return axios.get(`/shared/lessons/${lessonId}/questions`);
 }
 
 export const createQuestionRequest = async (question) => {
-  return axios.post(`/admin/questions/`, question, {
+  return axios.post(`/admin/questions`, question, {
     headers : {
       'Content-type': 'application/json'
     }
@@ -22,4 +22,8 @@ export const updateQuestionRequest = async (qId, updatedQuestion) => {
       'Content-type': 'application/json'
     }
   });
+}
+
+export const searchQuestionRequest = async (term) => {
+  return axios.get(`/admin/search/?input=${term}`);
 }

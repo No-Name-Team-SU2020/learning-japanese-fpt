@@ -48,7 +48,6 @@ const EditQuestionForm = ( ) => {
   }
   const submitHandler = e => {
     e.preventDefault();
-    console.log(question);
     dispatch(updateQuestion(qId, question));
   }
   return (
@@ -92,7 +91,7 @@ const EditQuestionForm = ( ) => {
             </TextField>
           </Grid>
           <Grid item md={4}>
-            QuestionID : 1
+            QuestionID : { question.question_id } 
           </Grid>
         </Grid>
         <Grid container spacing={3}>
