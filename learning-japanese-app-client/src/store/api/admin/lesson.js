@@ -8,15 +8,15 @@ export const getSingleLessonRequest = async (lessonId) => {
   return axios.get(`/shared/lessons/${lessonId}`);
 }
 
-export const createLessonsRequest = async (newLesson) => {
-  return axios.post(`/admin/lessons`, newLesson, {
+export const createLessonRequest = async (sId, newLesson) => {
+  return axios.post(`/admin/subjects/${sId}/lessons`, newLesson, {
     headers : {
       'Content-type': 'application/json'
     }
   });
 }
 
-export const updateLessonsRequest = async (lessonId,newLesson) => {
+export const updateLessonRequest = async (lessonId, newLesson) => {
   return axios.put(`/admin/lessons/${lessonId}`, newLesson, {
     headers : {
       'Content-type': 'application/json'

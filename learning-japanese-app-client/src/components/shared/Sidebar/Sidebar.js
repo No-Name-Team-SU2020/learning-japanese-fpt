@@ -3,7 +3,7 @@ import './Sidebar.css';
 import logo from '../../../assets/fpt_logo.png';
 import Avatar from '@material-ui/core/Avatar';
 import SidebarLinks from './SidebarLinks/SidebarLinks';
-import SidebarSocial from './SidebarSocial/SidebarSocial';
+// import SidebarSocial from './SidebarSocial/SidebarSocial';
 import Backdrop from '../../ui/Backdrop/Backdrop';
 import { useSelector, useDispatch } from 'react-redux';
 import { hideSidebar } from '../../../store/actions/ui/ui';
@@ -23,7 +23,7 @@ const Sidebar = () => {
         <p>john@fpt.edu.vn</p>
         <SidebarLinks />
         <p className="small">© 2020 FTP University by JLMS. All Rights Reserved.</p>
-        <SidebarSocial />
+        {/* <SidebarSocial /> */}
       </aside>
       <Backdrop show={showSidebar} clicked={() => dispatch(hideSidebar())} />
     </>

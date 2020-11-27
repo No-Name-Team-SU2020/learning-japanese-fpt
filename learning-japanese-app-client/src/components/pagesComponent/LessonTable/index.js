@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Table,
@@ -13,73 +13,71 @@ import { useHistory } from "react-router-dom";
 import ConfirmAction from "../../shared/ConfirmAction";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { useSelector, useDispatch } from "react-redux";
-import { deleteClass, getClasses } from "../../../store/actions/admin";
-import Loader from "../../ui/Loader/Loader";
+import { useDispatch } from "react-redux";
+import { deleteLesson } from "../../../store/actions/admin";
 
-const ClassTable = () => {
+const LessonTable = ({ lessonList, subjectId }) => {
   const history = useHistory();
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
-  const [selectedClass, setSelectedClass] = useState(0);
-  const { loading, error, classList } = useSelector(
-    (state) => state.adminClassList
-  );
-  const classLength = classList.length;
+  const [selectedLesson, setSelectedLesson] = useState(0);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if(classLength === 0) dispatch(getClasses());
-  }, [dispatch, classLength]);
 
   function openModal(cId) {
     setOpenDeleteConfirm(true);
-    setSelectedClass(cId);
+    setSelectedLesson(cId);
   }
   const closeModal = () => setOpenDeleteConfirm(false);
 
-  const deleteClassHandler = () => {
-    dispatch(deleteClass(selectedClass));
+  const deleteLessonHandler = () => {
+    dispatch(deleteLesson(selectedLesson));
     closeModal();
   };
   return (
     <div>
       <div className='d-flex align-items-cemter justify-content-between mb-3'>
-        <h3>Class Table</h3>
+        <h3>Lesson Table</h3>
         <Button
           variant='contained'
           color='primary'
-          onClick={() => history.push("/manage-class/create")}
+          onClick={() => history.push(`/manage-lesson/${subjectId}/create`)}
         >
-          New Class
+          New Lesson
         </Button>
       </div>
-      {loading && <Loader />}
-      {error && <div className='alert'> {error} </div>}
       <TableContainer className='shadow rounded'>
-        <Table aria-label='questions table'>
+        <Table aria-label='lessons table'>
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell>Class Name</TableCell>
+              <TableCell>Lesson Name</TableCell>
+              <TableCell>Lesson Content</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {classList.map((item) => (
-              <TableRow key={item.class_id}>
+            {lessonList.map((lesson) => (
+              <TableRow key={lesson.lesson_id}>
                 <TableCell component='th' scope='row'>
-                  {item.class_id}
+                  {lesson.lesson_id}
                 </TableCell>
-                <TableCell>{item.class_name}</TableCell>
+                <TableCell>{lesson.lesson_name}</TableCell>
+                <TableCell>
+                  {lesson.lesson_content.includes("(*)")
+                    ? lesson.lesson_content
+                        .split("(*)")
+                        .slice(1)
+                        .map((ct, id) => <p key={id}>(*) {ct}</p>)
+                    : lesson.lesson_content}
+                </TableCell>
                 <TableCell>
                   <IconButton
                     onClick={() =>
-                      history.push(`/manage-class/edit/${item.class_id}`)
+                      history.push(`/manage-lesson/${subjectId}/edit/${lesson.lesson_id}`)
                     }
                   >
                     <EditIcon />
                   </IconButton>
-                  <IconButton onClick={() => openModal(item.class_id) }>
+                  <IconButton onClick={() => openModal(lesson.lesson_id)}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -94,7 +92,7 @@ const ClassTable = () => {
           variant='contained'
           color='secondary'
           className='mr-2'
-          onClick={deleteClassHandler}
+          onClick={deleteLessonHandler}
         >
           Confirm
         </Button>
@@ -106,4 +104,4 @@ const ClassTable = () => {
   );
 };
 
-export default ClassTable;
+export default LessonTable;

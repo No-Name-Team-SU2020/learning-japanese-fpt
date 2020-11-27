@@ -511,6 +511,7 @@ router.post('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
             option_d,
             lesson_id: currentLesson.lesson_id,
             correct_answer,
+            
         });
 
         return res.json({

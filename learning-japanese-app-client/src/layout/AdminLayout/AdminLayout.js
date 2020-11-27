@@ -6,6 +6,8 @@ import { Route, Switch } from 'react-router-dom';
 import ManageSubject from '../../pages/ManageSubject/ManageSubject';
 import AdminMenu from '../../components/shared/AdminMenu';
 import ManageClass from '../../pages/ManageClass';
+import ManageLesson from '../../pages/ManageLesson/ManageLesson';
+import NotFound from '../../pages/_404/_404';
 
 const AdminLayout = () => {
   return (
@@ -18,7 +20,9 @@ const AdminLayout = () => {
         <Route path="/manage-question" component={ManageQuestion} />
         <Route path="/manage-subject" component={ManageSubject} />
         <Route path="/manage-class" component={ManageClass} />
-        <Route path="/manage-student" component={ManageClass} />
+        <Route path="/manage-quiz" component={ManageClass} />
+        <Route path="/manage-lesson/:sId" component={ManageLesson}/>
+        <Route component={NotFound} />
       </Switch>
     </Fragment>
   );

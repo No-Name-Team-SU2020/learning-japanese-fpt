@@ -6,7 +6,7 @@ import ClassTable from "../../components/pagesComponent/ClassTable";
 
 const ManageClass = ({ match }) => {
   return (
-    <div className='w-75 mx-auto my-2'>
+    <div className='app-container my-2'>
       <h1>Class Management</h1>
       <Route exact path={`${match.url}`}>
         <ClassTable />

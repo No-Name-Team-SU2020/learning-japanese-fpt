@@ -5,14 +5,17 @@ import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateQuestion } from '../../../store/actions/admin';
+import { getLessons, getSubjects, updateQuestion } from '../../../store/actions/admin';
+import { getSingleQuestion } from '../../../store/actions/global';
 
 const EditQuestionForm = ( ) => {
   const { subjectList } = useSelector(state => state.adminSubjectList);
-  const { questionList } = useSelector(state => state.adminQuestionList);
   const { lessonList } = useSelector(state => state.adminLessonList);
+  const { questionInfo } = useSelector(state => state.singleQuestion);
   const dispatch = useDispatch();
   const { qId } = useParams();
+  const history = useHistory();
+
   const [question, setQuestion] = useState({
     question_id: "",
     question_content: "",
@@ -24,7 +27,6 @@ const EditQuestionForm = ( ) => {
     lesson_id: "",
     subject_id: ""
   });
-  const history = useHistory();
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -32,14 +34,30 @@ const EditQuestionForm = ( ) => {
       behavior: 'smooth'
     });
   }, []);
+
   useEffect(() => {
-    const editedQuestion = questionList.find(q => q.question_id === Number(qId));
+    dispatch(getSingleQuestion(qId));
+  }, [qId, dispatch]);
+
+  useEffect(() => {
     setQuestion({
-      ...editedQuestion,
-      lesson_id: "",
-      subject_id: ""
-    });
-  }, [questionList, qId]);
+      ...questionInfo?.question,
+      subject_id: questionInfo?.subject?.subject_id
+  });
+  }, [questionInfo?.question, questionInfo?.subject?.subject_id]);
+
+  useEffect(() => {
+    if(subjectList.length === 0) {
+      dispatch(getSubjects());
+    }
+  }, [dispatch, subjectList.length]);
+
+  useEffect(() => {
+    if(lessonList.length === 0) {
+      dispatch(getLessons(question.subject_id));
+    }
+  }, [dispatch, lessonList.length, question.subject_id]);
+  
   const handleChange = (e) => {
     setQuestion(prevState => ({
       ...prevState,

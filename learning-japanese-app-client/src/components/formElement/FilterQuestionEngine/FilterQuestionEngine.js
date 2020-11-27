@@ -30,7 +30,10 @@ const FilterQuestionEngine = ({
             <TextField
               select
               value={subject}
-              onChange={(e) => changeSubject(e.target.value)}
+              onChange={(e) => {
+                changeSubject(e.target.value);
+                localStorage.setItem('subject', e.target.value);
+              }}
               fullWidth
               variant='outlined'
             >
@@ -46,7 +49,10 @@ const FilterQuestionEngine = ({
             <TextField
               select
               value={lesson}
-              onChange={(e) => changeLesson(e.target.value)}
+              onChange={(e) => {
+                changeLesson(e.target.value);
+                localStorage.setItem('lesson', e.target.value);
+              }}
               fullWidth
               variant='outlined'
             >

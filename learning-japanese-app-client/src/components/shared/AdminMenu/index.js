@@ -26,7 +26,7 @@ function AdminMenu() {
   const [value, setValue] = React.useState(
     localStorage.getItem("menuPosition")
       ? Number(localStorage.getItem("menuPosition"))
-      : 0
+      : 3
   );
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -37,29 +37,24 @@ function AdminMenu() {
       <AppBar position='static'>
         <Tabs value={value} onChange={handleChange} aria-label='Admin Menu Top'>
           <Tab
-            label='Classes'
+            label='Class'
             {...a11yProps(0)}
             onClick={() => history.push("/manage-class")}
           />
           <Tab
-            label='Subjects'
+            label='Subject'
             {...a11yProps(1)}
             onClick={() => history.push("/manage-subject")}
           />
           <Tab
-            label='Lessons'
+            label='Quesion'
             {...a11yProps(2)}
-            onClick={() => history.push("/manage-lesson")}
-          />
-          <Tab
-            label='Quesions'
-            {...a11yProps(3)}
             onClick={() => history.push("/")}
           />
           <Tab
-            label='Students'
-            {...a11yProps(4)}
-            onClick={() => history.push("/manage-student")}
+            label='Quiz'
+            {...a11yProps(3)}
+            onClick={() => history.push("/manage-quiz")}
           />
         </Tabs>
       </AppBar>

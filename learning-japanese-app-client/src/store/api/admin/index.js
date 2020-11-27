@@ -1,5 +1,5 @@
 export {
-   getLessonsRequest, getSingleLessonRequest, deleteLessonRequest, createLessonsRequest, updateLessonsRequest 
+   getLessonsRequest, getSingleLessonRequest, deleteLessonRequest, createLessonRequest, updateLessonRequest 
   }  from './lesson';
 export {
    getQuestionsRequest, createQuestionRequest, deleteQuestionRequest, updateQuestionRequest, searchQuestionRequest,

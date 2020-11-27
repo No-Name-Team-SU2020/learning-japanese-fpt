@@ -65,7 +65,7 @@ const reducer = (state = classListInitialState, action) => {
       return {
         error: null,
         loading: false,
-        classList: [...state.classList, payload],
+        classList: [payload, ...state.classList],
       };
     default:
       return state;

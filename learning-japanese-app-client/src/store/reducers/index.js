@@ -6,6 +6,7 @@ import adminQuestionListReducer, { findQuestionReducer } from './admin/question'
 import adminSubjectListReducer from './admin/subject';
 import adminLessonListReducer, { singleLessonReducer } from './admin/lesson';
 import adminClassListReducer, { adminSingleClassReducer } from './admin/class';
+import singleQuestionReducer from './question/singleQuestion';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   findQuestion: findQuestionReducer,
   adminClassList: adminClassListReducer,
   adminSingleClass: adminSingleClassReducer,
+  singleQuestion: singleQuestionReducer,
 });
 
 export default rootReducer;

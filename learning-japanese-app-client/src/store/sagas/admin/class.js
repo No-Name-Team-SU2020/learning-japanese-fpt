@@ -30,6 +30,7 @@ import {
   getSingleClassRequest,
   updateClassRequest
 } from "../../api/admin";
+import history from '../../../utils/history';
 
 function* getClassesWorker() {
   yield put(getClassesStart());
@@ -73,6 +74,7 @@ function* createClassWorker(action) {
   try {
     const res = yield createClassRequest(action.newClass);
     yield put(createClassSuccess(res.data.data));
+    history.back();
   } catch (error) {
     yield put(
       createClassFailed(error.response?.data?.message || "Something went wrong")
@@ -85,6 +87,7 @@ function* updateClassWorker(action) {
   try {
     yield updateClassRequest(action.cId, action.newClass);
     yield put(updateClassSuccess(action.cId, action.newClass));
+    history.push('/manage-class');
   } catch (error) {
     yield put(
       updateClassFailed(error.response?.data?.message || "Something went wrong")

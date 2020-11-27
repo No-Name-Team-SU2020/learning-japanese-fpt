@@ -1,76 +1,82 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import { useParams, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getSingleClass, updateClass } from "../../../store/actions/admin";
+import { createLesson } from "../../../store/actions/admin";
 import Loader from "../../ui/Loader/Loader";
 
-const EditClassForm = () => {
-  const { cId } = useParams();
-  const dispatch = useDispatch();
+const CreateLessonForm = ( { subjectId } ) => {
   const history = useHistory();
-  const [updatedClass, setUpdatedClass] = useState({
-    class_name: "",
-    class_id: "",
-  });
-  const { loading, error, singleClass } = useSelector(
-    (state) => state.adminSingleClass
-  );
-  useEffect(() => {
-    dispatch(getSingleClass(cId));
-  }, [cId, dispatch]);
+  const { loading, error } = useSelector((state) => state.adminClassList);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    if(singleClass) setUpdatedClass(singleClass);
-  }, [singleClass]);
+  const [lesson, setLesson] = useState({
+    lesson_name: "",
+    lesson_id: "",
+    lesson_content: ""
+  });
 
   const handleChange = (e) => {
-    setUpdatedClass((prevState) => ({
+    setLesson((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(updateClass(cId, updatedClass));
-    history.goBack();
+    dispatch(createLesson(subjectId, lesson));
   };
-
   return (
     <div className='bg-light p-4 rounded shadow'>
       <h1 className='border-bottom pb-2 text-center'>FPT EDUCATION</h1>
-      <h3 className='my-4'>Edit Class</h3>
+      <h3 className='my-4'>Create Lesson</h3>
       <form onSubmit={submitHandler}>
         <Grid container spacing={3}>
           <Grid item md={4}>
-            Class ID:
+            Lesson ID:
           </Grid>
           <Grid item md={8}>
             <TextField
-              label='Class Identifier'
+              label='Lesson Identifier'
               variant='outlined'
-              name='class_id'
+              name='lesson_id'
+              required
               fullWidth
-              disabled
-              value={updatedClass.class_id}
+              value={lesson.lesson_id}
               onChange={handleChange}
             />
           </Grid>
         </Grid>
         <Grid container spacing={3}>
           <Grid item md={4}>
-            Class name:
+            Lesson Name:
           </Grid>
           <Grid item md={8}>
             <TextField
-              label='Class name:'
+              label='Lesson Name:'
               variant='outlined'
-              name='class_name'
+              name='lesson_name'
               required
               fullWidth
-              value={updatedClass.class_name}
+              value={lesson.lesson_name}
+              onChange={handleChange}
+            />
+          </Grid>
+        </Grid>
+        <Grid container spacing={3}>
+          <Grid item md={4}>
+            Lesson Content:
+          </Grid>
+          <Grid item md={8}>
+            <TextField
+              label='Lesson Content:'
+              variant='outlined'
+              name='lesson_content'
+              required
+              fullWidth
+              value={lesson.lesson_content}
               onChange={handleChange}
             />
           </Grid>
@@ -90,12 +96,12 @@ const EditClassForm = () => {
               color='primary'
               className='mr-3'
             >
-              Update
+              Create
             </Button>
             <Button
               variant='contained'
               color='secondary'
-              onClick={() => history.push("/manage-class")}
+              onClick={() => history.push('/manage-lesson/' + subjectId)}
             >
               Cancel
             </Button>
@@ -106,5 +112,4 @@ const EditClassForm = () => {
   );
 };
 
-export default EditClassForm;
-
+export default CreateLessonForm;

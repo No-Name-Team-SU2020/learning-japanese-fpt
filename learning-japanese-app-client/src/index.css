@@ -155,3 +155,6 @@ li {
 .search-result.hide {
 	transform: scale(0);
 }
+.MuiTableRow-head {
+	background-color: #ececec !important;
+}

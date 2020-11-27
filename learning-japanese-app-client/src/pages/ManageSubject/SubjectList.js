@@ -7,6 +7,7 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { deleteSubject } from "../../store/actions/admin";
@@ -27,15 +28,21 @@ const SubjectList = ({ subjects, url }) => {
               dense
               button
               style={{ marginBottom: "15px", padding: "8px" }}
-              onClick={() =>
-                history.push(`${url}/subject/edit/${subject.subject_id}`)
-              }
             >
               <ListItemText
                 id={labelId}
                 primary={`${subject.subject_id} : ${subject.subject_name}`}
+                onClick={() => history.push(`/manage-lesson/${subject.subject_id}`)}
               />
               <ListItemSecondaryAction>
+              <IconButton
+                  edge='end'
+                  aria-label='edit'
+                  onClick={() => history.push(`${url}/subject/edit/${subject.subject_id}`)}
+                  className="mr-1"
+                >
+                  <EditIcon />
+                </IconButton>
                 <IconButton
                   edge='end'
                   aria-label='comments'
