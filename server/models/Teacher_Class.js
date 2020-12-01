@@ -13,7 +13,7 @@ const Teacher_Class = db.define('teacher_class', {
         }
     },
     class_id: {
-        type: sequelize.STRING,
+        type: sequelize.INTEGER,
         allowNull: false,
         references: {
             model: Class,

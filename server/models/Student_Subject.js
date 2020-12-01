@@ -13,7 +13,7 @@ const Student_Subject = db.define('student_subject', {
         }
     },
     subject_id: {
-        type: sequelize.STRING,
+        type: sequelize.INTEGER,
         allowNull: false,
         references: {
             model: Subject,

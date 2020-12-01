@@ -1,5 +1,6 @@
 const sequelize = require('sequelize');
 const db = require('../db');
+const Lesson = require('./Lesson');
 
 const Question = db.define('question', {
     question_id: {
@@ -29,11 +30,10 @@ const Question = db.define('question', {
         allowNull: true
     },
     lesson_id: {
-        type: sequelize.STRING,
+        type: sequelize.INTEGER,
         allowNull: false,
-        onDelete: 'CASCADE',
         references: {
-            model: 'lesson',
+            model: Lesson,
             key: 'lesson_id'
         }
     },

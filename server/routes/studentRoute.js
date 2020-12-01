@@ -44,6 +44,90 @@ router.get('/student-subjects/:studentId', checkAuth, async(req, res) => {
     }
 });
 
+router.post('/answer', checkAuth, async(req, res) => {
+    try {
+        const lesson_id = req.body.lesson_id;
+
+        //const student_id = req.body.student_id;
+        
+        // [ {question_id, answer} ]
+        const userResponses = req.body.answers;
+
+        if (!userResponses) {
+            // return loi~
+            // ...
+        }
+
+        if (!Array.isArray(userResponses)) {
+            // return loi vi khong phai la array
+            // ...
+        }
+
+        // answers = [
+        //     // {correct_answer: "Thể thao"}, 
+        //     // {correct_answer: "dấdawda"}, 
+        //     // {correct_answer: "ădasdadwadw"}, 
+        //     // {correct_answer: "ngữ"}, 
+        //     // {correct_answer: "Dầu"}, 
+        //     // {correct_answer: "Sở thích"}
+        // ];
+
+        // const currentStudent = await Student.findOne({
+        //     where: {
+        //         student_id: student_id
+        //     }
+        // });
+
+        const currentQuestions = await Question.findAll({
+            where: {
+                lesson_id: lesson_id
+            },
+            attributes: ['question_id', 'correct_answer'],
+            raw: true
+        });
+
+        console.log(currentQuestions);
+        console.log(82, userResponses);
+        let score = 0;
+        
+        userResponses.forEach(userResponse => {
+            // var hoisting js
+            // var abc = 5;
+            
+            /**
+             * tim question ma user tra loi trong all questions
+             * neu khong co thi `currentQuestion` =  null => if => false
+             */
+            const currentQuestion = currentQuestions.find(q => q.question_id === userResponse.question_id);
+            if (currentQuestion) {
+                if (currentQuestion.correct_answer === userResponse.answer) {
+                    score++;
+                }
+            }
+        });
+        
+        console.log(90, score);
+        
+        const totalQuestions = currentQuestions.length;
+        const percentage = (score / totalQuestions) * 100;
+
+        return res.json({
+            message: "Answer and score",
+            data: {
+                answer: userResponses,
+                score: score,
+                percentage: percentage,
+            }
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
 //testing
 router.get('/questions/:lessonId', checkAuth, async(req, res) => {
     try {

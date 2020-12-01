@@ -3,8 +3,14 @@ const db = require('../db');
 
 const Subject = db.define('subject', {
     subject_id: {
-        type: sequelize.STRING,
+        type: sequelize.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
+        allowNull: false
+    },
+
+    subject_code: {
+        type: sequelize.STRING,
         allowNull: false
     },
 
