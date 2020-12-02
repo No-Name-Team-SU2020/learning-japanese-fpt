@@ -4,7 +4,8 @@ const Subject = require('./Subject');
 
 const Lesson = db.define('lesson', {
     lesson_id: {
-        type: sequelize.STRING,
+        type: sequelize.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
         allowNull: false
     },
@@ -18,7 +19,7 @@ const Lesson = db.define('lesson', {
         allowNull: false
     },
     subject_id: {
-        type: sequelize.STRING,
+        type: sequelize.INTEGER,
         allowNull: false,
         references: {
             model: Subject,

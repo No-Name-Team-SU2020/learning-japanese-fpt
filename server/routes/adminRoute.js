@@ -65,14 +65,7 @@ router.get('/classes/:classId', checkAuth, async (req, res) => {
 //Create new class
 router.post('/classes', checkAuth, async (req, res) => {
     try {
-        const { class_id, class_name } = req.body;
-
-        if (!class_id) {
-            return res.json({
-                message: "class id is not valid",
-                data: null,
-            });
-        }
+        const { class_name } = req.body;
 
         if (!class_name) {
             return res.json({
@@ -82,7 +75,6 @@ router.post('/classes', checkAuth, async (req, res) => {
         }
 
         const newClass = await Class.create({
-            class_id,
             class_name,
         });
 
@@ -224,9 +216,9 @@ router.get('/subjects/:subjectId', checkAuth, async (req, res) => {
 //create new subject
 router.post('/subjects', checkAuth, async (req, res) => {
     try {
-        const { subject_id, subject_name } = req.body;
+        const { subject_code, subject_name } = req.body;
 
-        if (!subject_id) {
+        if (!subject_code) {
             return res.json({
                 message: "subject id is not valid",
                 data: null,
@@ -241,7 +233,7 @@ router.post('/subjects', checkAuth, async (req, res) => {
         }
 
         const newSubject = await Subject.create({
-            subject_id,
+            subject_code,
             subject_name,
         });
 
@@ -264,7 +256,7 @@ router.put('/subjects/:subjectId', checkAuth, async (req, res) => {
 
         const subjectId = req.params.subjectId;
 
-        const { subject_name } = req.body;
+        const { subject_code, subject_name } = req.body;
 
         if (!subjectId) {
             return res.json({
@@ -273,6 +265,7 @@ router.put('/subjects/:subjectId', checkAuth, async (req, res) => {
         }
 
         const updateSubject = await Subject.update({
+            subject_code,
             subject_name,
         },
             {
@@ -337,14 +330,7 @@ router.post('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
             attributes: ['subject_id']
         });
 
-        const { lesson_id, lesson_content, lesson_name } = req.body;
-
-        if (!lesson_id) {
-            return res.json({
-                message: "lesson id is not valid",
-                data: null,
-            });
-        }
+        const { lesson_content, lesson_name } = req.body;
 
         if (!lesson_content) {
             return res.json({
@@ -361,7 +347,6 @@ router.post('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
         }
 
         const newLesson = await Lesson.create({
-            lesson_id,
             lesson_content,
             lesson_name,
             subject_id: currentSubject.subject_id,

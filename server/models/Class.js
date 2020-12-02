@@ -3,7 +3,8 @@ const db = require('../db');
 
 const Class = db.define('class', {
     class_id: {
-        type: sequelize.STRING,
+        type: sequelize.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
         allowNull: false
     },
