@@ -12,12 +12,26 @@ const Class_Subject = require('../models/Class_Subject');
 const Student_Class = require('../models/Student_Class');
 
 //view all classes of teacher
-router.get('/teacher-classes/:teacherId', checkAuth, async (req, res) => {
+router.get('/teacher-classes', checkAuth, async (req, res) => {
     try {
-        const teacherId = req.params.teacherId;
+
+        const currentUser = req.user.user_name;
+
+        const checkUser = await User.findOne({
+            where: {
+                user_name: currentUser
+            }
+        });
+
+        const currentTeacher = await Teacher.findOne({
+            where: {
+                user_name: checkUser.user_name
+            },
+            attributes: ['teacher_id']
+        });
 
         const data = await Teacher.findAll({
-            where: { teacher_id: teacherId },
+            where: { teacher_id: currentTeacher.teacher_id },
             attributes: ['teacher_id', 'teacher_name'],
             include: [
                 { model: Class, through: {attributes: []} },
@@ -79,6 +93,7 @@ router.get('/class-students/:classId', checkAuth, async(req, res) => {
     }
 });
 
+module.exports = router
 //Tính từ dòng này thì code ở dưới tạm không dùng
 //view all quiz
 // router.get('/quiz', checkAuth, async (req, res) => {
@@ -255,5 +270,3 @@ router.get('/class-students/:classId', checkAuth, async(req, res) => {
 //         });
 //     }
 // });
-
-module.exports = router
