@@ -11,6 +11,9 @@ import {
   ADMIN_DELETE_LESSON_START,
   ADMIN_DELETE_LESSON_SUCCESS,
   ADMIN_DELETE_LESSON_FAILED,
+  ADMIN_UPDATE_LESSON_START,
+  ADMIN_UPDATE_LESSON_SUCCESS,
+  ADMIN_UPDATE_LESSON_FAILED,
 } from "../../actions/types";
 
 const initialState = {
@@ -25,6 +28,7 @@ const reducer = (state = initialState, action) => {
     case ADMIN_GET_LESSONS_START:
     case ADMIN_CREATE_LESSON_START:
     case ADMIN_DELETE_LESSON_START:
+    case ADMIN_UPDATE_LESSON_START:
       return {
         ...state,
         loading: true,
@@ -38,6 +42,7 @@ const reducer = (state = initialState, action) => {
     case ADMIN_GET_LESSONS_FAILED:
     case ADMIN_CREATE_LESSON_FAILED:
     case ADMIN_DELETE_LESSON_FAILED:
+    case ADMIN_UPDATE_LESSON_FAILED:
       return {
         ...state,
         loading: false,
@@ -53,6 +58,12 @@ const reducer = (state = initialState, action) => {
       return {
         loading: false,
         lessonList: state.lessonList.filter(l => l.lesson_id !== payload),
+        error: null,
+      }
+    case ADMIN_UPDATE_LESSON_SUCCESS:
+      return {
+        loading: false,
+        lessonList: state.lessonList.map(l => l.lesson_id === payload.lId ? payload.newLesson : l ),
         error: null,
       }
     default:

@@ -1,5 +1,6 @@
 import * as actionTypes from '../../actions/types';
 import jwtDecode from 'jwt-decode';
+import history from '../../../utils/history';
 
 let refreshToken = localStorage.getItem('refreshToken');
 
@@ -42,6 +43,7 @@ const reducer = (state = initialState, action) => {
         error: payload
       }
     case actionTypes.LOGOUT:
+      history.push('/');
       localStorage.removeItem('refreshToken');
       return {
         loading: false,

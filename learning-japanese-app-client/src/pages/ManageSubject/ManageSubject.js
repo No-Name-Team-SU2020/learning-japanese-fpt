@@ -2,45 +2,40 @@ import React, { useEffect } from "react";
 import { Route } from "react-router-dom";
 import CreateSubjectForm from "../../components/formElement/CreateSubject/CreateSubject";
 import EditSubjectForm from "../../components/formElement/EditSubject/EditSubject";
-import Grid from "@material-ui/core/Grid";
-import { useSelector, useDispatch } from 'react-redux';
-import Loader from '../../components/ui/Loader/Loader';
+import { useSelector, useDispatch } from "react-redux";
+import Loader from "../../components/ui/Loader/Loader";
 import SubjectList from "./SubjectList";
 import { getSubjects } from "../../store/actions/admin";
 
 const ManageSubject = ({ match }) => {
-  const { loading, error, subjectList } = useSelector(state => state.adminSubjectList);
+  const { loading, error, subjectList } = useSelector(
+    (state) => state.adminSubjectList
+  );
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
-    if(subjectList.length === 0) dispatch(getSubjects());
+    if (subjectList.length === 0) dispatch(getSubjects());
   }, [dispatch, subjectList.length]);
 
   return (
     <div className='app-container'>
-      <h1 className="mb-3">Subject List</h1>
-      <Grid container spacing={3}>
-        <Grid item md={6} sm={12}>
-          {
-            loading && <Loader />
-          }
-          {
-            error && <div className="alert alert-danger"> { error } </div>
-          }
-          {
-           !error && !loading ? <SubjectList url={match.url} subjects={subjectList} /> : 
-            <center className="text-danger">No Subject To Show. Please load again or checking error</center>
-          }
-        </Grid>
-        <Grid item md={6} sm={12}>
-          <Route exact path={`${match.url}`}>
-            <CreateSubjectForm />
-          </Route>
-          <Route exact path={`${match.url}/subject/edit/:sId`}>
-            <EditSubjectForm />
-          </Route>
-        </Grid>
-      </Grid>
+      <Route exact path={match.url}>
+        {loading && <Loader />}
+        {error && <div className='alert alert-danger'> {error} </div>}
+        {!error && !loading ? (
+          <SubjectList url={match.url} subjects={subjectList} />
+        ) : (
+          <center className='text-danger'>
+            No Subject To Show. Please load again or checking error
+          </center>
+        )}
+      </Route>
+      <Route exact path={`${match.url}/create`}>
+        <CreateSubjectForm />
+      </Route>
+      <Route exact path={`${match.url}/subject/edit/:sId`}>
+        <EditSubjectForm />
+      </Route>
     </div>
   );
 };

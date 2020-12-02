@@ -38,7 +38,7 @@ const CreateSubjectForm = () => {
     });
   };
   return (
-    <div className='bg-light p-4 rounded shadow'>
+    <div className='bg-light p-4 rounded shadow mx-auto w-50'>
       <h1 className='border-bottom pb-2 text-center'>FPT EDUCATION</h1>
       <h3 className='my-4'>Create Subject</h3>
       <form onSubmit={submitHandler}>

@@ -1,22 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { createLesson } from "../../../store/actions/admin";
+import { getSingleLesson, updateLesson } from "../../../store/actions/admin";
 import Loader from "../../ui/Loader/Loader";
 
-const EditLessonForm = ( { subjectId } ) => {
+const EditLessonForm = ({ subjectId }) => {
+  const { lId } = useParams();
   const history = useHistory();
   const { loading, error } = useSelector((state) => state.adminClassList);
+  const singleLesson = useSelector((state) => state.singleLesson);
   const dispatch = useDispatch();
 
   const [lesson, setLesson] = useState({
     lesson_name: "",
     lesson_id: "",
-    lesson_content: ""
+    lesson_content: "",
   });
+
+  useEffect(() => {
+    if (lId) dispatch(getSingleLesson(lId));
+  }, [lId, dispatch]);
+
+  useEffect(() => {
+    if( singleLesson.lesson && singleLesson.lesson.lesson_id) {
+      setLesson(singleLesson.lesson);
+    }
+  }, [singleLesson.lesson]);
 
   const handleChange = (e) => {
     setLesson((prevState) => ({
@@ -26,12 +38,12 @@ const EditLessonForm = ( { subjectId } ) => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(createLesson(lesson));
+    dispatch(updateLesson(lesson.lesson_id, lesson));
   };
   return (
     <div className='bg-light p-4 rounded shadow'>
       <h1 className='border-bottom pb-2 text-center'>FPT EDUCATION</h1>
-      <h3 className='my-4'>Create Lesson</h3>
+      <h3 className='my-4'>Edit Lesson</h3>
       <form onSubmit={submitHandler}>
         <Grid container spacing={3}>
           <Grid item md={4}>
@@ -96,12 +108,12 @@ const EditLessonForm = ( { subjectId } ) => {
               color='primary'
               className='mr-3'
             >
-              Create
+              Update
             </Button>
             <Button
               variant='contained'
               color='secondary'
-              onClick={() => history.push('/manage-lesson/' + subjectId)}
+              onClick={() => history.push("/manage-lesson/" + subjectId)}
             >
               Cancel
             </Button>

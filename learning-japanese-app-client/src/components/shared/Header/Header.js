@@ -37,7 +37,7 @@ const Header = () => {
         </Link>
         <div className="d-flex align-items-center justify-content-between" style={{ minWidth: '340px' }}>
           <IconButton onClick={toggleMessagesHandler}>
-            <Badge color="primary" badgeContent={1}>
+            <Badge color="primary" badgeContent={0}>
               <MailIcon />
             </Badge>
             <SubMenu show={openMessages}>
@@ -45,7 +45,7 @@ const Header = () => {
             </SubMenu>
           </IconButton>
           <IconButton onClick={toggleNotificationsHandler}>
-            <Badge color="secondary" badgeContent={1}>
+            <Badge color="secondary" badgeContent={0}>
               <NotificationsIcon />
             </Badge>
             <SubMenu show={openNotifications} >

@@ -39,7 +39,7 @@ const EditSubject = () => {
   };
 
   return (
-    <div className='bg-light p-4 rounded shadow'>
+    <div className='bg-light p-4 rounded shadow w-50 mx-auto'>
       <h1 className='border-bottom pb-2 text-center'>FPT EDUCATION</h1>
       <h3 className='my-4'>Edit Subject</h3>
       <form onSubmit={submitHandler}>

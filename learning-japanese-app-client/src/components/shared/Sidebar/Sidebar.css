@@ -5,6 +5,7 @@
 }
 .sidebar-links li {
 	margin-bottom: 15px;
+	cursor: pointer;
 }
 .sidebar-links a:hover {
 	border-bottom: 1px solid var(--red-color);

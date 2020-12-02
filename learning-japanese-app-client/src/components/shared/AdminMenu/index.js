@@ -26,7 +26,7 @@ function AdminMenu() {
   const [value, setValue] = React.useState(
     localStorage.getItem("menuPosition")
       ? Number(localStorage.getItem("menuPosition"))
-      : 3
+      : 0
   );
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -49,7 +49,7 @@ function AdminMenu() {
           <Tab
             label='Quesion'
             {...a11yProps(2)}
-            onClick={() => history.push("/")}
+            onClick={() => history.push("/manage-question")}
           />
           <Tab
             label='Quiz'

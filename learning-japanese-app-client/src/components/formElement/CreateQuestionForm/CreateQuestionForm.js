@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -6,13 +6,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { createQuestion } from '../../../store/actions/admin';
+import { getSubjects } from '../../../store/actions/admin';
 import Loader from '../../ui/Loader/Loader';
+import axios from '../../../store/api/axios';
 
 const CreateQuestionForm = () => {
   const history = useHistory();
   const { subjectList } = useSelector(state => state.adminSubjectList);
-  const { lessonList } = useSelector(state => state.adminLessonList);
   const {loading, error} = useSelector(state => state.adminQuestionList);
+  const [lessonList, setLessonList] = useState([]);
   const dispatch = useDispatch();
 
   const [question, setQuestion] = useState({
@@ -25,6 +27,27 @@ const CreateQuestionForm = () => {
     lesson_id: "",
     subject_id: ""
   });
+
+  useEffect(() => {
+    if(subjectList.length === 0) {
+      dispatch(getSubjects());
+    }
+  }, [subjectList.length, dispatch]);
+
+  useEffect(() => {
+    if(question.subject_id) {
+      const fetchLessons = async () => {
+        try {
+          const res = await axios.get(`/shared/subjects/${question.subject_id}/lessons`);
+          setLessonList(res.data.data);
+        } catch (error) {
+          alert('Error occurring when fetching lessons');
+        }
+      }
+      fetchLessons();
+    }
+    
+  }, [question.subject_id]);
 
   const handleChange = (e) => {
     setQuestion(prevState => ({

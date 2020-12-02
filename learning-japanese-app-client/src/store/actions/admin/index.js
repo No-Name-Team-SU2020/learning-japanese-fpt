@@ -13,7 +13,8 @@ export {
   getLessons, getLessonsFailed, getLessonsStart, getLessonsSuccess,
   createLesson, createLessonFailed, createLessonStart, createLessonSuccess,
   getSingleLesson, getSingleLessonFailed, getSingleLessonStart, getSingleLessonSuccess,
-  deleteLesson, deleteLessonFailed, deleteLessonStart, deleteLessonSuccess
+  deleteLesson, deleteLessonFailed, deleteLessonStart, deleteLessonSuccess,
+  updateLesson, updateLessonFailed, updateLessonSuccess, updateLessonStart,
 } from './lesson';
 
 export {  

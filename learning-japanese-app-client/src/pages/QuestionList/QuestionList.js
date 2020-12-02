@@ -45,20 +45,20 @@ const QuestionList = () => {
         </Button>
       </div>
       {error && (
-        <div className='alert alert-danger' role='alert'>
+        <div className='alert alert-danger mt-3' role='alert'>
           
           {error}
         </div>
       )}
       {adminSubjectList.error && (
-        <div className='alert alert-danger' role='alert'>
+        <div className='alert alert-danger mt-3' role='alert'>
           
           {adminSubjectList.error}
         </div>
       )}
       {adminLessonList.error && (
-        <div className='alert alert-danger' role='alert'>
-          
+        <div className='alert alert-danger mt-3' role='alert'>
+ 
           {adminLessonList.error}
         </div>
       )}
