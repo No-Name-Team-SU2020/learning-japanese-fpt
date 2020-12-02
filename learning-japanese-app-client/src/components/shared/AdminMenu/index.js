@@ -51,11 +51,11 @@ function AdminMenu() {
             {...a11yProps(2)}
             onClick={() => history.push("/manage-question")}
           />
-          <Tab
+          {/* <Tab
             label='Quiz'
             {...a11yProps(3)}
             onClick={() => history.push("/manage-quiz")}
-          />
+          /> */}
         </Tabs>
       </AppBar>
     </div>
