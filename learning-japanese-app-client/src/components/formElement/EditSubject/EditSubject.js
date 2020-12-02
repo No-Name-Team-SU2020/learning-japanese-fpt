@@ -45,7 +45,7 @@ const EditSubject = () => {
       <form onSubmit={submitHandler}>
         <Grid container spacing={3}>
           <Grid item md={4}>
-            Subject ID:
+            Subject Code:
           </Grid>
           <Grid item md={8}>
             <TextField
@@ -71,51 +71,6 @@ const EditSubject = () => {
               required
               fullWidth
               value={subject.subject_name}
-              onChange={handleChange}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={3}>
-          <Grid item md={4}>
-            Semester :
-          </Grid>
-          <Grid item md={8}>
-            <TextField
-              label='Semester:'
-              variant='outlined'
-              name='semester'
-              fullWidth
-              value={subject.semester}
-              onChange={handleChange}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={3}>
-          <Grid item md={4}>
-            No Credit :
-          </Grid>
-          <Grid item md={8}>
-            <TextField
-              label='No Credit :'
-              variant='outlined'
-              name='no_credit'
-              fullWidth
-              value={subject.no_credit}
-              onChange={handleChange}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={3}>
-          <Grid item md={4}>
-            Pre Requisite :
-          </Grid>
-          <Grid item md={8}>
-            <TextField
-              label='Pre Requisite :'
-              variant='outlined'
-              name='pre_requisite'
-              fullWidth
-              value={subject.pre_requisite}
               onChange={handleChange}
             />
           </Grid>
