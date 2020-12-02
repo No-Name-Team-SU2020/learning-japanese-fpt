@@ -6,6 +6,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateSubject } from "../../../store/actions/admin";
 import Loader from "../../ui/Loader/Loader";
+import ConfirmAction from "../../shared/ConfirmAction";
 
 const EditSubject = () => {
   const { sId } = useParams();
@@ -21,6 +22,12 @@ const EditSubject = () => {
   const { loading, error, subjectList } = useSelector(
     (state) => state.adminSubjectList
   );
+  const [openUpdateConfirm, setOpenUpdateConfirm] = useState(false);
+
+  function openModal(){
+    setOpenUpdateConfirm(true);
+  }
+  const closeModal = () => setOpenUpdateConfirm(false);
 
   useEffect(() => {
     const s = subjectList.find((s) => s.subject_id === sId);
@@ -85,10 +92,11 @@ const EditSubject = () => {
           <Grid item md={4}></Grid>
           <Grid item md={8}>
             <Button
-              type='submit'
+              // type='submit'
               variant='contained'
               color='primary'
               className='mr-3'
+              onClick={() => openModal()}
             >
               Update
             </Button>
@@ -101,6 +109,20 @@ const EditSubject = () => {
             </Button>
           </Grid>
         </Grid>
+        <ConfirmAction open={openUpdateConfirm} close={closeModal}>
+        <h5 className='mb-4'>Are you sure ? This can not be undone</h5>
+        <Button
+          type='submit'
+          variant='contained'
+          color='secondary'
+          className='mr-2'
+        >
+          Confirm
+        </Button>
+        <Button variant='contained' color='default' onClick={closeModal}>
+          Cancel
+        </Button>
+      </ConfirmAction>
       </form>
     </div>
   );
