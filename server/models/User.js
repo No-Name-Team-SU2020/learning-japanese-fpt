@@ -9,6 +9,10 @@ const User = db.define('users', {
         primaryKey: true,
         allowNull: false
     },
+    avatar: {
+        type: sequelize.STRING,
+    },
+
     display_name: {
         type: sequelize.STRING,
         allowNull: false

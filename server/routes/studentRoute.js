@@ -10,14 +10,30 @@ const Subject = require('../models/Subject');
 const Class_Subject = require('../models/Class_Subject');
 const Student_Subject = require('../models/Student_Subject');
 const Lesson = require('../models/Lesson');
+const User = require('../models/User');
+const Quiz_Result = require('../models/Quiz_Result');
 
 //view all subjects of a student
-router.get('/student-subjects/:studentId', checkAuth, async(req, res) => {
+router.get('/student-subjects', checkAuth, async(req, res) => {
     try {
-        const studentId = req.params.studentId;
+
+        const currentUser = req.user.user_name;
+
+        const checkUser = await User.findOne({
+            where: {
+                user_name: currentUser
+            }
+        });
+
+        const currentStudent = await Student.findOne({
+            where: {
+                user_name: checkUser.user_name
+            },
+            attributes: ['student_id']
+        });
 
         const data = await Student.findAll({
-            where: { student_id: studentId },
+            where: { student_id: currentStudent.student_id },
             attributes: ['student_id','student_name'],
             include: [
                 { model: Subject, through: {attributes: []} },
@@ -44,56 +60,65 @@ router.get('/student-subjects/:studentId', checkAuth, async(req, res) => {
     }
 });
 
-router.post('/answer', checkAuth, async(req, res) => {
+//chấm điểm cho sinh viên rồi lưu kết quả vào db
+router.post('/answer/:lessonId', checkAuth, async(req, res) => {
     try {
-        const lesson_id = req.body.lesson_id;
+        const lessonId = req.params.lessonId;
 
-        //const student_id = req.body.student_id;
+        //lấy ra student đang đăng nhập hiện tại
+        const currentLesson = await Lesson.findOne({
+            where: {
+                lesson_id: lessonId
+            },
+            attributes: ['lesson_id']
+        });
+
+        const currentUser = req.user.user_name;
+
+        const checkUser = await User.findOne({
+            where: {
+                user_name: currentUser
+            }
+        });
+
+        const currentStudent = await Student.findOne({
+            where: {
+                user_name: checkUser.user_name
+            },
+            attributes: ['student_id']
+        });
         
         // [ {question_id, answer} ]
         const userResponses = req.body.answers;
 
         if (!userResponses) {
-            // return loi~
+            // return loi
             // ...
+            return res.json({
+                message: "user response is not valid"
+            })
         }
 
         if (!Array.isArray(userResponses)) {
             // return loi vi khong phai la array
-            // ...
+            return res.json({
+                message: "user response is not an array"
+            })
         }
-
-        // answers = [
-        //     // {correct_answer: "Thể thao"}, 
-        //     // {correct_answer: "dấdawda"}, 
-        //     // {correct_answer: "ădasdadwadw"}, 
-        //     // {correct_answer: "ngữ"}, 
-        //     // {correct_answer: "Dầu"}, 
-        //     // {correct_answer: "Sở thích"}
-        // ];
-
-        // const currentStudent = await Student.findOne({
-        //     where: {
-        //         student_id: student_id
-        //     }
-        // });
 
         const currentQuestions = await Question.findAll({
             where: {
-                lesson_id: lesson_id
+                lesson_id: currentLesson.lesson_id
             },
-            attributes: ['question_id', 'correct_answer'],
+            attributes: ['question_id', 'correct_answer', 'lesson_id'],
             raw: true
         });
 
-        console.log(currentQuestions);
-        console.log(82, userResponses);
+        //console.log(currentQuestions);
+        //console.log(82, userResponses);
+
         let score = 0;
-        
         userResponses.forEach(userResponse => {
-            // var hoisting js
-            // var abc = 5;
-            
             /**
              * tim question ma user tra loi trong all questions
              * neu khong co thi `currentQuestion` =  null => if => false
@@ -106,18 +131,62 @@ router.post('/answer', checkAuth, async(req, res) => {
             }
         });
         
-        console.log(90, score);
+        //console.log(90, score);
         
         const totalQuestions = currentQuestions.length;
         const percentage = (score / totalQuestions) * 100;
+
+        const resultToDb = await Quiz_Result.create({
+            student_id: currentStudent.student_id,
+            lesson_id: currentLesson.lesson_id,
+            score: score,
+            percentage: percentage
+        });
 
         return res.json({
             message: "Answer and score",
             data: {
                 answer: userResponses,
-                score: score,
-                percentage: percentage,
+                score: resultToDb
             }
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//view all quiz result of a student
+router.get('/quiz_results', checkAuth, async(req, res) => {
+    try {
+        const currentUser = req.user.user_name;
+
+        const checkUser = await User.findOne({
+            where: {
+                user_name: currentUser
+            }
+        });
+
+        const currentStudent = await Student.findOne({
+            where: {
+                user_name: checkUser.user_name
+            },
+            attributes: ['student_id']
+        });
+
+        const results = await Quiz_Result.findAll({
+            where: {
+                student_id: currentStudent.student_id
+            }
+        });
+
+        return res.json({
+            message: "found all quiz result of student", 
+            data: results
         });
     } catch (error) {
         console.error(error.message);
@@ -128,39 +197,45 @@ router.post('/answer', checkAuth, async(req, res) => {
     }
 });
 
-//testing
-router.get('/questions/:lessonId', checkAuth, async(req, res) => {
+//view quiz result by lesson id
+router.get('/quiz_results/:lessonId', checkAuth, async(req, res) => {
     try {
-        // const lessonId = req.params.lessonId;
-        // const hashAnswer = {
-        //     1: 'B',
-        //     2: 'C'
-        // }
+        const lessonId = req.params.lessonId;
 
-        // const question = DB...Class..;
-        // const answer = question.answer; // answer = c
-
-        // question[answer] => question.c
-
-
-        // const toDB = JSON.stringify(hashAnswer);
-        // const toHash = JSON.parse()
-
-        const questions = await Question.findAll({
-            order: [
-                sequelize.literal('random()')
-            ],
-            limit: 10,
+        const currentLesson = await Lesson.findOne({
             where: {
                 lesson_id: lessonId
             },
-            attributes: ['question_id', 'question_content', 'option_a', 'option_b', 'option_c', 'option_d']
+            attributes: ['lesson_id']
         });
 
-        return res.status(200).json({
-            message: "quiz created successfully",
-            data: questions
-        })
+        const currentUser = req.user.user_name;
+
+        const checkUser = await User.findOne({
+            where: {
+                user_name: currentUser
+            }
+        });
+
+        const currentStudent = await Student.findOne({
+            where: {
+                user_name: checkUser.user_name
+            },
+            attributes: ['student_id']
+        });
+
+        const result = await Quiz_Result.findOne({
+            where: {
+                student_id: currentStudent.student_id,
+                lesson_id: currentLesson.lesson_id,
+            }
+        });
+
+        return res.json({
+            message: "quiz result found",
+            data: result
+        });
+
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -171,3 +246,44 @@ router.get('/questions/:lessonId', checkAuth, async(req, res) => {
 });
 
 module.exports = router;
+//testing
+// router.get('/questions/:lessonId', checkAuth, async(req, res) => {
+//     try {
+//         // const lessonId = req.params.lessonId;
+//         // const hashAnswer = {
+//         //     1: 'B',
+//         //     2: 'C'
+//         // }
+
+//         // const question = DB...Class..;
+//         // const answer = question.answer; // answer = c
+
+//         // question[answer] => question.c
+
+
+//         // const toDB = JSON.stringify(hashAnswer);
+//         // const toHash = JSON.parse()
+
+//         const questions = await Question.findAll({
+//             order: [
+//                 sequelize.literal('random()')
+//             ],
+//             limit: 10,
+//             where: {
+//                 lesson_id: lessonId
+//             },
+//             attributes: ['question_id', 'question_content', 'option_a', 'option_b', 'option_c', 'option_d']
+//         });
+
+//         return res.status(200).json({
+//             message: "quiz created successfully",
+//             data: questions
+//         })
+//     } catch (error) {
+//         console.error(error.message);
+//         res.status(500).json({
+//             message: "Server error",
+//             error: error
+//         });
+//     }
+// });
