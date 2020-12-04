@@ -6,7 +6,6 @@ import { useHistory, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getSingleLesson, updateLesson } from "../../../store/actions/admin";
 import Loader from "../../ui/Loader/Loader";
-import ConfirmAction from "../../shared/ConfirmAction";
 
 const EditLessonForm = ({ subjectId }) => {
   const { lId } = useParams();
@@ -14,12 +13,6 @@ const EditLessonForm = ({ subjectId }) => {
   const { loading, error } = useSelector((state) => state.adminClassList);
   const singleLesson = useSelector((state) => state.singleLesson);
   const dispatch = useDispatch();
-  const [openUpdateConfirm, setOpenUpdateConfirm] = useState(false);
-
-  function openModal(){
-    setOpenUpdateConfirm(true);
-  }
-  const closeModal = () => setOpenUpdateConfirm(false);
 
   const [lesson, setLesson] = useState({
     lesson_name: "",
@@ -110,11 +103,10 @@ const EditLessonForm = ({ subjectId }) => {
           <Grid item md={4}></Grid>
           <Grid item md={8}>
             <Button
-              // type='submit'
+              type='submit'
               variant='contained'
               color='primary'
               className='mr-3'
-              onClick={() => openModal()}
             >
               Update
             </Button>
@@ -127,20 +119,6 @@ const EditLessonForm = ({ subjectId }) => {
             </Button>
           </Grid>
         </Grid>
-        <ConfirmAction open={openUpdateConfirm} close={closeModal}>
-        <h5 className='mb-4'>Are you sure ? This can not be undone</h5>
-        <Button
-          type='submit'
-          variant='contained'
-          color='secondary'
-          className='mr-2'
-        >
-          Confirm
-        </Button>
-        <Button variant='contained' color='default' onClick={closeModal}>
-          Cancel
-        </Button>
-      </ConfirmAction>
       </form>
     </div>
   );

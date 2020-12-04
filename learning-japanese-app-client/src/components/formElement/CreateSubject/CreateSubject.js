@@ -6,18 +6,11 @@ import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { createSubject } from "../../../store/actions/admin";
 import Loader from "../../ui/Loader/Loader";
-import ConfirmAction from "../../shared/ConfirmAction";
 
 const CreateSubjectForm = () => {
   const history = useHistory();
   const { loading, error } = useSelector((state) => state.adminSubjectList);
   const dispatch = useDispatch();
-  const [openCreateConfirm, setOpenCreateConfirm] = useState(false);
-
-  function openModal(){
-    setOpenCreateConfirm(true);
-  }
-  const closeModal = () => setOpenCreateConfirm(false);
 
   const [subject, setSubject] = useState({
     subject_name: "",
@@ -81,6 +74,51 @@ const CreateSubjectForm = () => {
             />
           </Grid>
         </Grid>
+        {/* <Grid container spacing={3}>
+          <Grid item md={4}>
+            Semester :
+          </Grid>
+          <Grid item md={8}>
+            <TextField
+              label='Semester:'
+              variant='outlined'
+              name='semester'
+              fullWidth
+              value={subject.semester}
+              onChange={handleChange}
+            />
+          </Grid>
+        </Grid>
+        <Grid container spacing={3}>
+          <Grid item md={4}>
+            No Credit :
+          </Grid>
+          <Grid item md={8}>
+            <TextField
+              label='No Credit :'
+              variant='outlined'
+              name='no_credit'
+              fullWidth
+              value={subject.no_credit}
+              onChange={handleChange}
+            />
+          </Grid>
+        </Grid>
+        <Grid container spacing={3}>
+          <Grid item md={4}>
+            Pre Requisite :
+          </Grid>
+          <Grid item md={8}>
+            <TextField
+              label='Pre Requisite :'
+              variant='outlined'
+              name='pre_requisite'
+              fullWidth
+              value={subject.pre_requisite}
+              onChange={handleChange}
+            />
+          </Grid>
+        </Grid> */}
         {loading && <Loader />}
         {error && (
           <div className='alert alert-danger' role='alert'>
@@ -91,11 +129,10 @@ const CreateSubjectForm = () => {
           <Grid item md={4}></Grid>
           <Grid item md={8}>
             <Button
-              // type='submit'
+              type='submit'
               variant='contained'
               color='primary'
               className='mr-3'
-              onClick={() => openModal()}
             >
               Create
             </Button>
@@ -108,20 +145,6 @@ const CreateSubjectForm = () => {
             </Button>
           </Grid>
         </Grid>
-        <ConfirmAction open={openCreateConfirm} close={closeModal}>
-        <h5 className='mb-4'>Are you sure ? This can not be undone</h5>
-        <Button
-          type='submit'
-          variant='contained'
-          color='secondary'
-          className='mr-2'
-        >
-          Confirm
-        </Button>
-        <Button variant='contained' color='default' onClick={closeModal}>
-          Cancel
-        </Button>
-      </ConfirmAction>
       </form>
     </div>
   );
