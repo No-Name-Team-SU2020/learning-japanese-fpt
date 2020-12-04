@@ -93,6 +93,18 @@ router.get('/class-students/:classId', checkAuth, async(req, res) => {
     }
 });
 
+router.get('/', checkAuth, async(req, res) => {
+    try {
+        
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
 module.exports = router
 //Tính từ dòng này thì code ở dưới tạm không dùng
 //view all quiz

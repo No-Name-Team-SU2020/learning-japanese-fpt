@@ -60,10 +60,12 @@ router.get('/student-subjects', checkAuth, async(req, res) => {
     }
 });
 
-router.post('/lessons/:lessonId/answer', checkAuth, async(req, res) => {
+//chấm điểm cho sinh viên rồi lưu kết quả vào db
+router.post('/answer/:lessonId', checkAuth, async(req, res) => {
     try {
         const lessonId = req.params.lessonId;
 
+        //lấy ra student đang đăng nhập hiện tại
         const currentLesson = await Lesson.findOne({
             where: {
                 lesson_id: lessonId
@@ -158,39 +160,82 @@ router.post('/lessons/:lessonId/answer', checkAuth, async(req, res) => {
     }
 });
 
-//testing
-router.get('/questions/:lessonId', checkAuth, async(req, res) => {
+//view all quiz result of a student
+router.get('/quiz_results', checkAuth, async(req, res) => {
     try {
-        // const lessonId = req.params.lessonId;
-        // const hashAnswer = {
-        //     1: 'B',
-        //     2: 'C'
-        // }
+        const currentUser = req.user.user_name;
 
-        // const question = DB...Class..;
-        // const answer = question.answer; // answer = c
+        const checkUser = await User.findOne({
+            where: {
+                user_name: currentUser
+            }
+        });
 
-        // question[answer] => question.c
+        const currentStudent = await Student.findOne({
+            where: {
+                user_name: checkUser.user_name
+            },
+            attributes: ['student_id']
+        });
 
+        const results = await Quiz_Result.findAll({
+            where: {
+                student_id: currentStudent.student_id
+            }
+        });
 
-        // const toDB = JSON.stringify(hashAnswer);
-        // const toHash = JSON.parse()
+        return res.json({
+            message: "found all quiz result of student", 
+            data: results
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
 
-        const questions = await Question.findAll({
-            order: [
-                sequelize.literal('random()')
-            ],
-            limit: 10,
+//view quiz result by lesson id
+router.get('/quiz_results/:lessonId', checkAuth, async(req, res) => {
+    try {
+        const lessonId = req.params.lessonId;
+
+        const currentLesson = await Lesson.findOne({
             where: {
                 lesson_id: lessonId
             },
-            attributes: ['question_id', 'question_content', 'option_a', 'option_b', 'option_c', 'option_d']
+            attributes: ['lesson_id']
         });
 
-        return res.status(200).json({
-            message: "quiz created successfully",
-            data: questions
-        })
+        const currentUser = req.user.user_name;
+
+        const checkUser = await User.findOne({
+            where: {
+                user_name: currentUser
+            }
+        });
+
+        const currentStudent = await Student.findOne({
+            where: {
+                user_name: checkUser.user_name
+            },
+            attributes: ['student_id']
+        });
+
+        const result = await Quiz_Result.findOne({
+            where: {
+                student_id: currentStudent.student_id,
+                lesson_id: currentLesson.lesson_id,
+            }
+        });
+
+        return res.json({
+            message: "quiz result found",
+            data: result
+        });
+
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -201,3 +246,44 @@ router.get('/questions/:lessonId', checkAuth, async(req, res) => {
 });
 
 module.exports = router;
+//testing
+// router.get('/questions/:lessonId', checkAuth, async(req, res) => {
+//     try {
+//         // const lessonId = req.params.lessonId;
+//         // const hashAnswer = {
+//         //     1: 'B',
+//         //     2: 'C'
+//         // }
+
+//         // const question = DB...Class..;
+//         // const answer = question.answer; // answer = c
+
+//         // question[answer] => question.c
+
+
+//         // const toDB = JSON.stringify(hashAnswer);
+//         // const toHash = JSON.parse()
+
+//         const questions = await Question.findAll({
+//             order: [
+//                 sequelize.literal('random()')
+//             ],
+//             limit: 10,
+//             where: {
+//                 lesson_id: lessonId
+//             },
+//             attributes: ['question_id', 'question_content', 'option_a', 'option_b', 'option_c', 'option_d']
+//         });
+
+//         return res.status(200).json({
+//             message: "quiz created successfully",
+//             data: questions
+//         })
+//     } catch (error) {
+//         console.error(error.message);
+//         res.status(500).json({
+//             message: "Server error",
+//             error: error
+//         });
+//     }
+// });
