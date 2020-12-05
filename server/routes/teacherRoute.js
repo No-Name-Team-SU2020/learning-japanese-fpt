@@ -6,7 +6,9 @@ const Class = require('../models/Class');
 const Quiz = require('../models/Quiz');
 const Subject = require('../models/Subject');
 const Lesson = require('../models/Lesson');
+const User = require('../models/User');
 const Student = require('../models/Student');
+const Quiz_Result = require('../models/Quiz_Result');
 const Teacher_Class = require('../models/Teacher_Class');
 const Class_Subject = require('../models/Class_Subject');
 const Student_Class = require('../models/Student_Class');
@@ -94,9 +96,70 @@ router.get('/class-students/:classId', checkAuth, async(req, res) => {
     }
 });
 
-router.get('/', checkAuth, async(req, res) => {
+//view all student quiz results by lesson id
+router.get('lessons/:lessonId/quiz-results', checkAuth, async(req, res) => {
     try {
-        
+
+        const lessonId = req.params.lessonId;
+
+        const results = await Quiz_Result.findAll({
+            where: {
+                lesson_id: lessonId
+            }
+        });
+
+        if(!results){
+            return res.json({
+                message: "Can't find quiz results"
+            });
+        }
+
+        return res.json({
+            message: "quiz result found",
+            data: results
+        });
+
+        // const classId = req.params.classId;
+
+        // const data = await Class.findAll({
+        //     where: { class_id: classId },
+        //     attributes: ['class_id', 'class_name'],
+        //     include: [
+        //         { model: Student, through: {attributes: []}}
+        //     ]
+        // });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//view quiz result by id
+router.get('/quiz-results/:quizId', checkAuth, async(req, res) => {
+    try {
+        const quizId = req.params.quizId;
+
+        const result = await Quiz_Result.findAll({
+            where: {
+                quiz_id: quizId
+            }
+        });
+
+        if(!result){
+            return res.json({
+                message: "Can't find quiz result"
+            });
+        }
+
+        return res.json({
+            message: "quiz result found",
+            data: result
+        });
+
     } catch (error) {
         console.error(error.message);
         res.status(500).json({

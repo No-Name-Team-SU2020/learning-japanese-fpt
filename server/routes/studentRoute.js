@@ -65,7 +65,6 @@ router.post('/answer/:lessonId', checkAuth, async(req, res) => {
     try {
         const lessonId = req.params.lessonId;
 
-        //lấy ra student đang đăng nhập hiện tại
         const currentLesson = await Lesson.findOne({
             where: {
                 lesson_id: lessonId
@@ -73,6 +72,7 @@ router.post('/answer/:lessonId', checkAuth, async(req, res) => {
             attributes: ['lesson_id']
         });
 
+        //lấy ra student đang đăng nhập hiện tại
         const currentUser = req.user.user_name;
 
         const checkUser = await User.findOne({
@@ -93,7 +93,6 @@ router.post('/answer/:lessonId', checkAuth, async(req, res) => {
 
         if (!userResponses) {
             // return loi
-            // ...
             return res.json({
                 message: "user response is not valid"
             })
@@ -146,7 +145,7 @@ router.post('/answer/:lessonId', checkAuth, async(req, res) => {
         return res.json({
             message: "Answer and score",
             data: {
-                answer: userResponses,
+                answers: userResponses,
                 score: resultToDb
             }
         });
@@ -197,7 +196,7 @@ router.get('/quiz_results', checkAuth, async(req, res) => {
     }
 });
 
-//view quiz result by lesson id
+//view a student quiz result by lesson id
 router.get('/quiz_results/:lessonId', checkAuth, async(req, res) => {
     try {
         const lessonId = req.params.lessonId;
