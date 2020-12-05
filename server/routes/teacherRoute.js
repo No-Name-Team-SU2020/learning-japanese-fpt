@@ -11,6 +11,7 @@ const Teacher_Class = require('../models/Teacher_Class');
 const Class_Subject = require('../models/Class_Subject');
 const Student_Class = require('../models/Student_Class');
 
+
 //view all classes of teacher
 router.get('/teacher-classes', checkAuth, async (req, res) => {
     try {

@@ -20,8 +20,8 @@ const StudentLayout = () => {
             <div className="d-block d-lg-none"><ToggleSidebar /></div>
             <Switch>
               <Route exact path="/" component={StudentHome} />
-              <Route path="/subject/:id" component={Subject} />
-              <Route path="/quiz/:id" component={JoinQuestion} />
+              <Route path="/lesson/:sId" component={Subject} />
+              <Route path="/quiz/:lId" component={JoinQuestion} />
               <Route path="/grammar" component={Grammer} />
               <Route path="/syllabus" component={Syllabus} />
               <Route component={NotFound} />

@@ -13,11 +13,9 @@ const App = () => {
   const { isAuthenticated, token } = useSelector(state => state.auth);
   const { loading, profile } = useSelector(state => state.user);
   const dispatch = useDispatch();
-
   useEffect(() => {
     if (isAuthenticated) dispatch(getProfile(token));
   }, [dispatch, token, isAuthenticated]);
-
   return (
     <Router>
       {
