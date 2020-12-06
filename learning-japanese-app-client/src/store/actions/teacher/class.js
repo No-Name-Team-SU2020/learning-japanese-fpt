@@ -5,9 +5,8 @@ import {
   TEACHER_GET_MY_CLASSES_FAILED,
 } from "../types";
 
-export const getClassesByTeacher = (tId) => ({
+export const getClassesByTeacher = () => ({
   type: TEACHER_GET_MY_CLASSES,
-  tId,
 });
 
 export const getClassesByTeacherStart = () => ({

@@ -3,7 +3,7 @@ import { getQuestionsFailed, getQuestionsStart, getQuestionsSuccess,
   createQuestionStart, createQuestionSuccess,createQuestionFailed,
   deleteQuestionFailed, deleteQuestionStart, deleteQuestionSuccess,
   updateQuestionFailed, updateQuestionStart, updateQuestionSuccess,
-  findQuestionFailed, findQuestionStart, findQuestionSuccess
+  findQuestionFailed, findQuestionStart
 } from '../../actions/admin/question';
 import {
   ADMIN_GET_QUESTIONS, ADMIN_CREATE_QUESTION, ADMIN_DELETE_QUESTION, ADMIN_UPDATE_QUESTION, 
@@ -33,7 +33,7 @@ function* findQuestionWorker(action) {
   try
   {
     const res = yield searchQuestionRequest(action.term);
-    yield put(findQuestionSuccess(res.data.data));
+    yield put(getQuestionsSuccess(res.data.data));
   } catch (error)
   {
     yield put(findQuestionFailed(error.response?.data?.message || 'Something went wrong'));

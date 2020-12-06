@@ -14,10 +14,7 @@ const CreateSubjectForm = () => {
 
   const [subject, setSubject] = useState({
     subject_name: "",
-    subject_id: "",
-    semester: "",
-    no_credit: "",
-    pre_requisite: "",
+    subject_code: "",
   });
 
   const handleChange = (e) => {
@@ -31,10 +28,7 @@ const CreateSubjectForm = () => {
     dispatch(createSubject(subject));
     setSubject({
       subject_name: "",
-      subject_id: "",
-      semester: "",
-      no_credit: "",
-      pre_requisite: "",
+      subject_code: "",
     });
   };
   return (
@@ -48,12 +42,12 @@ const CreateSubjectForm = () => {
           </Grid>
           <Grid item md={8}>
             <TextField
-              label='Subject Identifier'
+              label='Subject Code'
               variant='outlined'
-              name='subject_id'
+              name='subject_code'
               required
               fullWidth
-              value={subject.subject_id}
+              value={subject.subject_code}
               onChange={handleChange}
             />
           </Grid>
@@ -74,51 +68,6 @@ const CreateSubjectForm = () => {
             />
           </Grid>
         </Grid>
-        {/* <Grid container spacing={3}>
-          <Grid item md={4}>
-            Semester :
-          </Grid>
-          <Grid item md={8}>
-            <TextField
-              label='Semester:'
-              variant='outlined'
-              name='semester'
-              fullWidth
-              value={subject.semester}
-              onChange={handleChange}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={3}>
-          <Grid item md={4}>
-            No Credit :
-          </Grid>
-          <Grid item md={8}>
-            <TextField
-              label='No Credit :'
-              variant='outlined'
-              name='no_credit'
-              fullWidth
-              value={subject.no_credit}
-              onChange={handleChange}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={3}>
-          <Grid item md={4}>
-            Pre Requisite :
-          </Grid>
-          <Grid item md={8}>
-            <TextField
-              label='Pre Requisite :'
-              variant='outlined'
-              name='pre_requisite'
-              fullWidth
-              value={subject.pre_requisite}
-              onChange={handleChange}
-            />
-          </Grid>
-        </Grid> */}
         {loading && <Loader />}
         {error && (
           <div className='alert alert-danger' role='alert'>

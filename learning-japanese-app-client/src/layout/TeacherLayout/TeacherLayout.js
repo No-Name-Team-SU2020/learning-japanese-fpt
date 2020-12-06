@@ -6,8 +6,10 @@ import { Grid } from "@material-ui/core";
 import TeacherSidebar from "../../components/shared/TeacherSidebar";
 import ListClassStudying from "../../pages/ListClassStudying";
 import TeacherHome from "../../components/pagesComponent/TeacherHome";
+import { useSelector } from 'react-redux';
 
 const AdminLayout = () => {
+  const { isAuthenticated  } = useSelector(state => state.auth);
   return (
     <Fragment>
       <Header />
@@ -21,7 +23,7 @@ const AdminLayout = () => {
             <Switch>
             <Route path='/manage-subject/:sId' component={ListClassStudying} />
               <Route exact path='/' component={TeacherHome} />
-              <Route component={NotFound} />
+              { isAuthenticated && <Route component={NotFound} />}
             </Switch>
           </Grid>
         </Grid>

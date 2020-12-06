@@ -21,8 +21,8 @@ const QuestionList = () => {
   const adminSubjectList = useSelector((state) => state.adminSubjectList);
   const adminLessonList = useSelector((state) => state.adminLessonList);
   const dispatch = useDispatch();
-  const [subject, setSubject] = useState(localStorage.getItem('subject') ? localStorage.getItem('subject') : 'JPD111' );
-  const [lesson, setLesson] = useState( localStorage.getItem('lesson') ? localStorage.getItem('lesson') : "LS1");
+  const [subject, setSubject] = useState(localStorage.getItem('subject') ? localStorage.getItem('subject') : 'JPD111');
+  const [lesson, setLesson] = useState( localStorage.getItem('lesson') ? localStorage.getItem('lesson') : "1");
 
   useEffect(() => {
     dispatch(getSubjects());

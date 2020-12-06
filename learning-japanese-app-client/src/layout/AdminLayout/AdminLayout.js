@@ -8,8 +8,10 @@ import ManageClass from "../../pages/ManageClass";
 import ManageLesson from "../../pages/ManageLesson/ManageLesson";
 import NotFound from "../../pages/_404/_404";
 import ClassTable from "../../components/pagesComponent/ClassTable";
+import { useSelector } from 'react-redux';
 
 const AdminLayout = () => {
+  const { isAuthenticated  } = useSelector(state => state.auth);
   return (
     <Fragment>
       <Header />
@@ -27,7 +29,7 @@ const AdminLayout = () => {
         <Route path='/manage-subject' component={ManageSubject} />
         <Route path='/manage-class' component={ManageClass} />
         <Route path='/manage-lesson/:sId' component={ManageLesson} />
-        <Route component={NotFound} />
+        {isAuthenticated && <Route component={NotFound} />}
       </Switch>
     </Fragment>
   );

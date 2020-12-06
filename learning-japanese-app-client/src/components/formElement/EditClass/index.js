@@ -43,7 +43,7 @@ const EditClassForm = () => {
       <h1 className='border-bottom pb-2 text-center'>FPT EDUCATION</h1>
       <h3 className='my-4'>Edit Class</h3>
       <form onSubmit={submitHandler}>
-        {/* <Grid container spacing={3}>
+        <Grid container spacing={3}>
           <Grid item md={4}>
             Class ID:
           </Grid>
@@ -58,7 +58,7 @@ const EditClassForm = () => {
               onChange={handleChange}
             />
           </Grid>
-        </Grid> */}
+        </Grid>
         <Grid container spacing={3}>
           <Grid item md={4}>
             Class name:

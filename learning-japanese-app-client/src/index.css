@@ -158,3 +158,6 @@ li {
 .MuiTableRow-head {
 	background-color: #ececec !important;
 }
+.line-height-lg {
+	line-height: 1.8;
+}

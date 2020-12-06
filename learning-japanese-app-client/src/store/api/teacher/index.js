@@ -1,1 +1,1 @@
-export { getMyClasses, getStudentsByClass } from './class';
+export { getMyClassesRequest, getStudentsByClassRequest } from "./class";

@@ -5,8 +5,9 @@ import {
   STUDENT_SUBMIT_ANSWERS_FAILED,
 } from "../types";
 
-export const submitAnswers = (listAnswers) => ({
+export const submitAnswers = (lId, listAnswers) => ({
   type: STUDENT_SUBMIT_ANSWERS,
+  lId,
   listAnswers,
 });
 

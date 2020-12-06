@@ -1,8 +1,9 @@
 import axios from "../../api/axios";
 
-export { getMySubjects } from "./subject";
-
-export const createAnswers = async (lessonId, answers) => {
+export const getMySubjectsRequest = async () => {
+  return axios.get(`/student/student-subjects`);
+};
+export const createAnswersRequest = async (lessonId, answers) => {
   return axios.post(`/student/answer/${lessonId}`, answers, {
     headers: {
       "Content-type": "application/json",
@@ -10,10 +11,10 @@ export const createAnswers = async (lessonId, answers) => {
   });
 };
 
-export const getMyQuizes = async () => {
+export const getMyQuizesRequest = async () => {
   return axios.get(`/student/quiz_results`);
 };
 
-export const getResultsByLesson = async (lessonId) => {
+export const getResultsByLessonRequest = async (lessonId) => {
   return axios.get(`/student/quiz_results/${lessonId}`);
 };

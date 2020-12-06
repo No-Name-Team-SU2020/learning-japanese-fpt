@@ -50,7 +50,7 @@ const SubjectList = ({ subjects, url }) => {
         <Table aria-label='lessons table'>
           <TableHead>
             <TableRow>
-              <TableCell>ID</TableCell>
+              <TableCell>Subject Code</TableCell>
               <TableCell>Subject Name</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
@@ -59,7 +59,7 @@ const SubjectList = ({ subjects, url }) => {
             {subjects.map((subject) => (
               <TableRow key={subject.subject_id}>
                 <TableCell component='th' scope='row'>
-                  {subject.subject_id}
+                  {subject.subject_code}
                 </TableCell>
                 <TableCell>{subject.subject_name}</TableCell>
                 <TableCell>
@@ -72,7 +72,7 @@ const SubjectList = ({ subjects, url }) => {
                   </IconButton>
                   <IconButton
                     onClick={() =>
-                      history.push(`${url}/subject/edit/${subject.subject_id}`)
+                      history.push(`${url}/subject/edit/${subject.subject_code}`)
                     }
                   >
                     <EditIcon />

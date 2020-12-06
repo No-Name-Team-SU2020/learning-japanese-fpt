@@ -6,7 +6,7 @@ import QuestionList from "../QuestionList/QuestionList";
 
 const ManageQuestion = ({ match }) => {
   return (
-    <div className='my-5'>
+    <div className='my-3'>
       <Route exact path={`${match.url}`}>
         <QuestionList />
       </Route>

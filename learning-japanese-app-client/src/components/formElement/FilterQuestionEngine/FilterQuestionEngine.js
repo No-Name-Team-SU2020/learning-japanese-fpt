@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Button, Grid, MenuItem, TextField } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
-import SearchResult from "./SearchResult";
 import { useDispatch } from "react-redux";
 import { findQuestion } from "../../../store/actions/admin";
+import { getQuestions } from '../../../store/actions/admin/question';
 
 const FilterQuestionEngine = ({
   subject,
@@ -15,8 +15,14 @@ const FilterQuestionEngine = ({
 }) => {
   const [questionTitle, setQuestionTitle] = useState("");
   const dispatch = useDispatch();
-  // const [showResult, setShowResult] = useState(questionTitle.length > 0);
-
+  const changeHandler = e => {
+    if(e.target.value.trim().length === 0 ) {
+      dispatch(getQuestions(lesson));
+      setQuestionTitle('');
+    } else {
+      setQuestionTitle(e.target.value);
+    }
+  }
   const findQuestionHandler = () => {
     dispatch(findQuestion(questionTitle));
   };
@@ -67,11 +73,11 @@ const FilterQuestionEngine = ({
             <p className='mb-2'>Question title :</p>
             <TextField
               value={questionTitle}
-              onChange={(e) => setQuestionTitle(e.target.value)}
+              onChange={changeHandler}
               fullWidth
               variant='outlined'
             />
-            <SearchResult />
+            {/* <SearchResult /> */}
           </Grid>
           <Grid item md={2}>
             <Button
