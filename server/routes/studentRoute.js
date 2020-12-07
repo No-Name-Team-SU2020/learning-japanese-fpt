@@ -4,7 +4,6 @@ const checkAuth = require('../middleware/checkAuth');
 const Student = require('../models/Student');
 const Class = require('../models/Class');
 const Student_Class = require('../models/Student_Class');
-const Quiz = require('../models/Quiz');
 const Question = require('../models/Question');
 const Subject = require('../models/Subject');
 const Class_Subject = require('../models/Class_Subject');
@@ -16,7 +15,6 @@ const Quiz_Result = require('../models/Quiz_Result');
 //view all subjects of a student
 router.get('/student-subjects', checkAuth, async(req, res) => {
     try {
-
         const currentUser = req.user.user_name;
 
         const checkUser = await User.findOne({
@@ -132,7 +130,7 @@ router.post('/answer/:lessonId', checkAuth, async(req, res) => {
         
         //console.log(90, score);
         
-        const totalQuestions = currentQuestions.length;
+        const totalQuestions = userResponses.length;
         const percentage = (score / totalQuestions) * 100;
 
         const resultToDb = await Quiz_Result.create({
@@ -245,44 +243,3 @@ router.get('/quiz_results/:lessonId', checkAuth, async(req, res) => {
 });
 
 module.exports = router;
-//testing
-// router.get('/questions/:lessonId', checkAuth, async(req, res) => {
-//     try {
-//         // const lessonId = req.params.lessonId;
-//         // const hashAnswer = {
-//         //     1: 'B',
-//         //     2: 'C'
-//         // }
-
-//         // const question = DB...Class..;
-//         // const answer = question.answer; // answer = c
-
-//         // question[answer] => question.c
-
-
-//         // const toDB = JSON.stringify(hashAnswer);
-//         // const toHash = JSON.parse()
-
-//         const questions = await Question.findAll({
-//             order: [
-//                 sequelize.literal('random()')
-//             ],
-//             limit: 10,
-//             where: {
-//                 lesson_id: lessonId
-//             },
-//             attributes: ['question_id', 'question_content', 'option_a', 'option_b', 'option_c', 'option_d']
-//         });
-
-//         return res.status(200).json({
-//             message: "quiz created successfully",
-//             data: questions
-//         })
-//     } catch (error) {
-//         console.error(error.message);
-//         res.status(500).json({
-//             message: "Server error",
-//             error: error
-//         });
-//     }
-// });

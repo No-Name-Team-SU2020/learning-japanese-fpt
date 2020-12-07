@@ -43,7 +43,6 @@ router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
 //view lesson by lesson id
 router.get('/lessons/:lessonId', checkAuth, async (req, res) => {
     try {
-
         const lessonId = req.params.lessonId;
 
         const findLesson = await Lesson.findOne({
@@ -71,7 +70,7 @@ router.get('/lessons/:lessonId', checkAuth, async (req, res) => {
     }
 });
 
-//view all question in a lesson
+//view all question by lesson for admin and do quiz for student
 router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
     try {
 
@@ -91,8 +90,9 @@ router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
                 where: {
                     lesson_id: lessonId
                 },
-                attributes: ['question_id', 'question_content', 'option_a', 'option_b', 'option_c', 'option_d', 'correct_answer']
+                //attributes: ['question_id', 'question_content', 'option_a', 'option_b', 'option_c', 'option_d','subject_id', 'lesson_id', 'correct_answer']
             });
+
         } else if(checkUser.role_id === 3){
             listQuestions = await Question.findAll({
                 order: [
@@ -112,7 +112,7 @@ router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
 
         if (!listQuestions) {
             return res.json({
-                message: "Something wrong",
+                message: "questions not found",
             });
         }
 

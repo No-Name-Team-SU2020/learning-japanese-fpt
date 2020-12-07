@@ -431,14 +431,61 @@ router.delete('/lessons/:lessonId', checkAuth, async (req, res) => {
     }
 });
 
-//create new question
-router.post('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
+//view all question by subject
+router.get('/subjects/:subjectId/questions', checkAuth, async(req, res) => {
     try {
+        const subjectId = req.params.subjectId;
+
+        const currentSubject = await Subject.findOne({
+            where: {
+                subject_id: subjectId
+            },
+            attributes: ['subject_id']
+        });
+
+        const listQuestions = await Question.findAll({
+            where: {
+                subject_id: currentSubject.subject_id
+            }
+        });
+
+        if(!listQuestions){
+            return res.json({
+                message: "questions not found"
+            })
+        }
+
+        return res.json({
+            message: "questions found",
+            data: listQuestions
+        })
+        
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//create new question
+router.post('/subjects/:subjectId/lessons/:lessonId/questions', checkAuth, async (req, res) => {
+    try {
+        const subjectId = req.params.subjectId;
         const lessonId = req.params.lessonId;
+
+        const currentSubject = await Subject.findOne({
+            where: {
+                subject_id: subjectId
+            },
+            attributes: ['subject_id']
+        })
 
         const currentLesson = await Lesson.findOne({
             where: {
-                lesson_id: lessonId
+                lesson_id: lessonId,
+                subject_id: currentSubject.subject_id
             },
             attributes: ['lesson_id']
         });
@@ -488,12 +535,12 @@ router.post('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
         }
 
         const newQuestion = await Question.create({
-            //question_id,
             question_content,
             option_a,
             option_b,
             option_c,
             option_d,
+            subject_id: currentSubject.subject_id,
             lesson_id: currentLesson.lesson_id,
             correct_answer,
         });

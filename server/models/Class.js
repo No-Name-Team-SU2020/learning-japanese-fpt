@@ -11,7 +11,8 @@ const Class = db.define('class', {
 
     class_name: {
         type: sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
 },
     {
