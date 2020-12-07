@@ -5,7 +5,7 @@ const Subject = require('./Subject');
 
 const Class_Subject = db.define('class_subject', {
     class_id: {
-        type: sequelize.STRING,
+        type: sequelize.INTEGER,
         allowNull: false,
         references: {
             model: Class,
@@ -14,7 +14,7 @@ const Class_Subject = db.define('class_subject', {
     },
 
     subject_id: {
-        type: sequelize.STRING,
+        type: sequelize.INTEGER,
         allowNull: false,
         references: {
             model: Subject,

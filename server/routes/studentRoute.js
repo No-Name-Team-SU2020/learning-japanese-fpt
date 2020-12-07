@@ -4,7 +4,6 @@ const checkAuth = require('../middleware/checkAuth');
 const Student = require('../models/Student');
 const Class = require('../models/Class');
 const Student_Class = require('../models/Student_Class');
-const Quiz = require('../models/Quiz');
 const Question = require('../models/Question');
 const Subject = require('../models/Subject');
 const Class_Subject = require('../models/Class_Subject');
@@ -16,7 +15,6 @@ const Quiz_Result = require('../models/Quiz_Result');
 //view all subjects of a student
 router.get('/student-subjects', checkAuth, async(req, res) => {
     try {
-
         const currentUser = req.user.user_name;
 
         const checkUser = await User.findOne({
@@ -132,7 +130,7 @@ router.post('/answer/:lessonId', checkAuth, async(req, res) => {
         
         //console.log(90, score);
         
-        const totalQuestions = currentQuestions.length;
+        const totalQuestions = userResponses.length;
         const percentage = (score / totalQuestions) * 100;
 
         const resultToDb = await Quiz_Result.create({
@@ -244,4 +242,8 @@ router.get('/quiz_results/:lessonId', checkAuth, async(req, res) => {
     }
 });
 
+<<<<<<< HEAD
 module.exports = router;
+=======
+module.exports = router;
+>>>>>>> 450ce9886bb7464ef299548707da63781b9095bf

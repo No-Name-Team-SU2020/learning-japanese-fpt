@@ -1,6 +1,7 @@
 const sequelize = require('sequelize');
 const db = require('../db');
 const Lesson = require('./Lesson');
+const Subject = require('./Subject');
 
 const Question = db.define('question', {
     question_id: {
@@ -29,6 +30,15 @@ const Question = db.define('question', {
         type: sequelize.STRING,
         allowNull: true
     },
+    subject_id: {
+        type: sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: Subject,
+            key: 'subject_id'
+        }
+    },
+
     lesson_id: {
         type: sequelize.INTEGER,
         allowNull: false,
