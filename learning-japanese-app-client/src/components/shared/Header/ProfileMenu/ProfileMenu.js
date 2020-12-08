@@ -10,19 +10,17 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { Avatar } from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
-import { authLogout } from "../../../../store/actions/auth/auth";
-import { clearProfile } from "../../../../store/actions/user/user";
+import {  useSelector } from "react-redux";
 import Switch from "react-switch";
+import LogoutModal from "../../LogoutModal";
 
 const ProfileMenu = ({ show, toggleMenu }) => {
-  const dispatch = useDispatch();
+  
   const { profile } = useSelector((state) => state.user);
   const [darkMode, setDarkMode] = useState(false);
-  const logoutHandler = () => {
-    dispatch(authLogout());
-    dispatch(clearProfile());
-  };
+  const [showLogout, setShowLogout] = useState(false);
+  const openLogoutModal = () => setShowLogout(true);
+  const closeLogoutModal = () => setShowLogout(false);
 
   return (
     <div style={{ position: "relative" }}>
@@ -61,7 +59,7 @@ const ProfileMenu = ({ show, toggleMenu }) => {
               }
             />
           </ListItem>
-          <ListItem button onClick={logoutHandler}>
+          <ListItem button onClick={openLogoutModal}>
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>
@@ -69,6 +67,7 @@ const ProfileMenu = ({ show, toggleMenu }) => {
           </ListItem>
         </List>
       </SubMenu>
+      <LogoutModal closeModal={closeLogoutModal} open={showLogout} />
     </div>
   );
 };

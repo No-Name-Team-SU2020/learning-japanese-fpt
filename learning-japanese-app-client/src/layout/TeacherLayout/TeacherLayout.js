@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
 import Header from "../../components/shared/Header/Header";
 import { Route, Switch } from "react-router-dom";
-import NotFound from "../../pages/_404/_404";
+import NotFound from "../../pages/global/_404/_404";
 import { Grid } from "@material-ui/core";
 import TeacherSidebar from "../../components/shared/TeacherSidebar";
-import ListClassStudying from "../../pages/ListClassStudying";
+import ListClassStudying from "../../pages/teacher/ListClassStudying";
 import TeacherHome from "../../components/pagesComponent/TeacherHome";
 import { useSelector } from 'react-redux';
 

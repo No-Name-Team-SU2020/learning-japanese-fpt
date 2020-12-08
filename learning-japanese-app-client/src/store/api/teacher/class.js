@@ -7,3 +7,7 @@ export const getMyClassesRequest = async () => {
 export const getStudentsByClassRequest = async (classId) => {
   return axios.get(`/teacher/class-students/${classId}`);
 }
+
+export const getClassesBySubjectRequest = async (sId) => {
+  return axios.get(`/teacher/subject-classes/${sId}`);
+}

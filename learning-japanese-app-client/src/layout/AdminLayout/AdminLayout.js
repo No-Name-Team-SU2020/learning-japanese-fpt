@@ -1,12 +1,12 @@
 import React, { Fragment } from "react";
-import ManageQuestion from "../../pages/ManageQuestion/ManageQuestion";
+import ManageQuestion from "../../pages/admin/ManageQuestion/ManageQuestion";
 import Header from "../../components/shared/Header/Header";
 import { Route, Switch } from "react-router-dom";
-import ManageSubject from "../../pages/ManageSubject/ManageSubject";
+import ManageSubject from "../../pages/admin/ManageSubject/ManageSubject";
 import AdminMenu from "../../components/shared/AdminMenu";
-import ManageClass from "../../pages/ManageClass";
-import ManageLesson from "../../pages/ManageLesson/ManageLesson";
-import NotFound from "../../pages/_404/_404";
+import ManageClass from "../../pages/admin/ManageClass";
+import ManageLesson from "../../pages/admin/ManageLesson/ManageLesson";
+import NotFound from "../../pages/global/_404/_404";
 import ClassTable from "../../components/pagesComponent/ClassTable";
 import { useSelector } from 'react-redux';
 

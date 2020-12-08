@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
-import { TableContainer, Table, TableHead, TableRow, TableBody, TableCell, TablePagination, Button} from '@material-ui/core';
-import ConfirmAction from '../../shared/ConfirmAction';
-import QuestionItem from './QuestionItem';
-import { useDispatch } from 'react-redux';
-import { deleteQuestion } from '../../../store/actions/admin/index';
+import React, { Fragment, useState } from "react";
+import {
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableBody,
+  TableCell,
+  TablePagination,
+  Button,
+} from "@material-ui/core";
+import ConfirmAction from "../../shared/ConfirmAction";
+import QuestionItem from "./QuestionItem";
+import { useDispatch } from "react-redux";
+import { deleteQuestion } from "../../../store/actions/admin/index";
 
 const QuestionTable = ({ questionList }) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -28,54 +37,69 @@ const QuestionTable = ({ questionList }) => {
   const handleDeleteQuestionHandler = () => {
     dispatch(deleteQuestion(selectedQuestion));
     closeModal();
-  }
+  };
   return (
     <>
-      <TableContainer className="shadow rounded">
-        <Table aria-label="questions table">
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell style={{ width : '250px' }} >QUESTION CONTENT</TableCell>
-              <TableCell>OPTION A	</TableCell>
-              <TableCell>OPTION B	</TableCell>
-              <TableCell>OPTION C	</TableCell>
-              <TableCell>OPTION D	</TableCell>
-              <TableCell>CORRECT ANSWER	</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {questionList.map((question) => (
-               <QuestionItem
-                key={question.question_id} 
-                question={question}
-                showConfirm={ () => openModal(+question.question_id)}
-                /> 
-               ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={questionList.length}
-        rowsPerPage={rowsPerPage}
-        page={currentPage}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
-      <ConfirmAction open={openDeleteConfirm} close={closeModal}>
-        <h5 className="mb-4">Are you sure ? This can not be undone</h5>
-        <Button variant="contained" color="secondary" className="mr-2" onClick={handleDeleteQuestionHandler}>
-          Confirm
-        </Button>
-        <Button variant="contained" color="default" onClick={closeModal}>
-          Cancel
-        </Button>
-      </ConfirmAction>
+      {questionList.length > 0 ? (
+        <Fragment>
+          <TableContainer className='shadow rounded'>
+            <Table aria-label='questions table'>
+              <TableHead>
+                <TableRow>
+                  <TableCell>ID</TableCell>
+                  <TableCell style={{ width: "250px" }}>
+                    QUESTION CONTENT
+                  </TableCell>
+                  <TableCell>OPTION A </TableCell>
+                  <TableCell>OPTION B </TableCell>
+                  <TableCell>OPTION C </TableCell>
+                  <TableCell>OPTION D </TableCell>
+                  <TableCell>CORRECT ANSWER </TableCell>
+                  <TableCell>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {questionList.map((question) => (
+                  <QuestionItem
+                    key={question.question_id}
+                    question={question}
+                    showConfirm={() => openModal(+question.question_id)}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component='div'
+            count={questionList.length}
+            rowsPerPage={rowsPerPage}
+            page={currentPage}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+          />
+          <ConfirmAction open={openDeleteConfirm} close={closeModal}>
+            <h5 className='mb-4'>Are you sure ? This can not be undone</h5>
+            <Button
+              variant='contained'
+              color='secondary'
+              className='mr-2'
+              onClick={handleDeleteQuestionHandler}
+            >
+              Confirm
+            </Button>
+            <Button variant='contained' color='default' onClick={closeModal}>
+              Cancel
+            </Button>
+          </ConfirmAction>
+        </Fragment>
+      ) : (
+        <p className='lead text-danger text-center my-3'>
+          Can not find questions
+        </p>
+      )}
     </>
   );
-}
+};
 
 export default QuestionTable;

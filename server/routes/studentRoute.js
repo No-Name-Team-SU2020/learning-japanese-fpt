@@ -206,6 +206,7 @@ router.get('/quiz_results/:lessonId', checkAuth, async(req, res) => {
             attributes: ['lesson_id']
         });
 
+        
         const currentUser = req.user.user_name;
 
         const checkUser = await User.findOne({
@@ -242,8 +243,4 @@ router.get('/quiz_results/:lessonId', checkAuth, async(req, res) => {
     }
 });
 
-<<<<<<< HEAD
 module.exports = router;
-=======
-module.exports = router;
->>>>>>> 450ce9886bb7464ef299548707da63781b9095bf

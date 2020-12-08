@@ -12,8 +12,9 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { getClassesByTeacher } from "../../../store/actions/teacher/class";
+import { useDispatch, useSelector } from "react-redux";
+import { getMySubjects } from "../../../store/actions/teacher/subject";
+import Loader from "../../ui/Loader/Loader";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const TeacherSidebar = () => {
+  const { loading, subjects, error } = useSelector(
+    (state) => state.teacherSubject
+  );
   const history = useHistory();
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -34,7 +38,7 @@ const TeacherSidebar = () => {
   const [openSubjectList, setOpenSubjectList] = useState(false);
 
   useEffect(() => {
-    dispatch(getClassesByTeacher());
+    dispatch(getMySubjects());
   }, [dispatch]);
 
   const handleResultClick = () => {
@@ -64,16 +68,22 @@ const TeacherSidebar = () => {
       </ListItem>
       <Collapse in={openSubjectList} timeout='auto' unmountOnExit>
         <List component='div' disablePadding>
-          <ListItem
-            button
-            className={classes.nested}
-            onClick={() => history.push("/manage-subject/1")}
-          >
-            <ListItemIcon>
-              <ArrowForwardIosIcon />
-            </ListItemIcon>
-            <ListItemText primary='Subject 1' />
-          </ListItem>
+          {loading && <Loader />}
+          {!loading &&
+            !error &&
+            subjects.map((s) => (
+              <ListItem
+                key={s.subject_id}
+                button
+                className={classes.nested}
+                onClick={() => history.push(`/manage-subject/${s.subject_id}`)}
+              >
+                <ListItemIcon>
+                  <ArrowForwardIosIcon />
+                </ListItemIcon>
+                <ListItemText primary={s.subject_name} />
+              </ListItem>
+            ))}
         </List>
       </Collapse>
       <ListItem button onClick={handleResultClick}>

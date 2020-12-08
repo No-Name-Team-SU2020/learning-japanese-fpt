@@ -1,15 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { authLogout } from "../../../../store/actions/auth/auth";
-import { clearProfile } from "../../../../store/actions/user/user";
+import LogoutModal from "../../LogoutModal";
 
 const SidebarLinks = () => {
-  const dispatch = useDispatch();
-  const logoutHandler = () => {
-    dispatch(authLogout());
-    dispatch(clearProfile());
-  };
+  const [showLogout, setShowLogout] = useState(false);
+  const openLogoutModal = () => setShowLogout(true);
+  const closeLogoutModal = () => setShowLogout(false);
+
   return (
     <nav className='sidebar-links my-4'>
       <li>
@@ -37,7 +34,8 @@ const SidebarLinks = () => {
           ABOUT
         </NavLink>
       </li>
-      <li onClick={logoutHandler}> LOGOUT </li>
+      <li onClick={openLogoutModal}> LOGOUT </li>
+      <LogoutModal closeModal={closeLogoutModal} open={showLogout} />
     </nav>
   );
 };

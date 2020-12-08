@@ -9,6 +9,7 @@ import adminClassListReducer, { adminSingleClassReducer } from './admin/class';
 import singleQuestionReducer from './question/singleQuestion';
 import { studentQuizReducer } from './student/quiz';
 import teacherClassReducer from './teacher/class';
+import teacherSubjectReducer from './teacher/subject';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   singleQuestion: singleQuestionReducer,
   studentQuiz: studentQuizReducer,
   teacherClass: teacherClassReducer,
+  teacherSubject: teacherSubjectReducer,
 });
 
 export default rootReducer;

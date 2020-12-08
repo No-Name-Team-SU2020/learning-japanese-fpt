@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Login from '../../pages/Login/Login';
+import Login from '../../pages/global/Login/Login';
 import Header from '../../components/shared/Header/Header';
 
 const UnAuthorizedLayout = () => {
