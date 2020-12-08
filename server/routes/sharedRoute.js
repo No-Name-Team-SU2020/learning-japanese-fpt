@@ -85,10 +85,23 @@ router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
         let lessonId = req.params.lessonId;
         let listQuestions;
 
+        let currentLesson = await Lesson.findOne({
+            where: {
+                lesson_id: lessonId
+            },
+            attributes: ['lesson_id', 'lesson_name']
+        });
+
+        if(!currentLesson){
+            return res.json({
+                message: "lesson not found"
+            });
+        }
+
         if(checkUser.role_id === 1){
             listQuestions = await Question.findAll({
                 where: {
-                    lesson_id: lessonId
+                    lesson_id: currentLesson.lesson_id
                 },
                 //attributes: ['question_id', 'question_content', 'option_a', 'option_b', 'option_c', 'option_d','subject_id', 'lesson_id', 'correct_answer']
             });
@@ -100,7 +113,7 @@ router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
                 ],
                 limit: 10,
                 where: {
-                    lesson_id: lessonId
+                    lesson_id: currentLesson.lesson_id
                 },
                 attributes: ['question_id', 'question_content', 'option_a', 'option_b', 'option_c', 'option_d']
             })
@@ -119,7 +132,10 @@ router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
         return res.json(
             {
                 message: "All questions found",
-                data: listQuestions
+                data: {
+                    questions: listQuestions,
+                    lesson: currentLesson.lesson_name
+                }
             }
         )
     } catch (error) {
