@@ -67,8 +67,15 @@ router.post('/answer/:lessonId', checkAuth, async(req, res) => {
             where: {
                 lesson_id: lessonId
             },
-            attributes: ['lesson_id']
+            attributes: ['lesson_id', 'lesson_name', 'subject_id']
         });
+
+        const currentSubject = await Subject.findOne({
+            where: {
+                subject_id: currentLesson.subject_id
+            },
+            attributes: ['subject_code']
+        })
 
         //lấy ra student đang đăng nhập hiện tại
         const currentUser = req.user.user_name;
@@ -144,7 +151,9 @@ router.post('/answer/:lessonId', checkAuth, async(req, res) => {
             message: "Answer and score",
             data: {
                 answers: userResponses,
-                score: resultToDb
+                score: resultToDb,
+                subject: currentSubject.subject_code,
+                lesson: currentLesson.lesson_name
             }
         });
 

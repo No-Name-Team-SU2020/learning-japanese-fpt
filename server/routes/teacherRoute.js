@@ -107,7 +107,7 @@ router.get('/teacher-classes', checkAuth, async (req, res) => {
     }
 });
 
-//view all class in subject
+//view all classes in subject
 router.get('/subject-classes/:subjectId', checkAuth, async(req, res) =>{
     try {
         const subjectId = req.params.subjectId;
