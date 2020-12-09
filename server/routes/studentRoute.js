@@ -3,14 +3,15 @@ const sequelize = require('sequelize');
 const checkAuth = require('../middleware/checkAuth');
 const Student = require('../models/Student');
 const Class = require('../models/Class');
-const Student_Class = require('../models/Student_Class');
 const Question = require('../models/Question');
 const Subject = require('../models/Subject');
-const Class_Subject = require('../models/Class_Subject');
-const Student_Subject = require('../models/Student_Subject');
 const Lesson = require('../models/Lesson');
 const User = require('../models/User');
 const Quiz_Result = require('../models/Quiz_Result');
+const Grammar = require('../models/Grammar');
+const Class_Subject = require('../models/Class_Subject');
+const Student_Subject = require('../models/Student_Subject');
+const Student_Class = require('../models/Student_Class');
 
 //view all subjects of a student
 router.get('/student-subjects', checkAuth, async(req, res) => {
@@ -190,10 +191,17 @@ router.get('/quiz_results', checkAuth, async(req, res) => {
             }
         });
 
+        if(!results){
+            return res.json({
+                message: "quiz results not found"
+            });
+        }
+
         return res.json({
             message: "found all quiz result of student", 
             data: results
         });
+
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -237,9 +245,77 @@ router.get('/quiz_results/:lessonId', checkAuth, async(req, res) => {
             }
         });
 
+        if(!result){
+            return res.json({
+                message: "quiz result not found"
+            })
+        }
+
         return res.json({
             message: "quiz result found",
             data: result
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//view all grammars in a lesson
+router.get('/lessons/:lessonId/grammars', checkAuth, async(req, res) => {
+    try {
+        const lessonId = req.params.lessonId
+
+        const grammars = await Grammar.findAll({
+            where: {
+                lesson_id: lessonId
+            }
+        });
+
+        if(!grammars){
+            return res.json({
+                message: "grammars not found"
+            });
+        }
+
+        return res.json({
+            message: "grammars found",
+            data: grammars
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//view grammar by grammar id
+router.get('/grammars/:grammarId', checkAuth, async(req, res) => {
+    try {
+        const grammarId = req.params.grammarId
+
+        const grammar = await Grammar.findOne({
+             where: {
+                 grammar_id: grammarId
+             }
+        });
+
+        if(!grammar){
+            return res.json({
+                message: "grammar not found"
+            })
+        }
+
+        return res.json({
+            message: "grammar found",
+            data: grammar
         });
 
     } catch (error) {

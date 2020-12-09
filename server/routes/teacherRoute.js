@@ -140,7 +140,7 @@ router.get('/subject-classes/:subjectId', checkAuth, async(req, res) =>{
     }
 });
 
-//view all student inside teacher class
+//view all student inside class
 router.get('/class-students/:classId', checkAuth, async(req, res) => {
     try {
         const classId = req.params.classId;
@@ -150,7 +150,7 @@ router.get('/class-students/:classId', checkAuth, async(req, res) => {
             attributes: ['class_id', 'class_name'],
             include: [
                 { model: Student, through: {attributes: []}}
-            ]
+            ],
         });
 
         if (!data) {
@@ -193,6 +193,37 @@ router.get('/lessons/:lessonId/quiz-results', checkAuth, async(req, res) => {
 
         return res.json({
             message: "quiz results found",
+            data: results
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//view student quiz result by student id
+router.get('/quiz-results/:studentId', checkAuth, async(req, res) =>{
+    try {
+        const studentId = req.params.studentId;
+
+        const results = await Quiz_Result.findAll({
+            where: {
+                student_id: studentId
+            }
+        });
+
+        if(!results){
+            return res.json({
+                message: "student quiz results not found"
+            });
+        }
+
+        return res.json({
+            message: "found student quiz result",
             data: results
         });
 
