@@ -2,6 +2,7 @@ const sequelize = require('sequelize');
 const db = require('../db');
 const Student = require('./Student');
 const Lesson = require('./Lesson');
+const Class = require('./Class');
 
 const Is_Attended = db.define('is_attended', {
     attended_id: {
@@ -29,11 +30,19 @@ const Is_Attended = db.define('is_attended', {
         }
     },
 
-    isAttended: {
-        type: sequelize.BOOLEAN,
+    class_id: {
+        type: sequelize.INTEGER,
         allowNull: false,
-        defaultValue: 0,
-    }
+        references: {
+            model: Class,
+            key: 'class_id'
+        }
+    },
+    // isAttended: {
+    //     type: sequelize.BOOLEAN,
+    //     allowNull: false,
+    //     defaultValue: 0,
+    // }
 },
     {
         freezeTableName: true

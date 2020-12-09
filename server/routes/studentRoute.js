@@ -9,6 +9,7 @@ const Lesson = require('../models/Lesson');
 const User = require('../models/User');
 const Quiz_Result = require('../models/Quiz_Result');
 const Grammar = require('../models/Grammar');
+const Is_Attended = require('../models/Is_Attended');
 const Class_Subject = require('../models/Class_Subject');
 const Student_Subject = require('../models/Student_Subject');
 const Student_Class = require('../models/Student_Class');
@@ -177,7 +178,7 @@ router.get('/quiz_results', checkAuth, async(req, res) => {
                 user_name: currentUser
             }
         });
-
+        //check student
         const currentStudent = await Student.findOne({
             where: {
                 user_name: checkUser.user_name
@@ -270,6 +271,18 @@ router.get('/lessons/:lessonId/grammars', checkAuth, async(req, res) => {
     try {
         const lessonId = req.params.lessonId
 
+        const currentLesson = await Lesson.findOne({
+            where: {
+                lesson_id: lessonId
+            }
+        })
+
+        const currentSubject = await Subject.findOne({
+            where: {
+                subject_id: currentLesson.subject_id
+            }
+        })
+
         const grammars = await Grammar.findAll({
             where: {
                 lesson_id: lessonId
@@ -284,7 +297,11 @@ router.get('/lessons/:lessonId/grammars', checkAuth, async(req, res) => {
 
         return res.json({
             message: "grammars found",
-            data: grammars
+            data: {
+                grammars: grammars,
+                subject: currentSubject.subject_code,
+                lesson: currentLesson.lesson_name
+            }
         });
 
     } catch (error) {
@@ -307,6 +324,18 @@ router.get('/grammars/:grammarId', checkAuth, async(req, res) => {
              }
         });
 
+        const currentLesson = await Lesson.findOne({
+            where: {
+                lesson_id: grammar.lesson_id
+            }
+        });
+
+        const currentSubject = await Subject.findOne({
+            where: {
+                subject_id: currentLesson.subject_id
+            }
+        })
+
         if(!grammar){
             return res.json({
                 message: "grammar not found"
@@ -315,7 +344,71 @@ router.get('/grammars/:grammarId', checkAuth, async(req, res) => {
 
         return res.json({
             message: "grammar found",
-            data: grammar
+            data: {
+                grammars: grammar,
+                subject: currentSubject.subject_code,
+                lesson: currentLesson.lesson_name
+            }
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//check thong tin diem danh
+router.get('/attendance', checkAuth, async(req, res) => {
+    try {
+        const currentUser = req.user.user_name;
+
+        const checkUser = await User.findOne({
+            where: {
+                user_name: currentUser
+            }
+        });
+        //check student
+        const currentStudent = await Student.findOne({
+            where: {
+                user_name: checkUser.user_name
+            },
+            attributes: ['student_id']
+        });
+
+        const checkAttendance = await Is_Attended.findAll({
+            where: {
+                student_id: currentStudent.student_id
+            }
+        });
+
+        // const currentLesson = await Lesson.findAll({
+        //     where: {
+        //         lesson_id: checkAttendance.lesson_id
+        //     }
+        // })
+
+        // const currentClass = await Class.findAll({
+        //     where: {
+        //         class_id: checkAttendance.class_id
+        //     }
+        // })
+
+        if(!checkAttendance){
+            return res.json({
+                message: "attendance information not found"
+            });
+        }
+
+        return res.json({
+            message: "attendance information found",
+            data: {
+                attendances: checkAttendance,
+                // class: currentClass.class_name,
+                // lesson: currentLesson.lesson_name,
+            }
         });
 
     } catch (error) {

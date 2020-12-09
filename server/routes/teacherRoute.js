@@ -8,6 +8,7 @@ const Lesson = require('../models/Lesson');
 const User = require('../models/User');
 const Student = require('../models/Student');
 const Quiz_Result = require('../models/Quiz_Result');
+const Is_Attended = require('../models/Is_Attended');
 const Teacher_Class = require('../models/Teacher_Class');
 const Class_Subject = require('../models/Class_Subject');
 const Student_Class = require('../models/Student_Class');
@@ -31,13 +32,15 @@ router.get('/teacher-subjects', checkAuth, async(req, res) => {
             attributes: ['teacher_id']
         });
 
-        const data = await Teacher.findAll({
+        const data = await Teacher.findOne({
             where: { teacher_id: currentTeacher.teacher_id },
             attributes: ['teacher_id', 'teacher_name'],
             include: [
                 { model: Subject, through: {attributes: []} },
             ],
         });
+
+        //console.log(43, data.subjects[0].subject_id);
 
         if (!data) {
             return res.status(301).json({
@@ -225,6 +228,96 @@ router.get('/quiz-results/:studentId', checkAuth, async(req, res) =>{
         return res.json({
             message: "found student quiz result",
             data: results
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//điểm danh cho 1 sinh viên
+router.post('/attendance', checkAuth, async(req, res) => {
+    try {
+        //request
+        const { student_id, lesson_id, class_id } = req.body;
+
+        //check user
+        const currentUser = req.user.user_name;
+
+        const checkUser = await User.findOne({
+            where: {
+                user_name: currentUser
+            }
+        });
+        //check teacher
+        const currentTeacher = await Teacher.findOne({
+            where: {
+                user_name: checkUser.user_name
+            },
+            attributes: ['teacher_id']
+        });
+
+        //check teacher class
+        const checkTeacherClass = await Teacher_Class.findOne({
+            where: {
+                teacher_id: currentTeacher.teacher_id,
+                class_id: class_id
+            }
+        })
+
+        if(!checkTeacherClass){
+            return res.json({
+                message: "teacher not in class"
+            })
+        }
+
+        //check student class
+        const checkStudentClass = await Student_Class.findOne({
+            where: {
+                student_id: student_id,
+                class_id: class_id
+            }
+        });
+
+        if(!checkStudentClass){
+            return res.json({
+                message: "student not in class"
+            })
+        }
+
+        //check lesson and subject
+        const checkLesson = await Lesson.findOne({
+            where: {
+                lesson_id: lesson_id
+            }
+        });
+
+        const checkSubjectClass = await Class_Subject.findOne({
+            where: {
+                class_id: class_id,
+                subject_id: checkLesson.subject_id
+            }
+        });
+
+        if(!checkSubjectClass){
+            return res.json({
+                message: "lesson belong to the subject is not in this class"
+            })
+        }
+
+        const addAttended = await Is_Attended.create({
+            student_id,
+            lesson_id,
+            class_id
+        });
+
+        return res.json({
+            message: "student taken attendance",
+            data: addAttended
         });
 
     } catch (error) {
