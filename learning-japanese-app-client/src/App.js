@@ -24,7 +24,7 @@ const App = () => {
       {
         !isAuthenticated ? (<UnAuthorizedLayout />) : (<Fragment>
           {profile?.role_id === 3 && <StudentLayout />}
-          {profile?.role_id === 2 && <TeacherLayout />}
+          {/* {profile?.role_id === 2 && <TeacherLayout />} */}
           {profile?.role_id === 1 && <AdminLayout />}
         </Fragment>)
       }
