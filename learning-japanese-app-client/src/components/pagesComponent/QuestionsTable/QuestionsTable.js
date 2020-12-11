@@ -40,7 +40,7 @@ const QuestionTable = ({ questionList }) => {
   };
   return (
     <>
-      {questionList.length > 0 ? (
+      {questionList?.length > 0 ? (
         <Fragment>
           <TableContainer className='shadow rounded'>
             <Table aria-label='questions table'>

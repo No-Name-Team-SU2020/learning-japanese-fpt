@@ -50,6 +50,9 @@ const Login = () => {
         />
         <button className="btn btn-info btn-lg btn-block">Submit</button>
       </form>
+      <p className="mt-3">
+        Forgot password ? <Link to="/reset-password">Reset Password</Link>
+      </p>
     </div>
   );
 };

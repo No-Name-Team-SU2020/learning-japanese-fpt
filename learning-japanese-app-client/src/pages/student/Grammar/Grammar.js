@@ -1,22 +1,49 @@
-import React from 'react';
-import { Button } from '@material-ui/core';
-import { useHistory, Route } from 'react-router-dom';
-import GrammarTable from '../../../components/pagesComponent/GrammarTable/GrammarTable';
-import GrammerDetail from '../../../components/pagesComponent/GrammarDetail/GrammarDetail';
+import React, { useState, useEffect } from "react";
+import { Button } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+import GrammarTable from "../../../components/pagesComponent/GrammarTable/GrammarTable";
+import axios from "../../../store/api/axios";
+import Loader from "../../../components/ui/Loader/Loader";
 
-const Grammer = () => {
+const Grammer = ({ match }) => {
+  const { lId } = match.params;
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
+  const [grammarData, setGrammarData] = useState({});
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`/student/lessons/${lId}/grammars`)
+      .then((res) => {
+        setGrammarData(res.data.data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  }, [lId]);
+
   return (
     <div>
-      <h1> Japanese 121's Syllabus </h1>
-      <h5 className="border-left-red-lg pl-2 my-4">My grammer</h5>
-      <Route path="/grammar/:id" component={GrammerDetail} />
-      <GrammarTable />
-      <Button className="my-3" variant="contained" onClick={() => history.push('/grammar')}>
-        Go Back
-      </Button>
+      {loading && <Loader />}
+      {!loading && grammarData.subject && (
+        <>
+          <h1> {grammarData.subject} </h1>
+          <p className='lead'> {grammarData.lesson} </p>
+          <h5 className='border-left-red-lg pl-2 my-4'>My grammar</h5>
+          <GrammarTable lessonId={lId} />
+          <Button
+            className='my-3'
+            variant='contained'
+            onClick={() => history.goBack()}
+          >
+            Go Back
+          </Button>
+        </>
+      )}
     </div>
   );
-}
+};
 
 export default Grammer;

@@ -11,10 +11,12 @@ function* getMySubjectsWorker() {
   yield put(getMySubjectsStart());
   try {
     const res = yield getMySubjectsRequest();
-    yield put(getMySubjectsSuccess(res.data.data.subjects));
+    yield put(getMySubjectsSuccess(res.data.data?.subjects));
   } catch (error) {
     yield put(
-      getMySubjectsFailed(error.response?.data?.message || "Something went wrong")
+      getMySubjectsFailed(
+        error.response?.data?.message || "Something went wrong"
+      )
     );
   }
 }

@@ -48,7 +48,6 @@ const TeacherSidebar = () => {
   const handleSubjectClick = () => {
     setOpenSubjectList((prevState) => !prevState);
   };
-
   return (
     <List
       component='nav'

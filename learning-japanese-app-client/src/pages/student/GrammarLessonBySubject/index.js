@@ -10,12 +10,14 @@ const LessonBySubject = () => {
   const dispatch = useDispatch();
   const { sId } = useParams();
   const history = useHistory();
+
   useEffect(() => {
     dispatch(getLessons(sId));
   }, [sId, dispatch]);
+
   return (
     <div>
-      <h1>Lesson follow by Subject</h1>
+      <h1>Lesson Grammar follow by Subject</h1>
       {loading && <Loader />}
       {lessonList.map((lesson) => (
         <div
@@ -23,9 +25,7 @@ const LessonBySubject = () => {
           className='shadow-sm p-3 mb-3 d-flex align-items-center justify-content-between rounded'
         >
           <span
-            onClick={() =>
-              history.push(`/lesson-detail/${lesson.lesson_id}?sId=${sId}`)
-            }
+            onClick={() => history.push(`/grammars/${lesson.lesson_id}`)}
             className='cursor-pointer hover-text-blue'
           >
             <strong>{lesson.lesson_name} : </strong>

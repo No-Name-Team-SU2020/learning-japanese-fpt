@@ -3,7 +3,7 @@ import SubjectItem from "./SubjectItem/SubjectItem";
 import axios from "../../../store/api/axios";
 import Loader from "../../ui/Loader/Loader";
 
-const SubjectList = () => {
+const GrammarSubjectList = () => {
   const [loading, setLoading] = useState(false);
   const [subjectData, setSubjectData] = useState({});
   useEffect(() => {
@@ -11,20 +11,16 @@ const SubjectList = () => {
     axios
       .get(`/student/student-subjects`)
       .then((res) => {
-        setSubjectData(res.data.data[0]);
+        setSubjectData(res.data?.data[0]);
         setLoading(false);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
         setLoading(false);
       });
   }, []);
-  
   return (
     <div className='row'>
-      {
-        loading && <Loader />
-      }
+      {loading && <Loader />}
       {subjectData.subjects?.map((item) => (
         <SubjectItem key={item.subject_id} item={item} />
       ))}
@@ -32,4 +28,4 @@ const SubjectList = () => {
   );
 };
 
-export default SubjectList;
+export default GrammarSubjectList;

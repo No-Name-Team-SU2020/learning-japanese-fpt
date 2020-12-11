@@ -6,7 +6,10 @@ const StudentMission = () => {
 
   return (
     <div className='row student-mission'>
-      <div className='col-md-6 section' onClick={() => history.push('/subject-list')}>
+      <div
+        className='col-md-6 section'
+        onClick={() => history.push("/subject-list")}
+      >
         <img
           src='https://images.pexels.com/photos/313690/pexels-photo-313690.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
           alt=''
@@ -14,13 +17,16 @@ const StudentMission = () => {
         />
         <h3>Subject</h3>
       </div>
-      <div className='col-md-6 section'>
+      <div
+        className='col-md-6 section'
+        onClick={() => history.push("/grammar-subject-list")}
+      >
         <img
           src='https://images.pexels.com/photos/5088008/pexels-photo-5088008.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
           className='w-100'
           alt=''
         />
-        <h3>Expand</h3>
+        <h3>Grammar</h3>
       </div>
     </div>
   );

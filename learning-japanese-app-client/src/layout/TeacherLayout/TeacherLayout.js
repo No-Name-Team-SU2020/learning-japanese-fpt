@@ -6,10 +6,12 @@ import { Grid } from "@material-ui/core";
 import TeacherSidebar from "../../components/shared/TeacherSidebar";
 import ListClassStudying from "../../pages/teacher/ListClassStudying";
 import TeacherHome from "../../components/pagesComponent/TeacherHome";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
+import ListResultStudentByClass from "../../pages/student/ListResultStudentByClass";
+import ManageStudentByClass from "../../pages/teacher/ManageStudentByClass";
 
 const AdminLayout = () => {
-  const { isAuthenticated  } = useSelector(state => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.auth);
   return (
     <Fragment>
       <Header />
@@ -21,9 +23,20 @@ const AdminLayout = () => {
           </Grid>
           <Grid item md={9}>
             <Switch>
-            <Route path='/manage-subject/:sId' component={ListClassStudying} />
+              <Route
+                path='/manage-subject/:sId'
+                component={ListClassStudying}
+              />
+              <Route
+                path='/student-results/:cId'
+                component={ListResultStudentByClass}
+              />
+              <Route
+                path='/manage-student/classes/:cId'
+                component={ManageStudentByClass}
+              />
               <Route exact path='/' component={TeacherHome} />
-              { isAuthenticated && <Route component={NotFound} />}
+              {isAuthenticated && <Route component={NotFound} />}
             </Switch>
           </Grid>
         </Grid>

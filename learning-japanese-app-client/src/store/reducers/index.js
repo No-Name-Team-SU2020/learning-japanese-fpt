@@ -1,15 +1,17 @@
-import { combineReducers } from 'redux';
-import authReducer from './auth/authReducer';
-import uiReducer from './ui/uiReducer';
-import userReducer from './user/user';
-import adminQuestionListReducer, { findQuestionReducer } from './admin/question';
-import adminSubjectListReducer from './admin/subject';
-import adminLessonListReducer, { singleLessonReducer } from './admin/lesson';
-import adminClassListReducer, { adminSingleClassReducer } from './admin/class';
-import singleQuestionReducer from './question/singleQuestion';
-import { studentQuizReducer } from './student/quiz';
-import teacherClassReducer from './teacher/class';
-import teacherSubjectReducer from './teacher/subject';
+import { combineReducers } from "redux";
+import authReducer from "./auth/authReducer";
+import uiReducer from "./ui/uiReducer";
+import userReducer from "./user/user";
+import adminQuestionListReducer, {
+  findQuestionReducer,
+} from "./admin/question";
+import adminSubjectListReducer from "./admin/subject";
+import adminLessonListReducer, { singleLessonReducer } from "./admin/lesson";
+import adminClassListReducer, { adminSingleClassReducer } from "./admin/class";
+import singleQuestionReducer from "./question/singleQuestion";
+import { studentQuizReducer } from "./student/quiz";
+import teacherClassReducer from "./teacher/class";
+import teacherSubjectReducer from "./teacher/subject";
 
 const rootReducer = combineReducers({
   auth: authReducer,

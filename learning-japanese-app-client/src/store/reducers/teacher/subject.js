@@ -28,7 +28,7 @@ const reducer = (state = teacherSubjectInitialState, action) => {
       return {
         error: null,
         loading: false,
-        subjects: payload,
+        subjects: payload ? payload : [],
       };
     default:
       return state;

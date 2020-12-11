@@ -41,7 +41,7 @@ const JoinQuestion = ({ location }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (questionList.length > userAnswers.length) {
+    if (questionList?.questions?.length > userAnswers.length) {
       dispatch(
         alert("warning", "Please finish all questions before submission!")
       );
@@ -54,7 +54,7 @@ const JoinQuestion = ({ location }) => {
       );
     }
   };
-  const questionListMarkup = questionList.map((q) => (
+  const questionListMarkup = questionList?.questions?.map((q) => (
     <QuestionItem
       key={q.question_id}
       question={q}
@@ -66,7 +66,7 @@ const JoinQuestion = ({ location }) => {
   return (
     <div className='my-3'>
       <div className='d-flex align-items-center justify-content-between mb-2'>
-        <h3>Lesson {lId}</h3>
+        <h3> {questionList?.lesson} </h3>
         <TimeCountDown seconds={time} countDown={setTime} />
       </div>
       <p className='lead'>{location.search.split("=")[1]}</p>
