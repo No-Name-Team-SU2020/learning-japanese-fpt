@@ -9,6 +9,7 @@ const Lesson = require('../models/Lesson');
 const User = require('../models/User');
 const Quiz_Result = require('../models/Quiz_Result');
 const Grammar = require('../models/Grammar');
+const Is_Attended = require('../models/Is_Attended');
 const Class_Subject = require('../models/Class_Subject');
 const Student_Subject = require('../models/Student_Subject');
 const Student_Class = require('../models/Student_Class');
@@ -177,7 +178,7 @@ router.get('/quiz_results', checkAuth, async(req, res) => {
                 user_name: currentUser
             }
         });
-
+        //check student
         const currentStudent = await Student.findOne({
             where: {
                 user_name: checkUser.user_name
@@ -188,7 +189,10 @@ router.get('/quiz_results', checkAuth, async(req, res) => {
         const results = await Quiz_Result.findAll({
             where: {
                 student_id: currentStudent.student_id
-            }
+            },
+            include: [
+                { model: Lesson, attributes: ['lesson_name'] } 
+            ],
         });
 
         if(!results){
@@ -199,7 +203,9 @@ router.get('/quiz_results', checkAuth, async(req, res) => {
 
         return res.json({
             message: "found all quiz result of student", 
-            data: results
+            data: {
+                results: results,
+            }
         });
 
     } catch (error) {
@@ -220,7 +226,6 @@ router.get('/quiz_results/:lessonId', checkAuth, async(req, res) => {
             where: {
                 lesson_id: lessonId
             },
-            attributes: ['lesson_id']
         });
 
         
@@ -231,7 +236,8 @@ router.get('/quiz_results/:lessonId', checkAuth, async(req, res) => {
                 user_name: currentUser
             }
         });
-
+        
+        //check student
         const currentStudent = await Student.findOne({
             where: {
                 user_name: checkUser.user_name
@@ -246,6 +252,12 @@ router.get('/quiz_results/:lessonId', checkAuth, async(req, res) => {
             }
         });
 
+        const getListLessons = await Lesson.findAll({
+            where: {
+                lesson_id: result.lesson_id
+            }
+        })
+
         if(!result){
             return res.json({
                 message: "quiz result not found"
@@ -254,7 +266,10 @@ router.get('/quiz_results/:lessonId', checkAuth, async(req, res) => {
 
         return res.json({
             message: "quiz result found",
-            data: result
+            data: {
+                results: result,
+                lessons: getListLessons.lesson_name
+            }
         });
 
     } catch (error) {
@@ -271,9 +286,21 @@ router.get('/lessons/:lessonId/grammars', checkAuth, async(req, res) => {
     try {
         const lessonId = req.params.lessonId
 
-        const grammars = await Grammar.findAll({
+        const currentLesson = await Lesson.findOne({
             where: {
                 lesson_id: lessonId
+            }
+        })
+
+        const currentSubject = await Subject.findOne({
+            where: {
+                subject_id: currentLesson.subject_id
+            }
+        })
+
+        const grammars = await Grammar.findAll({
+            where: {
+                lesson_id: currentLesson.lesson_id
             }
         });
 
@@ -285,7 +312,11 @@ router.get('/lessons/:lessonId/grammars', checkAuth, async(req, res) => {
 
         return res.json({
             message: "grammars found",
-            data: grammars
+            data: {
+                grammars: grammars,
+                subject: currentSubject.subject_code,
+                lesson: currentLesson.lesson_name
+            }
         });
 
     } catch (error) {
@@ -308,6 +339,18 @@ router.get('/grammars/:grammarId', checkAuth, async(req, res) => {
              }
         });
 
+        const currentLesson = await Lesson.findOne({
+            where: {
+                lesson_id: grammar.lesson_id
+            }
+        });
+
+        const currentSubject = await Subject.findOne({
+            where: {
+                subject_id: currentLesson.subject_id
+            }
+        })
+
         if(!grammar){
             return res.json({
                 message: "grammar not found"
@@ -316,7 +359,61 @@ router.get('/grammars/:grammarId', checkAuth, async(req, res) => {
 
         return res.json({
             message: "grammar found",
-            data: grammar
+            data: {
+                grammars: grammar,
+                subject: currentSubject.subject_code,
+                lesson: currentLesson.lesson_name
+            }
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//check thong tin diem danh
+router.get('/attendance', checkAuth, async(req, res) => {
+    try {
+        const currentUser = req.user.user_name;
+
+        const checkUser = await User.findOne({
+            where: {
+                user_name: currentUser
+            }
+        });
+        //check student
+        const currentStudent = await Student.findOne({
+            where: {
+                user_name: checkUser.user_name
+            },
+            attributes: ['student_id']
+        });
+
+        const checkAttendance = await Is_Attended.findAll({
+            where: {
+                student_id: currentStudent.student_id
+            },
+            include: [
+                { model: Lesson, attributes: ['lesson_name'] },
+                { model: Class, attributes: ['class_name'] }
+            ],
+        });
+
+        if(!checkAttendance){
+            return res.json({
+                message: "attendance information not found"
+            });
+        }
+
+        return res.json({
+            message: "attendance information found",
+            data: {
+                attendances: checkAttendance,
+            }
         });
 
     } catch (error) {

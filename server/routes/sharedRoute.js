@@ -4,6 +4,8 @@ const Question = require('../models/Question');
 const Lesson = require('../models/Lesson');
 const sequelize = require('sequelize');
 const User = require('../models/User');
+const Student = require('../models/Student');
+const Is_Attended = require('../models/Is_Attended');
 const checkAuth = require('../middleware/checkAuth');
 
 //view all lesson in a subject
@@ -82,23 +84,37 @@ router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
             }
         });
 
-        let lessonId = req.params.lessonId;
+        const currentStudent = await Student.findOne({
+            where: {
+                user_name: checkUser.user_name
+            }
+        });
+
+        const lessonId = req.params.lessonId;
         let listQuestions;
 
-        let currentLesson = await Lesson.findOne({
+        const currentLesson = await Lesson.findOne({
             where: {
                 lesson_id: lessonId
             },
             attributes: ['lesson_id', 'lesson_name']
         });
 
-        if(!currentLesson){
+        if (!currentLesson) {
             return res.json({
                 message: "lesson not found"
             });
         }
 
-        if(checkUser.role_id === 1){
+        //check diem danh danh cho student
+        const checkAttendance = await Is_Attended.findOne({
+            where: {
+                student_id: currentStudent.student_id,
+                lesson_id: currentLesson.lesson_id
+            }
+        })
+
+        if (checkUser.role_id === 1) {
             listQuestions = await Question.findAll({
                 where: {
                     lesson_id: currentLesson.lesson_id
@@ -106,7 +122,7 @@ router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
                 //attributes: ['question_id', 'question_content', 'option_a', 'option_b', 'option_c', 'option_d','subject_id', 'lesson_id', 'correct_answer']
             });
 
-        } else if(checkUser.role_id === 3){
+        } else if (checkUser.role_id === 3 && checkAttendance) {
             listQuestions = await Question.findAll({
                 order: [
                     sequelize.literal('random()')
@@ -163,7 +179,7 @@ router.get('/questions/:questionId', checkAuth, async (req, res) => {
         let question;
         let subject;
 
-        if(checkUser.role_id === 1){
+        if (checkUser.role_id === 1) {
             question = await Question.findOne({
                 where: {
                     question_id: questionId
@@ -176,7 +192,7 @@ router.get('/questions/:questionId', checkAuth, async (req, res) => {
                 },
                 attributes: ['subject_id']
             });
-        } else if(checkUser.role_id === 3){
+        } else if (checkUser.role_id === 3) {
             question = await Question.findOne({
                 where: {
                     question_id: questionId
