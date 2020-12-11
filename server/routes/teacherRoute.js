@@ -341,19 +341,19 @@ router.post('/attendance', checkAuth, async(req, res) => {
         }
 
         //check xem student đã được điểm danh chưa, tránh bị trùng(điểm danh 2 lần)
-        const checkDuplicate = await Is_Attended.findAll({
-            where: {
-                student_id: student_id,
-                lesson_id: lesson_id,
-                class_id: class_id
-            }
-        });
+        // const checkDuplicate = await Is_Attended.findAll({
+        //     where: {
+        //         student_id: student_id,
+        //         lesson_id: lesson_id,
+        //         class_id: class_id
+        //     }
+        // });
 
-        if(checkDuplicate){
-            return res.json({
-                message: "student already attended"
-            })
-        }
+        // if(checkDuplicate){
+        //     return res.json({
+        //         message: "student already attended"
+        //     })
+        // }
 
         const addAttended = await Is_Attended.create({
             student_id,

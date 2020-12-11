@@ -13,7 +13,7 @@ router.get('/classes', checkAuth, async (req, res) => {
 
         if (!classes) {
             return res.json({
-                message: "Something wrong",
+                message: "Classes not found",
             });
         }
 
@@ -69,7 +69,7 @@ router.post('/classes', checkAuth, async (req, res) => {
 
         if (!class_name) {
             return res.json({
-                message: "class name is not valid",
+                message: "Class name is not valid",
                 data: null,
             });
         }
@@ -82,6 +82,7 @@ router.post('/classes', checkAuth, async (req, res) => {
             message: 'Class created successfully',
             data: newClass
         });
+
     } catch (error) {
         console.error(error.message);
         return res.status(500).json({
@@ -97,20 +98,26 @@ router.put('/classes/:classId', checkAuth, async (req, res) => {
 
         const classId = req.params.classId;
 
-        const { class_name } = req.body;
+        const currentClass = await Class.findOne({
+            where: {
+                class_id: classId
+            }
+        })
 
-        if (!classId) {
+        if (!currentClass) {
             return res.json({
                 message: 'Class not found',
             });
         }
+
+        const { class_name } = req.body;
 
         const updateClass = await Class.update({
             class_name,
         },
             {
                 where: {
-                    class_id: classId
+                    class_id: currentClass.class_id
                 }
             });
 
@@ -165,7 +172,7 @@ router.get('/subjects', checkAuth, async (req, res) => {
 
         if (!subjects) {
             return res.json({
-                message: "Something wrong",
+                message: "Subjects not found",
             });
         }
         return res.json(
@@ -256,13 +263,19 @@ router.put('/subjects/:subjectId', checkAuth, async (req, res) => {
 
         const subjectId = req.params.subjectId;
 
-        const { subject_code, subject_name } = req.body;
+        const currentSubject = await Subject.findOne({
+            where: {
+                subject_id: subjectId
+            }
+        });
 
-        if (!subjectId) {
+        if(!currentSubject){
             return res.json({
-                message: 'Subject not found',
-            });
+                message: "Subject not found"
+            })
         }
+
+        const { subject_code, subject_name } = req.body;
 
         const updateSubject = await Subject.update({
             subject_code,
@@ -270,7 +283,7 @@ router.put('/subjects/:subjectId', checkAuth, async (req, res) => {
         },
             {
                 where: {
-                    subject_id: subjectId
+                    subject_id: currentSubject.subject_id
                 }
             });
 
@@ -327,8 +340,13 @@ router.post('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
             where: {
                 subject_id: subjectId
             },
-            attributes: ['subject_id']
         });
+
+        if(!currentSubject){
+            return res.json({
+                message: "Subject not found"
+            })
+        }
 
         const { lesson_content, lesson_name } = req.body;
 
@@ -370,13 +388,19 @@ router.put('/lessons/:lessonId', checkAuth, async (req, res) => {
     try {
         const lessonId = req.params.lessonId;
 
-        const { lesson_content, lesson_name } = req.body;
+        const currentLesson = await Lesson.findOne({
+            where: {
+                lesson_id: lessonId
+            }
+        })
 
-        if (!lessonId) {
-            return res.status(404).json({
-                message: 'Lesson not found',
-            });
+        if(!currentLesson){
+            return res.json({
+                message: "Lesson not found"
+            })
         }
+
+        const { lesson_content, lesson_name } = req.body;
 
         const updateLesson = await Lesson.update({
             lesson_content,
@@ -384,7 +408,7 @@ router.put('/lessons/:lessonId', checkAuth, async (req, res) => {
         },
             {
                 where: {
-                    lesson_id: lessonId
+                    lesson_id: currentLesson.lesson_id
                 }
             });
 
@@ -440,8 +464,13 @@ router.get('/subjects/:subjectId/questions', checkAuth, async(req, res) => {
             where: {
                 subject_id: subjectId
             },
-            attributes: ['subject_id']
         });
+
+        if(!currentSubject){
+            return res.json({
+                message: "Subject not found"
+            })
+        }
 
         const listQuestions = await Question.findAll({
             where: {
@@ -479,16 +508,26 @@ router.post('/subjects/:subjectId/lessons/:lessonId/questions', checkAuth, async
             where: {
                 subject_id: subjectId
             },
-            attributes: ['subject_id']
         })
+
+        if(!currentSubject){
+            return res.json({
+                message: "Subject not found"
+            })
+        }
 
         const currentLesson = await Lesson.findOne({
             where: {
                 lesson_id: lessonId,
                 subject_id: currentSubject.subject_id
             },
-            attributes: ['lesson_id']
         });
+
+        if(!currentLesson){
+            return res.json({
+                message: "Lesson not found"
+            })
+        }
 
         const { question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
 
@@ -564,13 +603,19 @@ router.put('/questions/:questionId', checkAuth, async (req, res) => {
     try {
         const questionId = req.params.questionId;
 
-        const { question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
+        const currentQuestion = await Question.findOne({
+            where: {
+                question_id: questionId
+            }
+        });
 
-        if (!questionId) {
+        if(!currentQuestion){
             return res.json({
                 message: 'Question not found',
             });
         }
+
+        const { question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
 
         const updateQuestion = await Question.update({
             question_content,
@@ -582,7 +627,7 @@ router.put('/questions/:questionId', checkAuth, async (req, res) => {
         },
             {
                 where: {
-                    question_id: questionId
+                    question_id: currentQuestion.question_id
                 }
             });
 
