@@ -86,7 +86,7 @@ router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
 
         const currentStudent = await Student.findOne({
             where: {
-                user_name: currentUser.user_name
+                user_name: checkUser.user_name
             }
         });
 

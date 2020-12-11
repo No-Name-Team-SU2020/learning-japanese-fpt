@@ -152,7 +152,7 @@ router.get('/class-students/:classId', checkAuth, async(req, res) => {
             where: { class_id: classId },
             attributes: ['class_id', 'class_name'],
             include: [
-                { model: Student, through: {attributes: []}}
+                { model: Student, through: {attributes: []}},
             ],
         });
 
@@ -216,7 +216,10 @@ router.get('/quiz-results/:studentId', checkAuth, async(req, res) =>{
         const results = await Quiz_Result.findAll({
             where: {
                 student_id: studentId
-            }
+            },
+            include: [
+                { model: Lesson, attributes: ['lesson_name'] }
+            ],
         });
 
         if(!results){
@@ -329,4 +332,43 @@ router.post('/attendance', checkAuth, async(req, res) => {
     }
 });
 
-module.exports = router
+//check thong tin diem danh cua sinh vien
+router.get('/attendance/:studentId', checkAuth, async(req, res) => {
+    try {
+        const studentId = req.params.studentId;
+
+        const checkAttendance = await Is_Attended.findAll({
+            where: {
+                student_id: studentId
+            },
+            include: [
+                { model: Lesson, attributes: ['lesson_name'] },
+                { model: Class, attributes: ['class_name'] }
+            ],
+        });
+
+        if(!checkAttendance){
+            return res.json({
+                message: "attendance information not found",
+                data: null
+            });
+        }
+
+        return res.json({
+            message: "attendance information found",
+            data: {
+                attendances: checkAttendance,
+            }
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+
+module.exports = router;

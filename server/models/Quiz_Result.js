@@ -43,4 +43,7 @@ const Quiz_Result = db.define('quiz_result', {
     }
 );
 
+Lesson.hasMany(Quiz_Result, { foreignKey: 'lesson_id' });
+Quiz_Result.belongsTo(Lesson, { foreignKey: 'lesson_id' });
+
 module.exports = Quiz_Result;

@@ -38,15 +38,16 @@ const Is_Attended = db.define('is_attended', {
             key: 'class_id'
         }
     },
-    // isAttended: {
-    //     type: sequelize.BOOLEAN,
-    //     allowNull: false,
-    //     defaultValue: 0,
-    // }
 },
     {
         freezeTableName: true
     }
 );
+
+Lesson.hasMany(Is_Attended, { foreignKey: 'lesson_id' });
+Is_Attended.belongsTo(Lesson, { foreignKey: 'lesson_id' });
+
+Class.hasMany(Is_Attended, { foreignKey: 'class_id' });
+Is_Attended.belongsTo(Class, { foreignKey: 'class_id' });
 
 module.exports = Is_Attended;
