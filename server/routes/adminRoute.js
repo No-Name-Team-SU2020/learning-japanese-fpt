@@ -74,6 +74,18 @@ router.post('/classes', checkAuth, async (req, res) => {
             });
         }
 
+        const checkDuplicate = await Class.findOne({
+            where: {
+                class_name: class_name
+            },
+        });
+
+        if(checkDuplicate){
+            return res.json({
+                message: "Class name already existed"
+            })
+        }
+
         const newClass = await Class.create({
             class_name,
         });
@@ -111,6 +123,18 @@ router.put('/classes/:classId', checkAuth, async (req, res) => {
         }
 
         const { class_name } = req.body;
+
+        const checkDuplicate = await Class.findOne({
+            where: {
+                class_name: class_name
+            },
+        });
+
+        if(checkDuplicate){
+            return res.json({
+                message: "Class name already existed"
+            })
+        }
 
         const updateClass = await Class.update({
             class_name,
@@ -239,6 +263,19 @@ router.post('/subjects', checkAuth, async (req, res) => {
             });
         }
 
+        const checkDuplicate = await Subject.findOne({
+            where: {
+                subject_code: subject_code,
+                subject_name: subject_name
+            },
+        });
+
+        if(checkDuplicate){
+            return res.json({
+                message: "Subject code and subject name already existed"
+            })
+        }
+
         const newSubject = await Subject.create({
             subject_code,
             subject_name,
@@ -276,6 +313,19 @@ router.put('/subjects/:subjectId', checkAuth, async (req, res) => {
         }
 
         const { subject_code, subject_name } = req.body;
+
+        const checkDuplicate = await Subject.findOne({
+            where: {
+                subject_code: subject_code,
+                subject_name: subject_name
+            },
+        });
+
+        if(checkDuplicate){
+            return res.json({
+                message: "Subject code and subject name already existed"
+            })
+        }
 
         const updateSubject = await Subject.update({
             subject_code,
@@ -350,6 +400,19 @@ router.post('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
 
         const { lesson_content, lesson_name } = req.body;
 
+        const checkDuplicate = await Lesson.findOne({
+            where: {
+                lesson_content: lesson_content,
+                lesson_name: lesson_name
+            },
+        });
+
+        if(checkDuplicate){
+            return res.json({
+                message: "Lesson content and lesson name already existed"
+            })
+        }
+
         if (!lesson_content) {
             return res.json({
                 message: "lesson content is not valid",
@@ -401,6 +464,19 @@ router.put('/lessons/:lessonId', checkAuth, async (req, res) => {
         }
 
         const { lesson_content, lesson_name } = req.body;
+
+        const checkDuplicate = await Lesson.findOne({
+            where: {
+                lesson_content: lesson_content,
+                lesson_name: lesson_name
+            },
+        });
+
+        if(checkDuplicate){
+            return res.json({
+                message: "Lesson content and lesson name already existed"
+            })
+        }
 
         const updateLesson = await Lesson.update({
             lesson_content,
