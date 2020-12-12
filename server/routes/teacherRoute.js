@@ -342,12 +342,12 @@ router.post('/attendance', checkAuth, async(req, res) => {
         }
 
         //check xem student đã được điểm danh chưa, tránh bị trùng(điểm danh 2 lần)
-        const checkDuplicate = await Is_Attended.findAll({
+        const checkDuplicate = await Is_Attended.findOne({
             where: {
                 student_id: student_id,
                 lesson_id: lesson_id,
                 class_id: class_id
-            }
+            },
         });
 
         if(checkDuplicate){
