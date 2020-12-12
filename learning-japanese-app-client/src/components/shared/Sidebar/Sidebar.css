@@ -1,41 +1,47 @@
 /** @format */
 
 .sidebar-links a {
-	color: gray;
+  color: gray;
 }
 .sidebar-links li {
-	margin-bottom: 15px;
-	cursor: pointer;
+  margin-bottom: 15px;
+  cursor: pointer;
 }
 .sidebar-links a:hover {
-	border-bottom: 1px solid var(--red-color);
+  border-bottom: 1px solid var(--red-color);
 }
 .active-sidebar-link {
-	border-bottom: 1px solid var(--red-color);
+  border-bottom: 1px solid var(--red-color);
 }
 .main-sidebar {
-	position: fixed;
-	left: 0;
-	top: 0;
-	background-color: var(--light-color);
-	min-height: 100vh;
-	max-width: 320px;
-	padding: 60px 15px;
-	transition: all 0.3s ease;
-	z-index: 100;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: var(--light-color);
+  min-height: 100vh;
+  max-width: 320px;
+  padding: 60px 15px;
+  transition: all 0.3s ease;
+  z-index: 100;
 }
 
 .main-sidebar img {
-	width: 250px;
+  width: 250px;
 }
+.divDisabled {
+  opacity: 0.5;
+	pointer-events: none;
+	cursor: not-allowed;
+}
+
 @media (max-width: 991px) {
-	.main-sidebar {
-		transform: translateX(-100%);
-	}
-	.main-sidebar.hide {
-		transform: translateX(-100%);
-	}
-	.main-sidebar.show {
-		transform: translateX(0);
-	}
+  .main-sidebar {
+    transform: translateX(-100%);
+  }
+  .main-sidebar.hide {
+    transform: translateX(-100%);
+  }
+  .main-sidebar.show {
+    transform: translateX(0);
+  }
 }

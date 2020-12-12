@@ -8,10 +8,10 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  IconButton,
+  Button,
 } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
 import { Link } from "react-router-dom";
+import DoneIcon from "@material-ui/icons/Done";
 
 const ManageStudentByClass = ({ match }) => {
   const { cId } = match.params;
@@ -70,12 +70,14 @@ const ManageStudentByClass = ({ match }) => {
                     <TableCell>{student.student_name}</TableCell>
                     <TableCell>{student.user_name}</TableCell>
                     <TableCell>
-                      <Link to='/'>View</Link>
+                      <Link to={`/student-quiz-result/${student.student_id}`}>
+                        View
+                      </Link>
                     </TableCell>
                     <TableCell>
-                      <IconButton>
-                        <EditIcon />
-                      </IconButton>
+                      <Button variant='contained'>
+                        <DoneIcon />
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}

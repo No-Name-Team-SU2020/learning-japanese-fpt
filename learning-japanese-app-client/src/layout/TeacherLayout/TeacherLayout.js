@@ -7,8 +7,8 @@ import TeacherSidebar from "../../components/shared/TeacherSidebar";
 import ListClassStudying from "../../pages/teacher/ListClassStudying";
 import TeacherHome from "../../components/pagesComponent/TeacherHome";
 import { useSelector } from "react-redux";
-import ListResultStudentByClass from "../../pages/student/ListResultStudentByClass";
 import ManageStudentByClass from "../../pages/teacher/ManageStudentByClass";
+import StudentQuizResult from "../../pages/teacher/StudentQuizResult";
 
 const AdminLayout = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -28,8 +28,8 @@ const AdminLayout = () => {
                 component={ListClassStudying}
               />
               <Route
-                path='/student-results/:cId'
-                component={ListResultStudentByClass}
+                path='/student-quiz-result/:sId'
+                component={StudentQuizResult}
               />
               <Route
                 path='/manage-student/classes/:cId'

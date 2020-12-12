@@ -7,15 +7,15 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import Brightness4Icon from '@material-ui/icons/Brightness4';
+import Brightness4Icon from "@material-ui/icons/Brightness4";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { Avatar } from "@material-ui/core";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Switch from "react-switch";
 import LogoutModal from "../../LogoutModal";
 
 const ProfileMenu = ({ show, toggleMenu }) => {
-  
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const { profile } = useSelector((state) => state.user);
   const [darkMode, setDarkMode] = useState(false);
   const [showLogout, setShowLogout] = useState(false);
@@ -59,12 +59,14 @@ const ProfileMenu = ({ show, toggleMenu }) => {
               }
             />
           </ListItem>
-          <ListItem button onClick={openLogoutModal}>
-            <ListItemIcon>
-              <ExitToAppIcon />
-            </ListItemIcon>
-            <ListItemText primary='Sign Out' />
-          </ListItem>
+          {isAuthenticated && (
+            <ListItem button onClick={openLogoutModal}>
+              <ListItemIcon>
+                <ExitToAppIcon />
+              </ListItemIcon>
+              <ListItemText primary='Sign Out' />
+            </ListItem>
+          )}
         </List>
       </SubMenu>
       <LogoutModal closeModal={closeLogoutModal} open={showLogout} />
