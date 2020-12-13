@@ -29,7 +29,6 @@ router.get('/teacher-subjects', checkAuth, async(req, res) => {
             where: {
                 user_name: checkUser.user_name
             },
-            attributes: ['teacher_id']
         });
 
         const data = await Teacher.findOne({
@@ -101,39 +100,6 @@ router.get('/teacher-classes', checkAuth, async (req, res) => {
             data: data
         })
 
-
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
-
-//view all classes in subject
-router.get('/subject-classes/:subjectId', checkAuth, async(req, res) =>{
-    try {
-        const subjectId = req.params.subjectId;
-
-        const data = await Subject.findAll({
-            where: {subject_id: subjectId},
-            attributes: ['subject_id','subject_code', 'subject_name'],
-            include: [
-                { model: Class, through: {attributes: []} },
-            ]
-        });
-
-        if(!data){
-            return res.json({
-                message: "cannot find data"
-            })
-        }
-
-        return res.json({
-            message: "classes in subject found",
-            data: data
-        });
 
     } catch (error) {
         console.error(error.message);

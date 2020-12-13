@@ -14,6 +14,52 @@ const Class_Subject = require('../models/Class_Subject');
 const Student_Subject = require('../models/Student_Subject');
 const Student_Class = require('../models/Student_Class');
 
+//view all class of a student
+router.get('/student-classes', checkAuth, async(req, res) => {
+    try {
+        const currentUser = req.user.user_name;
+
+        const checkUser = await User.findOne({
+            where: {
+                user_name: currentUser
+            }
+        });
+
+        const currentStudent = await Student.findOne({
+            where: {
+                user_name: checkUser.user_name
+            },
+            attributes: ['student_id']
+        });
+
+        const data = await Student.findAll({
+            where: { student_id: currentStudent.student_id },
+            attributes: ['student_id','student_name'],
+            include: [
+                { model: Class, through: {attributes: []} },
+            ]
+        });
+
+        if (!data) {
+            return res.json({
+                message: "Data not found",
+            })
+        }
+
+        return res.json({
+            message: "Classes found",
+            data: data
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
 //view all subjects of a student
 router.get('/student-subjects', checkAuth, async(req, res) => {
     try {
@@ -378,6 +424,14 @@ router.get('/grammars/:grammarId', checkAuth, async(req, res) => {
 //check thong tin diem danh
 router.get('/attendance', checkAuth, async(req, res) => {
     try {
+        //const lessonId = req.params.lessonId;
+
+        // const currentLesson = await Lesson.findOne({
+        //     where: {
+        //         lesson_id: lessonId
+        //     }
+        // })
+
         const currentUser = req.user.user_name;
 
         const checkUser = await User.findOne({
@@ -390,27 +444,27 @@ router.get('/attendance', checkAuth, async(req, res) => {
             where: {
                 user_name: checkUser.user_name
             },
-            attributes: ['student_id']
         });
 
         const checkAttendance = await Is_Attended.findAll({
             where: {
-                student_id: currentStudent.student_id
+                student_id: currentStudent.student_id,
+                ///lesson_id: currentLesson.lesson_id
             },
             include: [
                 { model: Lesson, attributes: ['lesson_name'] },
-                { model: Class, attributes: ['class_name'] }
+                //{ model: Class, attributes: ['class_name'] }
             ],
         });
 
         if(!checkAttendance){
             return res.json({
-                message: "attendance information not found"
+                message: "Attendance information not found"
             });
         }
 
         return res.json({
-            message: "attendance information found",
+            message: "Attendance information found",
             data: {
                 attendances: checkAttendance,
             }
