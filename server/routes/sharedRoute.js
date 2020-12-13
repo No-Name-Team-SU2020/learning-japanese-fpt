@@ -108,7 +108,7 @@ router.get('/class-subjects/:classId', checkAuth, async (req, res) => {
 //view all lesson in a subject
 router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
     try {
-        let listLessons;
+        //let listLessons;
 
         const currentUser = req.user.user_name;
 
@@ -132,19 +132,21 @@ router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
             }
         });
 
-        let currentStudent;
-        let checkStudentSubject;
-        let currentTeacher;
-        let checkTeacherSubject;
+        //let currentStudent;
+        //let checkStudentSubject;
+        //let currentTeacher;
+        //let checkTeacherSubject;
         if (checkUser.role_id === 3) {
+            //const permission = new Boolean(true);
+
             //check student
-            currentStudent = await Student.findOne({
+            const currentStudent = await Student.findOne({
                 where: {
                     user_name: checkUser.user_name
                 }
             });
 
-            checkStudentSubject = await Student_Subject.findOne({
+            const checkStudentSubject = await Student_Subject.findOne({
                 where: {
                     student_id: currentStudent.student_id,
                     subject_id: currentSubject.subject_id
@@ -158,34 +160,49 @@ router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
             }
 
             //check diem danh danh cho student
-            checkAttendance = await Is_Attended.findOne({
+            const checkAttendance = await Is_Attended.findOne({
                 where: {
                     student_id: currentStudent.student_id,
                 },
             })
 
-            listLessons = await Lesson.findAll({
+            const listLessons = await Lesson.findAll({
                 where: {
                     subject_id: currentSubject.subject_id
                 },
+                attributes: [],
                 include: [
                     {
                         model: Is_Attended, where: {
                             student_id: currentStudent.student_id
-                        }
+                        },
+                        required: false
                     }
                 ]
             });
+
+            if (!listLessons) {
+                return res.json({
+                    message: "Lesson not found",
+                });
+            }
+
+            return res.json(
+                {
+                    message: "Lessons found",
+                    data: listLessons
+                }
+            )
         }
         else if (checkUser.role_id === 2) {
             //check teacher
-            currentTeacher = await Teacher.findOne({
+            const currentTeacher = await Teacher.findOne({
                 where: {
                     user_name: checkUser.user_name
                 },
             });
 
-            checkTeacherSubject = await Teacher_Subject.findOne({
+            const checkTeacherSubject = await Teacher_Subject.findOne({
                 where: {
                     teacher_id: currentTeacher.teacher_id,
                     subject_id: currentSubject.subject_id
@@ -198,18 +215,44 @@ router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
                 })
             }
 
-            listLessons = await Lesson.findAll({
+            const listLessons = await Lesson.findAll({
                 where: {
                     subject_id: currentSubject.subject_id
                 },
             });
+
+            if (!listLessons) {
+                return res.json({
+                    message: "Lesson not found",
+                });
+            }
+
+            return res.json(
+                {
+                    message: "Lessons found",
+                    data: listLessons
+                }
+            )
         }
         else if(checkUser.role_id === 1){
-            listLessons = await Lesson.findAll({
+            const listLessons = await Lesson.findAll({
                 where: {
                     subject_id: currentSubject.subject_id
                 },
             });
+
+            if (!listLessons) {
+                return res.json({
+                    message: "Lesson not found",
+                });
+            }
+
+            return res.json(
+                {
+                    message: "Lessons found",
+                    data: listLessons
+                }
+            )
         }
         else {
             return res.json({
@@ -217,18 +260,18 @@ router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
             })
         }
 
-        if (!listLessons) {
-            return res.json({
-                message: "Lesson not found",
-            });
-        }
+        // if (!listLessons) {
+        //     return res.json({
+        //         message: "Lesson not found",
+        //     });
+        // }
 
-        return res.json(
-            {
-                message: "Lessons found",
-                data: listLessons
-            }
-        )
+        // return res.json(
+        //     {
+        //         message: "Lessons found",
+        //         data: listLessons
+        //     }
+        // )
 
     } catch (error) {
         console.error(error.message);
