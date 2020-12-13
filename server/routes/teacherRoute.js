@@ -255,7 +255,6 @@ router.post('/attendance', checkAuth, async(req, res) => {
             where: {
                 user_name: checkUser.user_name
             },
-            attributes: ['teacher_id']
         });
 
         //check teacher class
@@ -268,7 +267,7 @@ router.post('/attendance', checkAuth, async(req, res) => {
 
         if(!checkTeacherClass){
             return res.json({
-                message: "teacher not in class"
+                message: "Teacher not in class"
             })
         }
 
@@ -306,6 +305,7 @@ router.post('/attendance', checkAuth, async(req, res) => {
             })
         }
 
+        const checkSubmit = new Boolean(true);
         //check xem student đã được điểm danh chưa, tránh bị trùng(điểm danh 2 lần)
         const checkDuplicate = await Is_Attended.findOne({
             where: {
@@ -315,22 +315,30 @@ router.post('/attendance', checkAuth, async(req, res) => {
             },
         });
 
-        if(checkDuplicate){
+        if(!checkDuplicate){
+            const addAttended = await Is_Attended.create({
+                student_id,
+                lesson_id,
+                class_id
+            });
+    
             return res.json({
-                message: "student already attended"
+                message: "student taken attendance",
+                data: {
+                    attendance: addAttended,
+                    submit: !checkSubmit
+                }
+            });
+        }
+        else{
+            return res.json({
+                message: "student already attended",
+                data: {
+                    attendance: checkDuplicate,
+                    submit: !checkSubmit
+                }
             })
         }
-
-        const addAttended = await Is_Attended.create({
-            student_id,
-            lesson_id,
-            class_id
-        });
-
-        return res.json({
-            message: "student taken attendance",
-            data: addAttended
-        });
 
     } catch (error) {
         console.error(error.message);
