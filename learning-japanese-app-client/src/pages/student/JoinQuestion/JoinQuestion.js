@@ -19,8 +19,8 @@ const JoinQuestion = ({ location }) => {
   const history = useHistory();
   const { lId } = useParams();
   const adminQuestionList = useSelector((state) => state.adminQuestionList);
-  const [time, setTime] = useState(61);
-  const [finishTime, setFinishTime] = useState(61);
+  const [time, setTime] = useState(900);
+  const [finishTime, setFinishTime] = useState(900);
   const { loading, error, response } = useSelector(
     (state) => state.studentQuiz
   );
@@ -41,14 +41,12 @@ const JoinQuestion = ({ location }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (
-      adminQuestionList?.questionList?.questions?.length > userAnswers.length
-    ) {
+    if (adminQuestionList?.questionList?.length > userAnswers.length) {
       dispatch(
         alert("warning", "Please finish all questions before submission!")
       );
     } else {
-      setFinishTime(61 - time);
+      setFinishTime(900 - time);
       dispatch(
         submitAnswers(lId, {
           answers: userAnswers,
@@ -56,24 +54,21 @@ const JoinQuestion = ({ location }) => {
       );
     }
   };
-  const questionListMarkup = adminQuestionList.questionList?.questions?.map(
-    (q) => (
-      <QuestionItem
-        key={q.question_id}
-        question={q}
-        index={q.question_id}
-        listAnswers={userAnswers}
-        updateUserAnswers={setUserAnswers}
-      />
-    )
-  );
+  const questionListMarkup = adminQuestionList.questionList?.map((q) => (
+    <QuestionItem
+      key={q.question_id}
+      question={q}
+      index={q.question_id}
+      listAnswers={userAnswers}
+      updateUserAnswers={setUserAnswers}
+    />
+  ));
   return (
     <div className='my-3'>
       {!adminQuestionList.loading &&
         !adminQuestionList.error &&
         adminQuestionList.questionList &&
-        adminQuestionList.questionList.questions &&
-        adminQuestionList.questionList.questions.length > 0 && (
+        adminQuestionList.questionList.length > 0 && (
           <>
             <div className='d-flex align-items-center justify-content-between mb-2'>
               <h3> {adminQuestionList.questionList?.lesson} </h3>

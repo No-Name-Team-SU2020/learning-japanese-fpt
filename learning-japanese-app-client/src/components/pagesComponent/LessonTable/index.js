@@ -78,7 +78,7 @@ const LessonTable = ({ lessonList, subjectId }) => {
                     <EditIcon />
                   </IconButton>
                   <IconButton onClick={() => openModal(lesson.lesson_id)}>
-                    <DeleteIcon />
+                    <DeleteIcon color='secondary' />
                   </IconButton>
                 </TableCell>
               </TableRow>

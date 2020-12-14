@@ -50,6 +50,7 @@ const SubjectList = ({ subjects, url }) => {
         <Table aria-label='lessons table'>
           <TableHead>
             <TableRow>
+            <TableCell>Subject ID</TableCell>
               <TableCell>Subject Code</TableCell>
               <TableCell>Subject Name</TableCell>
               <TableCell>Actions</TableCell>
@@ -59,6 +60,9 @@ const SubjectList = ({ subjects, url }) => {
             {subjects.map((subject) => (
               <TableRow key={subject.subject_id}>
                 <TableCell component='th' scope='row'>
+                  {subject.subject_id}
+                </TableCell>
+                <TableCell >
                   {subject.subject_code}
                 </TableCell>
                 <TableCell>{subject.subject_name}</TableCell>
@@ -78,7 +82,7 @@ const SubjectList = ({ subjects, url }) => {
                     <EditIcon />
                   </IconButton>
                   <IconButton onClick={() => openModal(subject.subject_id)}>
-                    <DeleteIcon />
+                    <DeleteIcon color="secondary" />
                   </IconButton>
                 </TableCell>
               </TableRow>

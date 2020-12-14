@@ -44,6 +44,7 @@ const reducer = (state = classListInitialState, action) => {
         error: payload,
       };
     case ADMIN_UPDATE_CLASS_SUCCESS:
+      console.log(payload.newClass);
       return {
         error: null,
         loading: false,

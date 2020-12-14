@@ -86,6 +86,7 @@ function* updateClassWorker(action) {
   yield put(updateClassStart());
   try {
     yield updateClassRequest(action.cId, action.newClass);
+    console.log(action.newClass)
     yield put(updateClassSuccess(action.cId, action.newClass));
     history.push('/manage-class');
   } catch (error) {

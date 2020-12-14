@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { Route, Switch } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Sidebar from "../../components/shared/Sidebar/Sidebar";
 import ToggleSidebar from "../../components/ui/ToggleSidebar/ToggleSidebar";
 import StudentHome from "../../pages/student/StudentHome/StudentHome";
@@ -10,11 +11,14 @@ import Grammers from "../../pages/student/Grammar/Grammar";
 import Syllabus from "../../pages/student/Syllabus/Syllabus";
 import StudentQuizResults from "../../pages/student/StudentQuizResults";
 import SubjectList from "../../components/pagesComponent/SubjectList/SubjectList";
-import { useSelector } from "react-redux";
 import LessonDetail from "../../pages/student/LessonDetail";
 import GrammarSubjectList from "../../components/pagesComponent/GrammarSubjectList";
 import GrammarLessonBySubject from "../../pages/student/GrammarLessonBySubject";
 import GrammerDetail from "../../components/pagesComponent/GrammarDetail/GrammarDetail";
+import MyClasses from "../../pages/student/MyClasses";
+import SubjectListByClass from "../../pages/student/SubjectListByClass";
+import Attendance from "../../pages/student/Attendance";
+import StepsToPassSwp from "../../components/pagesComponent/StepsToPassSwp/StepsToPassSwp";
 
 const StudentLayout = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -30,6 +34,7 @@ const StudentLayout = () => {
             </div>
             <Switch>
               <Route exact path='/' component={StudentHome} />
+              <Route path='/about' component={StepsToPassSwp} />
               <Route path='/quiz-results' component={StudentQuizResults} />
               <Route path='/subject-list' component={SubjectList} />
               <Route
@@ -46,6 +51,12 @@ const StudentLayout = () => {
               <Route path='/grammars/:lId' component={Grammers} />
               <Route path='/grammar-detail/:gId' component={GrammerDetail} />
               <Route path='/syllabus' component={Syllabus} />
+              <Route path='/attendance/:sId' component={Attendance} />
+              <Route path='/my-classes' component={MyClasses} />
+              <Route
+                path='/class-subject/:cId'
+                component={SubjectListByClass}
+              />
               {isAuthenticated && <Route component={NotFound} />}
             </Switch>
           </div>

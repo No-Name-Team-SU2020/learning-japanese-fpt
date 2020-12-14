@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../../store/api/axios";
-import Button from '@material-ui/core/Button';
+import Button from "@material-ui/core/Button";
 import Loader from "../../../components/ui/Loader/Loader";
 import classes from "./index.module.css";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 const StudentQuizResults = () => {
   const history = useHistory();
@@ -21,10 +21,11 @@ const StudentQuizResults = () => {
       }));
       try {
         const res = await axios.get(`/student/quiz_results`);
+        console.log(res.data);
         setQuizResult({
           loading: false,
           error: null,
-          data: res.data.data,
+          data: res.data.data.results,
         });
       } catch (error) {
         setQuizResult({
@@ -36,7 +37,7 @@ const StudentQuizResults = () => {
     };
     fetchResults();
   }, []);
-  
+
   return (
     <div>
       <h1>My Quiz Results</h1>
@@ -53,14 +54,18 @@ const StudentQuizResults = () => {
                 className={[
                   classes.Badge,
                   r.percentage > 50 ? classes.Success : classes.Danger,
-                ].join(' ')}
+                ].join(" ")}
               >
                 {r.percentage.toFixed(2)} %
               </div>
             </div>
           ))}
       </div>
-      <Button variant="contained" color="primary" onClick={ () => history.push('/')}>
+      <Button
+        variant='contained'
+        color='primary'
+        onClick={() => history.push("/")}
+      >
         Continue Solve Quiz
       </Button>
     </div>

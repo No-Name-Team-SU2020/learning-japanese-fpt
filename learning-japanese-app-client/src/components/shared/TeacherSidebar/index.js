@@ -6,14 +6,14 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
-import SubjectIcon from "@material-ui/icons/Subject";
+import ClassIcon from "@material-ui/icons/Class";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getMySubjects } from "../../../store/actions/teacher/subject";
+import { getClassesByTeacher } from "../../../store/actions/teacher/class";
 import Loader from "../../ui/Loader/Loader";
 
 const useStyles = makeStyles((theme) => ({
@@ -28,25 +28,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const TeacherSidebar = () => {
-  const { loading, subjects, error } = useSelector(
-    (state) => state.teacherSubject
+  const { loading, classes, error } = useSelector(
+    (state) => state.teacherClass
   );
   const history = useHistory();
   const dispatch = useDispatch();
-  const classes = useStyles();
+  const styles = useStyles();
   const [openResultList, setOpenResultList] = useState(false);
-  const [openSubjectList, setOpenSubjectList] = useState(false);
+  const [openClassList, setOpenClassList] = useState(false);
 
   useEffect(() => {
-    dispatch(getMySubjects());
+    dispatch(getClassesByTeacher());
   }, [dispatch]);
 
   const handleResultClick = () => {
     setOpenResultList((prevState) => !prevState);
   };
 
-  const handleSubjectClick = () => {
-    setOpenSubjectList((prevState) => !prevState);
+  const handleClassClick = () => {
+    setOpenClassList((prevState) => !prevState);
   };
   return (
     <List
@@ -56,31 +56,31 @@ const TeacherSidebar = () => {
           <h4>Teacher Dashboard</h4>
         </ListSubheader>
       }
-      className={classes.root}
+      className={styles.root}
     >
-      <ListItem button onClick={handleSubjectClick}>
+      <ListItem button onClick={handleClassClick}>
         <ListItemIcon>
-          <SubjectIcon />
+          <ClassIcon />
         </ListItemIcon>
-        <ListItemText primary='Subject Management' />
-        {openSubjectList ? <ExpandLess /> : <ExpandMore />}
+        <ListItemText primary='Class Management' />
+        {openClassList ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
-      <Collapse in={openSubjectList} timeout='auto' unmountOnExit>
+      <Collapse in={openClassList} timeout='auto' unmountOnExit>
         <List component='div' disablePadding>
           {loading && <Loader />}
           {!loading &&
             !error &&
-            subjects.map((s) => (
+            classes?.classes?.map((c) => (
               <ListItem
-                key={s.subject_id}
+                key={c.class_id}
                 button
-                className={classes.nested}
-                onClick={() => history.push(`/manage-subject/${s.subject_id}`)}
+                className={styles.nested}
+                onClick={() => history.push(`/manage-subject/${c.class_id}`)}
               >
                 <ListItemIcon>
                   <ArrowForwardIosIcon />
                 </ListItemIcon>
-                <ListItemText primary={s.subject_name} />
+                <ListItemText primary={c.class_name} />
               </ListItem>
             ))}
         </List>
@@ -94,7 +94,7 @@ const TeacherSidebar = () => {
       </ListItem>
       <Collapse in={openResultList} timeout='auto' unmountOnExit>
         <List component='div' disablePadding>
-          <ListItem button className={classes.nested}>
+          <ListItem button className={styles.nested}>
             <ListItemIcon>
               <ArrowForwardIosIcon />
             </ListItemIcon>

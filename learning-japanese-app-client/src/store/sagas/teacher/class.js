@@ -20,7 +20,7 @@ function* getClassesWorker() {
   yield put(getClassesByTeacherStart());
   try {
     const res = yield getMyClassesRequest();
-    yield put(getClassesByTeacherSuccess(res.data.data));
+    yield put(getClassesByTeacherSuccess(res?.data?.data[0]));
   } catch (error) {
     yield put(
       getClassesByTeacherFailed(

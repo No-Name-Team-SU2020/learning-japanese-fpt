@@ -15,16 +15,6 @@ const SidebarLinks = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink to='/quiz-results' activeClassName='active-sidebar-link'>
-          QUIZ RESULTS
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to='/attendance' activeClassName='active-sidebar-link'>
-          ATTENDANCE
-        </NavLink>
-      </li>
-      <li>
         <NavLink to='/syllabus' activeClassName='active-sidebar-link'>
           SYLLABUS
         </NavLink>

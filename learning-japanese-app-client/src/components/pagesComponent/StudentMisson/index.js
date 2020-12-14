@@ -28,6 +28,28 @@ const StudentMission = () => {
         />
         <h3>Grammar</h3>
       </div>
+      <div
+        className='col-md-6 section'
+        onClick={() => history.push("/quiz-results")}
+      >
+        <img
+          src='https://images.pexels.com/photos/256468/pexels-photo-256468.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+          className='w-100'
+          alt=''
+        />
+        <h3>Quiz Results</h3>
+      </div>
+      <div
+        className='col-md-6 section'
+        onClick={() => history.push("/my-classes")}
+      >
+        <img
+          src='https://images.pexels.com/photos/5088022/pexels-photo-5088022.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+          className='w-100'
+          alt=''
+        />
+        <h3>Attendance</h3>
+      </div>
     </div>
   );
 };

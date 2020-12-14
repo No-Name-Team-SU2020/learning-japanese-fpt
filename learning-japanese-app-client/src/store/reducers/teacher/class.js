@@ -10,7 +10,7 @@ import {
 const teacherClassInitialState = {
   loading: false,
   error: null,
-  classes: [],
+  classes: {},
 };
 
 const reducer = (state = teacherClassInitialState, action) => {

@@ -1,8 +1,8 @@
 import React from "react";
 import { IconButton, TableCell, TableRow } from "@material-ui/core";
-import { useHistory } from 'react-router-dom';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { useHistory } from "react-router-dom";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const QuestionItem = ({ question, showConfirm }) => {
   const history = useHistory();
@@ -18,7 +18,7 @@ const QuestionItem = ({ question, showConfirm }) => {
       <TableCell>{question.option_d}</TableCell>
       <TableCell>{question.correct_answer}</TableCell>
       <TableCell>
-        <IconButton 
+        <IconButton
           onClick={() =>
             history.push(
               `/manage-question/question/edit/${question.question_id}`
@@ -28,7 +28,7 @@ const QuestionItem = ({ question, showConfirm }) => {
           <EditIcon />
         </IconButton>
         <IconButton onClick={showConfirm}>
-          <DeleteIcon />
+          <DeleteIcon color='secondary' />
         </IconButton>
       </TableCell>
     </TableRow>

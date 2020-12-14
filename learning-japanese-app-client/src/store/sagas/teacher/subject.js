@@ -3,9 +3,18 @@ import {
   getMySubjectsStart,
   getMySubjectsSuccess,
   getMySubjectsFailed,
+  getSubjectsByClassStart,
+  getSubjectsByClassSuccess,
+  getSubjectsByClassFailed,
 } from "../../actions/teacher/subject";
-import { TEACHER_GET_MY_SUBJECTS } from "../../actions/types";
-import { getMySubjectsRequest } from "../../api/teacher";
+import {
+  TEACHER_GET_MY_SUBJECTS,
+  TEACHER_GET_SUBJECTS_BY_CLASS,
+} from "../../actions/types";
+import {
+  getMySubjectsRequest,
+  getSubjectsByClassRequest,
+} from "../../api/teacher";
 
 function* getMySubjectsWorker() {
   yield put(getMySubjectsStart());
@@ -21,8 +30,23 @@ function* getMySubjectsWorker() {
   }
 }
 
+function* getSubjectsByClassWorker(action) {
+  yield put(getSubjectsByClassStart());
+  try {
+    const res = yield getSubjectsByClassRequest(action.cId);
+    yield put(getSubjectsByClassSuccess(res.data.data[0]));
+  } catch (error) {
+    yield put(
+      getSubjectsByClassFailed(
+        error.response?.data?.message || "Something went wrong"
+      )
+    );
+  }
+}
+
 function* teacherSubjectWatcher() {
   yield takeEvery(TEACHER_GET_MY_SUBJECTS, getMySubjectsWorker);
+  yield takeEvery(TEACHER_GET_SUBJECTS_BY_CLASS, getSubjectsByClassWorker);
 }
 
 export { teacherSubjectWatcher };

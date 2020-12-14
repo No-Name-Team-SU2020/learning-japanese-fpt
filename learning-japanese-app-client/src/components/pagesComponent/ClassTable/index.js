@@ -80,7 +80,7 @@ const ClassTable = () => {
                     <EditIcon />
                   </IconButton>
                   <IconButton onClick={() => openModal(item.class_id) }>
-                    <DeleteIcon />
+                    <DeleteIcon color='secondary' />
                   </IconButton>
                 </TableCell>
               </TableRow>

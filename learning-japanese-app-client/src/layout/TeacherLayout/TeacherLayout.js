@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import NotFound from "../../pages/global/_404/_404";
 import { Grid } from "@material-ui/core";
 import TeacherSidebar from "../../components/shared/TeacherSidebar";
-import ListClassStudying from "../../pages/teacher/ListClassStudying";
+import ListSubjectClassStudying from "../../pages/teacher/ListSubjectClassStudying";
 import TeacherHome from "../../components/pagesComponent/TeacherHome";
 import { useSelector } from "react-redux";
 import ManageStudentByClass from "../../pages/teacher/ManageStudentByClass";
@@ -24,8 +24,8 @@ const AdminLayout = () => {
           <Grid item md={9}>
             <Switch>
               <Route
-                path='/manage-subject/:sId'
-                component={ListClassStudying}
+                path='/manage-subject/:cId'
+                component={ListSubjectClassStudying}
               />
               <Route
                 path='/student-quiz-result/:sId'
