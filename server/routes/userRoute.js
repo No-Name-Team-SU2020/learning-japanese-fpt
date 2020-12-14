@@ -88,7 +88,7 @@ router.post('/login', validInfo, async (req, res) => {
 //logout (might not be needed, might be removed later)
 router.post('/logout', checkAuth, async(req, res) => {
     try {
-        const refreshToken = req.body.token;
+        //const refreshToken = req.body.token;
         // refreshTokens = refreshTokens.filter((refreshToken) => {
         //     return refreshToken.token !== req.token
         // })
