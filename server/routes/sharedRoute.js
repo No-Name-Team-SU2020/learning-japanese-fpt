@@ -108,27 +108,170 @@ router.get('/class-subjects/:classId', checkAuth, async (req, res) => {
 //view all lesson in a subject
 router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
     try {
+        //let listLessons;
+
+        const currentUser = req.user.user_name;
+
         const subjectId = req.params.subjectId;
 
-        const lessons = await Lesson.findAll({
+        const currentSubject = await Subject.findOne({
             where: {
                 subject_id: subjectId
-            },
-            attributes: ['lesson_id', 'lesson_content', 'lesson_name']
+            }
         });
 
-        if (!lessons) {
+        if (!currentSubject) {
             return res.json({
-                message: "Something wrong",
+                message: "Subject not found"
             });
         }
 
-        return res.json(
-            {
-                message: "Lessons found",
-                data: lessons
+        const checkUser = await User.findOne({
+            where: {
+                user_name: currentUser
             }
-        )
+        });
+
+        //let currentStudent;
+        //let checkStudentSubject;
+        //let currentTeacher;
+        //let checkTeacherSubject;
+        if (checkUser.role_id === 3) {
+            //const permission = new Boolean(true);
+
+            //check student
+            const currentStudent = await Student.findOne({
+                where: {
+                    user_name: checkUser.user_name
+                }
+            });
+
+            const checkStudentSubject = await Student_Subject.findOne({
+                where: {
+                    student_id: currentStudent.student_id,
+                    subject_id: currentSubject.subject_id
+                }
+            });
+
+            if (!checkStudentSubject) {
+                return res.json({
+                    message: "Student not study this subject"
+                })
+            }
+
+            //check diem danh danh cho student
+            const checkAttendance = await Is_Attended.findOne({
+                where: {
+                    student_id: currentStudent.student_id,
+                },
+            })
+
+            const listLessons = await Lesson.findAll({
+                where: {
+                    subject_id: currentSubject.subject_id
+                },
+                attributes: [],
+                include: [
+                    {
+                        model: Is_Attended, where: {
+                            student_id: currentStudent.student_id
+                        },
+                        required: false
+                    }
+                ]
+            });
+
+            if (!listLessons) {
+                return res.json({
+                    message: "Lesson not found",
+                });
+            }
+
+            return res.json(
+                {
+                    message: "Lessons found",
+                    data: listLessons
+                }
+            )
+        }
+        else if (checkUser.role_id === 2) {
+            //check teacher
+            const currentTeacher = await Teacher.findOne({
+                where: {
+                    user_name: checkUser.user_name
+                },
+            });
+
+            const checkTeacherSubject = await Teacher_Subject.findOne({
+                where: {
+                    teacher_id: currentTeacher.teacher_id,
+                    subject_id: currentSubject.subject_id
+                }
+            })
+
+            if (!checkTeacherSubject) {
+                return res.json({
+                    message: "Teacher not teach this subject"
+                })
+            }
+
+            const listLessons = await Lesson.findAll({
+                where: {
+                    subject_id: currentSubject.subject_id
+                },
+            });
+
+            if (!listLessons) {
+                return res.json({
+                    message: "Lesson not found",
+                });
+            }
+
+            return res.json(
+                {
+                    message: "Lessons found",
+                    data: listLessons
+                }
+            )
+        }
+        else if(checkUser.role_id === 1){
+            const listLessons = await Lesson.findAll({
+                where: {
+                    subject_id: currentSubject.subject_id
+                },
+            });
+
+            if (!listLessons) {
+                return res.json({
+                    message: "Lesson not found",
+                });
+            }
+
+            return res.json(
+                {
+                    message: "Lessons found",
+                    data: listLessons
+                }
+            )
+        }
+        else {
+            return res.json({
+                message: "You don't have permission to view this resource"
+            })
+        }
+
+        // if (!listLessons) {
+        //     return res.json({
+        //         message: "Lesson not found",
+        //     });
+        // }
+
+        // return res.json(
+        //     {
+        //         message: "Lessons found",
+        //         data: listLessons
+        //     }
+        // )
 
     } catch (error) {
         console.error(error.message);

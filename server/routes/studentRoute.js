@@ -229,7 +229,6 @@ router.get('/quiz_results', checkAuth, async(req, res) => {
             where: {
                 user_name: checkUser.user_name
             },
-            attributes: ['student_id']
         });
 
         const results = await Quiz_Result.findAll({
@@ -237,18 +236,18 @@ router.get('/quiz_results', checkAuth, async(req, res) => {
                 student_id: currentStudent.student_id
             },
             include: [
-                { model: Lesson, attributes: ['lesson_name'] } 
+                { model: Lesson } 
             ],
         });
 
         if(!results){
             return res.json({
-                message: "quiz results not found"
+                message: "Quiz results not found"
             });
         }
 
         return res.json({
-            message: "found all quiz result of student", 
+            message: "Found all quiz result of student", 
             data: {
                 results: results,
             }
@@ -288,7 +287,6 @@ router.get('/quiz_results/:lessonId', checkAuth, async(req, res) => {
             where: {
                 user_name: checkUser.user_name
             },
-            attributes: ['student_id']
         });
 
         const result = await Quiz_Result.findOne({
@@ -306,12 +304,12 @@ router.get('/quiz_results/:lessonId', checkAuth, async(req, res) => {
 
         if(!result){
             return res.json({
-                message: "quiz result not found"
+                message: "Quiz result not found"
             })
         }
 
         return res.json({
-            message: "quiz result found",
+            message: "Quiz result found",
             data: {
                 results: result,
                 lessons: getListLessons.lesson_name
