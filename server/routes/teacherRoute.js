@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const sequelize = require('sequelize');
 const moment = require('moment');
 const checkAuth = require('../middleware/checkAuth');
 const Teacher = require('../models/Teacher');
@@ -147,6 +148,8 @@ router.get('/subject-classes/:subjectId', checkAuth, async(req, res) =>{
 //view tất cả student trong 1 class kèm theo thông tin điểm danh theo lesson luôn
 router.get('/lessons/:lessonId/class-students/:classId', checkAuth, async(req, res) => {
     try {
+        const isSubmit = new Boolean(true);
+
         const lessonId = req.params.lessonId;
 
         const classId = req.params.classId;
@@ -175,24 +178,30 @@ router.get('/lessons/:lessonId/class-students/:classId', checkAuth, async(req, r
             })
         }
 
-        const data = await Class.findAll({
+        const datas = await Class.findAll({
             where: { class_id: currentClass.class_id },
             attributes: ['class_id', 'class_name'],
             include: [
                 { model: Student, through: {attributes: []}},
                 { model: Is_Attended, where: { lesson_id: currentLesson.lesson_id}},
             ],
+            //raw: true
         });
+
+        // const newData = datas.forEach(data => {
+
+        // })
+        console.log(159, data);
 
         if (!data) {
             return res.json({
-                message: "cannot find data",
+                message: "Cannot find data",
             })
         }
 
         return res.json({
-            message: "students found",
-            data: data
+            message: "Students found",
+            data: datas
         });
 
 
