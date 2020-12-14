@@ -1,0 +1,7 @@
+step 1: heroku login
+step 2:  heroku git:clone -a jp-app-server
+step 3: cd jp-app-server
+step 4 : git add .
+step 5 : git commit -m 'message/....'
+step 6 :  git push heroku master
+step 7 : heroku open to open app on browser

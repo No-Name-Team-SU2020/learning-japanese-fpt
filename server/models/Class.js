@@ -1,16 +1,18 @@
-const Sequelize = require('sequelize');
+const sequelize = require('sequelize');
 const db = require('../db');
 
 const Class = db.define('class', {
     class_id: {
-        type: Sequelize.STRING,
+        type: sequelize.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
         allowNull: false
     },
 
     class_name: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: sequelize.STRING,
+        allowNull: false,
+        unique: true
     },
 },
     {

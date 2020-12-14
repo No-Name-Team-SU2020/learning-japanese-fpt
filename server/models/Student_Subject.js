@@ -1,29 +1,33 @@
-const Sequelize = require('Sequelize');
+const sequelize = require('sequelize');
 const db = require('../db');
+const Student = require('./Student');
+const Subject = require('./Subject');
 
 const Student_Subject = db.define('student_subject', {
-    student_subject_id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false
-
-    },
     student_id: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         allowNull: false,
         references: {
-            model: 'student',
+            model: Student,
             key: 'student_id'
         }
     },
     subject_id: {
-        type: Sequelize.STRING,
+        type: sequelize.INTEGER,
         allowNull: false,
         references: {
-            model: 'subject',
+            model: Subject,
             key: 'subject_id'
         }
     },
-});
+
+},
+    {
+        freezeTableName: true
+    }
+);
+
+Student.belongsToMany(Subject, {through: Student_Subject, foreignKey: 'student_id'});
+Subject.belongsToMany(Student, {through: Student_Subject, foreignKey: 'subject_id'});
+
 module.exports = Student_Subject;

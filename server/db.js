@@ -1,16 +1,9 @@
 //const Pool = require('pg').Pool
-const Sequelize = require('sequelize');
+const sequelize = require('sequelize');
 
-// const pool = new Pool({
-//     user: "postgres",
-//     password: "admin",
-//     host: "localhost",
-//     port: 5432,
-//     database: "Capstone_Project"
-// });
 
 //New connecting method with sequelize
-const db = new Sequelize('Capstone_Project', 'postgres', 'Nousems2you.', {
+const db = new sequelize('Capstone_Project', 'postgres', 'Nousems2you.', {
     host: 'localhost',
     dialect: 'postgres',
 

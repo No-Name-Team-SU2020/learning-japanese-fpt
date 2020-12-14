@@ -1,53 +1,59 @@
-const Sequelize = require('sequelize');
+const sequelize = require('sequelize');
 const db = require('../db');
+const Lesson = require('./Lesson');
+const Subject = require('./Subject');
 
 const Question = db.define('question', {
     question_id: {
-        type: Sequelize.INTEGER,
+        type: sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
     },
     question_content: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         allowNull: false
     },
     option_a: {
-        type: Sequelize.STRING,
-        allowNull: true
+        type: sequelize.STRING,
+        allowNull: true,
     },
     option_b: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         allowNull: true
     },
     option_c: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         allowNull: true
     },
     option_d: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         allowNull: true
     },
-    lesson_id: {
-        type: Sequelize.STRING,
+    subject_id: {
+        type: sequelize.INTEGER,
         allowNull: false,
-        onDelete: 'CASCADE',
         references: {
-            model: 'lesson',
+            model: Subject,
+            key: 'subject_id'
+        }
+    },
+
+    lesson_id: {
+        type: sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: Lesson,
             key: 'lesson_id'
         }
     },
     correct_answer: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         allowNull: false
     },
-    answer_select: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
 },
-{
-    freezeTableName: true
-}
+    {
+        freezeTableName: true
+    }
 );
 module.exports = Question;

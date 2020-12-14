@@ -1,45 +1,67 @@
-const Sequelize = require('sequelize');
+const sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
 const db = require('../db');
 const Role = require('./Role');
 
 const User = db.define('users', {
     user_name: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         primaryKey: true,
         allowNull: false
     },
+    // avatar: {
+    //     type: sequelize.STRING,
+    // },
+
     display_name: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         allowNull: false
     },
     email: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         allowNull: false
     },
     password: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         allowNull: false,
-        select: false
     },
     role_id: {
-        type: Sequelize.INTEGER,
+        type: sequelize.INTEGER,
         allowNull: false,
         references: {
-            model: 'role',
+            model: Role,
             key: 'role_id'
         }
     },
-}, {
-    instanceMethods: {
-        generateHash(password) {
-            return bcrypt.hash(password, bcrypt.genSaltSync(10));
+},
+    {
+        freezeTableName: true,
+        instanceMethods: {
+            generateHash(password) {
+                return bcrypt.hash(password, bcrypt.genSaltSync(10));
+            },
+            validPassword(password) {
+                return bcrypt.compare(password, this.password);
+            }
         },
-        validPassword(password) {
-            return bcrypt.compare(password, this.password);
-        }
+        // defaultScope: {
+        //     attributes: { exclude: ['password'] }
+        // },
+    });
+
+    // User.prototype.generateHash = function (password) {
+    //     return bcrypt.hash(password, bcrypt.genSaltSync(10))
+    // }
+
+    // User.prototype.validPassword = function(password) {
+    //     return bcrypt.compare(password, this.password)
+    // }
+
+User.hasOne(Role);
+Role.belongsTo(User, {
+    foreignKey: {
+        name: 'role_id'
     }
-}
-);
+});
 
 module.exports = User;

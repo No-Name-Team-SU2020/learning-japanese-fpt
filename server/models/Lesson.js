@@ -1,40 +1,42 @@
-const Sequelize = require('sequelize');
+const sequelize = require('sequelize');
 const db = require('../db');
+const Subject = require('./Subject');
 
 const Lesson = db.define('lesson', {
     lesson_id: {
-        type: Sequelize.STRING,
+        type: sequelize.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
         allowNull: false
     },
     lesson_content: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         allowNull: false
 
     },
     lesson_name: {
-        type: Sequelize.STRING,
+        type: sequelize.STRING,
         allowNull: false
     },
     subject_id: {
-        type: Sequelize.STRING,
+        type: sequelize.INTEGER,
         allowNull: false,
         references: {
-            model: 'subject',
+            model: Subject,
             key: 'subject_id'
         }
     },
-    time_id: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        references: {
-            model: 'time',
-            key: 'time_id'
-        }
-    }
 },
-{
-    freezeTableName: true
-}
+    {
+        freezeTableName: true
+    }
 );
+
+// Subject.hasMany(Lesson);
+// Lesson.belongsTo(Subject, {
+//     foreignKey: {
+//         name: 'subject_id'
+//     }
+// });
+
 module.exports = Lesson;

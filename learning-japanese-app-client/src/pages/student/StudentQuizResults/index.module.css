@@ -1,0 +1,21 @@
+.ResultItem {
+  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.5);
+  padding: 15px;
+  margin-bottom: 15px;
+  position: relative;
+}
+.Badge {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+.Success {
+  color: white;
+  background-color: green;
+}
+.Danger {
+  color: white;
+  background-color: red;
+}
