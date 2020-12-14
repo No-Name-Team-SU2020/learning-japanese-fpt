@@ -44,9 +44,6 @@ const Is_Attended = db.define('is_attended', {
     }
 );
 
-Student.hasMany(Is_Attended, { foreignKey: 'student_id' });
-Is_Attended.belongsTo(Student, { foreignKey: 'student_id' });
-
 Lesson.hasMany(Is_Attended, { foreignKey: 'lesson_id' });
 Is_Attended.belongsTo(Lesson, { foreignKey: 'lesson_id' });
 

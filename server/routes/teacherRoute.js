@@ -15,7 +15,7 @@ const Student_Class = require('../models/Student_Class');
 const Teacher_Subject = require('../models/Teacher_Subject');
 
 //view all subject the teacher teaching
-router.get('/teacher-subjects', checkAuth, async (req, res) => {
+router.get('/teacher-subjects', checkAuth, async(req, res) => {
     try {
         const currentUser = req.user.user_name;
 
@@ -29,13 +29,14 @@ router.get('/teacher-subjects', checkAuth, async (req, res) => {
             where: {
                 user_name: checkUser.user_name
             },
+            attributes: ['teacher_id']
         });
 
         const data = await Teacher.findOne({
             where: { teacher_id: currentTeacher.teacher_id },
             attributes: ['teacher_id', 'teacher_name'],
             include: [
-                { model: Subject, through: { attributes: [] } },
+                { model: Subject, through: {attributes: []} },
             ],
         });
 
@@ -85,7 +86,7 @@ router.get('/teacher-classes', checkAuth, async (req, res) => {
             where: { teacher_id: currentTeacher.teacher_id },
             attributes: ['teacher_id', 'teacher_name'],
             include: [
-                { model: Class, through: { attributes: [] } },
+                { model: Class, through: {attributes: []} },
             ]
         });
 
@@ -110,8 +111,41 @@ router.get('/teacher-classes', checkAuth, async (req, res) => {
     }
 });
 
+//view all classes in subject
+router.get('/subject-classes/:subjectId', checkAuth, async(req, res) =>{
+    try {
+        const subjectId = req.params.subjectId;
+
+        const data = await Subject.findAll({
+            where: {subject_id: subjectId},
+            attributes: ['subject_id','subject_code', 'subject_name'],
+            include: [
+                { model: Class, through: {attributes: []} },
+            ]
+        });
+
+        if(!data){
+            return res.json({
+                message: "cannot find data"
+            })
+        }
+
+        return res.json({
+            message: "classes in subject found",
+            data: data
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
 //view tất cả student trong 1 class kèm theo thông tin điểm danh theo lesson luôn
-router.get('/lessons/:lessonId/class-students/:classId', checkAuth, async (req, res) => {
+router.get('/lessons/:lessonId/class-students/:classId', checkAuth, async(req, res) => {
     try {
         const lessonId = req.params.lessonId;
 
@@ -120,10 +154,10 @@ router.get('/lessons/:lessonId/class-students/:classId', checkAuth, async (req, 
         const currentLesson = await Lesson.findOne({
             where: {
                 lesson_id: lessonId
-            }
+            } 
         });
 
-        if (!currentLesson) {
+        if(!currentLesson){
             return res.json({
                 message: "cannot find lesson in db"
             })
@@ -135,7 +169,7 @@ router.get('/lessons/:lessonId/class-students/:classId', checkAuth, async (req, 
             }
         });
 
-        if (!currentClass) {
+        if(!currentClass){
             return res.json({
                 message: "cannot find class in db"
             })
@@ -145,12 +179,8 @@ router.get('/lessons/:lessonId/class-students/:classId', checkAuth, async (req, 
             where: { class_id: currentClass.class_id },
             attributes: ['class_id', 'class_name'],
             include: [
-                {
-                    model: Student, through: { attributes: [] },
-                    include: [
-                        { model: Is_Attended, where: { lesson_id: currentLesson.lesson_id }, required: false },
-                    ]
-                },
+                { model: Student, through: {attributes: []}},
+                { model: Is_Attended, where: { lesson_id: currentLesson.lesson_id}},
             ],
         });
 
@@ -176,7 +206,7 @@ router.get('/lessons/:lessonId/class-students/:classId', checkAuth, async (req, 
 });
 
 //view all student quiz results by lesson id
-router.get('/lessons/:lessonId/quiz-results', checkAuth, async (req, res) => {
+router.get('/lessons/:lessonId/quiz-results', checkAuth, async(req, res) => {
     try {
         const lessonId = req.params.lessonId;
 
@@ -186,7 +216,7 @@ router.get('/lessons/:lessonId/quiz-results', checkAuth, async (req, res) => {
             }
         });
 
-        if (!results) {
+        if(!results){
             return res.json({
                 message: "Can't find quiz results"
             });
@@ -207,7 +237,7 @@ router.get('/lessons/:lessonId/quiz-results', checkAuth, async (req, res) => {
 });
 
 //view student quiz result by student id
-router.get('/quiz-results/:studentId', checkAuth, async (req, res) => {
+router.get('/quiz-results/:studentId', checkAuth, async(req, res) =>{
     try {
         const studentId = req.params.studentId;
 
@@ -220,7 +250,7 @@ router.get('/quiz-results/:studentId', checkAuth, async (req, res) => {
             ],
         });
 
-        if (!results) {
+        if(!results){
             return res.json({
                 message: "student quiz results not found"
             });
@@ -241,7 +271,7 @@ router.get('/quiz-results/:studentId', checkAuth, async (req, res) => {
 });
 
 //điểm danh cho 1 sinh viên
-router.post('/attendance', checkAuth, async (req, res) => {
+router.post('/attendance', checkAuth, async(req, res) => {
     try {
         //request
         const { student_id, lesson_id, class_id } = req.body;
@@ -260,6 +290,7 @@ router.post('/attendance', checkAuth, async (req, res) => {
             where: {
                 user_name: checkUser.user_name
             },
+            attributes: ['teacher_id']
         });
 
         //check teacher class
@@ -270,9 +301,9 @@ router.post('/attendance', checkAuth, async (req, res) => {
             }
         })
 
-        if (!checkTeacherClass) {
+        if(!checkTeacherClass){
             return res.json({
-                message: "Teacher not in class"
+                message: "teacher not in class"
             })
         }
 
@@ -284,7 +315,7 @@ router.post('/attendance', checkAuth, async (req, res) => {
             }
         });
 
-        if (!checkStudentClass) {
+        if(!checkStudentClass){
             return res.json({
                 message: "student not in class"
             })
@@ -304,46 +335,37 @@ router.post('/attendance', checkAuth, async (req, res) => {
             }
         });
 
-        if (!checkSubjectClass) {
+        if(!checkSubjectClass){
             return res.json({
                 message: "lesson belong to the subject is not in this class"
             })
         }
 
-        const checkSubmit = new Boolean(true);
         //check xem student đã được điểm danh chưa, tránh bị trùng(điểm danh 2 lần)
-        const checkDuplicate = await Is_Attended.findOne({
+        const checkDuplicate = await Is_Attended.findAll({
             where: {
                 student_id: student_id,
                 lesson_id: lesson_id,
                 class_id: class_id
-            },
+            }
         });
 
-        if (!checkDuplicate) {
-            const addAttended = await Is_Attended.create({
-                student_id,
-                lesson_id,
-                class_id
-            });
-
+        if(checkDuplicate){
             return res.json({
-                message: "student taken attendance",
-                data: {
-                    attendance: addAttended,
-                    submit: !checkSubmit
-                }
-            });
-        }
-        else {
-            return res.json({
-                message: "student already attended",
-                data: {
-                    attendance: checkDuplicate,
-                    submit: !checkSubmit
-                }
+                message: "student already attended"
             })
         }
+
+        const addAttended = await Is_Attended.create({
+            student_id,
+            lesson_id,
+            class_id
+        });
+
+        return res.json({
+            message: "student taken attendance",
+            data: addAttended
+        });
 
     } catch (error) {
         console.error(error.message);
@@ -355,7 +377,7 @@ router.post('/attendance', checkAuth, async (req, res) => {
 });
 
 //check thong tin diem danh cua sinh vien
-router.get('/attendance/:studentId', checkAuth, async (req, res) => {
+router.get('/attendance/:studentId', checkAuth, async(req, res) => {
     try {
         const studentId = req.params.studentId;
 
@@ -369,7 +391,7 @@ router.get('/attendance/:studentId', checkAuth, async (req, res) => {
             ],
         });
 
-        if (!checkAttendance) {
+        if(!checkAttendance){
             return res.json({
                 message: "attendance information not found",
                 data: null

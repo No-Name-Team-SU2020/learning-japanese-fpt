@@ -13,7 +13,7 @@ router.get('/classes', checkAuth, async (req, res) => {
 
         if (!classes) {
             return res.json({
-                message: "Classes not found",
+                message: "Something wrong",
             });
         }
 
@@ -69,21 +69,9 @@ router.post('/classes', checkAuth, async (req, res) => {
 
         if (!class_name) {
             return res.json({
-                message: "Class name is not valid",
+                message: "class name is not valid",
                 data: null,
             });
-        }
-
-        const checkDuplicate = await Class.findOne({
-            where: {
-                class_name: class_name
-            },
-        });
-
-        if(checkDuplicate){
-            return res.json({
-                message: "Class name already existed"
-            })
         }
 
         const newClass = await Class.create({
@@ -94,7 +82,6 @@ router.post('/classes', checkAuth, async (req, res) => {
             message: 'Class created successfully',
             data: newClass
         });
-
     } catch (error) {
         console.error(error.message);
         return res.status(500).json({
@@ -110,30 +97,12 @@ router.put('/classes/:classId', checkAuth, async (req, res) => {
 
         const classId = req.params.classId;
 
-        const currentClass = await Class.findOne({
-            where: {
-                class_id: classId
-            }
-        })
+        const { class_name } = req.body;
 
-        if (!currentClass) {
+        if (!classId) {
             return res.json({
                 message: 'Class not found',
             });
-        }
-
-        const { class_name } = req.body;
-
-        const checkDuplicate = await Class.findOne({
-            where: {
-                class_name: class_name
-            },
-        });
-
-        if(checkDuplicate){
-            return res.json({
-                message: "Class name already existed"
-            })
         }
 
         const updateClass = await Class.update({
@@ -141,7 +110,7 @@ router.put('/classes/:classId', checkAuth, async (req, res) => {
         },
             {
                 where: {
-                    class_id: currentClass.class_id
+                    class_id: classId
                 }
             });
 
@@ -196,7 +165,7 @@ router.get('/subjects', checkAuth, async (req, res) => {
 
         if (!subjects) {
             return res.json({
-                message: "Subjects not found",
+                message: "Something wrong",
             });
         }
         return res.json(
@@ -263,19 +232,6 @@ router.post('/subjects', checkAuth, async (req, res) => {
             });
         }
 
-        const checkDuplicate = await Subject.findOne({
-            where: {
-                subject_code: subject_code,
-                subject_name: subject_name
-            },
-        });
-
-        if(checkDuplicate){
-            return res.json({
-                message: "Subject code and subject name already existed"
-            })
-        }
-
         const newSubject = await Subject.create({
             subject_code,
             subject_name,
@@ -300,31 +256,12 @@ router.put('/subjects/:subjectId', checkAuth, async (req, res) => {
 
         const subjectId = req.params.subjectId;
 
-        const currentSubject = await Subject.findOne({
-            where: {
-                subject_id: subjectId
-            }
-        });
-
-        if(!currentSubject){
-            return res.json({
-                message: "Subject not found"
-            })
-        }
-
         const { subject_code, subject_name } = req.body;
 
-        const checkDuplicate = await Subject.findOne({
-            where: {
-                subject_code: subject_code,
-                subject_name: subject_name
-            },
-        });
-
-        if(checkDuplicate){
+        if (!subjectId) {
             return res.json({
-                message: "Subject code and subject name already existed"
-            })
+                message: 'Subject not found',
+            });
         }
 
         const updateSubject = await Subject.update({
@@ -333,7 +270,7 @@ router.put('/subjects/:subjectId', checkAuth, async (req, res) => {
         },
             {
                 where: {
-                    subject_id: currentSubject.subject_id
+                    subject_id: subjectId
                 }
             });
 
@@ -390,28 +327,10 @@ router.post('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
             where: {
                 subject_id: subjectId
             },
+            attributes: ['subject_id']
         });
-
-        if(!currentSubject){
-            return res.json({
-                message: "Subject not found"
-            })
-        }
 
         const { lesson_content, lesson_name } = req.body;
-
-        const checkDuplicate = await Lesson.findOne({
-            where: {
-                lesson_content: lesson_content,
-                lesson_name: lesson_name
-            },
-        });
-
-        if(checkDuplicate){
-            return res.json({
-                message: "Lesson content and lesson name already existed"
-            })
-        }
 
         if (!lesson_content) {
             return res.json({
@@ -451,31 +370,12 @@ router.put('/lessons/:lessonId', checkAuth, async (req, res) => {
     try {
         const lessonId = req.params.lessonId;
 
-        const currentLesson = await Lesson.findOne({
-            where: {
-                lesson_id: lessonId
-            }
-        })
-
-        if(!currentLesson){
-            return res.json({
-                message: "Lesson not found"
-            })
-        }
-
         const { lesson_content, lesson_name } = req.body;
 
-        const checkDuplicate = await Lesson.findOne({
-            where: {
-                lesson_content: lesson_content,
-                lesson_name: lesson_name
-            },
-        });
-
-        if(checkDuplicate){
-            return res.json({
-                message: "Lesson content and lesson name already existed"
-            })
+        if (!lessonId) {
+            return res.status(404).json({
+                message: 'Lesson not found',
+            });
         }
 
         const updateLesson = await Lesson.update({
@@ -484,7 +384,7 @@ router.put('/lessons/:lessonId', checkAuth, async (req, res) => {
         },
             {
                 where: {
-                    lesson_id: currentLesson.lesson_id
+                    lesson_id: lessonId
                 }
             });
 
@@ -540,13 +440,8 @@ router.get('/subjects/:subjectId/questions', checkAuth, async(req, res) => {
             where: {
                 subject_id: subjectId
             },
+            attributes: ['subject_id']
         });
-
-        if(!currentSubject){
-            return res.json({
-                message: "Subject not found"
-            })
-        }
 
         const listQuestions = await Question.findAll({
             where: {
@@ -584,26 +479,16 @@ router.post('/subjects/:subjectId/lessons/:lessonId/questions', checkAuth, async
             where: {
                 subject_id: subjectId
             },
+            attributes: ['subject_id']
         })
-
-        if(!currentSubject){
-            return res.json({
-                message: "Subject not found"
-            })
-        }
 
         const currentLesson = await Lesson.findOne({
             where: {
                 lesson_id: lessonId,
                 subject_id: currentSubject.subject_id
             },
+            attributes: ['lesson_id']
         });
-
-        if(!currentLesson){
-            return res.json({
-                message: "Lesson not found"
-            })
-        }
 
         const { question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
 
@@ -680,19 +565,13 @@ router.put('/questions/:questionId', checkAuth, async (req, res) => {
     try {
         const questionId = req.params.questionId;
 
-        const currentQuestion = await Question.findOne({
-            where: {
-                question_id: questionId
-            }
-        });
+        const { question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
 
-        if(!currentQuestion){
+        if (!questionId) {
             return res.json({
                 message: 'Question not found',
             });
         }
-
-        const { question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
 
         const updateQuestion = await Question.update({
             question_content,
@@ -704,7 +583,7 @@ router.put('/questions/:questionId', checkAuth, async (req, res) => {
         },
             {
                 where: {
-                    question_id: currentQuestion.question_id
+                    question_id: questionId
                 }
             });
 

@@ -12,6 +12,7 @@ const Class = db.define('class', {
     class_name: {
         type: sequelize.STRING,
         allowNull: false,
+        unique: true
     },
 },
     {

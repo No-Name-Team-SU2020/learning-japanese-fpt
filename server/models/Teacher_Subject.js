@@ -27,9 +27,6 @@ const Teacher_Subject = db.define('teacher_subject', {
     
 );
 
-Subject.hasMany(Teacher_Subject, { foreignKey: 'subject_id' });
-Teacher_Subject.belongsTo(Subject, { foreignKey: 'subject_id' });
-
 Teacher.belongsToMany(Subject, {through: Teacher_Subject, foreignKey: 'teacher_id'});
 Subject.belongsToMany(Teacher, {through: Teacher_Subject, foreignKey: 'subject_id'});
 
