@@ -170,7 +170,6 @@ router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
                 where: {
                     subject_id: currentSubject.subject_id
                 },
-                attributes: [],
                 include: [
                     {
                         model: Is_Attended, where: {
