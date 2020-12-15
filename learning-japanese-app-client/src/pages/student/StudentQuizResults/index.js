@@ -12,7 +12,6 @@ const StudentQuizResults = () => {
     error: null,
     data: [],
   });
-
   useEffect(() => {
     const fetchResults = async () => {
       setQuizResult((prevState) => ({
@@ -21,7 +20,6 @@ const StudentQuizResults = () => {
       }));
       try {
         const res = await axios.get(`/student/quiz_results`);
-        console.log(res.data);
         setQuizResult({
           loading: false,
           error: null,
@@ -48,7 +46,7 @@ const StudentQuizResults = () => {
           !quizResult.error &&
           quizResult.data.map((r) => (
             <div key={r.quiz_id} className={classes.ResultItem}>
-              <h3>Quiz {r.quiz_id}</h3>
+              <h3>{r.lesson.lesson_name}</h3>
               <p>Score: {r.score}</p>
               <div
                 className={[

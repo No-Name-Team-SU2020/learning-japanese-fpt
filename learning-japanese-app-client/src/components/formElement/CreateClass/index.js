@@ -14,7 +14,6 @@ const CreateClassForm = () => {
 
   const [newClass, setNewClass] = useState({
     class_name: "",
-    class_id: "",
   });
 
   const handleChange = (e) => {
@@ -28,7 +27,6 @@ const CreateClassForm = () => {
     dispatch(createClass(newClass));
     setNewClass({
       class_name: "",
-      class_id: "",
     });
   };
   return (
@@ -44,11 +42,9 @@ const CreateClassForm = () => {
             <TextField
               label='Class Identifier'
               variant='outlined'
-              name='class_id'
+              disabled
               required
               fullWidth
-              value={newClass.class_id}
-              onChange={handleChange}
             />
           </Grid>
         </Grid>
