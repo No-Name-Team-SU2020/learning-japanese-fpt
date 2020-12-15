@@ -187,21 +187,39 @@ router.get('/lessons/:lessonId/quiz-results', checkAuth, async (req, res) => {
     try {
         const lessonId = req.params.lessonId;
 
-        const results = await Quiz_Result.findAll({
+        const currentLesson = await Lesson.findOne({
             where: {
                 lesson_id: lessonId
-            }
+            },
         });
 
-        if (!results) {
+        const results = await Quiz_Result.findAll({
+            where: {
+                lesson_id: currentLesson.lesson_id,
+            },
+            include: [
+                { model: Lesson }
+            ]
+        });
+
+        // const getListLessons = await Lesson.findOne({
+        //     where: {
+        //         lesson_id: result.lesson_id
+        //     }
+        // })
+
+        if(!results){
             return res.json({
-                message: "Can't find quiz results"
-            });
+                message: "Quiz results not found"
+            })
         }
 
         return res.json({
-            message: "quiz results found",
-            data: results
+            message: "Quiz results found",
+            data: {
+                results: results,
+                //lessons: getListLessons.lesson_name
+            }
         });
 
     } catch (error) {
