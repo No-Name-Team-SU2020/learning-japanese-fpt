@@ -1,4 +1,4 @@
-import { takeEvery, put, takeLeading } from "redux-saga/effects";
+import { takeEvery, put, takeLeading, takeLatest } from "redux-saga/effects";
 import {
   getClassesFailed,
   getClassesSuccess,
@@ -14,7 +14,7 @@ import {
   updateClassStart,
   getSingleClassStart,
   getSingleClassSuccess,
-  getSingleClassFailed
+  getSingleClassFailed,
 } from "../../actions/admin/class";
 import {
   ADMIN_GET_CLASSES,
@@ -28,9 +28,9 @@ import {
   deleteClassRequest,
   createClassRequest,
   getSingleClassRequest,
-  updateClassRequest
+  updateClassRequest,
 } from "../../api/admin";
-import history from '../../../utils/history';
+import history from "../../../utils/history";
 
 function* getClassesWorker() {
   yield put(getClassesStart());
@@ -44,7 +44,6 @@ function* getClassesWorker() {
   }
 }
 
-
 function* getSingleClassWorker(action) {
   yield put(getSingleClassStart());
   try {
@@ -52,7 +51,9 @@ function* getSingleClassWorker(action) {
     yield put(getSingleClassSuccess(res.data.data));
   } catch (error) {
     yield put(
-      getSingleClassFailed(error.response?.data?.message || "Something went wrong")
+      getSingleClassFailed(
+        error.response?.data?.message || "Something went wrong"
+      )
     );
   }
 }
@@ -86,9 +87,8 @@ function* updateClassWorker(action) {
   yield put(updateClassStart());
   try {
     yield updateClassRequest(action.cId, action.newClass);
-    console.log(action.newClass)
     yield put(updateClassSuccess(action.cId, action.newClass));
-    history.push('/manage-class');
+    yield history.push("/manage-class");
   } catch (error) {
     yield put(
       updateClassFailed(error.response?.data?.message || "Something went wrong")
@@ -100,7 +100,7 @@ function* adminClassWatcher() {
   yield takeEvery(ADMIN_GET_CLASSES, getClassesWorker);
   yield takeLeading(ADMIN_DELETE_CLASS, deleteClassWorker);
   yield takeLeading(ADMIN_CREATE_CLASS, createClassWorker);
-  yield takeLeading(ADMIN_UPDATE_CLASS, updateClassWorker);
+  yield takeLatest(ADMIN_UPDATE_CLASS, updateClassWorker);
   yield takeLeading(ADMIN_GET_SINGLE_CLASS, getSingleClassWorker);
 }
 

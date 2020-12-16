@@ -12,6 +12,7 @@ import singleQuestionReducer from "./question/singleQuestion";
 import { studentQuizReducer } from "./student/quiz";
 import teacherClassReducer from "./teacher/class";
 import teacherSubjectReducer from "./teacher/subject";
+import { studentResultReducer } from './student/result';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   studentQuiz: studentQuizReducer,
   teacherClass: teacherClassReducer,
   teacherSubject: teacherSubjectReducer,
+  studentResult: studentResultReducer,
 });
 
 export default rootReducer;

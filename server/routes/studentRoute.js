@@ -138,6 +138,7 @@ router.post('/answer/:lessonId', checkAuth, async(req, res) => {
             where: {
                 user_name: checkUser.user_name
             },
+            attributes: ['student_id']
         });
         
         // [ {question_id, answer} ]
@@ -295,7 +296,7 @@ router.get('/quiz_results/:lessonId', checkAuth, async(req, res) => {
             }
         });
 
-        const getListLessons = await Lesson.findAll({
+        const getListLessons = await Lesson.findOne({
             where: {
                 lesson_id: result.lesson_id
             }

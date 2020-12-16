@@ -76,7 +76,7 @@ const SubjectList = ({ subjects, url }) => {
                   </IconButton>
                   <IconButton
                     onClick={() =>
-                      history.push(`${url}/subject/edit/${subject.subject_code}`)
+                      history.push(`${url}/subject/edit/${subject.subject_id}`)
                     }
                   >
                     <EditIcon />

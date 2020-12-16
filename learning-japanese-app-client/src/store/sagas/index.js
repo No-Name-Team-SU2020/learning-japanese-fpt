@@ -12,6 +12,7 @@ import { globalQuestionWatcher } from "./global";
 import studentQuizWatcher from "./student/quiz";
 import { teacherClassWatcher } from "./teacher/class";
 import { teacherSubjectWatcher } from "./teacher/subject";
+import studentResultWatcher from './student/result';
 
 function* rootSaga() {
   yield all([
@@ -26,6 +27,7 @@ function* rootSaga() {
     studentQuizWatcher(),
     teacherClassWatcher(),
     teacherSubjectWatcher(),
+    studentResultWatcher(),
   ]);
 }
 

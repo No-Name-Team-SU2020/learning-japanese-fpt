@@ -14,7 +14,6 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import DoneIcon from "@material-ui/icons/Done";
-import ClearIcon from "@material-ui/icons/Clear";
 import { useSelector, useDispatch } from "react-redux";
 import { getLessons } from "../../../store/actions/admin/lesson";
 import { alert } from "../../../store/actions/ui/ui";
@@ -169,9 +168,7 @@ const ManageStudentByClass = ({ match, location }) => {
                               >
                                 <DoneIcon color='primary' />
                               </IconButton>
-                              <IconButton>
-                                <ClearIcon color='secondary' />
-                              </IconButton>
+                              <span className='text-danger'>Absent</span>
                             </>
                           )}
                         </>

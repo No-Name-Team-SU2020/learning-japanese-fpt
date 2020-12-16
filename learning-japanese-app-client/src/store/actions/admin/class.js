@@ -12,13 +12,13 @@ import {
   ADMIN_CREATE_CLASS_FAILED,
   ADMIN_CREATE_CLASS,
   ADMIN_UPDATE_CLASS_FAILED,
-  ADMIN_UPDATE_CLASS, 
+  ADMIN_UPDATE_CLASS,
   ADMIN_UPDATE_CLASS_SUCCESS,
   ADMIN_UPDATE_CLASS_START,
   ADMIN_GET_SINGLE_CLASS,
   ADMIN_GET_SINGLE_CLASS_START,
   ADMIN_GET_SINGLE_CLASS_SUCCESS,
-  ADMIN_GET_SINGLE_CLASS_FAILED
+  ADMIN_GET_SINGLE_CLASS_FAILED,
 } from "../types";
 
 export const getClasses = () => ({ type: ADMIN_GET_CLASSES });
@@ -37,7 +37,9 @@ export const getClassesSuccess = (classes) => ({
 
 export const getSingleClass = (cId) => ({ type: ADMIN_GET_SINGLE_CLASS, cId });
 
-export const getSingleClassStart = () => ({ type: ADMIN_GET_SINGLE_CLASS_START });
+export const getSingleClassStart = () => ({
+  type: ADMIN_GET_SINGLE_CLASS_START,
+});
 
 export const getSingleClassFailed = (error) => ({
   type: ADMIN_GET_SINGLE_CLASS_FAILED,
@@ -63,7 +65,10 @@ export const deleteClassSuccess = (cId) => ({
   payload: cId,
 });
 
-export const createClass = (newClass) => ({ type: ADMIN_CREATE_CLASS, newClass });
+export const createClass = (newClass) => ({
+  type: ADMIN_CREATE_CLASS,
+  newClass,
+});
 
 export const createClassStart = () => ({ type: ADMIN_CREATE_CLASS_START });
 
@@ -77,7 +82,11 @@ export const createClassSuccess = (newClass) => ({
   payload: newClass,
 });
 
-export const updateClass = (cId, newClass) => ({ type: ADMIN_UPDATE_CLASS, cId, newClass });
+export const updateClass = (cId, newClass) => ({
+  type: ADMIN_UPDATE_CLASS,
+  cId,
+  newClass,
+});
 
 export const updateClassStart = () => ({ type: ADMIN_UPDATE_CLASS_START });
 
@@ -88,5 +97,5 @@ export const updateClassFailed = (error) => ({
 
 export const updateClassSuccess = (cId, newClass) => ({
   type: ADMIN_UPDATE_CLASS_SUCCESS,
-  payload: { cId, newClass},
+  payload: { cId, newClass },
 });

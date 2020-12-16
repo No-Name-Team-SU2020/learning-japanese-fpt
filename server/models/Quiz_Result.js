@@ -43,9 +43,6 @@ const Quiz_Result = db.define('quiz_result', {
     }
 );
 
-Student.hasMany(Quiz_Result, { foreignKey: 'student_id' });
-Quiz_Result.belongsTo(Student, { foreignKey: 'student_id' });
-
 Lesson.hasMany(Quiz_Result, { foreignKey: 'lesson_id' });
 Quiz_Result.belongsTo(Lesson, { foreignKey: 'lesson_id' });
 

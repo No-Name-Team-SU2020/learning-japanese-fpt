@@ -94,12 +94,22 @@ const TeacherSidebar = () => {
       </ListItem>
       <Collapse in={openResultList} timeout='auto' unmountOnExit>
         <List component='div' disablePadding>
-          <ListItem button className={styles.nested}>
-            <ListItemIcon>
-              <ArrowForwardIosIcon />
-            </ListItemIcon>
-            <ListItemText primary='Result 1' />
-          </ListItem>
+        {loading && <Loader />}
+          {!loading &&
+            !error &&
+            classes?.classes?.map((c) => (
+              <ListItem
+                key={c.class_id}
+                button
+                className={styles.nested}
+                onClick={() => history.push(`/manage-result/${c.class_id}`)}
+              >
+                <ListItemIcon>
+                  <ArrowForwardIosIcon />
+                </ListItemIcon>
+                <ListItemText primary={c.class_name} />
+              </ListItem>
+            ))}
         </List>
       </Collapse>
     </List>

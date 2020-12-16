@@ -1,12 +1,12 @@
 import Paper from "@material-ui/core/Paper";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Loader from "../../../components/ui/Loader/Loader";
 import { getSubjectsByClass } from "../../../store/actions/teacher/subject";
 
-const ListClassStudying = ({ match }) => {
-  const { cId } = match.params;
+const ListClassStudying = ({ isResult }) => {
+  const { cId } =  useParams() ;
   const history = useHistory();
   const { subjects, loading, error } = useSelector(
     (state) => state.teacherSubject
@@ -32,7 +32,9 @@ const ListClassStudying = ({ match }) => {
                   className='list-group-item cursor-pointer hover-bg-blue'
                   onClick={() =>
                     history.push(
-                      `/manage-student/classes/${cId}?sId=${s.subject_id}`
+                      isResult
+                        ? `/manage-result/classes/${cId}?sId=${s.subject_id}`
+                        : `/manage-student/classes/${cId}?sId=${s.subject_id}`
                     )
                   }
                 >
