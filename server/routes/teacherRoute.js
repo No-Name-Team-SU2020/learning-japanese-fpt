@@ -160,7 +160,7 @@ router.get('/lessons/:lessonId/class-students/:classId', checkAuth, async (req, 
         // })
         //console.log(159, datas);
 
-        if (!datas) {
+        if (!data) {
             return res.json({
                 message: "cannot find data",
             })
