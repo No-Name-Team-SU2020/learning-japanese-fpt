@@ -12,13 +12,6 @@ const validInfo = require('../middleware/validInfo');
 
 let refreshTokens = [];
 
-router.get("/verify", checkAuth, (req, res) => {
-    res.json(true);
-});
-router.post("/dashboard", checkAuth, (req, res) => {
- //
-});
-
 //login
 router.post('/login', validInfo, async (req, res) => {
     try {
@@ -76,11 +69,11 @@ router.post('/login', validInfo, async (req, res) => {
             }
         })
 
-
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
             message: "Server error",
+            error: error
         });
     }
 });
@@ -88,7 +81,7 @@ router.post('/login', validInfo, async (req, res) => {
 //logout (might not be needed, might be removed later)
 router.post('/logout', checkAuth, async(req, res) => {
     try {
-        //const refreshToken = req.body.token;
+        const refreshToken = req.body.token;
         // refreshTokens = refreshTokens.filter((refreshToken) => {
         //     return refreshToken.token !== req.token
         // })

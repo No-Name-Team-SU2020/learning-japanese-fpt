@@ -658,7 +658,6 @@ router.post('/subjects/:subjectId/lessons/:lessonId/questions', checkAuth, async
             subject_id: currentSubject.subject_id,
             lesson_id: currentLesson.lesson_id,
             correct_answer,
-            
         });
 
         return res.json({
