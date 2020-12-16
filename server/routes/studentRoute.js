@@ -296,7 +296,7 @@ router.get('/quiz_results/:lessonId', checkAuth, async(req, res) => {
             }
         });
 
-        const getListLessons = await Lesson.findOne({
+        const getListLessons = await Lesson.findAll({
             where: {
                 lesson_id: result.lesson_id
             }

@@ -113,8 +113,6 @@ router.get('/teacher-classes', checkAuth, async (req, res) => {
 //view tất cả student trong 1 class kèm theo thông tin điểm danh theo lesson luôn
 router.get('/lessons/:lessonId/class-students/:classId', checkAuth, async (req, res) => {
     try {
-        //const isSubmit = new Boolean(true);
-
         const lessonId = req.params.lessonId;
 
         const classId = req.params.classId;
@@ -127,7 +125,7 @@ router.get('/lessons/:lessonId/class-students/:classId', checkAuth, async (req, 
 
         if (!currentLesson) {
             return res.json({
-                message: "Cannot find lesson in db"
+                message: "cannot find lesson in db"
             })
         }
 
@@ -139,12 +137,13 @@ router.get('/lessons/:lessonId/class-students/:classId', checkAuth, async (req, 
 
         if (!currentClass) {
             return res.json({
-                message: "Cannot find class in db"
+                message: "cannot find class in db"
             })
         }
 
         const data = await Class.findAll({
             where: { class_id: currentClass.class_id },
+            attributes: ['class_id', 'class_name'],
             include: [
                 {
                     model: Student, through: { attributes: [] },
@@ -155,12 +154,7 @@ router.get('/lessons/:lessonId/class-students/:classId', checkAuth, async (req, 
             ],
         });
 
-        // const newData = datas.forEach(data => {
-
-        // })
-        //console.log(159, datas);
-
-        if (!datas) {
+        if (!data) {
             return res.json({
                 message: "cannot find data",
             })
