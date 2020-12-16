@@ -138,7 +138,6 @@ router.post('/answer/:lessonId', checkAuth, async(req, res) => {
             where: {
                 user_name: checkUser.user_name
             },
-            attributes: ['student_id']
         });
         
         // [ {question_id, answer} ]
