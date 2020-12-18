@@ -19,7 +19,16 @@ import { getLessons } from "../../../store/actions/admin/lesson";
 import { alert } from "../../../store/actions/ui/ui";
 
 const ManageStudentByClass = ({ match, location }) => {
-  const sId = location?.search.split("=")[1];
+  let sId, isResult;
+  var params = new URLSearchParams(location?.search);
+  for (let p of params) {
+    if (p[0] === "sId") {
+      sId = p[1];
+    }
+    if (p[0] === "isResult") {
+      isResult = p[1];
+    }
+  }
   const { cId } = match.params;
   const [loading, setLoading] = useState(false);
   const [classData, setClassData] = useState({});
@@ -29,7 +38,9 @@ const ManageStudentByClass = ({ match, location }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getLessons(sId));
+    if (sId) {
+      dispatch(getLessons(+sId));
+    }
   }, [dispatch, sId]);
 
   useEffect(() => {
@@ -101,6 +112,7 @@ const ManageStudentByClass = ({ match, location }) => {
             fullWidth
             variant='outlined'
           >
+            <MenuItem value=''>Choose lesson</MenuItem>
             {lessonList?.map((option) => (
               <MenuItem key={option.lesson_id} value={option.lesson_id}>
                 {option.lesson_name}
@@ -121,8 +133,8 @@ const ManageStudentByClass = ({ match, location }) => {
                   <TableCell>Avatar</TableCell>
                   <TableCell>Full Name</TableCell>
                   <TableCell>User Name</TableCell>
-                  <TableCell>Review</TableCell>
-                  <TableCell>Attendance</TableCell>
+                  {isResult === "1" && <TableCell>Review</TableCell>}
+                  {isResult === "0" && <TableCell>Attendance</TableCell>}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -143,37 +155,41 @@ const ManageStudentByClass = ({ match, location }) => {
                     </TableCell>
                     <TableCell>{student.student_name}</TableCell>
                     <TableCell>{student.user_name}</TableCell>
-                    <TableCell>
-                      <Link to={`/student-quiz-result/${student.student_id}`}>
-                        View
-                      </Link>
-                    </TableCell>
-                    <TableCell>
-                      {attendanceResponse.loading ? (
-                        <Loader />
-                      ) : (
-                        <>
-                          {student.is_attendeds?.length > 0 ? (
-                            <span className='text-success'>Present</span>
-                          ) : (
-                            <>
-                              <IconButton
-                                onClick={() =>
-                                  attendanceHandler({
-                                    student_id: student.student_id,
-                                    class_id: cId,
-                                    lesson_id: lessonId,
-                                  })
-                                }
-                              >
-                                <DoneIcon color='primary' />
-                              </IconButton>
-                              <span className='text-danger'>Absent</span>
-                            </>
-                          )}
-                        </>
-                      )}
-                    </TableCell>
+                    {isResult === "1" && (
+                      <TableCell>
+                        <Link to={`/student-quiz-result/${student.student_id}`}>
+                          View
+                        </Link>
+                      </TableCell>
+                    )}
+                    {isResult === "0" && (
+                      <TableCell>
+                        {attendanceResponse.loading ? (
+                          <Loader />
+                        ) : (
+                          <>
+                            {student.is_attendeds?.length > 0 ? (
+                              <span className='text-success'>Present</span>
+                            ) : (
+                              <>
+                                <span className='text-danger'>Absent</span>
+                                <IconButton
+                                  onClick={() =>
+                                    attendanceHandler({
+                                      student_id: student.student_id,
+                                      class_id: cId,
+                                      lesson_id: lessonId,
+                                    })
+                                  }
+                                >
+                                  <DoneIcon color='primary' />
+                                </IconButton>
+                              </>
+                            )}
+                          </>
+                        )}
+                      </TableCell>
+                    )}
                   </TableRow>
                 ))}
               </TableBody>

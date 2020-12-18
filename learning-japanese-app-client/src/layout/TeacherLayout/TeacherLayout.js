@@ -8,7 +8,7 @@ import ListSubjectClassStudying from "../../pages/teacher/ListSubjectClassStudyi
 import TeacherHome from "../../components/pagesComponent/TeacherHome";
 import { useSelector } from "react-redux";
 import ManageStudentByClass from "../../pages/teacher/ManageStudentByClass";
-import ManageResultByClass from "../../pages/teacher/ManageResultByClass";
+import ManageProgressByClass from "../../pages/teacher/ManageProgressByClass";
 import StudentQuizResult from "../../pages/teacher/StudentQuizResult";
 
 const AdminLayout = () => {
@@ -29,9 +29,12 @@ const AdminLayout = () => {
                 component={ListSubjectClassStudying}
               />
               <Route
-                path='/manage-result/classes/:cId'
-                component={ManageResultByClass}
+                path='/manage-progress/classes/:cId'
+                component={ManageProgressByClass}
               />
+              <Route path='/manage-progress/:cId'>
+                <ListSubjectClassStudying isProgress />
+              </Route>
               <Route path='/manage-result/:cId'>
                 <ListSubjectClassStudying isResult />
               </Route>

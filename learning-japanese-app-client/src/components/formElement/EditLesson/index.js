@@ -16,7 +16,6 @@ const EditLessonForm = ({ subjectId }) => {
 
   const [lesson, setLesson] = useState({
     lesson_name: "",
-    lesson_id: "",
     lesson_content: "",
   });
 
@@ -25,7 +24,7 @@ const EditLessonForm = ({ subjectId }) => {
   }, [lId, dispatch]);
 
   useEffect(() => {
-    if( singleLesson.lesson && singleLesson.lesson.lesson_id) {
+    if (singleLesson.lesson && singleLesson.lesson.lesson_id) {
       setLesson(singleLesson.lesson);
     }
   }, [singleLesson.lesson]);
@@ -45,22 +44,6 @@ const EditLessonForm = ({ subjectId }) => {
       <h1 className='border-bottom pb-2 text-center'>FPT EDUCATION</h1>
       <h3 className='my-4'>Edit Lesson</h3>
       <form onSubmit={submitHandler}>
-        <Grid container spacing={3}>
-          <Grid item md={4}>
-            Lesson ID:
-          </Grid>
-          <Grid item md={8}>
-            <TextField
-              label='Lesson Identifier'
-              variant='outlined'
-              name='lesson_id'
-              required
-              fullWidth
-              value={lesson.lesson_id}
-              onChange={handleChange}
-            />
-          </Grid>
-        </Grid>
         <Grid container spacing={3}>
           <Grid item md={4}>
             Lesson Name:

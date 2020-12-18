@@ -8,10 +8,10 @@ import ManageClass from "../../pages/admin/ManageClass";
 import ManageLesson from "../../pages/admin/ManageLesson/ManageLesson";
 import NotFound from "../../pages/global/_404/_404";
 import ClassTable from "../../components/pagesComponent/ClassTable";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
 const AdminLayout = () => {
-  const { isAuthenticated  } = useSelector(state => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.auth);
   return (
     <Fragment>
       <Header />

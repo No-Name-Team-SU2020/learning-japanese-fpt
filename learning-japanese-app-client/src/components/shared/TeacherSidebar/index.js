@@ -35,6 +35,7 @@ const TeacherSidebar = () => {
   const dispatch = useDispatch();
   const styles = useStyles();
   const [openResultList, setOpenResultList] = useState(false);
+  const [openProgressList, setOpenProgressList] = useState(false);
   const [openClassList, setOpenClassList] = useState(false);
 
   useEffect(() => {
@@ -47,6 +48,9 @@ const TeacherSidebar = () => {
 
   const handleClassClick = () => {
     setOpenClassList((prevState) => !prevState);
+  };
+  const handleProgressClick = () => {
+    setOpenProgressList((prevState) => !prevState);
   };
   return (
     <List
@@ -85,6 +89,33 @@ const TeacherSidebar = () => {
             ))}
         </List>
       </Collapse>
+      <ListItem button onClick={handleProgressClick}>
+        <ListItemIcon>
+          <AssignmentIcon />
+        </ListItemIcon>
+        <ListItemText primary='Progress Management' />
+        {openProgressList ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+      <Collapse in={openProgressList} timeout='auto' unmountOnExit>
+        <List component='div' disablePadding>
+          {loading && <Loader />}
+          {!loading &&
+            !error &&
+            classes?.classes?.map((c) => (
+              <ListItem
+                key={c.class_id}
+                button
+                className={styles.nested}
+                onClick={() => history.push(`/manage-progress/${c.class_id}`)}
+              >
+                <ListItemIcon>
+                  <ArrowForwardIosIcon />
+                </ListItemIcon>
+                <ListItemText primary={c.class_name} />
+              </ListItem>
+            ))}
+        </List>
+      </Collapse>
       <ListItem button onClick={handleResultClick}>
         <ListItemIcon>
           <AssignmentIcon />
@@ -94,7 +125,7 @@ const TeacherSidebar = () => {
       </ListItem>
       <Collapse in={openResultList} timeout='auto' unmountOnExit>
         <List component='div' disablePadding>
-        {loading && <Loader />}
+          {loading && <Loader />}
           {!loading &&
             !error &&
             classes?.classes?.map((c) => (

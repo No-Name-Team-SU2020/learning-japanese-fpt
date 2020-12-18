@@ -24,8 +24,6 @@ const LessonBySubject = () => {
     dispatch(getResults());
   }, [dispatch]);
 
-  console.log(studentResult);
-
   return (
     <div>
       <h1>Lesson follow by Subject</h1>

@@ -36,20 +36,6 @@ const CreateClassForm = () => {
       <form onSubmit={submitHandler}>
         <Grid container spacing={3}>
           <Grid item md={4}>
-            Class ID:
-          </Grid>
-          <Grid item md={8}>
-            <TextField
-              label='Class Identifier'
-              variant='outlined'
-              disabled
-              required
-              fullWidth
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={3}>
-          <Grid item md={4}>
             Class name:
           </Grid>
           <Grid item md={8}>
