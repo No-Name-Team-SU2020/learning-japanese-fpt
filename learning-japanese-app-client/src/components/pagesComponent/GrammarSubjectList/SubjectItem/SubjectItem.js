@@ -25,6 +25,27 @@ const SubjectItem = ({
             {tag},
           </span>
         ))}
+        {/* {loading && <Loader />}
+      {error && <div className='alert mb-2 alert-danger'> {error} </div>}
+      {classesData.classes &&
+        classesData.classes.map((classItem) => (
+          <div
+            key={classItem.class_id}
+            className='shadow-sm p-3 mb-3 d-flex align-items-center justify-content-between rounded'
+          >
+            <span className='cursor-pointer hover-text-blue'>
+              <strong>
+                Class {classItem.class_id} : {classItem.class_name}
+              </strong>
+            </span>
+            <Link
+              to={`/class-subject/${classItem.class_id}`}
+              className='font-weight-bold'
+            >
+              View Subject
+            </Link>
+          </div>
+        ))} */}
       </div>
     </CSSTransition>
   );

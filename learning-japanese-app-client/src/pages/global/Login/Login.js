@@ -47,7 +47,7 @@ const Login = () => {
           className="form-control form-control-lg my-3"
           placeholder="Enter password"
         />
-        <button className="btn btn-info btn-lg btn-block">Submit</button>
+        <button className="btn btn-info btn-lg btn-block">Login</button>
       </form>
  
     </div>

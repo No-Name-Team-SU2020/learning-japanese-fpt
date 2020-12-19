@@ -61,8 +61,7 @@ const Attendance = ({ match }) => {
               className='shadow-sm p-3 mb-3 d-flex align-items-center justify-content-between rounded'
             >
               <span className='cursor-pointer hover-text-blue'>
-                <strong>{lesson.lesson_name} : </strong>
-                {lesson.lesson_content.substr(0, 50)}
+                <strong>{lesson.lesson_name} </strong>
               </span>
             </div>
           ))}
@@ -87,7 +86,7 @@ const Attendance = ({ match }) => {
                 ) ? (
                   <span className='text-success'>Present </span>
                 ) : (
-                  <span className='text-danger'>Absent </span>
+                  <span className='text-danger'>Not Yet </span>
                 )}
               </span>
             </div>

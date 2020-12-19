@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Loader from "../../../components/ui/Loader/Loader";
 import axios from "../../../store/api/axios";
+import { Button } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 const MyClasses = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [classesData, setClassesData] = useState({});
+  const history = useHistory();
   useEffect(() => {
     const fetchMyClasses = async () => {
       setLoading(true);
@@ -46,9 +49,13 @@ const MyClasses = () => {
             </Link>
           </div>
         ))}
-      <Link to='/' className='font-weight-bold'>
-        &#8592; Go Back Home
-      </Link>
+      <Button
+        className="my-3"
+        variant="contained"
+        onClick={() => history.goBack()}
+      >
+        Go Back
+      </Button>
     </div>
   );
 };

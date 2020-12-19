@@ -14,7 +14,7 @@ const SidebarLinks = () => {
           HOME
         </NavLink>
       </li>
-      <li>
+      {/* <li>
         <NavLink to='/syllabus' activeClassName='active-sidebar-link'>
           SYLLABUS
         </NavLink>
@@ -23,7 +23,7 @@ const SidebarLinks = () => {
         <NavLink to='/calendar' activeClassName='active-sidebar-link'>
           CALENDAR
         </NavLink>
-      </li>
+      </li> */}
       <li>
         <NavLink to='/about' activeClassName='active-sidebar-link'>
           ABOUT

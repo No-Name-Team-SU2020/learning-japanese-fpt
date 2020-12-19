@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Loader from "../../../components/ui/Loader/Loader";
 import axios from "../../../store/api/axios";
+import { Button } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 const SubjectListByClass = ({ match }) => {
   const { cId } = match.params;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [subjectData, setSubjectData] = useState({});
+  const history = useHistory();
   useEffect(() => {
     const fetchSubjectByClass = async () => {
       setLoading(true);
@@ -47,9 +50,13 @@ const SubjectListByClass = ({ match }) => {
             </Link>
           </div>
         ))}
-      <Link to='/my-classes' className='font-weight-bold'>
-        &#8592; Go Back
-      </Link>
+      <Button
+        className="my-3"
+        variant="contained"
+        onClick={() => history.goBack()}
+      >
+        Go Back
+      </Button>
     </div>
   );
 };
