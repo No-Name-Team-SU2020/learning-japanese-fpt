@@ -185,53 +185,53 @@ router.get('/lessons/:lessonId/class-students/:classId', checkAuth, async (req, 
 });
 
 //view all student quiz results by lesson id
-router.get('/lessons/:lessonId/quiz-results', checkAuth, async (req, res) => {
-    try {
-        const lessonId = req.params.lessonId;
+// router.get('/lessons/:lessonId/quiz-results', checkAuth, async (req, res) => {
+//     try {
+//         const lessonId = req.params.lessonId;
 
-        const currentLesson = await Lesson.findOne({
-            where: {
-                lesson_id: lessonId
-            },
-        });
+//         const currentLesson = await Lesson.findOne({
+//             where: {
+//                 lesson_id: lessonId
+//             },
+//         });
 
-        const results = await Quiz_Result.findAll({
-            where: {
-                lesson_id: currentLesson.lesson_id,
-            },
-            include: [
-                { model: Lesson }
-            ]
-        });
+//         const results = await Quiz_Result.findAll({
+//             where: {
+//                 lesson_id: currentLesson.lesson_id,
+//             },
+//             include: [
+//                 { model: Lesson }
+//             ]
+//         });
 
-        // const getListLessons = await Lesson.findOne({
-        //     where: {
-        //         lesson_id: result.lesson_id
-        //     }
-        // })
+//         // const getListLessons = await Lesson.findOne({
+//         //     where: {
+//         //         lesson_id: result.lesson_id
+//         //     }
+//         // })
 
-        if (!results) {
-            return res.json({
-                message: "Quiz results not found"
-            })
-        }
+//         if (!results) {
+//             return res.json({
+//                 message: "Quiz results not found"
+//             })
+//         }
 
-        return res.json({
-            message: "Quiz results found",
-            data: {
-                results: results,
-                //lessons: getListLessons.lesson_name
-            }
-        });
+//         return res.json({
+//             message: "Quiz results found",
+//             data: {
+//                 results: results,
+//                 //lessons: getListLessons.lesson_name
+//             }
+//         });
 
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
+//     } catch (error) {
+//         console.error(error.message);
+//         res.status(500).json({
+//             message: "Server error",
+//             error: error
+//         });
+//     }
+// });
 
 //view student quiz result by student id
 router.get('/quiz-results/:studentId', checkAuth, async (req, res) => {
@@ -388,42 +388,42 @@ router.post('/attendance', checkAuth, async (req, res) => {
 });
 
 //check thong tin diem danh cua sinh vien
-router.get('/attendance/:studentId', checkAuth, async (req, res) => {
-    try {
-        const studentId = req.params.studentId;
+// router.get('/attendance/:studentId', checkAuth, async (req, res) => {
+//     try {
+//         const studentId = req.params.studentId;
 
-        const checkAttendance = await Is_Attended.findAll({
-            where: {
-                student_id: studentId
-            },
-            include: [
-                { model: Lesson, attributes: ['lesson_name'] },
-                { model: Class, attributes: ['class_name'] }
-            ],
-        });
+//         const checkAttendance = await Is_Attended.findAll({
+//             where: {
+//                 student_id: studentId
+//             },
+//             include: [
+//                 { model: Lesson, attributes: ['lesson_name'] },
+//                 { model: Class, attributes: ['class_name'] }
+//             ],
+//         });
 
-        if (!checkAttendance) {
-            return res.json({
-                message: "attendance information not found",
-                data: null
-            });
-        }
+//         if (!checkAttendance) {
+//             return res.json({
+//                 message: "attendance information not found",
+//                 data: null
+//             });
+//         }
 
-        return res.json({
-            message: "attendance information found",
-            data: {
-                attendances: checkAttendance,
-            }
-        });
+//         return res.json({
+//             message: "attendance information found",
+//             data: {
+//                 attendances: checkAttendance,
+//             }
+//         });
 
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
+//     } catch (error) {
+//         console.error(error.message);
+//         res.status(500).json({
+//             message: "Server error",
+//             error: error
+//         });
+//     }
+// });
 
 //view progress for chart
 router.get('/lessons/:lessonId/progress/:classId', checkAuth, async (req, res) => {
