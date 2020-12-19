@@ -32,11 +32,7 @@ const Lesson = db.define('lesson', {
     }
 );
 
-// Subject.hasMany(Lesson);
-// Lesson.belongsTo(Subject, {
-//     foreignKey: {
-//         name: 'subject_id'
-//     }
-// });
+Subject.hasMany(Lesson, { foreignKey: 'subject_id' });
+Lesson.belongsTo(Subject, { foreignKey: 'subject_id' });
 
 module.exports = Lesson;

@@ -185,53 +185,53 @@ router.get('/lessons/:lessonId/class-students/:classId', checkAuth, async (req, 
 });
 
 //view all student quiz results by lesson id
-router.get('/lessons/:lessonId/quiz-results', checkAuth, async (req, res) => {
-    try {
-        const lessonId = req.params.lessonId;
+// router.get('/lessons/:lessonId/quiz-results', checkAuth, async (req, res) => {
+//     try {
+//         const lessonId = req.params.lessonId;
 
-        const currentLesson = await Lesson.findOne({
-            where: {
-                lesson_id: lessonId
-            },
-        });
+//         const currentLesson = await Lesson.findOne({
+//             where: {
+//                 lesson_id: lessonId
+//             },
+//         });
 
-        const results = await Quiz_Result.findAll({
-            where: {
-                lesson_id: currentLesson.lesson_id,
-            },
-            include: [
-                { model: Lesson }
-            ]
-        });
+//         const results = await Quiz_Result.findAll({
+//             where: {
+//                 lesson_id: currentLesson.lesson_id,
+//             },
+//             include: [
+//                 { model: Lesson }
+//             ]
+//         });
 
-        // const getListLessons = await Lesson.findOne({
-        //     where: {
-        //         lesson_id: result.lesson_id
-        //     }
-        // })
+//         // const getListLessons = await Lesson.findOne({
+//         //     where: {
+//         //         lesson_id: result.lesson_id
+//         //     }
+//         // })
 
-        if (!results) {
-            return res.json({
-                message: "Quiz results not found"
-            })
-        }
+//         if (!results) {
+//             return res.json({
+//                 message: "Quiz results not found"
+//             })
+//         }
 
-        return res.json({
-            message: "Quiz results found",
-            data: {
-                results: results,
-                //lessons: getListLessons.lesson_name
-            }
-        });
+//         return res.json({
+//             message: "Quiz results found",
+//             data: {
+//                 results: results,
+//                 //lessons: getListLessons.lesson_name
+//             }
+//         });
 
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
+//     } catch (error) {
+//         console.error(error.message);
+//         res.status(500).json({
+//             message: "Server error",
+//             error: error
+//         });
+//     }
+// });
 
 //view student quiz result by student id
 router.get('/quiz-results/:studentId', checkAuth, async (req, res) => {
@@ -243,6 +243,12 @@ router.get('/quiz-results/:studentId', checkAuth, async (req, res) => {
                 student_id: studentId
             },
             include: [
+                {
+                    model: Student, attributes: ['student_name'],
+                    // include: [
+                    //     { model: Class, attributes: ['class_name'], through: {attributes: []} }
+                    // ]
+                },
                 { model: Lesson, attributes: ['lesson_name'] }
             ],
         });
@@ -382,42 +388,42 @@ router.post('/attendance', checkAuth, async (req, res) => {
 });
 
 //check thong tin diem danh cua sinh vien
-router.get('/attendance/:studentId', checkAuth, async (req, res) => {
-    try {
-        const studentId = req.params.studentId;
+// router.get('/attendance/:studentId', checkAuth, async (req, res) => {
+//     try {
+//         const studentId = req.params.studentId;
 
-        const checkAttendance = await Is_Attended.findAll({
-            where: {
-                student_id: studentId
-            },
-            include: [
-                { model: Lesson, attributes: ['lesson_name'] },
-                { model: Class, attributes: ['class_name'] }
-            ],
-        });
+//         const checkAttendance = await Is_Attended.findAll({
+//             where: {
+//                 student_id: studentId
+//             },
+//             include: [
+//                 { model: Lesson, attributes: ['lesson_name'] },
+//                 { model: Class, attributes: ['class_name'] }
+//             ],
+//         });
 
-        if (!checkAttendance) {
-            return res.json({
-                message: "attendance information not found",
-                data: null
-            });
-        }
+//         if (!checkAttendance) {
+//             return res.json({
+//                 message: "attendance information not found",
+//                 data: null
+//             });
+//         }
 
-        return res.json({
-            message: "attendance information found",
-            data: {
-                attendances: checkAttendance,
-            }
-        });
+//         return res.json({
+//             message: "attendance information found",
+//             data: {
+//                 attendances: checkAttendance,
+//             }
+//         });
 
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
+//     } catch (error) {
+//         console.error(error.message);
+//         res.status(500).json({
+//             message: "Server error",
+//             error: error
+//         });
+//     }
+// });
 
 //view progress for chart
 router.get('/lessons/:lessonId/progress/:classId', checkAuth, async (req, res) => {
@@ -466,7 +472,7 @@ router.get('/lessons/:lessonId/progress/:classId', checkAuth, async (req, res) =
             //raw: true
         });
 
-        if(!countTotal){
+        if (!countTotal) {
             return res.json({
                 message: "Data not found"
             })
@@ -504,7 +510,7 @@ router.get('/lessons/:lessonId/progress/:classId', checkAuth, async (req, res) =
                     required: true,
                     include: [
                         {
-                            model: Class, where: { class_id: currentClass.class_id}, through: { attributes: []}
+                            model: Class, where: { class_id: currentClass.class_id }, through: { attributes: [] }
                             //required: false
                         },
                     ]
@@ -517,18 +523,18 @@ router.get('/lessons/:lessonId/progress/:classId', checkAuth, async (req, res) =
             ]
         });
 
-        
-        if(!topStudent){
+
+        if (!topStudent) {
             return res.json({
                 message: "Data not found"
             })
         }
 
         const sum = await db.query('SELECT SUM("score") AS "total_score" FROM (SELECT "quiz_result"."quiz_id", "quiz_result"."student_id", "quiz_result"."lesson_id", "quiz_result"."score", "quiz_result"."percentage", "student"."student_id" AS "student.student_id", "student"."student_name" AS "student.student_name", "student"."user_name" AS "student.user_name", "student->classes"."class_id" AS "student.classes.class_id", "student->classes"."class_name" AS "student.classes.class_name" FROM "quiz_result" AS "quiz_result" INNER JOIN "student" AS "student" ON "quiz_result"."student_id" = "student"."student_id" INNER JOIN ( "student_class" AS "student->classes->student_class" INNER JOIN "class" AS "student->classes" ON "student->classes"."class_id" = "student->classes->student_class"."class_id") ON "student"."student_id" = "student->classes->student_class"."student_id" AND "student->classes"."class_id" = 1 WHERE "quiz_result"."lesson_id" = 1 GROUP BY "student"."student_id", "student->classes"."class_id", "quiz_result"."quiz_id") AS Big;',
-        { type: QueryTypes.SELECT, raw: true });
+            { type: QueryTypes.SELECT, raw: true });
 
-        
-        if(!sum){
+
+        if (!sum) {
             return res.json({
                 message: "Data not found"
             })
