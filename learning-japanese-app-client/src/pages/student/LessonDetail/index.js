@@ -4,11 +4,14 @@ import { Link } from "react-router-dom";
 import Loader from "../../../components/ui/Loader/Loader";
 import { getLessons } from "../../../store/actions/admin/lesson";
 import axios from "../../../store/api/axios";
+import { useHistory } from "react-router-dom";
+import { Button } from "@material-ui/core";
 
 const LessonDetail = ({ match, location }) => {
   const { lId } = Number(match.params);
   const [lessonDetail, setLessonDetail] = useState({});
   const dispatch = useDispatch();
+  const history = useHistory();
   const [resultResponse, setResultResponse] = useState({
     loading: false,
     error: null,
@@ -28,33 +31,6 @@ const LessonDetail = ({ match, location }) => {
     }
   }, [lessonList.length, dispatch, location.search]);
 
-  useEffect(() => {
-    if (match.params.lId) {
-      const fetchData = () => {
-        setResultResponse((prevState) => ({
-          ...prevState,
-          loading: true,
-        }));
-        axios
-          .get(`/student/quiz_results/${match.params.lId}`)
-          .then((res) => {
-            setResultResponse({
-              loading: false,
-              data: res.data.data,
-              error: null,
-            });
-          })
-          .catch((err) => {
-            setResultResponse((prevState) => ({
-              ...prevState,
-              loading: false,
-              error: err.response?.data?.message || "Something went wrong",
-            }));
-          });
-      };
-      fetchData();
-    }
-  }, [match.params.lId]);
   
   return (
     <div>
@@ -68,21 +44,15 @@ const LessonDetail = ({ match, location }) => {
       {resultResponse.error && (
         <div className='alert alert-danger mt-2'> {error} </div>
       )}
-      {resultResponse.data && (
-        <div className='my-3'>
-          <h4>Result of quiz {resultResponse.data.quiz_id}</h4>
-          <p className='lead'>Score : {resultResponse.data.score} </p>
-          <p className='lead'>Time do quiz : ... </p>
-          <p>Number of questions failed : xxx</p>
-          <Link
-            to={`/quiz/${resultResponse.data.quiz_id}`}
-            className='font-weight-bold'
-          >
-            View Quiz &#8594;
-          </Link>
-        </div>
-      )}
+            <Button
+        className="my-3"
+        variant="contained"
+        onClick={() => history.goBack()}
+      >
+        Go Back
+      </Button>
     </div>
+    
   );
 };
 

@@ -35,15 +35,16 @@ const LessonBySubject = () => {
         lessonList.map((lesson) => (
           <div
             key={lesson.lesson_id}
-            className="shadow-sm p-3 mb-3 d-flex align-items-center justify-content-between rounded"
+            className='shadow-sm p-3 mb-3 d-flex align-items-center justify-content-between rounded'
           >
             <span
               onClick={() =>
                 history.push(`/lesson-detail/${lesson.lesson_id}?sId=${sId}`)
               }
-              className="cursor-pointer hover-text-blue"
+              className='cursor-pointer hover-text-blue'
             >
-              <strong>{lesson.lesson_name}</strong>
+              <strong>{lesson.lesson_name} : </strong>
+              {lesson.lesson_content.substr(0, 50)}
             </span>
             {lesson.is_attendeds.length > 0 ? (
               !studentResult.data.find(
@@ -51,12 +52,12 @@ const LessonBySubject = () => {
               ) ? (
                 <Link
                   to={`/quiz/${lesson.lesson_id}?lCt=${lesson.lesson_content}`}
-                  className="font-weight-bold"
+                  className='font-weight-bold'
                 >
                   Start Quiz
                 </Link>
               ) : (
-                <span className="text-success">Joined Before</span>
+                <span className='text-success'>Joined Before</span>
               )
             ) : (
               <p>Please Attend Lesson</p>

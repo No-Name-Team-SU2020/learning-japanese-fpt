@@ -18,7 +18,7 @@ const LoginWithGoogle = () => {
     <div className='mx-auto mt-3 w-50'>
       <GoogleLogin
         clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}
-        buttonText='Login With FPT.EDU.VN'
+        buttonText='Login With Google'
         onSuccess={responseGoogleSuccess}
         onFailure={responseGoogleFailed}
         cookiePolicy={"single_host_origin"}

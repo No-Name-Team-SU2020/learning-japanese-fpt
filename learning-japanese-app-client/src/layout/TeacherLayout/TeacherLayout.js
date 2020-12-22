@@ -18,39 +18,41 @@ const AdminLayout = () => {
       <Header />
       <div style={{ marginTop: "100px" }} />
       <div className='app-container'>
-        <Grid container spacing={3}>
-          <Grid item md={3}>
-            <TeacherSidebar />
+        <div className='teacher-body'>
+          <Grid container spacing={3}>
+            <Grid item md={3}>
+              <TeacherSidebar />
+            </Grid>
+            <Grid item md={9}>
+              <Switch>
+                <Route
+                  path='/manage-subject/:cId'
+                  component={ListSubjectClassStudying}
+                />
+                <Route
+                  path='/manage-progress/classes/:cId'
+                  component={ManageProgressByClass}
+                />
+                <Route path='/manage-progress/:cId'>
+                  <ListSubjectClassStudying isProgress />
+                </Route>
+                <Route path='/manage-result/:cId'>
+                  <ListSubjectClassStudying isResult />
+                </Route>
+                <Route
+                  path='/student-quiz-result/:sId'
+                  component={StudentQuizResult}
+                />
+                <Route
+                  path='/manage-student/classes/:cId'
+                  component={ManageStudentByClass}
+                />
+                <Route exact path='/' component={TeacherHome} />
+                {isAuthenticated && <Route component={NotFound} />}
+              </Switch>
+            </Grid>
           </Grid>
-          <Grid item md={9}>
-            <Switch>
-              <Route
-                path='/manage-subject/:cId'
-                component={ListSubjectClassStudying}
-              />
-              <Route
-                path='/manage-progress/classes/:cId'
-                component={ManageProgressByClass}
-              />
-              <Route path='/manage-progress/:cId'>
-                <ListSubjectClassStudying isProgress />
-              </Route>
-              <Route path='/manage-result/:cId'>
-                <ListSubjectClassStudying isResult />
-              </Route>
-              <Route
-                path='/student-quiz-result/:sId'
-                component={StudentQuizResult}
-              />
-              <Route
-                path='/manage-student/classes/:cId'
-                component={ManageStudentByClass}
-              />
-              <Route exact path='/' component={TeacherHome} />
-              {isAuthenticated && <Route component={NotFound} />}
-            </Switch>
-          </Grid>
-        </Grid>
+        </div>
       </div>
     </Fragment>
   );

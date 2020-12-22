@@ -73,7 +73,7 @@ const SubjectList = ({ subjects, url }) => {
                       history.push(`/manage-lesson/${subject.subject_id}`)
                     }
                   >
-                    <PageviewIcon  />
+                    <PageviewIcon className="view-icon"  />
                   </IconButton>
                   <IconButton
                     onClick={() =>

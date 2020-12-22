@@ -53,97 +53,99 @@ const TeacherSidebar = () => {
     setOpenProgressList((prevState) => !prevState);
   };
   return (
-    <List
-      component='nav'
-      subheader={
-        <ListSubheader component='div' className='mb-3'>
-          <h4>Teacher Dashboard</h4>
-        </ListSubheader>
-      }
-      className={styles.root}
-    >
-      <ListItem button onClick={handleClassClick}>
-        <ListItemIcon>
-          <ClassIcon />
-        </ListItemIcon>
-        <ListItemText primary='Class Management' />
-        {openClassList ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={openClassList} timeout='auto' unmountOnExit>
-        <List component='div' disablePadding>
-          {loading && <Loader />}
-          {!loading &&
-            !error &&
-            classes?.classes?.map((c) => (
-              <ListItem
-                key={c.class_id}
-                button
-                className={styles.nested}
-                onClick={() => history.push(`/manage-subject/${c.class_id}`)}
-              >
-                <ListItemIcon>
-                  <ArrowForwardIosIcon />
-                </ListItemIcon>
-                <ListItemText primary={c.class_name} />
-              </ListItem>
-            ))}
-        </List>
-      </Collapse>
-      <ListItem button onClick={handleProgressClick}>
-        <ListItemIcon>
-          <AssignmentIcon />
-        </ListItemIcon>
-        <ListItemText primary='Progress Management' />
-        {openProgressList ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={openProgressList} timeout='auto' unmountOnExit>
-        <List component='div' disablePadding>
-          {loading && <Loader />}
-          {!loading &&
-            !error &&
-            classes?.classes?.map((c) => (
-              <ListItem
-                key={c.class_id}
-                button
-                className={styles.nested}
-                onClick={() => history.push(`/manage-progress/${c.class_id}`)}
-              >
-                <ListItemIcon>
-                  <ArrowForwardIosIcon />
-                </ListItemIcon>
-                <ListItemText primary={c.class_name} />
-              </ListItem>
-            ))}
-        </List>
-      </Collapse>
-      <ListItem button onClick={handleResultClick}>
-        <ListItemIcon>
-          <AssignmentIcon />
-        </ListItemIcon>
-        <ListItemText primary='Result Management' />
-        {openResultList ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={openResultList} timeout='auto' unmountOnExit>
-        <List component='div' disablePadding>
-          {loading && <Loader />}
-          {!loading &&
-            !error &&
-            classes?.classes?.map((c) => (
-              <ListItem
-                key={c.class_id}
-                button
-                className={styles.nested}
-                onClick={() => history.push(`/manage-result/${c.class_id}`)}
-              >
-                <ListItemIcon>
-                  <ArrowForwardIosIcon />
-                </ListItemIcon>
-                <ListItemText primary={c.class_name} />
-              </ListItem>
-            ))}
-        </List>
-      </Collapse>
-    </List>
+    <div className='teacher-sidebar'>
+      <List
+        component='nav'
+        subheader={
+          <ListSubheader component='div' className='mb-3'>
+            <h4>Teacher Dashboard</h4>
+          </ListSubheader>
+        }
+        className={styles.root}
+      >
+        <ListItem button onClick={handleClassClick}>
+          <ListItemIcon>
+            <ClassIcon />
+          </ListItemIcon>
+          <ListItemText primary='Class Management' />
+          {openClassList ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={openClassList} timeout='auto' unmountOnExit>
+          <List component='div' disablePadding>
+            {loading && <Loader />}
+            {!loading &&
+              !error &&
+              classes?.classes?.map((c) => (
+                <ListItem
+                  key={c.class_id}
+                  button
+                  className={styles.nested}
+                  onClick={() => history.push(`/manage-subject/${c.class_id}`)}
+                >
+                  <ListItemIcon>
+                    <ArrowForwardIosIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={c.class_name} />
+                </ListItem>
+              ))}
+          </List>
+        </Collapse>
+        <ListItem button onClick={handleProgressClick}>
+          <ListItemIcon>
+            <AssignmentIcon />
+          </ListItemIcon>
+          <ListItemText primary='Progress Management' />
+          {openProgressList ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={openProgressList} timeout='auto' unmountOnExit>
+          <List component='div' disablePadding>
+            {loading && <Loader />}
+            {!loading &&
+              !error &&
+              classes?.classes?.map((c) => (
+                <ListItem
+                  key={c.class_id}
+                  button
+                  className={styles.nested}
+                  onClick={() => history.push(`/manage-progress/${c.class_id}`)}
+                >
+                  <ListItemIcon>
+                    <ArrowForwardIosIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={c.class_name} />
+                </ListItem>
+              ))}
+          </List>
+        </Collapse>
+        <ListItem button onClick={handleResultClick}>
+          <ListItemIcon>
+            <AssignmentIcon />
+          </ListItemIcon>
+          <ListItemText primary='Result Management' />
+          {openResultList ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={openResultList} timeout='auto' unmountOnExit>
+          <List component='div' disablePadding>
+            {loading && <Loader />}
+            {!loading &&
+              !error &&
+              classes?.classes?.map((c) => (
+                <ListItem
+                  key={c.class_id}
+                  button
+                  className={styles.nested}
+                  onClick={() => history.push(`/manage-result/${c.class_id}`)}
+                >
+                  <ListItemIcon>
+                    <ArrowForwardIosIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={c.class_name} />
+                </ListItem>
+              ))}
+          </List>
+        </Collapse>
+      </List>
+    </div>
   );
 };
 

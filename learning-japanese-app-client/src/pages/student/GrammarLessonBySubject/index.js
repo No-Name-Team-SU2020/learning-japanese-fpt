@@ -31,6 +31,16 @@ const LessonBySubject = () => {
           >
             <strong>{lesson.lesson_name}</strong>
           </span>
+          {/* {lesson.is_attendeds.length > 0 ? (
+            <Link
+              to={`/quiz/${lesson.lesson_id}?lCt=${lesson.lesson_content}`}
+              className='font-weight-bold'
+            >
+              Start Quiz
+            </Link>
+          ) : (
+            <p>Please Attend Lesson</p>
+          )} */}
         </div>
       ))}
       <Button

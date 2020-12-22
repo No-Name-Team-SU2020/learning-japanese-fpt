@@ -1,41 +1,76 @@
-import { SIDEBAR_SHOW, SIDEBAR_HIDE, SIDEBAR_TOGGLE, ALERT_ADD, ALERT_REMOVE } from '../../actions/types';
+import {
+  SIDEBAR_SHOW,
+  SIDEBAR_HIDE,
+  SIDEBAR_TOGGLE,
+  ALERT_ADD,
+  ALERT_REMOVE,
+  SWITCH_DARK_MODE,
+  LOGOUT,
+} from "../../actions/types";
+
+if (
+  localStorage.getItem("darkMode") &&
+  Boolean(localStorage.getItem("darkMode")) === true
+) {
+  document.querySelector("body").classList.add("dark-mode");
+}
 
 const initialState = {
   showSidebar: false,
-  alertList: []
-}
+  alertList: [],
+  darkMode: localStorage.getItem("darkMode")
+    ? Boolean(localStorage.getItem("darkMode"))
+    : false,
+};
 
 const reducer = (state = initialState, action) => {
   const { type, payload } = action;
-  switch (type)
-  {
+  switch (type) {
     case SIDEBAR_SHOW:
       return {
         ...state,
-        showSidebar: true
-      }
+        showSidebar: true,
+      };
     case SIDEBAR_HIDE:
       return {
         ...state,
-        showSidebar: false
-      }
+        showSidebar: false,
+      };
     case SIDEBAR_TOGGLE:
       return {
         ...state,
-        showSidebar: !state.showSidebar
-      }
+        showSidebar: !state.showSidebar,
+      };
     case ALERT_ADD:
       return {
         ...state,
-        alertList: [...state.alertList, payload]
-      }
+        alertList: [...state.alertList, payload],
+      };
     case ALERT_REMOVE:
       return {
         ...state,
-        alertList: state.alertList.filter(alert => alert.id !== payload)
+        alertList: state.alertList.filter((alert) => alert.id !== payload),
+      };
+    case SWITCH_DARK_MODE:
+      localStorage.setItem("darkMode", !state.darkMode);
+      if (!state.darkMode) {
+        document.querySelector("body").classList.add("dark-mode");
+      } else {
+        document.querySelector("body").classList.remove("dark-mode");
       }
-    default: return state;
+      return {
+        ...state,
+        darkMode: !state.darkMode,
+      };
+    case LOGOUT:
+      document.querySelector("body").classList.remove("dark-mode");
+      return {
+        ...state,
+        darkMode: false,
+      };
+    default:
+      return state;
   }
-}
+};
 
 export default reducer;

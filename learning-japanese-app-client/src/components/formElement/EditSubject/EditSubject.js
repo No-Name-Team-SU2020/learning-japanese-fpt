@@ -31,7 +31,12 @@ const EditSubject = () => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(updateSubject(sId, subject));
+    dispatch(
+      updateSubject(sId, {
+        subject_name: subject.subject_name.trim(),
+        subject_code: subject.subject_code.trim(),
+      })
+    );
   };
 
   return (
@@ -51,6 +56,7 @@ const EditSubject = () => {
               required
               fullWidth
               value={subject.subject_code}
+              inputProps={{ maxLength: 500 }}
               onChange={handleChange}
             />
           </Grid>
@@ -67,6 +73,7 @@ const EditSubject = () => {
               required
               fullWidth
               value={subject.subject_name}
+              inputProps={{ maxLength: 500 }}
               onChange={handleChange}
             />
           </Grid>

@@ -24,7 +24,9 @@ const CreateClassForm = () => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(createClass(newClass));
+    dispatch(createClass({
+      class_name: newClass.class_name.trim(),
+    }));
     setNewClass({
       class_name: "",
     });
@@ -40,12 +42,14 @@ const CreateClassForm = () => {
           </Grid>
           <Grid item md={8}>
             <TextField
+              type='text'
               label='Class name:'
               variant='outlined'
               name='class_name'
               required
               fullWidth
               value={newClass.class_name}
+              inputProps={{ maxLength: 500 }}
               onChange={handleChange}
             />
           </Grid>

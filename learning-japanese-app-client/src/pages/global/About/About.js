@@ -18,6 +18,37 @@ const About = () => {
           lý nội dung học tập của sinh viên tốt hơn đối với giáo viên...
         </p>
       </section>
+      {/* <section className='mt-5'>
+        <h3>II. Các thành viên phát triển</h3>
+        <div className='team mb-5'>
+          <Member name='John Doe' isBigger />
+          <div className='row'>
+            <div className='col-md-2'>
+              <Member name='John Doe' />
+            </div>
+            <div className='col-md-2'>
+              <Member name='John Doe' />
+            </div>
+            <div className='col-md-2'>
+              <Member name='John Doe' />
+            </div>
+            <div className='col-md-2'>
+              <Member name='John Doe' />
+            </div>
+            <div className='col-md-2'>
+              <Member name='John Doe' />
+            </div>
+            <div className='col-md-2'>
+              <Member name='John Doe' />
+            </div>
+          </div>
+        </div>
+        <p className='lead'>
+          Các thành viên trong nhóm là những sinh viên của đại học FPT, là những
+          con người năng động hoạt bát...Các thành viên trong nhóm được dẫn dặt
+          bởi một người thầy vô cùng tận tâm với sinh viên ....
+        </p>
+      </section> */}
       <section className='mt-5'>
         <h3>II. Điều khoản, chính sách</h3>
         <p className='lead'>

@@ -15,6 +15,7 @@ const StudentHome = () => {
 
   return (
     <Fragment>
+      {/* <h1 className='my-3'> Elementary Japanese 1.2 </h1> */}
       <StudentMission />
       <ImageSlider />
       {/* <StepsToPassSwp />

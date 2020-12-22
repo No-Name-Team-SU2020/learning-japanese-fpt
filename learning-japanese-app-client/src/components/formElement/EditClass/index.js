@@ -33,7 +33,11 @@ const EditClassForm = () => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(updateClass(cId, updatedClass));
+    dispatch(
+      updateClass(cId, {
+        class_name: updatedClass.class_name.trim(),
+      })
+    );
     history.goBack();
   };
 
@@ -54,6 +58,7 @@ const EditClassForm = () => {
               required
               fullWidth
               value={updatedClass.class_name}
+              inputProps={{ maxLength: 500 }}
               onChange={handleChange}
             />
           </Grid>

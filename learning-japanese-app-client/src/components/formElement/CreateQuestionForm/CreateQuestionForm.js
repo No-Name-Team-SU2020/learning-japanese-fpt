@@ -58,7 +58,17 @@ const CreateQuestionForm = () => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(createQuestion(question));
+    dispatch(
+      createQuestion({
+        ...question,
+        question_content: question.question_content.trim(),
+        option_a: question.option_a.trim(),
+        option_b: question.option_b.trim(),
+        option_c: question.option_c.trim(),
+        option_d: question.option_d.trim(),
+        correct_answer: question.correct_answer.trim(),
+      })
+    );
   };
   return (
     <div className='bg-light p-4 rounded shadow'>
@@ -77,6 +87,7 @@ const CreateQuestionForm = () => {
               required
               fullWidth
               value={question.question_content}
+              inputProps={{ maxLength: 500 }}
               onChange={handleChange}
             />
           </Grid>
@@ -93,6 +104,7 @@ const CreateQuestionForm = () => {
               required
               fullWidth
               value={question.option_a}
+              inputProps={{ maxLength: 500 }}
               onChange={handleChange}
             />
           </Grid>
@@ -109,6 +121,7 @@ const CreateQuestionForm = () => {
               required
               fullWidth
               value={question.option_b}
+              inputProps={{ maxLength: 500 }}
               onChange={handleChange}
             />
           </Grid>
@@ -125,6 +138,7 @@ const CreateQuestionForm = () => {
               required
               fullWidth
               value={question.option_c}
+              inputProps={{ maxLength: 500 }}
               onChange={handleChange}
             />
           </Grid>
@@ -141,6 +155,7 @@ const CreateQuestionForm = () => {
               required
               fullWidth
               value={question.option_d}
+              inputProps={{ maxLength: 500 }}
               onChange={handleChange}
             />
           </Grid>
@@ -157,6 +172,7 @@ const CreateQuestionForm = () => {
               required
               fullWidth
               value={question.correct_answer}
+              inputProps={{ maxLength: 500 }}
               onChange={handleChange}
             />
           </Grid>
