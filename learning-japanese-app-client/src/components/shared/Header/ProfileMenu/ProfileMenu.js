@@ -10,14 +10,16 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { Avatar } from "@material-ui/core";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Switch from "react-switch";
 import LogoutModal from "../../LogoutModal";
+import { switchDarkMode } from "../../../../store/actions/ui/ui";
 
 const ProfileMenu = ({ show, toggleMenu }) => {
   const { isAuthenticated } = useSelector((state) => state.auth);
+  const { darkMode } = useSelector((state) => state.ui);
+  const dispatch = useDispatch();
   const { profile } = useSelector((state) => state.user);
-  const [darkMode, setDarkMode] = useState(false);
   const [showLogout, setShowLogout] = useState(false);
   const openLogoutModal = () => setShowLogout(true);
   const closeLogoutModal = () => setShowLogout(false);
@@ -29,7 +31,7 @@ const ProfileMenu = ({ show, toggleMenu }) => {
         aria-haspopup='true'
         onClick={toggleMenu}
       >
-        {profile?.display_name ? profile.display_name : "Please Login"}{" "}
+        {profile?.display_name ? profile.display_name : "Please Login"}
         <ArrowIcon />
       </Button>
       <SubMenu show={show}>
@@ -40,12 +42,12 @@ const ProfileMenu = ({ show, toggleMenu }) => {
           </h5>
         </div>
         <List>
-          {/* <ListItem button>
+          <ListItem button>
             <ListItemIcon>
               <AccountCircleIcon />
             </ListItemIcon>
             <ListItemText primary='Profile' />
-          </ListItem> */}
+          </ListItem>
           <ListItem button>
             <ListItemIcon>
               <Brightness4Icon />
@@ -53,7 +55,9 @@ const ProfileMenu = ({ show, toggleMenu }) => {
             <ListItemText
               primary={
                 <Switch
-                  onChange={() => setDarkMode((prevMode) => !prevMode)}
+                  onChange={() => {
+                    dispatch(switchDarkMode());
+                  }}
                   checked={darkMode}
                 />
               }

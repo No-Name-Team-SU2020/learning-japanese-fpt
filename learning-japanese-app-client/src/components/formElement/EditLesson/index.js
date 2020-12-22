@@ -37,7 +37,12 @@ const EditLessonForm = ({ subjectId }) => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(updateLesson(lesson.lesson_id, lesson));
+    dispatch(
+      updateLesson(lesson.lesson_id, {
+        lesson_name: lesson.lesson_name.trim(),
+        lesson_content: lesson.lesson_content.trim(),
+      })
+    );
   };
   return (
     <div className='bg-light p-4 rounded shadow'>
@@ -56,6 +61,7 @@ const EditLessonForm = ({ subjectId }) => {
               required
               fullWidth
               value={lesson.lesson_name}
+              inputProps={{ maxLength: 500 }}
               onChange={handleChange}
             />
           </Grid>
@@ -72,6 +78,7 @@ const EditLessonForm = ({ subjectId }) => {
               required
               fullWidth
               value={lesson.lesson_content}
+              inputProps={{ maxLength: 500 }}
               onChange={handleChange}
             />
           </Grid>

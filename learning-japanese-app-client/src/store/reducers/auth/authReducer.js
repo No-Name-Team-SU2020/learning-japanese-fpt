@@ -43,6 +43,7 @@ const reducer = (state = initialState, action) => {
       };
     case actionTypes.LOGOUT:
       history.push("/");
+      localStorage.removeItem("darkMode");
       localStorage.removeItem("refreshToken");
       localStorage.setItem("menuPosition", 0);
       return {

@@ -3,7 +3,7 @@ import { Button, Grid, MenuItem, TextField } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { useDispatch } from "react-redux";
 import { findQuestion } from "../../../store/actions/admin";
-import { getQuestions } from '../../../store/actions/admin/question';
+import { getQuestions } from "../../../store/actions/admin/question";
 
 const FilterQuestionEngine = ({
   subject,
@@ -15,14 +15,14 @@ const FilterQuestionEngine = ({
 }) => {
   const [questionTitle, setQuestionTitle] = useState("");
   const dispatch = useDispatch();
-  const changeHandler = e => {
-    if(e.target.value.trim().length === 0 ) {
+  const changeHandler = (e) => {
+    if (e.target.value.trim().length === 0) {
       dispatch(getQuestions(lesson));
-      setQuestionTitle('');
+      setQuestionTitle("");
     } else {
-      setQuestionTitle(e.target.value);
+      setQuestionTitle(e.target.value.trim());
     }
-  }
+  };
   const findQuestionHandler = () => {
     dispatch(findQuestion(questionTitle));
   };
@@ -38,7 +38,7 @@ const FilterQuestionEngine = ({
               value={subject}
               onChange={(e) => {
                 changeSubject(e.target.value);
-                localStorage.setItem('subject', e.target.value);
+                localStorage.setItem("subject", e.target.value);
               }}
               fullWidth
               variant='outlined'
@@ -57,7 +57,7 @@ const FilterQuestionEngine = ({
               value={lesson}
               onChange={(e) => {
                 changeLesson(e.target.value);
-                localStorage.setItem('lesson', e.target.value);
+                localStorage.setItem("lesson", e.target.value);
               }}
               fullWidth
               variant='outlined'
@@ -76,6 +76,7 @@ const FilterQuestionEngine = ({
               onChange={changeHandler}
               fullWidth
               variant='outlined'
+              inputProps={{ maxLength: 500 }}
             />
             {/* <SearchResult /> */}
           </Grid>
@@ -85,8 +86,8 @@ const FilterQuestionEngine = ({
               variant='contained'
               size='large'
               color='primary'
-              type="button"
-              className="bg-orange-imp"
+              type='button'
+              className='bg-orange-imp'
             >
               <SearchIcon /> Search
             </Button>

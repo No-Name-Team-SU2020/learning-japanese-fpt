@@ -25,7 +25,12 @@ const CreateSubjectForm = () => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(createSubject(subject));
+    dispatch(
+      createSubject({
+        subject_name: subject.subject_name.trim(),
+        subject_code: subject.subject_code.trim(),
+      })
+    );
     setSubject({
       subject_name: "",
       subject_code: "",
@@ -48,6 +53,7 @@ const CreateSubjectForm = () => {
               required
               fullWidth
               value={subject.subject_code}
+              inputProps={{ maxLength: 500 }}
               onChange={handleChange}
             />
           </Grid>
@@ -64,6 +70,7 @@ const CreateSubjectForm = () => {
               required
               fullWidth
               value={subject.subject_name}
+              inputProps={{ maxLength: 500 }}
               onChange={handleChange}
             />
           </Grid>

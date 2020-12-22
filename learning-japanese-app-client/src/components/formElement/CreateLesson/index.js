@@ -7,14 +7,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { createLesson } from "../../../store/actions/admin";
 import Loader from "../../ui/Loader/Loader";
 
-const CreateLessonForm = ( { subjectId } ) => {
+const CreateLessonForm = ({ subjectId }) => {
   const history = useHistory();
   const { loading, error } = useSelector((state) => state.adminClassList);
   const dispatch = useDispatch();
 
   const [lesson, setLesson] = useState({
     lesson_name: "",
-    lesson_content: ""
+    lesson_content: "",
   });
 
   const handleChange = (e) => {
@@ -25,7 +25,12 @@ const CreateLessonForm = ( { subjectId } ) => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(createLesson(subjectId, lesson));
+    dispatch(
+      createLesson(subjectId, {
+        lesson_name: lesson.lesson_name.trim(),
+        lesson_content: lesson.lesson_content.trim(),
+      })
+    );
   };
   return (
     <div className='bg-light p-4 rounded shadow'>
@@ -44,6 +49,7 @@ const CreateLessonForm = ( { subjectId } ) => {
               required
               fullWidth
               value={lesson.lesson_name}
+              inputProps={{ maxLength: 500 }}
               onChange={handleChange}
             />
           </Grid>
@@ -60,6 +66,7 @@ const CreateLessonForm = ( { subjectId } ) => {
               required
               fullWidth
               value={lesson.lesson_content}
+              inputProps={{ maxLength: 500 }}
               onChange={handleChange}
             />
           </Grid>
@@ -84,7 +91,7 @@ const CreateLessonForm = ( { subjectId } ) => {
             <Button
               variant='contained'
               color='secondary'
-              onClick={() => history.push('/manage-lesson/' + subjectId)}
+              onClick={() => history.push("/manage-lesson/" + subjectId)}
             >
               Cancel
             </Button>

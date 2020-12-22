@@ -8,6 +8,8 @@ export const ALERT = "ALERT";
 export const ALERT_ADD = "ALERT_ADD";
 export const ALERT_REMOVE = "ALERT_REMOVE";
 
+export const SWITCH_DARK_MODE = 'SWITCH_DARK_MODE';
+
 // AUTH ACTIONS
 
 export const AUTH_USER = "AUTH_USER";

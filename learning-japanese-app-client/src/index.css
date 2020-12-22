@@ -3,7 +3,7 @@
   --orange-color: #f57032;
   --grey-color: #e5e5e5;
   --light-color: #f5f5f5;
-  --dark-color: #000;
+  --dark-color: rgb(20, 28, 92);
   --red-color: rgb(220, 24, 24);
 }
 * {
@@ -240,4 +240,96 @@ li {
 .about-footer {
   margin-top: 15rem;
   border-top: 2px solid #555;
+}
+/* // dark mode */
+
+.dark-mode {
+  background-color: rgb(34, 32, 43);
+}
+.dark-mode th,
+.dark-mode td {
+  color: rgb(255, 247, 247);
+}
+.dark-mode h1,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode p {
+  color: white;
+}
+.dark-mode .MuiTableRow-head {
+  background-color: #333 !important;
+}
+.dark-mode .MuiTableRow-root:hover {
+  background-color: #333 !important;
+}
+.dark-mode .main-header {
+  background-color:rgb(34, 32, 43) !important;
+  border-bottom: 1px solid rgb(233, 212, 212);
+}
+.dark-mode .main-header .MuiSvgIcon-root,
+.dark-mode .MuiTablePagination-root .MuiSvgIcon-root,
+.dark-mode form .MuiSvgIcon-root {
+  color: rgb(255, 255, 255) !important;
+}
+.dark-mode .MuiFormLabel-root {
+  color:rgb(233, 212, 212) !important;
+}
+.dark-mode .SubMenu_SubMenu__PnK1O {
+  background-color:rgb(34, 32, 43) !important;
+  border: 1px solid rgb(34, 32, 43);
+}
+.dark-mode .main-header .MuiButtonBase-root,
+.dark-mode .main-header h5 {
+  color: rgb(233, 212, 212) !important;
+}
+.dark-mode .bg-light {
+  background-color: rgb(34, 32, 43) !important;
+  border: 1px solid rgb(233, 212, 212);
+  color: white;
+}
+.dark-mode .MuiInputBase-root {
+  color: white !important;
+  border: 1px solid rgb(233, 212, 212) !important;
+}
+.dark-mode .MuiFormLabel-root.Mui-focused {
+  outline: none !important;
+  border: none;
+}
+.dark-mode .MuiInputBase-input {
+  color: white !important;
+}
+.dark-mode .MuiInputBase-input:focus {
+  color: white !important;
+}
+.dark-mode .bg-yellow-imp {
+  background-color: #333 !important;
+}
+.dark-mode .view-icon {
+  color: white;
+}
+.dark-mode .teacher-sidebar .makeStyles-root-1 {
+  background-color: rgb(34, 32, 43);
+  border: 1px solid rgb(233, 212, 212);
+  color: white !important;
+  padding-top: 15px;
+}
+.dark-mode .teacher-sidebar .MuiSvgIcon-root {
+  color: white;
+}
+.dark-mode .teacher-body .MuiPaper-root {
+  background-color: rgb(34, 32, 43);
+  border: 1px solid rgb(233, 212, 212);
+  color: white;
+}
+.dark-mode .teacher-body .list-group-item {
+  background-color: rgb(34, 32, 43);
+  border: 1px solid rgb(233, 212, 212);
+  border-bottom: none;
+}
+.dark-mode .teacher-body .list-group-item:last-child {
+  border-bottom: 1px solidrgb(233, 212, 212);
+}
+.dark-mode .teacher-body .hover-bg-blue:hover {
+  color: white;
+  background-color: #007bff;
 }

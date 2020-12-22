@@ -19,7 +19,7 @@ const StudentQuizResults = () => {
   return (
     <div>
       <h1 className='mb-3'>
-        Subject: {data[0]?.lesson?.subject?.subject_name}
+        My Quiz Results in subject {data[0]?.lesson?.subject?.subject_name}
       </h1>
       {loading && <Loader />}
       {error && <h3> {error || "Something wrong!!!"} </h3>}
