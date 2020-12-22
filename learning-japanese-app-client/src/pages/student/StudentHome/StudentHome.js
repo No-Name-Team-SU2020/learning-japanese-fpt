@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect } from "react";
-import Achevements from "../../../components/pagesComponent/Achevements/Achevements";
+// import Achevements from "../../../components/pagesComponent/Achevements/Achevements";
 import ImageSlider from "../../../components/ui/ImageSlider/ImageSlider";
 import StudentMission from "../../../components/pagesComponent/StudentMisson";
+// import StepsToPassSwp from "../../../components/pagesComponent/StepsToPassSwp/StepsToPassSwp";
 
 const StudentHome = () => {
   useEffect(() => {
@@ -14,10 +15,10 @@ const StudentHome = () => {
 
   return (
     <Fragment>
-      <h1 className='my-3'> Elementary Japanese 1.2 </h1>
       <StudentMission />
       <ImageSlider />
-      <Achevements />
+      {/* <StepsToPassSwp />
+      <Achevements /> */}
     </Fragment>
   );
 };

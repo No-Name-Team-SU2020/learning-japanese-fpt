@@ -13,7 +13,6 @@ const EditClassForm = () => {
   const history = useHistory();
   const [updatedClass, setUpdatedClass] = useState({
     class_name: "",
-    class_id: "",
   });
   const { loading, error, singleClass } = useSelector(
     (state) => state.adminSingleClass
@@ -23,7 +22,7 @@ const EditClassForm = () => {
   }, [cId, dispatch]);
 
   useEffect(() => {
-    if(singleClass) setUpdatedClass(singleClass);
+    if (singleClass) setUpdatedClass(singleClass);
   }, [singleClass]);
 
   const handleChange = (e) => {
@@ -43,22 +42,6 @@ const EditClassForm = () => {
       <h1 className='border-bottom pb-2 text-center'>FPT EDUCATION</h1>
       <h3 className='my-4'>Edit Class</h3>
       <form onSubmit={submitHandler}>
-        <Grid container spacing={3}>
-          <Grid item md={4}>
-            Class ID:
-          </Grid>
-          <Grid item md={8}>
-            <TextField
-              label='Class Identifier'
-              variant='outlined'
-              name='class_id'
-              fullWidth
-              disabled
-              value={updatedClass.class_id}
-              onChange={handleChange}
-            />
-          </Grid>
-        </Grid>
         <Grid container spacing={3}>
           <Grid item md={4}>
             Class name:
@@ -88,7 +71,7 @@ const EditClassForm = () => {
               type='submit'
               variant='contained'
               color='primary'
-              className='mr-3'
+              className='mr-3 bg-orange-imp'
             >
               Update
             </Button>
@@ -107,4 +90,3 @@ const EditClassForm = () => {
 };
 
 export default EditClassForm;
-

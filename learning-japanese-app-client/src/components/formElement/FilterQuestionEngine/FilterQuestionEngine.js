@@ -86,6 +86,7 @@ const FilterQuestionEngine = ({
               size='large'
               color='primary'
               type="button"
+              className="bg-orange-imp"
             >
               <SearchIcon /> Search
             </Button>

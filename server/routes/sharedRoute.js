@@ -4,32 +4,271 @@ const Question = require('../models/Question');
 const Lesson = require('../models/Lesson');
 const sequelize = require('sequelize');
 const User = require('../models/User');
+const Teacher = require('../models/Teacher');
 const Student = require('../models/Student');
+const Class = require('../models/Class');
 const Is_Attended = require('../models/Is_Attended');
 const checkAuth = require('../middleware/checkAuth');
+const Class_Subject = require('../models/Class_Subject');
+const Student_Subject = require('../models/Student_Subject');
+const Teacher_Subject = require('../models/Teacher_Subject');
+
+//view all subjects in class
+router.get('/class-subjects/:classId', checkAuth, async (req, res) => {
+    try {
+        const currentUser = req.user.user_name;
+
+        const checkUser = await User.findOne({
+            where: {
+                user_name: currentUser
+            }
+        });
+
+        const currentStudent = await Student.findOne({
+            where: {
+                user_name: checkUser.user_name
+            }
+        });
+
+        const currentTeacher = await Teacher.findOne({
+            where: {
+                user_name: checkUser.user_name
+            },
+        });
+
+        const classId = req.params.classId;
+
+        const currentClass = await Class.findOne({
+            where: {
+                class_id: classId
+            }
+        })
+
+        let data;
+        if (checkUser.role_id === 2 && currentTeacher) {
+            data = await Class.findAll({
+                where: { class_id: currentClass.class_id },
+                include: [
+                    {
+                        model: Subject, through: { attributes: [] },
+                        include: [
+                            {
+                                model: Teacher_Subject, where: {
+                                    teacher_id: currentTeacher.teacher_id
+                                }
+                            }
+                        ]
+                    },
+                ]
+            });
+        }
+        else if (checkUser.role_id === 3 && currentStudent) {
+            data = await Class.findAll({
+                where: { class_id: currentClass.class_id },
+                include: [
+                    {
+                        model: Subject, through: { attributes: [] },
+                        include: [
+                            {
+                                model: Student_Subject, where: {
+                                    student_id: currentStudent.student_id
+                                }
+                            }
+                        ]
+                    },
+                ]
+            });
+        }
+        else {
+            return req.json({
+                message: "You don't have permission to view this resource"
+            })
+        }
+
+        if (!data) {
+            return res.json({
+                message: "Cannot find data"
+            })
+        }
+
+        return res.json({
+            message: "Subjects in class found",
+            data: data
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
 
 //view all lesson in a subject
 router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
     try {
+
+        const currentUser = req.user.user_name;
+
         const subjectId = req.params.subjectId;
 
-        const lessons = await Lesson.findAll({
+        const currentSubject = await Subject.findOne({
             where: {
                 subject_id: subjectId
-            },
-            attributes: ['lesson_id', 'lesson_content', 'lesson_name']
+            }
         });
 
-        if (!lessons) {
+        if (!currentSubject) {
             return res.json({
-                message: "Something wrong",
+                message: "Subject not found"
+            });
+        }
+
+        const checkUser = await User.findOne({
+            where: {
+                user_name: currentUser
+            }
+        });
+
+        let listLessons;
+        //let currentStudent;
+        //let checkStudentSubject;
+        //let currentTeacher;
+        //let checkTeacherSubject;
+        if (checkUser.role_id === 3) {
+            //const permission = new Boolean(true);
+
+            //check student
+            const currentStudent = await Student.findOne({
+                where: {
+                    user_name: checkUser.user_name
+                }
+            });
+
+            const checkStudentSubject = await Student_Subject.findOne({
+                where: {
+                    student_id: currentStudent.student_id,
+                    subject_id: currentSubject.subject_id
+                }
+            });
+
+            if (!checkStudentSubject) {
+                return res.json({
+                    message: "Student not study this subject"
+                })
+            }
+
+            //check diem danh danh cho student
+            // const checkAttendance = await Is_Attended.findOne({
+            //     where: {
+            //         student_id: currentStudent.student_id,
+            //     },
+            // })
+
+            listLessons = await Lesson.findAll({
+                where: {
+                    subject_id: currentSubject.subject_id
+                },
+                include: [
+                    {
+                        model: Is_Attended, where: {
+                            student_id: currentStudent.student_id
+                        },
+                        required: false
+                    }
+                ]
+            });
+
+            // if (!listLessons) {
+            //     return res.json({
+            //         message: "Lesson not found",
+            //     });
+            // }
+
+            // return res.json(
+            //     {
+            //         message: "Lessons found",
+            //         data: listLessons
+            //     }
+            // )
+        }
+        else if (checkUser.role_id === 2) {
+            //check teacher
+            const currentTeacher = await Teacher.findOne({
+                where: {
+                    user_name: checkUser.user_name
+                },
+            });
+
+            const checkTeacherSubject = await Teacher_Subject.findOne({
+                where: {
+                    teacher_id: currentTeacher.teacher_id,
+                    subject_id: currentSubject.subject_id
+                }
+            })
+
+            if (!checkTeacherSubject) {
+                return res.json({
+                    message: "Teacher not teach this subject"
+                })
+            }
+
+            listLessons = await Lesson.findAll({
+                where: {
+                    subject_id: currentSubject.subject_id
+                },
+            });
+
+            // if (!listLessons) {
+            //     return res.json({
+            //         message: "Lesson not found",
+            //     });
+            // }
+
+            // return res.json(
+            //     {
+            //         message: "Lessons found",
+            //         data: listLessons
+            //     }
+            // )
+        }
+        else if(checkUser.role_id === 1){
+            listLessons = await Lesson.findAll({
+                where: {
+                    subject_id: currentSubject.subject_id
+                },
+            });
+
+            // if (!listLessons) {
+            //     return res.json({
+            //         message: "Lesson not found",
+            //     });
+            // }
+
+            // return res.json(
+            //     {
+            //         message: "Lessons found",
+            //         data: listLessons
+            //     }
+            // )
+        }
+        else {
+            return res.json({
+                message: "You don't have permission to view this resource"
+            })
+        }
+
+        if (!listLessons) {
+            return res.json({
+                message: "Lesson not found",
             });
         }
 
         return res.json(
             {
                 message: "Lessons found",
-                data: lessons
+                data: listLessons
             }
         )
 
@@ -106,13 +345,16 @@ router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
             });
         }
 
-        //check diem danh danh cho student
-        const checkAttendance = await Is_Attended.findOne({
-            where: {
-                student_id: currentStudent.student_id,
-                lesson_id: currentLesson.lesson_id
-            }
-        })
+        let checkAttendance;
+        if (checkUser.role_id === 3) {
+            //check diem danh danh cho student
+            checkAttendance = await Is_Attended.findOne({
+                where: {
+                    student_id: currentStudent.student_id,
+                    lesson_id: currentLesson.lesson_id
+                }
+            })
+        }
 
         if (checkUser.role_id === 1) {
             listQuestions = await Question.findAll({

@@ -207,3 +207,37 @@ li {
 .student-avatar {
   width: 100px;
 }
+.bg-orange-imp {
+  background-color: #ff8357 !important;
+  color: white !important;
+}
+.bg-yellow-imp {
+  background-color: #f9c272 !important;
+  color: white !important;
+}
+.text-orange {
+  color: #ff8357;
+}
+.about {
+  color: #444;
+}
+.member-avatar {
+  display: block;
+  width: 111px;
+  height: 111px;
+  border-radius: 50%;
+  margin: auto;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+}
+.member-avatar.member-bigger {
+  width: 140px;
+  height: 140px;
+}
+.ps-relative {
+  position: relative;
+}
+.about-footer {
+  margin-top: 15rem;
+  border-top: 2px solid #555;
+}

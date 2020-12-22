@@ -14,7 +14,6 @@ const CreateClassForm = () => {
 
   const [newClass, setNewClass] = useState({
     class_name: "",
-    class_id: "",
   });
 
   const handleChange = (e) => {
@@ -28,7 +27,6 @@ const CreateClassForm = () => {
     dispatch(createClass(newClass));
     setNewClass({
       class_name: "",
-      class_id: "",
     });
   };
   return (
@@ -36,22 +34,6 @@ const CreateClassForm = () => {
       <h1 className='border-bottom pb-2 text-center'>FPT EDUCATION</h1>
       <h3 className='my-4'>Create class</h3>
       <form onSubmit={submitHandler}>
-        <Grid container spacing={3}>
-          <Grid item md={4}>
-            Class ID:
-          </Grid>
-          <Grid item md={8}>
-            <TextField
-              label='Class Identifier'
-              variant='outlined'
-              name='class_id'
-              required
-              fullWidth
-              value={newClass.class_id}
-              onChange={handleChange}
-            />
-          </Grid>
-        </Grid>
         <Grid container spacing={3}>
           <Grid item md={4}>
             Class name:
@@ -81,14 +63,14 @@ const CreateClassForm = () => {
               type='submit'
               variant='contained'
               color='primary'
-              className='mr-3'
+              className='mr-3 bg-orange-imp'
             >
               Create
             </Button>
             <Button
               variant='contained'
               color='secondary'
-              onClick={() => history.push('/manage-class')}
+              onClick={() => history.push("/manage-class")}
             >
               Cancel
             </Button>

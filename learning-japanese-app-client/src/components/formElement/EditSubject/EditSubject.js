@@ -18,11 +18,10 @@ const EditSubject = () => {
   const { loading, error, subjectList } = useSelector(
     (state) => state.adminSubjectList
   );
-
   useEffect(() => {
-    const s = subjectList.find((s) => s.subject_code === sId);
+    const s = subjectList.find((s) => s.subject_id === +sId);
     if (s) setSubject(s);
-  }, [sId, dispatch, subjectList]);
+  }, [sId, subjectList]);
 
   const handleChange = (e) => {
     setSubject((prevState) => ({
@@ -42,7 +41,7 @@ const EditSubject = () => {
       <form onSubmit={submitHandler}>
         <Grid container spacing={3}>
           <Grid item md={4}>
-            Subject ID:
+            Subject Code:
           </Grid>
           <Grid item md={8}>
             <TextField
@@ -85,7 +84,7 @@ const EditSubject = () => {
               type='submit'
               variant='contained'
               color='primary'
-              className='mr-3'
+              className='mr-3 bg-orange-imp'
             >
               Update
             </Button>

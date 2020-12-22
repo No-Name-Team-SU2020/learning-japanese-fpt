@@ -30,7 +30,7 @@ const StudentMission = () => {
       </div>
       <div
         className='col-md-6 section'
-        onClick={() => history.push("/quiz-results")}
+        onClick={() => history.push("/result-subject-list")}
       >
         <img
           src='https://images.pexels.com/photos/256468/pexels-photo-256468.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'

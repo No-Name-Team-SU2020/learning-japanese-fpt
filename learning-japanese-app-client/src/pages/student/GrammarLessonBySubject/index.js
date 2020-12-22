@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getLessons } from "../../../store/actions/admin/lesson";
 import Loader from "../../../components/ui/Loader/Loader";
+import { Button } from "@material-ui/core";
 
 const LessonBySubject = () => {
   const { lessonList, loading } = useSelector((state) => state.adminLessonList);
@@ -22,26 +23,23 @@ const LessonBySubject = () => {
       {lessonList.map((lesson) => (
         <div
           key={lesson.lesson_id}
-          className='shadow-sm p-3 mb-3 d-flex align-items-center justify-content-between rounded'
+          className="shadow-sm p-3 mb-3 d-flex align-items-center justify-content-between rounded"
         >
           <span
             onClick={() => history.push(`/grammars/${lesson.lesson_id}`)}
-            className='cursor-pointer hover-text-blue'
+            className="cursor-pointer hover-text-blue"
           >
-            <strong>{lesson.lesson_name} : </strong>
-            {lesson.lesson_content.substr(0, 50)}
+            <strong>{lesson.lesson_name}</strong>
           </span>
-          <Link
-            to={`/quiz/${lesson.lesson_id}?lCt=${lesson.lesson_content}`}
-            className='font-weight-bold'
-          >
-            Start Quiz
-          </Link>
         </div>
       ))}
-      <Link to='/' className='font-weight-bold'>
-        &#8592; Go Back Home
-      </Link>
+      <Button
+        className="my-3"
+        variant="contained"
+        onClick={() => history.goBack()}
+      >
+        Go Back
+      </Button>
     </div>
   );
 };

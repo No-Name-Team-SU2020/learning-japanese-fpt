@@ -1,12 +1,12 @@
 import Paper from "@material-ui/core/Paper";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Loader from "../../../components/ui/Loader/Loader";
 import { getSubjectsByClass } from "../../../store/actions/teacher/subject";
 
-const ListClassStudying = ({ match }) => {
-  const { cId } = match.params;
+const ListClassStudying = ({ isResult, isProgress }) => {
+  const { cId } = useParams();
   const history = useHistory();
   const { subjects, loading, error } = useSelector(
     (state) => state.teacherSubject
@@ -30,11 +30,19 @@ const ListClassStudying = ({ match }) => {
                 <li
                   key={s.subject_id}
                   className='list-group-item cursor-pointer hover-bg-blue'
-                  onClick={() =>
-                    history.push(
-                      `/manage-student/classes/${cId}?sId=${s.subject_id}`
-                    )
-                  }
+                  onClick={() => {
+                    if (isResult) {
+                      history.push(
+                        `/manage-student/classes/${cId}?sId=${s.subject_id}&isResult=1`
+                      );
+                    } else {
+                      history.push(
+                        isProgress
+                          ? `/manage-progress/classes/${cId}?sId=${s.subject_id}`
+                          : `/manage-student/classes/${cId}?sId=${s.subject_id}&isResult=0`
+                      );
+                    }
+                  }}
                 >
                   <strong>{s.subject_code}</strong> - {s.subject_name}
                 </li>

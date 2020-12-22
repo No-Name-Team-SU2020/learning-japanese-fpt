@@ -28,7 +28,7 @@ const ClassTable = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(classLength === 0) dispatch(getClasses());
+    if (classLength === 0) dispatch(getClasses());
   }, [dispatch, classLength]);
 
   function openModal(cId) {
@@ -49,6 +49,7 @@ const ClassTable = () => {
           variant='contained'
           color='primary'
           onClick={() => history.push("/manage-class/create")}
+          className='bg-orange-imp'
         >
           New Class
         </Button>
@@ -77,9 +78,9 @@ const ClassTable = () => {
                       history.push(`/manage-class/edit/${item.class_id}`)
                     }
                   >
-                    <EditIcon />
+                    <EditIcon color='primary' />
                   </IconButton>
-                  <IconButton onClick={() => openModal(item.class_id) }>
+                  <IconButton onClick={() => openModal(item.class_id)}>
                     <DeleteIcon color='secondary' />
                   </IconButton>
                 </TableCell>

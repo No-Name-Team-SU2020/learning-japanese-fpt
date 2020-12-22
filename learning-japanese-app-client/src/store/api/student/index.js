@@ -11,8 +11,12 @@ export const createAnswersRequest = async (lessonId, answers) => {
   });
 };
 
-export const getMyQuizesRequest = async () => {
-  return axios.get(`/student/quiz_results`);
+export const getMyQuizesRequest = async (sId) => {
+  return axios.get(`/student/quiz_results/${sId}`);
+};
+
+export const getMyQuizResultsRequest = async (sId) => {
+  return axios.get(`/student/quiz_results/${sId}`);
 };
 
 export const getResultsByLessonRequest = async (lessonId) => {

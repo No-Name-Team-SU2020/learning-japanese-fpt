@@ -3,7 +3,7 @@ import SubjectItem from "./SubjectItem/SubjectItem";
 import axios from "../../../store/api/axios";
 import Loader from "../../ui/Loader/Loader";
 
-const SubjectList = () => {
+const SubjectList = ({ isResult }) => {
   const [loading, setLoading] = useState(false);
   const [subjectData, setSubjectData] = useState({});
   useEffect(() => {
@@ -19,14 +19,12 @@ const SubjectList = () => {
         setLoading(false);
       });
   }, []);
-  
+
   return (
     <div className='row'>
-      {
-        loading && <Loader />
-      }
+      {loading && <Loader />}
       {subjectData.subjects?.map((item) => (
-        <SubjectItem key={item.subject_id} item={item} />
+        <SubjectItem key={item.subject_id} item={item} isResult={isResult} />
       ))}
     </div>
   );

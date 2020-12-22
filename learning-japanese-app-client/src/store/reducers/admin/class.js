@@ -13,7 +13,7 @@ import {
   ADMIN_UPDATE_CLASS_START,
   ADMIN_GET_SINGLE_CLASS_START,
   ADMIN_GET_SINGLE_CLASS_SUCCESS,
-  ADMIN_GET_SINGLE_CLASS_FAILED
+  ADMIN_GET_SINGLE_CLASS_FAILED,
 } from "../../actions/types";
 
 const classListInitialState = {
@@ -44,12 +44,13 @@ const reducer = (state = classListInitialState, action) => {
         error: payload,
       };
     case ADMIN_UPDATE_CLASS_SUCCESS:
-      console.log(payload.newClass);
       return {
         error: null,
         loading: false,
-        classList: state.classList.map( c => c.class_id === payload.cId ? payload.newClass : c),
-      }
+        classList: state.classList.map((c) =>
+          c.class_id === +payload.cId ? payload.newClass : c
+        ),
+      };
     case ADMIN_GET_CLASSES_SUCCESS:
       return {
         error: null,
@@ -79,30 +80,31 @@ const singleClassInitialState = {
   error: null,
   loading: false,
   singleClass: null,
-}
+};
 
 const adminSingleClassReducer = (state = singleClassInitialState, action) => {
   const { type, payload } = action;
-  switch(type) {
+  switch (type) {
     case ADMIN_GET_SINGLE_CLASS_START:
       return {
         ...state,
         loading: true,
-      }
-      case ADMIN_GET_SINGLE_CLASS_SUCCESS:
-        return {
-          singleClass: payload,
-          loading: false,
-          error : null
-        }
-      case ADMIN_GET_SINGLE_CLASS_FAILED:
-        return {
-          ...state,
-          loading: false,
-          error: payload,
-        }
-    default: return state;
+      };
+    case ADMIN_GET_SINGLE_CLASS_SUCCESS:
+      return {
+        singleClass: payload,
+        loading: false,
+        error: null,
+      };
+    case ADMIN_GET_SINGLE_CLASS_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+    default:
+      return state;
   }
-}
+};
 
 export { adminSingleClassReducer };

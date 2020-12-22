@@ -42,6 +42,7 @@ const SubjectList = ({ subjects, url }) => {
           variant='contained'
           color='primary'
           onClick={() => history.push(`/manage-subject/create`)}
+          className="bg-orange-imp"
         >
           New Subject
         </Button>
@@ -72,14 +73,14 @@ const SubjectList = ({ subjects, url }) => {
                       history.push(`/manage-lesson/${subject.subject_id}`)
                     }
                   >
-                    <PageviewIcon />
+                    <PageviewIcon  />
                   </IconButton>
                   <IconButton
                     onClick={() =>
-                      history.push(`${url}/subject/edit/${subject.subject_code}`)
+                      history.push(`${url}/subject/edit/${subject.subject_id}`)
                     }
                   >
-                    <EditIcon />
+                    <EditIcon color="primary" />
                   </IconButton>
                   <IconButton onClick={() => openModal(subject.subject_id)}>
                     <DeleteIcon color="secondary" />

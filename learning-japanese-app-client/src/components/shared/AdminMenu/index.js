@@ -34,7 +34,7 @@ function AdminMenu() {
   };
   return (
     <div className={classes.root}>
-      <AppBar position='static'>
+      <AppBar position='static' className='bg-yellow-imp'>
         <Tabs value={value} onChange={handleChange} aria-label='Admin Menu Top'>
           <Tab
             label='Class'
