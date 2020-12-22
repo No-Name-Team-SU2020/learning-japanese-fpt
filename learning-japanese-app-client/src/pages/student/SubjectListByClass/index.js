@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Loader from "../../../components/ui/Loader/Loader";
 import axios from "../../../store/api/axios";
 import { Button } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
 
 const SubjectListByClass = ({ match }) => {
   const { cId } = match.params;
@@ -28,23 +27,23 @@ const SubjectListByClass = ({ match }) => {
 
   return (
     <div>
-      <h1>My Current Classes</h1>
+      <h1>My Current Subject</h1>
       {loading && <Loader />}
-      {error && <div className='alert mb-2 alert-danger'> {error} </div>}
+      {error && <div className="alert mb-2 alert-danger"> {error} </div>}
       {subjectData.subjects &&
         subjectData.subjects.map((subjectItem) => (
           <div
             key={subjectItem.subject_id}
-            className='shadow-sm p-3 mb-3 d-flex align-items-center justify-content-between rounded'
+            className="shadow-sm p-3 mb-3 d-flex align-items-center justify-content-between rounded"
           >
-            <span className='cursor-pointer hover-text-blue'>
+            <span className="cursor-pointer hover-text-blue">
               <strong>
                 {subjectItem.subject_code} : {subjectItem.subject_name}
               </strong>
             </span>
             <Link
               to={`/attendance/${subjectItem.subject_id}`}
-              className='font-weight-bold'
+              className="font-weight-bold"
             >
               Attendance Status
             </Link>

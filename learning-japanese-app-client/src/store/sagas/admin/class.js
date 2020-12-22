@@ -31,6 +31,7 @@ import {
   updateClassRequest,
 } from "../../api/admin";
 import history from "../../../utils/history";
+import { alert } from '../../actions/ui/ui';
 
 function* getClassesWorker() {
   yield put(getClassesStart());
@@ -63,6 +64,7 @@ function* deleteClassWorker(action) {
   try {
     yield deleteClassRequest(action.cId);
     yield put(deleteClassSuccess(action.cId));
+    yield put(alert('success', 'Delete Class Success'));
   } catch (error) {
     yield put(
       deleteClassFailed(error.response?.data?.message || "Something went wrong")
@@ -75,6 +77,7 @@ function* createClassWorker(action) {
   try {
     const res = yield createClassRequest(action.newClass);
     yield put(createClassSuccess(res.data.data));
+    yield put(alert('success', 'Create Class Success'));
     history.back();
   } catch (error) {
     yield put(
@@ -88,6 +91,7 @@ function* updateClassWorker(action) {
   try {
     yield updateClassRequest(action.cId, action.newClass);
     yield put(updateClassSuccess(action.cId, action.newClass));
+    yield put(alert('success', 'Update Class Success'));
     yield history.push("/manage-class");
   } catch (error) {
     yield put(

@@ -7,10 +7,10 @@ import {
 import { STUDENT_GET_RESULTS } from "../../actions/types";
 import { getMyQuizResultsRequest } from "../../api/student/index";
 
-function* getResultsWorker() {
+function* getResultsWorker(action) {
   yield put(getResultsStart());
   try {
-    const res = yield getMyQuizResultsRequest();
+    const res = yield getMyQuizResultsRequest(action.sId);
     yield put(getResultsSuccess(res.data.data.results || []));
   } catch (error) {
     yield put(

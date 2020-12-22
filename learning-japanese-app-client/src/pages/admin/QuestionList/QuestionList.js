@@ -48,6 +48,7 @@ const QuestionList = () => {
           variant='contained'
           color='primary'
           onClick={() => history.push("/manage-question/create")}
+          className='bg-orange-imp'
         >
           New Question
         </Button>

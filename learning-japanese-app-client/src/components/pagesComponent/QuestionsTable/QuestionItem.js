@@ -25,7 +25,7 @@ const QuestionItem = ({ question, showConfirm }) => {
             )
           }
         >
-          <EditIcon />
+          <EditIcon color='primary' />
         </IconButton>
         <IconButton onClick={showConfirm}>
           <DeleteIcon color='secondary' />

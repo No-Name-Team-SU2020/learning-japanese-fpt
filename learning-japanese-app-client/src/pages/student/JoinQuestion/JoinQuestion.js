@@ -16,6 +16,7 @@ import TimeCountDown from "../../../components/shared/TimeCountDown";
 const JoinQuestion = ({ location }) => {
   const dispatch = useDispatch();
   const [open] = useState(true);
+  const [isSubmit, setIsSubmit] = useState(false);
   const history = useHistory();
   const { lId } = useParams();
   const adminQuestionList = useSelector((state) => state.adminQuestionList);
@@ -39,13 +40,13 @@ const JoinQuestion = ({ location }) => {
     }
   }, [time, dispatch, lId, userAnswers]);
 
-  const submitHandler = (e) => {
-    e.preventDefault();
+  const submitHandler = () => {
     if (adminQuestionList?.questionList?.length > userAnswers.length) {
       dispatch(
         alert("warning", "Please finish all questions before submission!")
       );
     } else {
+      setIsSubmit(false);
       setFinishTime(900 - time);
       dispatch(
         submitAnswers(lId, {
@@ -75,15 +76,18 @@ const JoinQuestion = ({ location }) => {
               <TimeCountDown seconds={time} countDown={setTime} />
             </div>
             <p className='lead'>{location.search.split("=")[1]}</p>
-            <form onSubmit={submitHandler}>
+            <form>
               {questionListMarkup}
               {loading && <Loader />}
               {error && <div className='alert alert-danger'> {error} </div>}
               <Button
                 variant='contained'
                 color='primary'
-                type='submit'
+                type='button'
                 className='mr-2'
+                onClick={() => {
+                  setIsSubmit(true);
+                }}
               >
                 Submit Answer
               </Button>
@@ -144,6 +148,32 @@ const JoinQuestion = ({ location }) => {
             </Button>
           </div>
         )}
+      <ConfirmAction open={isSubmit}>
+        <div className='text-center line-height-lg px-5'>
+          <h3>Are you sure to submit answers</h3>
+          <Button
+            variant='contained'
+            color='primary'
+            type='button'
+            className='mr-3'
+            onClick={() => {
+              submitHandler();
+            }}
+          >
+            Yes
+          </Button>
+          <Button
+            variant='contained'
+            color='secondary'
+            type='button'
+            onClick={() => {
+              setIsSubmit(false);
+            }}
+          >
+            No
+          </Button>
+        </div>
+      </ConfirmAction>
     </div>
   );
 };

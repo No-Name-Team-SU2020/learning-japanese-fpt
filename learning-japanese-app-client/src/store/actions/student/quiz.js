@@ -29,8 +29,9 @@ export const submitAnswersFailed = (error) => ({
   error,
 });
 
-export const getResults = () => ({
+export const getResults = (sId) => ({
   type: STUDENT_GET_RESULTS,
+  sId,
 });
 
 export const getResultsStart = () => ({

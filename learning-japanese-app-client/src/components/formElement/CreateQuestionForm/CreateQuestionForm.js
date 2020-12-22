@@ -218,7 +218,7 @@ const CreateQuestionForm = () => {
               type='submit'
               variant='contained'
               color='primary'
-              className='mr-3'
+              className='mr-3 bg-orange-imp'
             >
               Create
             </Button>

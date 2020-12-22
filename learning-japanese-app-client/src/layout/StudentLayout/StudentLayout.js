@@ -18,7 +18,7 @@ import GrammerDetail from "../../components/pagesComponent/GrammarDetail/Grammar
 import MyClasses from "../../pages/student/MyClasses";
 import SubjectListByClass from "../../pages/student/SubjectListByClass";
 import Attendance from "../../pages/student/Attendance";
-import StepsToPassSwp from "../../components/pagesComponent/StepsToPassSwp/StepsToPassSwp";
+import About from "../../pages/global/About/About";
 
 const StudentLayout = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -34,8 +34,11 @@ const StudentLayout = () => {
             </div>
             <Switch>
               <Route exact path='/' component={StudentHome} />
-              <Route path='/about' component={StepsToPassSwp} />
-              <Route path='/quiz-results' component={StudentQuizResults} />
+              <Route path='/about' component={About} />
+              <Route path='/result-subject-list'>
+                <SubjectList isResult />
+              </Route>
+              <Route path='/quiz-results/:sId' component={StudentQuizResults} />
               <Route path='/subject-list' component={SubjectList} />
               <Route
                 path='/grammar-subject-list'

@@ -63,14 +63,14 @@ const CreateClassForm = () => {
               type='submit'
               variant='contained'
               color='primary'
-              className='mr-3'
+              className='mr-3 bg-orange-imp'
             >
               Create
             </Button>
             <Button
               variant='contained'
               color='secondary'
-              onClick={() => history.push('/manage-class')}
+              onClick={() => history.push("/manage-class")}
             >
               Cancel
             </Button>

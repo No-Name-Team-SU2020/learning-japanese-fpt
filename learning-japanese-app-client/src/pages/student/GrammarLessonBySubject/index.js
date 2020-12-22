@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getLessons } from "../../../store/actions/admin/lesson";
 import Loader from "../../../components/ui/Loader/Loader";
 import { Button } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
 
 const LessonBySubject = () => {
   const { lessonList, loading } = useSelector((state) => state.adminLessonList);
@@ -29,7 +29,7 @@ const LessonBySubject = () => {
             onClick={() => history.push(`/grammars/${lesson.lesson_id}`)}
             className="cursor-pointer hover-text-blue"
           >
-            <strong>{lesson.lesson_name} </strong>
+            <strong>{lesson.lesson_name}</strong>
           </span>
         </div>
       ))}

@@ -22,7 +22,7 @@ const EditClassForm = () => {
   }, [cId, dispatch]);
 
   useEffect(() => {
-    if(singleClass) setUpdatedClass(singleClass);
+    if (singleClass) setUpdatedClass(singleClass);
   }, [singleClass]);
 
   const handleChange = (e) => {
@@ -71,7 +71,7 @@ const EditClassForm = () => {
               type='submit'
               variant='contained'
               color='primary'
-              className='mr-3'
+              className='mr-3 bg-orange-imp'
             >
               Update
             </Button>
@@ -90,4 +90,3 @@ const EditClassForm = () => {
 };
 
 export default EditClassForm;
-

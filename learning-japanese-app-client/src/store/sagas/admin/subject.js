@@ -25,6 +25,7 @@ import {
   deleteSubjectRequest,
   updateSubjectRequest,
 } from "../../api/admin";
+import { alert } from "../../actions/ui/ui";
 
 function* getSubjectsWorker() {
   yield put(getSubjectsStart());
@@ -43,6 +44,7 @@ function* createSubjectWorker(action) {
   try {
     const res = yield createSubjectRequest(action.subject);
     yield put(createSubjectSuccess(res.data.data));
+    yield put(alert("success", "Create Subject Success"));
     window.location.href = "/manage-subject";
   } catch (error) {
     yield put(
@@ -59,6 +61,7 @@ function* deleteSubjectWorker(action) {
   try {
     yield deleteSubjectRequest(action.sId);
     yield put(deleteSubjectSuccess(action.sId));
+    yield put(alert("success", "Delete Subject Success"));
   } catch (error) {
     yield put(
       deleteSubjectFailed(
@@ -74,6 +77,7 @@ function* updateSubjectWorker(action) {
     const res = yield updateSubjectRequest(action.sId, action.subject);
     if (res.data.data[0] === 1) {
       yield put(updateSubjectSuccess(action.sId, action.subject));
+      yield put(alert("success", "Update Subject Success"));
       window.location.href = "/manage-subject";
     } else {
       yield put(updateSubjectFailed("Can not update subject"));

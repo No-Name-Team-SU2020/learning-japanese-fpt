@@ -40,6 +40,7 @@ const LessonTable = ({ lessonList, subjectId }) => {
           variant='contained'
           color='primary'
           onClick={() => history.push(`/manage-lesson/${subjectId}/create`)}
+          className='bg-orange-imp'
         >
           New Lesson
         </Button>
@@ -72,10 +73,12 @@ const LessonTable = ({ lessonList, subjectId }) => {
                 <TableCell>
                   <IconButton
                     onClick={() =>
-                      history.push(`/manage-lesson/${subjectId}/edit/${lesson.lesson_id}`)
+                      history.push(
+                        `/manage-lesson/${subjectId}/edit/${lesson.lesson_id}`
+                      )
                     }
                   >
-                    <EditIcon />
+                    <EditIcon color='primary' />
                   </IconButton>
                   <IconButton onClick={() => openModal(lesson.lesson_id)}>
                     <DeleteIcon color='secondary' />

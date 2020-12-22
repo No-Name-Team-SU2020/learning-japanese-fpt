@@ -31,6 +31,7 @@ import {
   updateLessonRequest,
 } from "../../api/admin";
 import history from "../../../utils/history";
+import { alert } from "../../actions/ui/ui";
 
 function* getLessonsWorker(action) {
   yield put(getLessonsStart());
@@ -63,6 +64,7 @@ function* createLessonWorker(action) {
   try {
     const res = yield createLessonRequest(action.sId, action.lesson);
     yield put(createLessonSuccess(res.data.data));
+    yield put(alert("success", "Create Lesson Success"));
     history.back();
   } catch (error) {
     yield put(
@@ -78,6 +80,7 @@ function* updateLessonWorker(action) {
   try {
     yield updateLessonRequest(action.lId, action.lesson);
     yield put(updateLessonSuccess(action.lId, action.lesson));
+    yield put(alert("success", "Update Lesson Success"));
     history.back();
   } catch (error) {
     yield put(
@@ -93,6 +96,7 @@ function* deleteLessonWorker(action) {
   try {
     yield deleteLessonRequest(action.lId);
     yield put(deleteLessonSuccess(action.lId));
+    yield put(alert("success", "Delete Lesson Success"));
   } catch (error) {
     yield put(
       deleteLessonFailed(
