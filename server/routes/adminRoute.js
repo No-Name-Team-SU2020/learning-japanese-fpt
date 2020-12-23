@@ -12,7 +12,7 @@ router.get('/classes', checkAuth, async (req, res) => {
         const classes = await Class.findAll();
 
         if (!classes) {
-            return res.json({
+            return res.status(404).json({
                 message: "Classes not found",
             });
         }
@@ -44,7 +44,7 @@ router.get('/classes/:classId', checkAuth, async (req, res) => {
         });
 
         if (!findClass) {
-            return res.json({
+            return res.status(404).json({
                 message: "Class not found"
             })
         }
@@ -68,7 +68,7 @@ router.post('/classes', checkAuth, async (req, res) => {
         const { class_name } = req.body;
 
         if (!class_name) {
-            return res.json({
+            return res.status(400).json({
                 message: "Class name is not valid",
                 data: null,
             });
@@ -81,7 +81,7 @@ router.post('/classes', checkAuth, async (req, res) => {
         });
 
         if(checkDuplicate){
-            return res.json({
+            return res.status(406).json({
                 message: "Class name already existed"
             })
         }
@@ -117,7 +117,7 @@ router.put('/classes/:classId', checkAuth, async (req, res) => {
         })
 
         if (!currentClass) {
-            return res.json({
+            return res.status(404).json({
                 message: 'Class not found',
             });
         }
@@ -131,7 +131,7 @@ router.put('/classes/:classId', checkAuth, async (req, res) => {
         });
 
         if(checkDuplicate){
-            return res.json({
+            return res.status(406).json({
                 message: "Class name already existed"
             })
         }
@@ -195,7 +195,7 @@ router.get('/subjects', checkAuth, async (req, res) => {
         const subjects = await Subject.findAll();
 
         if (!subjects) {
-            return res.json({
+            return res.status(404).json({
                 message: "Subjects not found",
             });
         }
@@ -226,7 +226,7 @@ router.get('/subjects/:subjectId', checkAuth, async (req, res) => {
         });
 
         if (!findSubject) {
-            return res.json({
+            return res.status(404).json({
                 message: "Subject not found"
             })
         }
@@ -250,14 +250,14 @@ router.post('/subjects', checkAuth, async (req, res) => {
         const { subject_code, subject_name } = req.body;
 
         if (!subject_code) {
-            return res.json({
+            return res.status(400).json({
                 message: "subject id is not valid",
                 data: null,
             });
         }
 
         if (!subject_name) {
-            return res.json({
+            return res.status(400).json({
                 message: "subject name is not valid",
                 data: null,
             });
@@ -271,8 +271,8 @@ router.post('/subjects', checkAuth, async (req, res) => {
         });
 
         if(checkDuplicate){
-            return res.json({
-                message: "Subject code and subject name already existed"
+            return res.status(406).json({
+                message: "Subject code or subject name already existed"
             })
         }
 
@@ -307,7 +307,7 @@ router.put('/subjects/:subjectId', checkAuth, async (req, res) => {
         });
 
         if(!currentSubject){
-            return res.json({
+            return res.status(404).json({
                 message: "Subject not found"
             })
         }
@@ -322,7 +322,7 @@ router.put('/subjects/:subjectId', checkAuth, async (req, res) => {
         });
 
         if(checkDuplicate){
-            return res.json({
+            return res.status(406).json({
                 message: "Subject code and subject name already existed"
             })
         }
@@ -393,7 +393,7 @@ router.post('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
         });
 
         if(!currentSubject){
-            return res.json({
+            return res.status(404).json({
                 message: "Subject not found"
             })
         }
@@ -408,20 +408,20 @@ router.post('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
         });
 
         if(checkDuplicate){
-            return res.json({
+            return res.status(406).json({
                 message: "Lesson content and lesson name already existed"
             })
         }
 
         if (!lesson_content) {
-            return res.json({
+            return res.status(400).json({
                 message: "lesson content is not valid",
                 data: null,
             });
         }
 
         if (!lesson_name) {
-            return res.json({
+            return res.status(400).json({
                 message: "lesson name is not valid",
                 data: null,
             });
@@ -458,7 +458,7 @@ router.put('/lessons/:lessonId', checkAuth, async (req, res) => {
         })
 
         if(!currentLesson){
-            return res.json({
+            return res.status(404).json({
                 message: "Lesson not found"
             })
         }
@@ -473,7 +473,7 @@ router.put('/lessons/:lessonId', checkAuth, async (req, res) => {
         });
 
         if(checkDuplicate){
-            return res.json({
+            return res.status(406).json({
                 message: "Lesson content and lesson name already existed"
             })
         }
@@ -543,7 +543,7 @@ router.get('/subjects/:subjectId/questions', checkAuth, async(req, res) => {
         });
 
         if(!currentSubject){
-            return res.json({
+            return res.status(404).json({
                 message: "Subject not found"
             })
         }
@@ -555,7 +555,7 @@ router.get('/subjects/:subjectId/questions', checkAuth, async(req, res) => {
         });
 
         if(!listQuestions){
-            return res.json({
+            return res.status(404).json({
                 message: "questions not found"
             })
         }
@@ -587,7 +587,7 @@ router.post('/subjects/:subjectId/lessons/:lessonId/questions', checkAuth, async
         })
 
         if(!currentSubject){
-            return res.json({
+            return res.status(404).json({
                 message: "Subject not found"
             })
         }
@@ -600,7 +600,7 @@ router.post('/subjects/:subjectId/lessons/:lessonId/questions', checkAuth, async
         });
 
         if(!currentLesson){
-            return res.json({
+            return res.status(404).json({
                 message: "Lesson not found"
             })
         }
@@ -608,42 +608,42 @@ router.post('/subjects/:subjectId/lessons/:lessonId/questions', checkAuth, async
         const { question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
 
         if (!question_content || question_content.length === 0) {
-            return res.json({
+            return res.status(406).json({
                 message: "question content is not valid",
                 data: null,
             });
         }
 
         if (!option_a || option_a.length === 0) {
-            return res.json({
+            return res.status(406).json({
                 message: "option A content is not valid",
                 data: null,
             });
         }
 
         if (!option_b || option_b.length === 0) {
-            return res.json({
+            return res.status(406).json({
                 message: "option B content is not valid",
                 data: null,
             });
         }
 
         if (!option_c || option_c.length === 0) {
-            return res.json({
+            return res.status(406).json({
                 message: "option C content is not valid",
                 data: null,
             });
         }
 
         if (!option_d || option_d.length === 0) {
-            return res.json({
+            return res.status(406).json({
                 message: "option D content is not valid",
                 data: null,
             });
         }
 
         if (!correct_answer || correct_answer.length === 0) {
-            return res.json({
+            return res.status(406).json({
                 message: "correct answer is not valid",
                 data: null,
             });
@@ -766,7 +766,7 @@ router.get('/search', checkAuth, async (req, res) => {
         });
 
         if (!questions || questions.length === 0) {
-            return res.json("No question founded");
+            return res.status(404).json("No question founded");
         }
         return res.json({
             message: "Found question",

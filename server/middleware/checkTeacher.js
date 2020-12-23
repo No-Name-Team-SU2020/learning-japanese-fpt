@@ -7,7 +7,9 @@ module.exports = async (req, res, next) => {
     const token = req.header('token');
 
     if(!token){
-        return res.status(401).json("No token");
+        return res.status(401).json({
+            message: "No token"
+        });
     }
 
     const payload = jwt.verify(token, process.env.refreshTokenSecret);
@@ -24,11 +26,15 @@ module.exports = async (req, res, next) => {
         });
 
         if(!user){
-            return res.status(404).send("User not found");
+            return res.status(404).json({
+                message: "User not found"
+            });
         }
 
         if(user.role_id !== 2){
-            return res.status(403).send("You are not teacher");
+            return res.status(403).json({
+                message: "You are not teacher"
+            });
         }
 
         req.user = user;

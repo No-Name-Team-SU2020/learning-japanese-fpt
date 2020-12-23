@@ -7,7 +7,9 @@ module.exports = async (req, res, next) => {
     const token = req.header('token');
 
     if(!token){
-        return res.status(401).json("No token");
+        return res.status(401).json({
+            message: "No token"
+        });
     }
 
     const payload = jwt.verify(token, process.env.refreshTokenSecret);
@@ -24,7 +26,9 @@ module.exports = async (req, res, next) => {
         });
 
         if(!user){
-            return res.status(404).send("User not found");
+            return res.status(404).json({
+                message: "User not found"
+            });
         }
 
         req.user = user;
@@ -33,6 +37,8 @@ module.exports = async (req, res, next) => {
         
     } catch (error) {
         console.log(error.message)
-        return res.status(403).json("Not authorized to access resources");
+        return res.status(403).json({
+            message: "Not authorize to access this resource"
+        });
     }
 }
