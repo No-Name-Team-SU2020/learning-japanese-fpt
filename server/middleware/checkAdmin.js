@@ -24,11 +24,11 @@ module.exports = async (req, res, next) => {
         });
 
         if(!user){
-            return res.status(404).send("User not found");
+            return res.status(404).send({message:"User not found"});
         }
 
         if(user.role_id !== 1){
-            return res.status(403).send("You are not admin");
+            return res.status(403).send({message:"You are not admin"});
         }
 
         req.user = user;
@@ -37,6 +37,6 @@ module.exports = async (req, res, next) => {
         
     } catch (error) {
         console.log(error.message)
-        return res.status(403).json("Not authorized to access resources");
+        return res.status(403).json({message:"Not authorized to access resources"});
     }
 }
