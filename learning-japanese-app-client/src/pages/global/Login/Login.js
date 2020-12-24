@@ -23,13 +23,12 @@ const Login = () => {
   };
 
   return (
-    <div className='form-w-500 mx-auto my-5 shadow p-3 pb-5 pt-0 rounded'>
+    <div className='form-w-500 mx-auto my-5 shadow p-3 pb-5 pt-0 rounded login-form'>
       <h1 className='my-4 text-center'>Login</h1>
       {loading && <SpinnerLoader />}
       {error && (
         <div className='alert alert-danger' role='alert'>
-          {" "}
-          {error}{" "}
+          {error}
         </div>
       )}
       <form onSubmit={onSubmitForm}>

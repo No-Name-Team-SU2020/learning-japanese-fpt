@@ -2,15 +2,19 @@ import React, { useEffect, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateSubject } from "../../../store/actions/admin";
 import Loader from "../../ui/Loader/Loader";
+import {
+  containManySpaceCharacters,
+  containSpecialCharacters,
+} from "../../../utils/validators";
+import { alert } from "../../../store/actions/ui/ui";
 
 const EditSubject = () => {
   const { sId } = useParams();
   const dispatch = useDispatch();
-  const history = useHistory();
   const [subject, setSubject] = useState({
     subject_name: "",
     subject_code: "",
@@ -31,12 +35,26 @@ const EditSubject = () => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(
-      updateSubject(sId, {
-        subject_name: subject.subject_name.trim(),
-        subject_code: subject.subject_code.trim(),
-      })
-    );
+    if (
+      containManySpaceCharacters(subject.subject_name) ||
+      containManySpaceCharacters(subject.subject_code) ||
+      containSpecialCharacters(subject.subject_code) ||
+      containSpecialCharacters(subject.subject_name)
+    ) {
+      dispatch(
+        alert(
+          "error",
+          "Subject Input fields should not contain special characters or many space"
+        )
+      );
+    } else {
+      dispatch(
+        updateSubject(sId, {
+          subject_name: subject.subject_name.trim(),
+          subject_code: subject.subject_code.trim(),
+        })
+      );
+    }
   };
 
   return (
@@ -98,7 +116,9 @@ const EditSubject = () => {
             <Button
               variant='contained'
               color='secondary'
-              onClick={() => history.push("/manage-subject")}
+              onClick={() => {
+                window.location.href = "/manage-subject";
+              }}
             >
               Cancel
             </Button>

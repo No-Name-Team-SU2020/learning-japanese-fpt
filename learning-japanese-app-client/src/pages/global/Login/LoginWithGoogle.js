@@ -11,7 +11,7 @@ const LoginWithGoogle = () => {
     console.log(response);
   };
   const responseGoogleFailed = (response) => {
-    dispatch(alert("danger", "Login With Google Failed. Please try again!"));
+    dispatch(alert("error", "Login With Google Failed. Please try again!"));
     console.log(response);
   };
   return (

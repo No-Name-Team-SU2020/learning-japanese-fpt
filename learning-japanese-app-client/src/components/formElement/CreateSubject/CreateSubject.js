@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { createSubject } from "../../../store/actions/admin";
 import Loader from "../../ui/Loader/Loader";
+import {
+  containManySpaceCharacters,
+  containSpecialCharacters,
+} from "../../../utils/validators";
+import { alert } from "../../../store/actions/ui/ui";
 
 const CreateSubjectForm = () => {
-  const history = useHistory();
   const { loading, error } = useSelector((state) => state.adminSubjectList);
   const dispatch = useDispatch();
 
@@ -25,16 +28,30 @@ const CreateSubjectForm = () => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(
-      createSubject({
-        subject_name: subject.subject_name.trim(),
-        subject_code: subject.subject_code.trim(),
-      })
-    );
-    setSubject({
-      subject_name: "",
-      subject_code: "",
-    });
+    if (
+      containManySpaceCharacters(subject.subject_name) ||
+      containManySpaceCharacters(subject.subject_code) ||
+      containSpecialCharacters(subject.subject_code) ||
+      containSpecialCharacters(subject.subject_name)
+    ) {
+      dispatch(
+        alert(
+          "error",
+          "Subject Input fields should not contain special characters or many space"
+        )
+      );
+    } else {
+      dispatch(
+        createSubject({
+          subject_name: subject.subject_name.trim(),
+          subject_code: subject.subject_code.trim(),
+        })
+      );
+      setSubject({
+        subject_name: "",
+        subject_code: "",
+      });
+    }
   };
   return (
     <div className='bg-light p-4 rounded shadow mx-auto w-50'>
@@ -95,7 +112,9 @@ const CreateSubjectForm = () => {
             <Button
               variant='contained'
               color='secondary'
-              onClick={() => history.goBack()}
+              onClick={() => {
+                window.location.href = "/manage-subject";
+              }}
             >
               Cancel
             </Button>

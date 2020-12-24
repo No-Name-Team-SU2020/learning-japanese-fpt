@@ -2,14 +2,18 @@ import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getSingleLesson, updateLesson } from "../../../store/actions/admin";
 import Loader from "../../ui/Loader/Loader";
+import {
+  containManySpaceCharacters,
+  containSpecialCharacters,
+} from "../../../utils/validators";
+import { alert } from "../../../store/actions/ui/ui";
 
 const EditLessonForm = ({ subjectId }) => {
   const { lId } = useParams();
-  const history = useHistory();
   const { loading, error } = useSelector((state) => state.adminClassList);
   const singleLesson = useSelector((state) => state.singleLesson);
   const dispatch = useDispatch();
@@ -37,12 +41,26 @@ const EditLessonForm = ({ subjectId }) => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(
-      updateLesson(lesson.lesson_id, {
-        lesson_name: lesson.lesson_name.trim(),
-        lesson_content: lesson.lesson_content.trim(),
-      })
-    );
+    if (
+      containManySpaceCharacters(lesson.lesson_name) ||
+      containManySpaceCharacters(lesson.lesson_content) ||
+      containSpecialCharacters(lesson.lesson_content) ||
+      containSpecialCharacters(lesson.lesson_name)
+    ) {
+      dispatch(
+        alert(
+          "error",
+          "Lesson Input fields should not contain special characters or many space"
+        )
+      );
+    } else {
+      dispatch(
+        updateLesson(lesson.lesson_id, {
+          lesson_name: lesson.lesson_name.trim(),
+          lesson_content: lesson.lesson_content.trim(),
+        })
+      );
+    }
   };
   return (
     <div className='bg-light p-4 rounded shadow'>
@@ -103,7 +121,9 @@ const EditLessonForm = ({ subjectId }) => {
             <Button
               variant='contained'
               color='secondary'
-              onClick={() => history.push("/manage-lesson/" + subjectId)}
+              onClick={() => {
+                window.location.href = "/manage-lesson/" + subjectId;
+              }}
             >
               Cancel
             </Button>

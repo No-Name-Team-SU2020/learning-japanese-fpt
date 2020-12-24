@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateQuestion } from "../../../store/actions/admin";
 import { getSingleQuestion } from "../../../store/actions/global";
 import Loader from "../../ui/Loader/Loader";
+import { containManySpaceCharacters } from "../../../utils/validators";
+import { alert } from "../../../store/actions/ui/ui";
 
 const EditQuestionForm = () => {
   const { questionInfo, loading, error } = useSelector(
@@ -14,7 +16,6 @@ const EditQuestionForm = () => {
   );
   const dispatch = useDispatch();
   const { qId } = useParams();
-  const history = useHistory();
 
   const [question, setQuestion] = useState({});
   useEffect(() => {
@@ -46,17 +47,30 @@ const EditQuestionForm = () => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(
-      updateQuestion(qId, {
-        ...question,
-        question_content: question.question_content.trim(),
-        option_a: question.option_a.trim(),
-        option_b: question.option_b.trim(),
-        option_c: question.option_c.trim(),
-        option_d: question.option_d.trim(),
-        correct_answer: question.correct_answer.trim(),
-      })
-    );
+    if (
+      containManySpaceCharacters(question.question_content) ||
+      containManySpaceCharacters(question.option_a) ||
+      containManySpaceCharacters(question.option_b) ||
+      containManySpaceCharacters(question.option_c) ||
+      containManySpaceCharacters(question.option_d) ||
+      containManySpaceCharacters(question.correct_answer)
+    ) {
+      dispatch(
+        alert("error", "Question Input fields should not contain many space")
+      );
+    } else {
+      dispatch(
+        updateQuestion(qId, {
+          ...question,
+          question_content: question.question_content.trim(),
+          option_a: question.option_a.trim(),
+          option_b: question.option_b.trim(),
+          option_c: question.option_c.trim(),
+          option_d: question.option_d.trim(),
+          correct_answer: question.correct_answer.trim(),
+        })
+      );
+    }
   };
   return (
     <div className='bg-light p-4 rounded shadow'>
@@ -206,7 +220,9 @@ const EditQuestionForm = () => {
               <Button
                 variant='contained'
                 color='secondary'
-                onClick={() => history.goBack()}
+                onClick={() => {
+                  window.location.href = "/manage-question";
+                }}
               >
                 Cancel
               </Button>

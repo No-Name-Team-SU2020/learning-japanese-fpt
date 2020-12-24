@@ -2,21 +2,26 @@ import React, { useEffect, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getSingleClass, updateClass } from "../../../store/actions/admin";
 import Loader from "../../ui/Loader/Loader";
+import {
+  containManySpaceCharacters,
+  containSpecialCharacters,
+} from "../../../utils/validators";
+import { alert } from "../../../store/actions/ui/ui";
 
 const EditClassForm = () => {
   const { cId } = useParams();
   const dispatch = useDispatch();
-  const history = useHistory();
   const [updatedClass, setUpdatedClass] = useState({
     class_name: "",
   });
   const { loading, error, singleClass } = useSelector(
     (state) => state.adminSingleClass
   );
+  const adminClassList = useSelector((state) => state.adminClassList);
   useEffect(() => {
     dispatch(getSingleClass(cId));
   }, [cId, dispatch]);
@@ -33,12 +38,23 @@ const EditClassForm = () => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(
-      updateClass(cId, {
-        class_name: updatedClass.class_name.trim(),
-      })
-    );
-    history.goBack();
+    if (
+      containManySpaceCharacters(updatedClass.class_name) ||
+      containSpecialCharacters(updatedClass.class_name)
+    ) {
+      dispatch(
+        alert(
+          "error",
+          "Class name should not contain special characters or many space"
+        )
+      );
+    } else {
+      dispatch(
+        updateClass(cId, {
+          class_name: updatedClass.class_name.trim(),
+        })
+      );
+    }
   };
 
   return (
@@ -69,6 +85,12 @@ const EditClassForm = () => {
             {error}
           </div>
         )}
+        {adminClassList.loading && <Loader />}
+        {adminClassList.error && (
+          <div className='alert alert-danger' role='alert'>
+            {adminClassList.error}
+          </div>
+        )}
         <Grid container spacing={3}>
           <Grid item md={4}></Grid>
           <Grid item md={8}>
@@ -83,7 +105,9 @@ const EditClassForm = () => {
             <Button
               variant='contained'
               color='secondary'
-              onClick={() => history.push("/manage-class")}
+              onClick={() => {
+                window.location.href = "/manage-class";
+              }}
             >
               Cancel
             </Button>

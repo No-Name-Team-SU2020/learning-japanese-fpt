@@ -55,7 +55,7 @@ const ClassTable = () => {
         </Button>
       </div>
       {loading && <Loader />}
-      {error && <div className='alert'> {error} </div>}
+      {error && <div className='alert alert-danger'> {error} </div>}
       <TableContainer className='shadow rounded'>
         <Table aria-label='questions table'>
           <TableHead>

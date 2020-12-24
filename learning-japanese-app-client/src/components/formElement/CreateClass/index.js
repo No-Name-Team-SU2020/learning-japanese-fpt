@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { createClass } from "../../../store/actions/admin";
 import Loader from "../../ui/Loader/Loader";
+import {
+  containManySpaceCharacters,
+  containSpecialCharacters,
+} from "../../../utils/validators";
+import { alert } from "../../../store/actions/ui/ui";
 
 const CreateClassForm = () => {
-  const history = useHistory();
   const { loading, error } = useSelector((state) => state.adminClassList);
   const dispatch = useDispatch();
 
@@ -24,12 +27,26 @@ const CreateClassForm = () => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(createClass({
-      class_name: newClass.class_name.trim(),
-    }));
-    setNewClass({
-      class_name: "",
-    });
+    if (
+      containManySpaceCharacters(newClass.class_name) ||
+      containSpecialCharacters(newClass.class_name)
+    ) {
+      dispatch(
+        alert(
+          "error",
+          "Class name should not contain special characters or many space"
+        )
+      );
+    } else {
+      dispatch(
+        createClass({
+          class_name: newClass.class_name.trim(),
+        })
+      );
+      setNewClass({
+        class_name: "",
+      });
+    }
   };
   return (
     <div className='bg-light p-4 rounded shadow'>
@@ -74,7 +91,9 @@ const CreateClassForm = () => {
             <Button
               variant='contained'
               color='secondary'
-              onClick={() => history.push("/manage-class")}
+              onClick={() => {
+                window.location.href = '/manage-class';
+              } }
             >
               Cancel
             </Button>

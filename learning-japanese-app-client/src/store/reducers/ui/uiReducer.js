@@ -10,7 +10,7 @@ import {
 
 if (
   localStorage.getItem("darkMode") &&
-  Boolean(localStorage.getItem("darkMode")) === true
+  localStorage.getItem("darkMode") === "true"
 ) {
   document.querySelector("body").classList.add("dark-mode");
 }
@@ -18,9 +18,11 @@ if (
 const initialState = {
   showSidebar: false,
   alertList: [],
-  darkMode: localStorage.getItem("darkMode")
-    ? Boolean(localStorage.getItem("darkMode"))
-    : false,
+  darkMode:
+    localStorage.getItem("darkMode") &&
+    localStorage.getItem("darkMode") === "true"
+      ? true
+      : false,
 };
 
 const reducer = (state = initialState, action) => {
