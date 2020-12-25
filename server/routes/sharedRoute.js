@@ -170,6 +170,9 @@ router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
                 where: {
                     subject_id: currentSubject.subject_id
                 },
+                order: [
+                    ['lesson_id', 'ASC']
+                ],
                 include: [
                     {
                         model: Is_Attended, where: {
@@ -218,6 +221,9 @@ router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
                 where: {
                     subject_id: currentSubject.subject_id
                 },
+                order: [
+                    ['lesson_id', 'ASC']
+                ],
             });
 
             // if (!listLessons) {
@@ -238,6 +244,9 @@ router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
                 where: {
                     subject_id: currentSubject.subject_id
                 },
+                order: [
+                    ['lesson_id', 'ASC']
+                ],
             });
 
             // if (!listLessons) {
@@ -361,13 +370,17 @@ router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
                 where: {
                     lesson_id: currentLesson.lesson_id
                 },
+                order: [
+                    ['question_id', 'ASC']
+                ],
                 //attributes: ['question_id', 'question_content', 'option_a', 'option_b', 'option_c', 'option_d','subject_id', 'lesson_id', 'correct_answer']
             });
 
         } else if (checkUser.role_id === 3 && checkAttendance) {
             listQuestions = await Question.findAll({
                 order: [
-                    sequelize.literal('random()')
+                    sequelize.literal('random()'),
+                    ['question_id', 'ASC']
                 ],
                 limit: 10,
                 where: {

@@ -9,7 +9,11 @@ const checkAuth = require('../middleware/checkAuth');
 //view all classes
 router.get('/classes', checkAuth, async (req, res) => {
     try {
-        const classes = await Class.findAll();
+        const classes = await Class.findAll({
+            order: [
+                ['class_id', 'ASC']
+            ]
+        });
 
         if (!classes) {
             return res.status(404).json({
@@ -80,7 +84,7 @@ router.post('/classes', checkAuth, async (req, res) => {
             },
         });
 
-        if(checkDuplicate){
+        if (checkDuplicate) {
             return res.status(406).json({
                 message: "Class name already existed"
             })
@@ -130,7 +134,7 @@ router.put('/classes/:classId', checkAuth, async (req, res) => {
             },
         });
 
-        if(checkDuplicate){
+        if (checkDuplicate) {
             return res.status(406).json({
                 message: "Class name already existed"
             })
@@ -192,7 +196,11 @@ router.delete('/classes/:classId', checkAuth, async (req, res) => {
 //view all subject for admin
 router.get('/subjects', checkAuth, async (req, res) => {
     try {
-        const subjects = await Subject.findAll();
+        const subjects = await Subject.findAll({
+            order: [
+                ['subject_id', 'ASC']
+            ]
+        });
 
         if (!subjects) {
             return res.status(404).json({
@@ -265,12 +273,18 @@ router.post('/subjects', checkAuth, async (req, res) => {
 
         const checkDuplicate = await Subject.findOne({
             where: {
-                subject_code: subject_code,
-                subject_name: subject_name
+                [Op.or]: [
+                    {
+                        subject_code: subject_code,
+                    },
+                    {
+                        subject_name: subject_name
+                    },
+                ]
             },
         });
 
-        if(checkDuplicate){
+        if (checkDuplicate) {
             return res.status(406).json({
                 message: "Subject code or subject name already existed"
             })
@@ -306,7 +320,7 @@ router.put('/subjects/:subjectId', checkAuth, async (req, res) => {
             }
         });
 
-        if(!currentSubject){
+        if (!currentSubject) {
             return res.status(404).json({
                 message: "Subject not found"
             })
@@ -316,12 +330,18 @@ router.put('/subjects/:subjectId', checkAuth, async (req, res) => {
 
         const checkDuplicate = await Subject.findOne({
             where: {
-                subject_code: subject_code,
-                subject_name: subject_name
+                [Op.or]: [
+                    {
+                        subject_code: subject_code,
+                    },
+                    {
+                        subject_name: subject_name
+                    },
+                ]
             },
         });
 
-        if(checkDuplicate){
+        if (checkDuplicate) {
             return res.status(406).json({
                 message: "Subject code and subject name already existed"
             })
@@ -392,7 +412,7 @@ router.post('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
             },
         });
 
-        if(!currentSubject){
+        if (!currentSubject) {
             return res.status(404).json({
                 message: "Subject not found"
             })
@@ -402,12 +422,18 @@ router.post('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
 
         const checkDuplicate = await Lesson.findOne({
             where: {
-                lesson_content: lesson_content,
-                lesson_name: lesson_name
+                [Op.or]: [
+                    {
+                        lesson_content: lesson_content,
+                    },
+                    {
+                        lesson_name: lesson_name
+                    },
+                ]
             },
         });
 
-        if(checkDuplicate){
+        if (checkDuplicate) {
             return res.status(406).json({
                 message: "Lesson content and lesson name already existed"
             })
@@ -457,7 +483,7 @@ router.put('/lessons/:lessonId', checkAuth, async (req, res) => {
             }
         })
 
-        if(!currentLesson){
+        if (!currentLesson) {
             return res.status(404).json({
                 message: "Lesson not found"
             })
@@ -467,12 +493,18 @@ router.put('/lessons/:lessonId', checkAuth, async (req, res) => {
 
         const checkDuplicate = await Lesson.findOne({
             where: {
-                lesson_content: lesson_content,
-                lesson_name: lesson_name
+                [Op.or]: [
+                    {
+                        lesson_content: lesson_content,
+                    },
+                    {
+                        lesson_name: lesson_name
+                    },
+                ]
             },
         });
 
-        if(checkDuplicate){
+        if (checkDuplicate) {
             return res.status(406).json({
                 message: "Lesson content and lesson name already existed"
             })
@@ -532,7 +564,7 @@ router.delete('/lessons/:lessonId', checkAuth, async (req, res) => {
 });
 
 //view all question by subject
-router.get('/subjects/:subjectId/questions', checkAuth, async(req, res) => {
+router.get('/subjects/:subjectId/questions', checkAuth, async (req, res) => {
     try {
         const subjectId = req.params.subjectId;
 
@@ -542,7 +574,7 @@ router.get('/subjects/:subjectId/questions', checkAuth, async(req, res) => {
             },
         });
 
-        if(!currentSubject){
+        if (!currentSubject) {
             return res.status(404).json({
                 message: "Subject not found"
             })
@@ -554,7 +586,7 @@ router.get('/subjects/:subjectId/questions', checkAuth, async(req, res) => {
             }
         });
 
-        if(!listQuestions){
+        if (!listQuestions) {
             return res.status(404).json({
                 message: "questions not found"
             })
@@ -564,7 +596,7 @@ router.get('/subjects/:subjectId/questions', checkAuth, async(req, res) => {
             message: "questions found",
             data: listQuestions
         })
-        
+
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -586,7 +618,7 @@ router.post('/subjects/:subjectId/lessons/:lessonId/questions', checkAuth, async
             },
         })
 
-        if(!currentSubject){
+        if (!currentSubject) {
             return res.status(404).json({
                 message: "Subject not found"
             })
@@ -599,7 +631,7 @@ router.post('/subjects/:subjectId/lessons/:lessonId/questions', checkAuth, async
             },
         });
 
-        if(!currentLesson){
+        if (!currentLesson) {
             return res.status(404).json({
                 message: "Lesson not found"
             })
@@ -642,7 +674,8 @@ router.post('/subjects/:subjectId/lessons/:lessonId/questions', checkAuth, async
             });
         }
 
-        if (!correct_answer || correct_answer.length === 0) {
+        if (!correct_answer || correct_answer.length === 0 ||
+            (correct_answer !== option_a && correct_answer !== option_b && correct_answer !== option_c && correct_answer !== option_d)) {
             return res.status(406).json({
                 message: "correct answer is not valid",
                 data: null,
@@ -685,7 +718,7 @@ router.put('/questions/:questionId', checkAuth, async (req, res) => {
             }
         });
 
-        if(!currentQuestion){
+        if (!currentQuestion) {
             return res.json({
                 message: 'Question not found',
             });
@@ -762,7 +795,10 @@ router.get('/search', checkAuth, async (req, res) => {
                 question_content: {
                     [Op.like]: '%' + input + '%'
                 }
-            }
+            },
+            order: [
+                ['question_id', 'ASC']
+            ]
         });
 
         if (!questions || questions.length === 0) {

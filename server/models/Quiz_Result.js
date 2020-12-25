@@ -2,6 +2,7 @@ const sequelize = require('sequelize');
 const db = require('../db');
 const Lesson = require('./Lesson');
 const Student = require('./Student');
+const Question = require('./Question');
 
 const Quiz_Result = db.define('quiz_result', {
     quiz_id: {
@@ -35,6 +36,10 @@ const Quiz_Result = db.define('quiz_result', {
 
     percentage: {
         type: sequelize.REAL,
+    },
+
+    student_answer: {
+        type: sequelize.JSONB,
     }
 
 },

@@ -13,6 +13,7 @@ const Is_Attended = require('../models/Is_Attended');
 const Class_Subject = require('../models/Class_Subject');
 const Student_Subject = require('../models/Student_Subject');
 const Student_Class = require('../models/Student_Class');
+const { Op } = require("sequelize");
 
 //view all class of a student
 router.get('/student-classes', checkAuth, async (req, res) => {
@@ -191,13 +192,14 @@ router.post('/answer/:lessonId', checkAuth, async (req, res) => {
             student_id: currentStudent.student_id,
             lesson_id: currentLesson.lesson_id,
             score: score,
-            percentage: percentage
+            percentage: percentage,
+            student_answer: userResponses
         });
 
         return res.json({
             message: "Answer and score",
             data: {
-                answers: userResponses,
+                //answers: userResponses,
                 score: resultToDb,
                 subject: currentSubject.subject_code,
                 lesson: currentLesson.lesson_name
