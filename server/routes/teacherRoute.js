@@ -249,7 +249,7 @@ router.get('/quiz-results/:studentId', checkAuth, async (req, res) => {
                     //     { model: Class, attributes: ['class_name'], through: {attributes: []} }
                     // ]
                 },
-                { model: Lesson, attributes: ['lesson_name'] }
+                { model: Lesson, attributes: ['lesson_id','lesson_name'] }
             ],
         });
 

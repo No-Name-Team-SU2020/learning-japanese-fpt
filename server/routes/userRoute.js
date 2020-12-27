@@ -12,6 +12,15 @@ const validInfo = require('../middleware/validInfo');
 
 let refreshTokens = [];
 
+//google login
+router.post('/google', async(req, res) => {
+    try {
+        
+    } catch (error) {
+        
+    }
+});
+
 //login
 router.post('/login', validInfo, async (req, res) => {
     try {
