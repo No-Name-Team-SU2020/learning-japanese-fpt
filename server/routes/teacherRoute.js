@@ -249,7 +249,7 @@ router.get('/quiz-results/:studentId', checkAuth, async (req, res) => {
                     //     { model: Class, attributes: ['class_name'], through: {attributes: []} }
                     // ]
                 },
-                { model: Lesson, attributes: ['lesson_name'] }
+                { model: Lesson, attributes: ['lesson_id','lesson_name'] }
             ],
         });
 
@@ -454,7 +454,7 @@ router.get('/lessons/:lessonId/progress/:classId', checkAuth, async (req, res) =
             return res.json({
                 message: "Cannot find class in db"
             })
-        }
+        } 
 
         const countTotal = await Class.findAndCountAll({
             where: { class_id: currentClass.class_id },
@@ -464,6 +464,7 @@ router.get('/lessons/:lessonId/progress/:classId', checkAuth, async (req, res) =
                     include: [
                         {
                             model: Quiz_Result, where: { lesson_id: currentLesson.lesson_id },
+                            attributes: ['quiz_id', 'student_id', 'lesson_id', 'score', 'percentage'],
                             required: false
                         },
                     ]
@@ -502,6 +503,7 @@ router.get('/lessons/:lessonId/progress/:classId', checkAuth, async (req, res) =
 
         const topStudent = await Quiz_Result.findAll({
             where: { lesson_id: currentLesson.lesson_id },
+            attributes: ['quiz_id', 'student_id', 'lesson_id', 'score', 'percentage'],
             include: [
                 {
                     model: Student,
@@ -530,9 +532,10 @@ router.get('/lessons/:lessonId/progress/:classId', checkAuth, async (req, res) =
             })
         }
 
-        const sum = await db.query('SELECT SUM("score") AS "total_score" FROM (SELECT "quiz_result"."quiz_id", "quiz_result"."student_id", "quiz_result"."lesson_id", "quiz_result"."score", "quiz_result"."percentage", "student"."student_id" AS "student.student_id", "student"."student_name" AS "student.student_name", "student"."user_name" AS "student.user_name", "student->classes"."class_id" AS "student.classes.class_id", "student->classes"."class_name" AS "student.classes.class_name" FROM "quiz_result" AS "quiz_result" INNER JOIN "student" AS "student" ON "quiz_result"."student_id" = "student"."student_id" INNER JOIN ( "student_class" AS "student->classes->student_class" INNER JOIN "class" AS "student->classes" ON "student->classes"."class_id" = "student->classes->student_class"."class_id") ON "student"."student_id" = "student->classes->student_class"."student_id" AND "student->classes"."class_id" = 1 WHERE "quiz_result"."lesson_id" = 1 GROUP BY "student"."student_id", "student->classes"."class_id", "quiz_result"."quiz_id") AS Big;',
-            { type: QueryTypes.SELECT, raw: true });
-
+        const sum = await db.query('SELECT SUM("score") AS "total_score" FROM (SELECT "quiz_result"."quiz_id", "quiz_result"."student_id", "quiz_result"."lesson_id", "quiz_result"."score", "quiz_result"."percentage", "student"."student_id" AS "student.student_id", "student"."student_name" AS "student.student_name", "student"."user_name" AS "student.user_name", "student->classes"."class_id" AS "student.classes.class_id", "student->classes"."class_name" AS "student.classes.class_name" FROM "quiz_result" AS "quiz_result" INNER JOIN "student" AS "student" ON "quiz_result"."student_id" = "student"."student_id" INNER JOIN ( "student_class" AS "student->classes->student_class" INNER JOIN "class" AS "student->classes" ON "student->classes"."class_id" = "student->classes->student_class"."class_id") ON "student"."student_id" = "student->classes->student_class"."student_id" AND "student->classes"."class_id" = ? WHERE "quiz_result"."lesson_id" = ? GROUP BY "student"."student_id", "student->classes"."class_id", "quiz_result"."quiz_id") AS Big;',
+            {   replacements: [currentClass.class_id, currentLesson.lesson_id],
+                type: QueryTypes.SELECT, raw: true 
+            });
 
         if (!sum) {
             return res.json({
