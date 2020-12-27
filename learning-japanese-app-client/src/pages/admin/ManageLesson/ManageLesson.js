@@ -22,7 +22,7 @@ const ManageLesson = ({ match }) => {
   return (
     <div className='app-container'>
       {loading && <Loader />}
-      {error && <div className='alert alert-danger'> {error} </div>}
+      {/* {error && <div className='alert alert-danger'> {error} </div>} */}
       <Switch>
         <Route exact path={`${match.url}`}>
           {!loading && !error && (

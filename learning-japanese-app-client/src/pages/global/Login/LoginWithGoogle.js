@@ -15,7 +15,7 @@ const LoginWithGoogle = () => {
     console.log(response);
   };
   return (
-    <div className='mx-auto mt-3 w-50'>
+    <div className='google-login-btn mt-3'>
       <GoogleLogin
         clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}
         buttonText='Login With Google'

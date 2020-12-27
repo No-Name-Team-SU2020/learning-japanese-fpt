@@ -83,7 +83,7 @@ const TeacherSidebar = () => {
                   onClick={() => history.push(`/manage-subject/${c.class_id}`)}
                 >
                   <ListItemIcon>
-                    <ArrowForwardIosIcon />
+                     
                   </ListItemIcon>
                   <ListItemText primary={c.class_name} />
                 </ListItem>
@@ -110,7 +110,7 @@ const TeacherSidebar = () => {
                   onClick={() => history.push(`/manage-progress/${c.class_id}`)}
                 >
                   <ListItemIcon>
-                    <ArrowForwardIosIcon />
+                     
                   </ListItemIcon>
                   <ListItemText primary={c.class_name} />
                 </ListItem>
@@ -137,7 +137,7 @@ const TeacherSidebar = () => {
                   onClick={() => history.push(`/manage-result/${c.class_id}`)}
                 >
                   <ListItemIcon>
-                    <ArrowForwardIosIcon />
+                     
                   </ListItemIcon>
                   <ListItemText primary={c.class_name} />
                 </ListItem>

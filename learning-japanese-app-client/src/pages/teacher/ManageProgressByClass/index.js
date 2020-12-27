@@ -60,7 +60,7 @@ const ManageProgressByClass = ({ match, location }) => {
             fullWidth
             variant='outlined'
           >
-            <MenuItem value=''>Choose lesson</MenuItem>
+            {/* <MenuItem value=''>Choose lesson</MenuItem> */}
             {lessonList?.map((option) => (
               <MenuItem key={option.lesson_id} value={option.lesson_id}>
                 {option.lesson_name}

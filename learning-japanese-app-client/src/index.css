@@ -241,6 +241,14 @@ li {
   margin-top: 15rem;
   border-top: 2px solid #555;
 }
+
+.google-login-btn {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
 /* // dark mode */
 
 .dark-mode {
@@ -263,7 +271,7 @@ li {
   background-color: #333 !important;
 }
 .dark-mode .main-header {
-  background-color:rgb(34, 32, 43) !important;
+  background-color: rgb(34, 32, 43) !important;
   border-bottom: 1px solid rgb(233, 212, 212);
 }
 .dark-mode .main-header .MuiSvgIcon-root,
@@ -272,10 +280,10 @@ li {
   color: rgb(255, 255, 255) !important;
 }
 .dark-mode .MuiFormLabel-root {
-  color:rgb(233, 212, 212) !important;
+  color: rgb(233, 212, 212) !important;
 }
 .dark-mode .SubMenu_SubMenu__PnK1O {
-  background-color:rgb(34, 32, 43) !important;
+  background-color: rgb(34, 32, 43) !important;
   border: 1px solid rgb(34, 32, 43);
 }
 .dark-mode .main-header .MuiButtonBase-root,
@@ -336,4 +344,4 @@ li {
 .dark-mode .login-form {
   border: 1px solid #fff;
   border-radius: 3px;
-} 
+}

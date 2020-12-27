@@ -53,7 +53,7 @@ const QuestionList = () => {
           New Question
         </Button>
       </div>
-      {error && (
+      {/* {error && (
         <div className='alert alert-danger mt-3' role='alert'>
           {error}
         </div>
@@ -67,7 +67,7 @@ const QuestionList = () => {
         <div className='alert alert-danger mt-3' role='alert'>
           {adminLessonList.error}
         </div>
-      )}
+      )} */}
       {adminSubjectList.loading || adminLessonList.loading ? (
         <FilterQuestionEngineSkeleton />
       ) : (

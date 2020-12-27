@@ -22,8 +22,8 @@ const LessonBySubject = () => {
   }, [sId, dispatch]);
 
   useEffect(() => {
-    dispatch(getResults());
-  }, [dispatch]);
+    dispatch(getResults(sId));
+  }, [dispatch, sId]);
 
   return (
     <div>
