@@ -141,20 +141,22 @@ router.post('/answer/:lessonId', checkAuth, async (req, res) => {
             },
         });
 
-        // [ {question_id, answer} ]
+        // [ {question_id, question_content, option_a, option_b, option_c, option_d, answer} ]
         const userResponses = req.body.answers;
 
         if (!userResponses) {
             // return loi
             return res.json({
-                message: "user response is not valid"
+                message: "user response is not valid",
+                data: null
             })
         }
 
         if (!Array.isArray(userResponses)) {
             // return loi vi khong phai la array
             return res.json({
-                message: "user response is not an array"
+                message: "user response is not an array",
+                data: null
             })
         }
 
