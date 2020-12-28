@@ -281,6 +281,7 @@ li {
 }
 .dark-mode .MuiFormLabel-root {
   color: rgb(233, 212, 212) !important;
+  transform: translate(14px, -15px)
 }
 .dark-mode .SubMenu_SubMenu__PnK1O {
   background-color: rgb(34, 32, 43) !important;

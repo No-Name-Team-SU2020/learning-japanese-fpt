@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import ManageStudentByClass from "../../pages/teacher/ManageStudentByClass";
 import ManageProgressByClass from "../../pages/teacher/ManageProgressByClass";
 import StudentQuizResult from "../../pages/teacher/StudentQuizResult";
+import QuizDetail from "../../pages/teacher/QuizDetail";
 
 const AdminLayout = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -43,6 +44,7 @@ const AdminLayout = () => {
                   path='/student-quiz-result/:sId'
                   component={StudentQuizResult}
                 />
+                <Route path='/quiz-detail/:qId' component={QuizDetail} />
                 <Route
                   path='/manage-student/classes/:cId'
                   component={ManageStudentByClass}

@@ -10,7 +10,7 @@ import {
   TableBody,
   Button,
 } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 const StudentQuizResult = ({ match }) => {
   const history = useHistory();
@@ -40,8 +40,8 @@ const StudentQuizResult = ({ match }) => {
       {!loading && studentQuizResultData?.length > 0 && (
         <>
           <h3>{studentQuizResultData?.class_name}</h3>
-          <TableContainer className='shadow rounded'>
-            <Table aria-label='lessons table'>
+          <TableContainer className="shadow rounded">
+            <Table aria-label="lessons table">
               <TableHead>
                 <TableRow>
                   <TableCell>Quiz ID</TableCell>
@@ -49,12 +49,13 @@ const StudentQuizResult = ({ match }) => {
                   <TableCell>Score</TableCell>
                   <TableCell>Num Of Failed</TableCell>
                   <TableCell>Attendance Status</TableCell>
+                  <TableCell>Quiz Detail</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {studentQuizResultData?.map((result) => (
                   <TableRow key={result.quiz_id}>
-                    <TableCell component='th' scope='row'>
+                    <TableCell component="th" scope="row">
                       {result.quiz_id}
                     </TableCell>
                     <TableCell>{result.lesson_id}</TableCell>
@@ -71,7 +72,7 @@ const StudentQuizResult = ({ match }) => {
                         : `0/10`}
                     </TableCell>
                     <TableCell>
-                      <span className='text-success'>Present</span>
+                      <Link to={`/quiz-detail/${result.quiz_id}`}>View</Link>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -81,9 +82,9 @@ const StudentQuizResult = ({ match }) => {
         </>
       )}
       <Button
-        variant='contained'
+        variant="contained"
         onClick={() => history.goBack()}
-        className='mt-3'
+        className="mt-3"
       >
         Go Back
       </Button>
