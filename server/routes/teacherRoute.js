@@ -184,54 +184,68 @@ router.get('/lessons/:lessonId/class-students/:classId', checkAuth, async (req, 
     }
 });
 
-//view all student quiz results by lesson id
-// router.get('/lessons/:lessonId/quiz-results', checkAuth, async (req, res) => {
-//     try {
-//         const lessonId = req.params.lessonId;
+//view student quiz results detail by lesson id
+router.get('/lessons/:lessonId/quiz-results/:studentId', checkAuth, async (req, res) => {
+    try {
+        const lessonId = req.params.lessonId;
 
-//         const currentLesson = await Lesson.findOne({
-//             where: {
-//                 lesson_id: lessonId
-//             },
-//         });
+        const studentId = req.params.studentId;
 
-//         const results = await Quiz_Result.findAll({
-//             where: {
-//                 lesson_id: currentLesson.lesson_id,
-//             },
-//             include: [
-//                 { model: Lesson }
-//             ]
-//         });
+        const currentLesson = await Lesson.findOne({
+            where: {
+                lesson_id: lessonId
+            },
+        });
 
-//         // const getListLessons = await Lesson.findOne({
-//         //     where: {
-//         //         lesson_id: result.lesson_id
-//         //     }
-//         // })
+        if(!currentLesson){
+            return res.json({
+                message: "Lesson not found"
+            })
+        }
 
-//         if (!results) {
-//             return res.json({
-//                 message: "Quiz results not found"
-//             })
-//         }
+        const findStudent = await Student.findOne({
+            where: {
+                student_id: studentId
+            }
+        });
 
-//         return res.json({
-//             message: "Quiz results found",
-//             data: {
-//                 results: results,
-//                 //lessons: getListLessons.lesson_name
-//             }
-//         });
+        if(!findStudent){
+            return res.json({
+                message: "Student not found"
+            })
+        }
 
-//     } catch (error) {
-//         console.error(error.message);
-//         res.status(500).json({
-//             message: "Server error",
-//             error: error
-//         });
-//     }
-// });
+        const results = await Quiz_Result.findOne({
+            where: {
+                lesson_id: currentLesson.lesson_id,
+                student_id: findStudent.student_id
+            },
+            include: [
+                { model: Lesson }
+            ]
+        });
+
+        if (!results) {
+            return res.json({
+                message: "Quiz result not found"
+            })
+        }
+
+        return res.json({
+            message: "Quiz result found",
+            data: {
+                results: results,
+            }
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
 
 //view student quiz result by student id
 router.get('/quiz-results/:studentId', checkAuth, async (req, res) => {
