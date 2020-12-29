@@ -9,15 +9,20 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const checkAuth = require('../middleware/checkAuth');
 const validInfo = require('../middleware/validInfo');
+const validInfoGoogle = require('../middleware/validInfoGoogle');
 
 let refreshTokens = [];
 
 //google login
-router.post('/google', async(req, res) => {
+router.post('/google', validInfoGoogle, async(req, res) => {
     try {
-        
+
     } catch (error) {
-        
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
     }
 });
 

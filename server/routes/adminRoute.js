@@ -7,7 +7,7 @@ const { Op } = require('sequelize');
 const checkAuth = require('../middleware/checkAuth');
 
 //view all classes
-router.get('/classes', async (req, res) => {
+router.get('/classes',checkAuth, async (req, res) => {
     try {
         const classes = await Class.findAll({
             order: [
