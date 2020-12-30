@@ -5,6 +5,7 @@ const Lesson = require('../models/Lesson');
 const Class = require('../models/Class');
 const { Op } = require('sequelize');
 const checkAuth = require('../middleware/checkAuth');
+const Grammar = require('../models/Grammar');
 
 //view all classes
 router.get('/classes',checkAuth, async (req, res) => {
@@ -808,6 +809,145 @@ router.get('/search', checkAuth, async (req, res) => {
             message: "Found question",
             data: questions
         })
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//create new grammar
+router.post('/lessons/:lessonId/grammars', checkAuth, async(req, res) => {
+    try {
+        const lessonId = req.params.lessonId;
+
+        const { vocabulary, explain, example, attention } = req.body;
+
+        const currentLesson = await Lesson.findOne({
+            where: {
+                lesson_id: lessonId
+            }
+        })
+
+        if(!currentLesson){
+            return res.json({
+                message: "Lesson not found"
+            })
+        }
+
+        if(!vocabulary || vocabulary.length === 0){
+            return res.json({
+                message: "Vocabulary is not valid",
+                data: null
+            })
+        }
+
+        if(!explain || explain.length === 0){
+            return res.json({
+                message: "Explain is not valid",
+                data: null
+            })
+        }
+
+        if(!example || example.length === 0){
+            return res.json({
+                message: "Example is not valid",
+                data: null
+            })
+        }
+
+        if(!attention || attention.length === 0){
+            return res.json({
+                message: "Attention is not valid",
+                data: null
+            })
+        }
+
+        const newGrammar = await Grammar.create({
+            vocabulary,
+            explain,
+            example,
+            attention,
+            lesson_id: currentLesson.lesson_id
+        })
+
+        return res.json({
+            message: "Grammar create successfully",
+            data: newGrammar
+        })
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//update grammar
+router.put('/grammars/:grammarId', checkAuth, async(req, res) => {
+    try {
+        const grammarId = req.params.grammarId;
+
+        const currentGrammar = await Grammar.findOne({
+            where: {
+                grammar_id: grammarId
+            }
+        })
+
+        if(!currentGrammar){
+            return res.json({
+                message: "Grammar not found",
+            })
+        }
+
+        const { vocabulary, explain, example, attention } = req.body;
+
+        const updateGrammar = await Grammar.update({
+            vocabulary,
+            explain,
+            example,
+            attention,
+            where: {
+                grammar_id: currentGrammar.grammar_id
+            }
+        });
+
+        return res.json({
+            message: "Grammar update successfully",
+            data: updateGrammar
+        })
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+router.delete('/grammars/:grammarId', checkAuth, async(req, res) => {
+    try {
+        const grammarId = req.params.grammarId;
+
+        const deleteGrammar = await Grammar.destroy({
+            where: {
+                grammar_id: grammarId
+            }
+        });
+
+        if(!deleteGrammar){
+            return res.json({
+                message: "Grammar cannot be deleted"
+            });
+        }
+
+        return res.json({
+            message: "Delete successfully",
+            data: deleteGrammar
+        });
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
