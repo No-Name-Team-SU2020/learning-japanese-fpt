@@ -26,6 +26,30 @@ router.post('/google', validInfoGoogle, async(req, res) => {
     }
 });
 
+//list user, test deploy
+router.get('/list-users', async(req, res) => {
+    try {
+        const listUser = await User.findAll();
+
+        if(!listUser){
+            return res.json({
+                message: "Users not found"
+            })
+        }
+
+        return res.json({
+            message: "Users found",
+            data: listUser
+        })
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
 //login
 router.post('/login', validInfo, async (req, res) => {
     try {
