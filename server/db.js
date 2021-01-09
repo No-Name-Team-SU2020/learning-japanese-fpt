@@ -27,8 +27,8 @@ require('dotenv').config();
 //       }
 //   });
 
-//deploy
-const db = new sequelize(process.env.DATABASE_URL, {
+//deploy process.env.DATABASE_URL
+const db = new sequelize('postgres://postgres:09001210@localhost:5432/Capstone_Project', {
   dialect: 'postgres',
 
     define: {

@@ -10,6 +10,7 @@ require('dotenv').config();
 const checkAuth = require('../middleware/checkAuth');
 const validInfo = require('../middleware/validInfo');
 const validInfoGoogle = require('../middleware/validInfoGoogle');
+const fetch = require('node-fetch');
 
 let refreshTokens = [];
 
@@ -26,20 +27,15 @@ router.post('/google', validInfoGoogle, async(req, res) => {
     }
 });
 
-//list user, test deploy
+//list user, test deploy and fetch
 router.get('/list-users', async(req, res) => {
     try {
-        const listUser = await User.findAll();
-
-        if(!listUser){
-            return res.json({
-                message: "Users not found"
-            })
-        }
-
+        const api_url = 'http://localhost:8000/list-users';
+        const fetch_response = await fetch(api_url);
+        const json = await fetch_response.json();
         return res.json({
-            message: "Users found",
-            data: listUser
+            message: "Fetch success",
+            data: json
         })
     } catch (error) {
         console.error(error.message);
