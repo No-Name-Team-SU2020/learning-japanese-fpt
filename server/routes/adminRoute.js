@@ -11,7 +11,8 @@ const fetch = require('node-fetch');
 //view all subject for admin
 router.get('/subjects', checkAuth, async (req, res) => {
     try {
-        const api_url = 'http://localhost:8000/admin/subjects';
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjYWQiLCJpYXQiOjE2MTAzNDAzNzYsImV4cCI6MTYxMDM2OTE3Nn0.BuvVk7mOUFAV9iQAJJIsO00zP9BFEnVdMDP5seaikuk'
+        const api_url = `http://localhost:8000/admin/subjects?token=${token}`;
         const fetch_response = await fetch(api_url,{
             method: 'GET',
         });
@@ -20,6 +21,7 @@ router.get('/subjects', checkAuth, async (req, res) => {
             message: "Fetch success",
             data: json
         })
+
     } catch (error) {
         console.error(error.message);
         return res.status(500).json({
