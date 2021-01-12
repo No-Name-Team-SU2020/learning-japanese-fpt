@@ -11,17 +11,45 @@ const fetch = require('node-fetch');
 //view all subject for admin
 router.get('/subjects', checkAuth, async (req, res) => {
     try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjYWQiLCJpYXQiOjE2MTAzNDAzNzYsImV4cCI6MTYxMDM2OTE3Nn0.BuvVk7mOUFAV9iQAJJIsO00zP9BFEnVdMDP5seaikuk'
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjYWQiLCJpYXQiOjE2MTA0MTY2NjMsImV4cCI6MTYxMDQ0NTQ2M30.s9UxEFlUUJFsyfaZKoCHmZkkyDrSBWz_UsWn5YJOB44'
         const api_url = `http://localhost:8000/admin/subjects?token=${token}`;
-        const fetch_response = await fetch(api_url,{
+        const fetch_response = await fetch(api_url, {
             method: 'GET',
         });
-        const json = await fetch_response.json();
+        const fetched_json = await fetch_response.json();
         return res.json({
             message: "Fetch success",
-            data: json
+            data: fetched_json
         })
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
 
+//upsert subject
+router.post('/subjects', checkAuth, async (req, res) => {
+    try {
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjYWQiLCJpYXQiOjE2MTA0MTY2NjMsImV4cCI6MTYxMDQ0NTQ2M30.s9UxEFlUUJFsyfaZKoCHmZkkyDrSBWz_UsWn5YJOB44'
+        const api_url = `http://localhost:8000/admin/subjects?token=${token}`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+        });
+        const fetched_json = await fetch_response.json();
+        console.log(fetched_json);
+        //update and insert subjects
+        const upsertSubject = await Subject.bulkCreate(fetched_json.data, {
+            fields: ["subject_id", "subject_code", "subject_name"],
+            updateOnDuplicate: ["subject_code", "subject_name"]
+        });
+        console.log(upsertSubject);
+        return res.json({
+            message: "Subjects upsert success",
+            data: upsertSubject
+        })
     } catch (error) {
         console.error(error.message);
         return res.status(500).json({
@@ -448,7 +476,7 @@ router.get('/search', checkAuth, async (req, res) => {
 });
 
 //create new grammar
-router.post('/lessons/:lessonId/grammars', checkAuth, async(req, res) => {
+router.post('/lessons/:lessonId/grammars', checkAuth, async (req, res) => {
     try {
         const lessonId = req.params.lessonId;
 
@@ -460,34 +488,34 @@ router.post('/lessons/:lessonId/grammars', checkAuth, async(req, res) => {
             }
         })
 
-        if(!currentLesson){
+        if (!currentLesson) {
             return res.json({
                 message: "Lesson not found"
             })
         }
 
-        if(!vocabulary || vocabulary.length === 0){
+        if (!vocabulary || vocabulary.length === 0) {
             return res.json({
                 message: "Vocabulary is not valid",
                 data: null
             })
         }
 
-        if(!explain || explain.length === 0){
+        if (!explain || explain.length === 0) {
             return res.json({
                 message: "Explain is not valid",
                 data: null
             })
         }
 
-        if(!example || example.length === 0){
+        if (!example || example.length === 0) {
             return res.json({
                 message: "Example is not valid",
                 data: null
             })
         }
 
-        if(!attention || attention.length === 0){
+        if (!attention || attention.length === 0) {
             return res.json({
                 message: "Attention is not valid",
                 data: null
@@ -516,7 +544,7 @@ router.post('/lessons/:lessonId/grammars', checkAuth, async(req, res) => {
 });
 
 //update grammar
-router.put('/grammars/:grammarId', checkAuth, async(req, res) => {
+router.put('/grammars/:grammarId', checkAuth, async (req, res) => {
     try {
         const grammarId = req.params.grammarId;
 
@@ -526,7 +554,7 @@ router.put('/grammars/:grammarId', checkAuth, async(req, res) => {
             }
         })
 
-        if(!currentGrammar){
+        if (!currentGrammar) {
             return res.json({
                 message: "Grammar not found",
             })
@@ -557,7 +585,7 @@ router.put('/grammars/:grammarId', checkAuth, async(req, res) => {
     }
 });
 
-router.delete('/grammars/:grammarId', checkAuth, async(req, res) => {
+router.delete('/grammars/:grammarId', checkAuth, async (req, res) => {
     try {
         const grammarId = req.params.grammarId;
 
@@ -567,7 +595,7 @@ router.delete('/grammars/:grammarId', checkAuth, async(req, res) => {
             }
         });
 
-        if(!deleteGrammar){
+        if (!deleteGrammar) {
             return res.json({
                 message: "Grammar cannot be deleted"
             });
