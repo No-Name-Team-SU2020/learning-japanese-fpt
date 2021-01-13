@@ -7,11 +7,12 @@ const { Op } = require('sequelize');
 const checkAuth = require('../middleware/checkAuth');
 const Grammar = require('../models/Grammar');
 const fetch = require('node-fetch');
+require('dotenv').config();
 
 //view all subject for admin
 router.get('/subjects', checkAuth, async (req, res) => {
     try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjYWQiLCJpYXQiOjE2MTA0MTY2NjMsImV4cCI6MTYxMDQ0NTQ2M30.s9UxEFlUUJFsyfaZKoCHmZkkyDrSBWz_UsWn5YJOB44'
+        const token = process.env.fap_token
         const api_url = `http://localhost:8000/admin/subjects?token=${token}`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
@@ -33,7 +34,7 @@ router.get('/subjects', checkAuth, async (req, res) => {
 //upsert subject
 router.post('/subjects', checkAuth, async (req, res) => {
     try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjYWQiLCJpYXQiOjE2MTA0MTY2NjMsImV4cCI6MTYxMDQ0NTQ2M30.s9UxEFlUUJFsyfaZKoCHmZkkyDrSBWz_UsWn5YJOB44'
+        const token = process.env.fap_token
         const api_url = `http://localhost:8000/admin/subjects?token=${token}`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
@@ -59,162 +60,52 @@ router.post('/subjects', checkAuth, async (req, res) => {
     }
 });
 
-//create new lesson
-router.post('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
+//view all lessons in a subject
+router.get('/subjects/:subjectId/lessons', checkAuth, async(req, res) => {
     try {
         const subjectId = req.params.subjectId;
-
-        const currentSubject = await Subject.findOne({
-            where: {
-                subject_id: subjectId
-            },
+        const token = process.env.fap_token
+        const api_url = `http://localhost:8000/admin/subjects/${subjectId}/lessons?token=${token}`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
         });
-
-        if (!currentSubject) {
-            return res.status(404).json({
-                message: "Subject not found"
-            })
-        }
-
-        const { lesson_content, lesson_name } = req.body;
-
-        const checkDuplicate = await Lesson.findOne({
-            where: {
-                [Op.or]: [
-                    {
-                        lesson_content: lesson_content,
-                    },
-                    {
-                        lesson_name: lesson_name
-                    },
-                ]
-            },
-        });
-
-        if (checkDuplicate) {
-            return res.status(406).json({
-                message: "Lesson content and lesson name already existed"
-            })
-        }
-
-        if (!lesson_content) {
-            return res.status(400).json({
-                message: "lesson content is not valid",
-                data: null,
-            });
-        }
-
-        if (!lesson_name) {
-            return res.status(400).json({
-                message: "lesson name is not valid",
-                data: null,
-            });
-        }
-
-        const newLesson = await Lesson.create({
-            lesson_content,
-            lesson_name,
-            subject_id: currentSubject.subject_id,
-        });
-
+        const fetched_json = await fetch_response.json();
+        console.log(fetched_json);
         return res.json({
-            message: 'Lesson created successfully',
-            data: newLesson
-        });
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
-
-//update lesson
-router.put('/lessons/:lessonId', checkAuth, async (req, res) => {
-    try {
-        const lessonId = req.params.lessonId;
-
-        const currentLesson = await Lesson.findOne({
-            where: {
-                lesson_id: lessonId
-            }
+            message: "Fetch success",
+            data: fetched_json
         })
-
-        if (!currentLesson) {
-            return res.status(404).json({
-                message: "Lesson not found"
-            })
-        }
-
-        const { lesson_content, lesson_name } = req.body;
-
-        const checkDuplicate = await Lesson.findOne({
-            where: {
-                [Op.or]: [
-                    {
-                        lesson_content: lesson_content,
-                    },
-                    {
-                        lesson_name: lesson_name
-                    },
-                ]
-            },
-        });
-
-        if (checkDuplicate) {
-            return res.status(406).json({
-                message: "Lesson content and lesson name already existed"
-            })
-        }
-
-        const updateLesson = await Lesson.update({
-            lesson_content,
-            lesson_name,
-        },
-            {
-                where: {
-                    lesson_id: currentLesson.lesson_id
-                }
-            });
-
-        return res.status(200).json({
-            message: 'Update successfully',
-            data: updateLesson
-        });
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Server error",
             error: error
         });
     }
 });
 
-//delete lesson
-router.delete('/lessons/:lessonId', checkAuth, async (req, res) => {
+//upsert all lessons in a subject
+router.post('/subjects/:subjectId/lessons', checkAuth, async(req, res) => {
     try {
-        const lessonId = req.params.lessonId;
-
-        const deleteLesson = await Lesson.destroy({
-            where: {
-                lesson_id: lessonId
-            }
+        const subjectId = req.params.subjectId;
+        const token = process.env.fap_token
+        const api_url = `http://localhost:8000/admin/subjects/${subjectId}/lessons?token=${token}`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
         });
-
-        if (!deleteLesson) {
-            return res.json({
-                message: 'Lesson cannot be deleted',
-            });
-        }
-
+        const fetched_json = await fetch_response.json();
+        console.log(fetched_json);
+        const upsertLesson = await Lesson.bulkCreate(fetched_json.data,{
+            fields: ["lesson_id", "lesson_name", "lesson_content", "subject_id"],
+            updateOnDuplicate: ["lesson_name", "lesson_content", "subject_id"]
+        })
         return res.json({
-            message: 'Lesson deleted successfully',
-            data: deleteLesson
-        });
+            message: "Fetch success",
+            data: upsertLesson
+        })
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Server error",
             error: error
         });
