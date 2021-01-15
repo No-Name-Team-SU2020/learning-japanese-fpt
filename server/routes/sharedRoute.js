@@ -12,6 +12,8 @@ const checkAuth = require('../middleware/checkAuth');
 const Class_Subject = require('../models/Class_Subject');
 const Student_Subject = require('../models/Student_Subject');
 const Teacher_Subject = require('../models/Teacher_Subject');
+const Grammar = require('../models/Grammar');
+const Quiz_Preset = require('../models/Quiz_Preset');
 
 //view all subjects in class
 router.get('/class-subjects/:classId', checkAuth, async (req, res) => {
@@ -354,6 +356,13 @@ router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
             });
         }
 
+        let findQuizPreset;
+        //get quiz preset for quiz
+        findQuizPreset = await Quiz_Preset.findOne({
+            where: {
+                is_chosen: true
+            }
+        });
         let checkAttendance;
         if (checkUser.role_id === 3) {
             //check diem danh danh cho student
@@ -382,7 +391,7 @@ router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
                     sequelize.literal('random()'),
                     ['question_id', 'ASC']
                 ],
-                limit: 10,
+                limit: findQuizPreset.number_of_questions,
                 where: {
                     lesson_id: currentLesson.lesson_id
                 },
@@ -405,7 +414,8 @@ router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
                 message: "All questions found",
                 data: {
                     questions: listQuestions,
-                    lesson: currentLesson.lesson_name
+                    time: findQuizPreset.quiz_time,
+                    lesson: currentLesson
                 }
             }
         )
@@ -484,6 +494,100 @@ router.get('/questions/:questionId', checkAuth, async (req, res) => {
     } catch (error) {
         console.error(error.message);
         return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//view all grammars in a lesson
+router.get('/lessons/:lessonId/grammars', checkAuth, async (req, res) => {
+    try {
+        const lessonId = req.params.lessonId
+
+        const currentLesson = await Lesson.findOne({
+            where: {
+                lesson_id: lessonId
+            }
+        })
+
+        const currentSubject = await Subject.findOne({
+            where: {
+                subject_id: currentLesson.subject_id
+            }
+        })
+
+        const grammars = await Grammar.findAll({
+            where: {
+                lesson_id: currentLesson.lesson_id
+            }
+        });
+
+        if (!grammars) {
+            return res.json({
+                message: "Grammars not found"
+            });
+        }
+
+        return res.json({
+            message: "Grammars found",
+            data: {
+                grammars: grammars,
+                subject: currentSubject,
+                lesson: currentLesson
+            }
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//view grammar by grammar id
+router.get('/grammars/:grammarId', checkAuth, async (req, res) => {
+    try {
+        const grammarId = req.params.grammarId
+
+        const grammar = await Grammar.findOne({
+            where: {
+                grammar_id: grammarId
+            }
+        });
+
+        const currentLesson = await Lesson.findOne({
+            where: {
+                lesson_id: grammar.lesson_id
+            }
+        });
+
+        const currentSubject = await Subject.findOne({
+            where: {
+                subject_id: currentLesson.subject_id
+            }
+        })
+
+        if (!grammar) {
+            return res.json({
+                message: "Grammar not found"
+            })
+        }
+
+        return res.json({
+            message: "Grammar found",
+            data: {
+                grammars: grammar,
+                subject: currentSubject.subject_code,
+                lesson: currentLesson.lesson_name
+            }
+        });
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
             message: "Server error",
             error: error
         });

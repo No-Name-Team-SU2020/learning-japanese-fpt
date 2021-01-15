@@ -8,7 +8,6 @@ const Subject = require('../models/Subject');
 const Lesson = require('../models/Lesson');
 const User = require('../models/User');
 const Quiz_Result = require('../models/Quiz_Result');
-const Grammar = require('../models/Grammar');
 const Is_Attended = require('../models/Is_Attended');
 const Class_Subject = require('../models/Class_Subject');
 const Student_Subject = require('../models/Student_Subject');
@@ -346,100 +345,6 @@ router.get('/quiz_results/:subjectId', checkAuth, async (req, res) => {
 //         });
 //     }
 // });
-
-//view all grammars in a lesson
-router.get('/lessons/:lessonId/grammars', checkAuth, async (req, res) => {
-    try {
-        const lessonId = req.params.lessonId
-
-        const currentLesson = await Lesson.findOne({
-            where: {
-                lesson_id: lessonId
-            }
-        })
-
-        const currentSubject = await Subject.findOne({
-            where: {
-                subject_id: currentLesson.subject_id
-            }
-        })
-
-        const grammars = await Grammar.findAll({
-            where: {
-                lesson_id: currentLesson.lesson_id
-            }
-        });
-
-        if (!grammars) {
-            return res.json({
-                message: "grammars not found"
-            });
-        }
-
-        return res.json({
-            message: "grammars found",
-            data: {
-                grammars: grammars,
-                subject: currentSubject.subject_code,
-                lesson: currentLesson.lesson_name
-            }
-        });
-
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
-
-//view grammar by grammar id
-router.get('/grammars/:grammarId', checkAuth, async (req, res) => {
-    try {
-        const grammarId = req.params.grammarId
-
-        const grammar = await Grammar.findOne({
-            where: {
-                grammar_id: grammarId
-            }
-        });
-
-        const currentLesson = await Lesson.findOne({
-            where: {
-                lesson_id: grammar.lesson_id
-            }
-        });
-
-        const currentSubject = await Subject.findOne({
-            where: {
-                subject_id: currentLesson.subject_id
-            }
-        })
-
-        if (!grammar) {
-            return res.json({
-                message: "grammar not found"
-            })
-        }
-
-        return res.json({
-            message: "grammar found",
-            data: {
-                grammars: grammar,
-                subject: currentSubject.subject_code,
-                lesson: currentLesson.lesson_name
-            }
-        });
-
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
 
 //check thong tin diem danh
 router.get('/attendance', checkAuth, async (req, res) => {

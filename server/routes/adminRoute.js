@@ -6,21 +6,25 @@ const Class = require('../models/Class');
 const { Op } = require('sequelize');
 const checkAuth = require('../middleware/checkAuth');
 const Grammar = require('../models/Grammar');
+const Quiz_Preset = require('../models/Quiz_Preset');
 const fetch = require('node-fetch');
 require('dotenv').config();
 
 //view all subject for admin
 router.get('/subjects', checkAuth, async (req, res) => {
     try {
-        const token = process.env.fap_token
-        const api_url = `http://localhost:8000/admin/subjects?token=${token}`;
+        const fap_token = process.env.fap_token_admin
+        const api_url = `http://localhost:8000/admin/subjects`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
+            headers: {
+                'token': fap_token
+            }
         });
         const fetched_json = await fetch_response.json();
         return res.json({
             message: "Fetch success",
-            data: fetched_json
+            data: fetched_json.data
         })
     } catch (error) {
         console.error(error.message);
@@ -34,10 +38,13 @@ router.get('/subjects', checkAuth, async (req, res) => {
 //upsert subject
 router.post('/subjects', checkAuth, async (req, res) => {
     try {
-        const token = process.env.fap_token
-        const api_url = `http://localhost:8000/admin/subjects?token=${token}`;
+        const fap_token = process.env.fap_token_admin
+        const api_url = `http://localhost:8000/admin/subjects`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
+            headers: {
+                'token': fap_token
+            }
         });
         const fetched_json = await fetch_response.json();
         console.log(fetched_json);
@@ -61,19 +68,22 @@ router.post('/subjects', checkAuth, async (req, res) => {
 });
 
 //view all lessons in a subject
-router.get('/subjects/:subjectId/lessons', checkAuth, async(req, res) => {
+router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
     try {
         const subjectId = req.params.subjectId;
-        const token = process.env.fap_token
-        const api_url = `http://localhost:8000/admin/subjects/${subjectId}/lessons?token=${token}`;
+        const fap_token = process.env.fap_token_admin
+        const api_url = `http://localhost:8000/admin/subjects/${subjectId}/lessons`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
+            headers: {
+                'token': fap_token
+            }
         });
         const fetched_json = await fetch_response.json();
         console.log(fetched_json);
         return res.json({
             message: "Fetch success",
-            data: fetched_json
+            data: fetched_json.data
         })
     } catch (error) {
         console.error(error.message);
@@ -85,17 +95,20 @@ router.get('/subjects/:subjectId/lessons', checkAuth, async(req, res) => {
 });
 
 //upsert all lessons in a subject
-router.post('/subjects/:subjectId/lessons', checkAuth, async(req, res) => {
+router.post('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
     try {
         const subjectId = req.params.subjectId;
-        const token = process.env.fap_token
-        const api_url = `http://localhost:8000/admin/subjects/${subjectId}/lessons?token=${token}`;
+        const fap_token = process.env.fap_token_admin
+        const api_url = `http://localhost:8000/admin/subjects/${subjectId}/lessons`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
+            headers: {
+                'token': fap_token
+            }
         });
         const fetched_json = await fetch_response.json();
         console.log(fetched_json);
-        const upsertLesson = await Lesson.bulkCreate(fetched_json.data,{
+        const upsertLesson = await Lesson.bulkCreate(fetched_json.data, {
             fields: ["lesson_id", "lesson_name", "lesson_content", "subject_id"],
             updateOnDuplicate: ["lesson_name", "lesson_content", "subject_id"]
         })
@@ -458,10 +471,13 @@ router.put('/grammars/:grammarId', checkAuth, async (req, res) => {
             explain,
             example,
             attention,
-            where: {
-                grammar_id: currentGrammar.grammar_id
+        },
+            {
+                where: {
+                    grammar_id: currentGrammar.grammar_id
+                }
             }
-        });
+        );
 
         return res.json({
             message: "Grammar update successfully",
@@ -476,6 +492,7 @@ router.put('/grammars/:grammarId', checkAuth, async (req, res) => {
     }
 });
 
+//delete grammar
 router.delete('/grammars/:grammarId', checkAuth, async (req, res) => {
     try {
         const grammarId = req.params.grammarId;
@@ -496,6 +513,169 @@ router.delete('/grammars/:grammarId', checkAuth, async (req, res) => {
             message: "Delete successfully",
             data: deleteGrammar
         });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//view all quiz preset
+router.get('/quiz-presets', checkAuth, async (req, res) => {
+    try {
+        const quiz_preset = await Quiz_Preset.findAll();
+
+        if (!quiz_preset) {
+            return res.status(404).json({
+                message: "Quiz preset not found"
+            })
+        }
+
+        return res.json({
+            message: "Quiz preset found",
+            data: quiz_preset
+        })
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//create new quiz preset
+router.post('/quiz-presets', checkAuth, async (req, res) => {
+    try {
+        const { number_of_questions, quiz_time } = req.body;
+
+        if (!number_of_questions || number_of_questions === 0) {
+            return res.json({
+                message: "Number of question is not valid",
+                data: null
+            })
+        }
+
+        if (!quiz_time) {
+            return res.json({
+                message: "Quiz time is not valid",
+                data: null
+            })
+        }
+
+        const newQuizPreset = await Quiz_Preset.create({
+            number_of_questions,
+            quiz_time
+        })
+
+        if (!newQuizPreset) {
+            return res.json({
+                message: "Cannot add new preset",
+                data: null
+            })
+        }
+
+        return res.json({
+            message: "Quiz preset create success",
+            data: newQuizPreset
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//edit a quiz preset
+router.put('/quiz-presets/:presetId', async (req, res) => {
+    try {
+        const presetId = req.params.presetId;
+
+        const { number_of_questions, quiz_time } = req.body;
+
+        const editPreset = await Quiz_Preset.update({
+            number_of_questions,
+            quiz_time,
+        }, {
+            where: {
+                preset_id: presetId
+            }
+        });
+
+        if (!editPreset) {
+            return res.status(400).json({
+                message: "Preset cannot be edited"
+            })
+        }
+
+        return res.json({
+            message: "Preset update success",
+            data: editPreset
+        })
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//delete a quiz preset
+router.delete('/quiz-presets/:presetId', async (req, res) => {
+    try {
+        const presetId = req.params.presetId;
+
+        const deletePreset = await Quiz_Preset.destroy({
+            where: {
+                preset_id: presetId
+            }
+        })
+
+        if (!deletePreset) {
+            return res.status(400).json({
+                message: "Preset cannot be deleted"
+            })
+        }
+
+        return res.json({
+            message: "Preset delete success",
+            data: deletePreset
+        })
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//Choose a preset for student quiz
+router.patch("/quiz-presets/:presetId", async (req, res) => {
+    try {
+        const presetId = req.params.presetId;
+
+        const { is_chosen } = req.body;
+
+        const choosePreset = await Quiz_Preset.update({
+            is_chosen: is_chosen
+        },
+            {
+                where: {
+                    preset_id: presetId
+                }
+            }
+        );
+
+        return res.json({
+            message: "Preset chosen success",
+            data: choosePreset
+        })
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
