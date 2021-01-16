@@ -8,17 +8,79 @@ const checkAuth = require('../middleware/checkAuth');
 const Grammar = require('../models/Grammar');
 const Quiz_Preset = require('../models/Quiz_Preset');
 const fetch = require('node-fetch');
+const Class_Subject = require('../models/Class_Subject');
+const Teacher_Class = require('../models/Teacher_Class');
+const Teacher_Subject = require('../models/Teacher_Subject');
+const Student_Class = require('../models/Student_Class');
+const Student_Subject = require('../models/Student_Subject');
 require('dotenv').config();
 
-//view all subject for admin
+//fetch all classes from fap and view list classes
+router.get('/classes', checkAuth, async (req, res) => {
+    try {
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/classes`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
+        });
+        const fetched_json = await fetch_response.json();
+        return res.json({
+            message: "Fetch success",
+            data: fetched_json.data
+        })
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//upsert classes
+router.post('/classes', checkAuth, async (req, res) => {
+    try {
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/classes`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
+        });
+        const fetched_json = await fetch_response.json();
+        console.log(fetched_json);
+        //update and insert subjects
+        const upsertClass = await Class.bulkCreate(fetched_json.data, {
+            fields: ["class_id", "class_name"],
+            updateOnDuplicate: ["class_name"]
+        });
+        console.log(upsertClass);
+        return res.json({
+            message: "Classes upsert success",
+            data: upsertClass
+        });
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//fetch all subjects from fap and view list subjects
 router.get('/subjects', checkAuth, async (req, res) => {
     try {
-        const fap_token = process.env.fap_token_admin
+        const fap_token = ''
         const api_url = `http://localhost:8000/admin/subjects`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
             headers: {
-                'token': fap_token
+                'fap-token': fap_token
             }
         });
         const fetched_json = await fetch_response.json();
@@ -38,12 +100,12 @@ router.get('/subjects', checkAuth, async (req, res) => {
 //upsert subject
 router.post('/subjects', checkAuth, async (req, res) => {
     try {
-        const fap_token = process.env.fap_token_admin
+        const fap_token = ''
         const api_url = `http://localhost:8000/admin/subjects`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
             headers: {
-                'token': fap_token
+                'fap-token': fap_token
             }
         });
         const fetched_json = await fetch_response.json();
@@ -67,16 +129,170 @@ router.post('/subjects', checkAuth, async (req, res) => {
     }
 });
 
+//insert class subject
+router.post('/classes-subjects', checkAuth, async (req, res) => {
+    try {
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/classes-subjects`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
+        });
+        const fetched_json = await fetch_response.json();
+        console.log(fetched_json);
+        const upsertClassSubject = await Class_Subject.bulkCreate(fetched_json.data, {
+            fields: ["class_id", "subject_id"],
+            //updateOnDuplicate: ["class_name"]
+        });
+        console.log(upsertClassSubject);
+        return res.json({
+            message: "Class subject insert success",
+            data: upsertClassSubject
+        });
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//insert teacher class
+router.post('/teachers-classes', checkAuth, async (req, res) => {
+    try {
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/teachers-classes`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
+        });
+        const fetched_json = await fetch_response.json();
+        console.log(fetched_json);
+        const upsertTeacherClass = await Teacher_Class.bulkCreate(fetched_json.data, {
+            fields: ["teacher_id", "class_id"],
+            //updateOnDuplicate: ["class_name"]
+        });
+        console.log(upsertTeacherClass);
+        return res.json({
+            message: "Teacher class insert success",
+            data: upsertTeacherClass
+        });
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//insert teacher subject
+router.post('/teachers-subjects', checkAuth, async (req, res) => {
+    try {
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/teachers-subjects`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
+        });
+        const fetched_json = await fetch_response.json();
+        console.log(fetched_json);
+        const upsertTeacherSubject = await Teacher_Subject.bulkCreate(fetched_json.data, {
+            fields: ["teacher_id", "subject_id"],
+            //updateOnDuplicate: ["class_name"]
+        });
+        console.log(upsertTeacherSubject);
+        return res.json({
+            message: "Teacher subject insert success",
+            data: upsertTeacherSubject
+        });
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//insert student class
+router.post('/students-classes', checkAuth, async (req, res) => {
+    try {
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/students-classes`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
+        });
+        const fetched_json = await fetch_response.json();
+        console.log(fetched_json);
+        const upsertStudentClass = await Student_Class.bulkCreate(fetched_json.data, {
+            fields: ["student_id", "class_id"],
+            //updateOnDuplicate: ["class_name"]
+        });
+        console.log(upsertStudentClass);
+        return res.json({
+            message: "Student class insert success",
+            data: upsertStudentClass
+        });
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+router.post('/students-subjects', checkAuth, async (req, res) => {
+    try {
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/students-subjects`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
+        });
+        const fetched_json = await fetch_response.json();
+        console.log(fetched_json);
+        const upsertStudentSubject = await Student_Subject.bulkCreate(fetched_json.data, {
+            fields: ["student_id", "subject_id"],
+            //updateOnDuplicate: ["class_name"]
+        });
+        console.log(upsertStudentSubject);
+        return res.json({
+            message: "Student subject insert success",
+            data: upsertStudentSubject
+        });
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
 //view all lessons in a subject
 router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
     try {
         const subjectId = req.params.subjectId;
-        const fap_token = process.env.fap_token_admin
+        const fap_token = ''
         const api_url = `http://localhost:8000/admin/subjects/${subjectId}/lessons`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
             headers: {
-                'token': fap_token
+                'fap-token': fap_token
             }
         });
         const fetched_json = await fetch_response.json();
@@ -98,12 +314,12 @@ router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
 router.post('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
     try {
         const subjectId = req.params.subjectId;
-        const fap_token = process.env.fap_token_admin
+        const fap_token = ''
         const api_url = `http://localhost:8000/admin/subjects/${subjectId}/lessons`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
             headers: {
-                'token': fap_token
+                'fap-token': fap_token
             }
         });
         const fetched_json = await fetch_response.json();

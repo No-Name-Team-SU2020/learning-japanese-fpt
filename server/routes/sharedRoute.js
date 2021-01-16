@@ -14,6 +14,7 @@ const Student_Subject = require('../models/Student_Subject');
 const Teacher_Subject = require('../models/Teacher_Subject');
 const Grammar = require('../models/Grammar');
 const Quiz_Preset = require('../models/Quiz_Preset');
+const fetch = require('node-fetch');
 
 //view all subjects in class
 router.get('/class-subjects/:classId', checkAuth, async (req, res) => {
@@ -46,7 +47,15 @@ router.get('/class-subjects/:classId', checkAuth, async (req, res) => {
             }
         })
 
-        let data;
+        // const api_url = `http://localhost:8000/classes/${classId}`;
+        // const fetch_class = await fetch(api_url, {
+        //     method: 'GET'
+        // })
+        // const class_response = await fetch_class.json();
+
+        //console.log(class_response);
+        
+        let fetched_json;
         if (checkUser.role_id === 2 && currentTeacher) {
             data = await Class.findAll({
                 where: { class_id: currentClass.class_id },
@@ -63,6 +72,15 @@ router.get('/class-subjects/:classId', checkAuth, async (req, res) => {
                     },
                 ]
             });
+            // const fap_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im5nYW5udHQiLCJpYXQiOjE2MTA3OTI2NTYsImV4cCI6MTYxMDgyMTQ1Nn0.cE2yiPGS8YcjmGQMJsP7n7JffQsTLTXqXgz0nYgzh64'
+            // const api_url = `http://localhost:8000/teacher/class-subjects/${class_response.data.class_id}`;
+            // const fetch_response = await fetch(api_url, {
+            //     method: 'GET',
+            //     headers: {
+            //         'fap-token': fap_token
+            //     }
+            // });
+            // fetched_json = await fetch_response.json();
         }
         else if (checkUser.role_id === 3 && currentStudent) {
             data = await Class.findAll({
@@ -80,6 +98,15 @@ router.get('/class-subjects/:classId', checkAuth, async (req, res) => {
                     },
                 ]
             });
+            // const fap_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im5nYW5udHQiLCJpYXQiOjE2MTA3OTI2NTYsImV4cCI6MTYxMDgyMTQ1Nn0.cE2yiPGS8YcjmGQMJsP7n7JffQsTLTXqXgz0nYgzh64'
+            // const api_url = `http://localhost:8000/student/class-subjects/${class_response.data.class_id}`;
+            // const fetch_response = await fetch(api_url, {
+            //     method: 'GET',
+            //     headers: {
+            //         'fap-token': fap_token
+            //     }
+            // });
+            // fetched_json = await fetch_response.json();
         }
         else {
             return req.json({
@@ -94,8 +121,8 @@ router.get('/class-subjects/:classId', checkAuth, async (req, res) => {
         }
 
         return res.json({
-            message: "Subjects in class found",
-            data: data
+            message: "Fetch subjects in class found",
+            data: fetched_json.data
         });
 
     } catch (error) {
@@ -175,14 +202,14 @@ router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
                 order: [
                     ['lesson_id', 'ASC']
                 ],
-                include: [
-                    {
-                        model: Is_Attended, where: {
-                            student_id: currentStudent.student_id
-                        },
-                        required: false
-                    }
-                ]
+                // include: [
+                //     {
+                //         model: Is_Attended, where: {
+                //             student_id: currentStudent.student_id
+                //         },
+                //         required: false
+                //     }
+                // ]
             });
 
             // if (!listLessons) {

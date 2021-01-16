@@ -25,7 +25,7 @@ app.use(require('./routes/userRoute.js'));
 app.use('/shared', require('./routes/sharedRoute.js'));
 app.use('/student', require('./routes/studentRoute.js'));
 app.use('/admin',checkAdmin, require('./routes/adminRoute.js'));
-app.use('/teacher', checkTeacher, require('./routes/teacherRoute.js'));
+app.use('/teacher',checkTeacher, require('./routes/teacherRoute.js'));
 
 const PORT = process.env.PORT || 5000;
 

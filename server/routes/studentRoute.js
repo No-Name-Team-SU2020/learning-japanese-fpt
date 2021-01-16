@@ -51,6 +51,21 @@ router.get('/student-classes', checkAuth, async (req, res) => {
             data: data
         });
 
+        // const fap_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im5nYW5udHQiLCJpYXQiOjE2MTA3OTI2NTYsImV4cCI6MTYxMDgyMTQ1Nn0.cE2yiPGS8YcjmGQMJsP7n7JffQsTLTXqXgz0nYgzh64'
+        // const api_url = `http://localhost:8000/student/student-classes`;
+        // const fetch_response = await fetch(api_url, {
+        //     method: 'GET',
+        //     headers: {
+        //         'fap-token': fap_token
+        //     }
+        // });
+
+        // const fetched_json = await fetch_response.json();
+        // return res.json({
+        //     message: "Fetch success",
+        //     data: fetched_json.data
+        // })
+
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -97,6 +112,21 @@ router.get('/student-subjects', checkAuth, async (req, res) => {
             data: data
         });
 
+        // const fap_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im5nYW5udHQiLCJpYXQiOjE2MTA3OTI2NTYsImV4cCI6MTYxMDgyMTQ1Nn0.cE2yiPGS8YcjmGQMJsP7n7JffQsTLTXqXgz0nYgzh64'
+        // const api_url = `http://localhost:8000/student/student-subjects`;
+        // const fetch_response = await fetch(api_url, {
+        //     method: 'GET',
+        //     headers: {
+        //         'fap-token': fap_token
+        //     }
+        // });
+
+        // const fetched_json = await fetch_response.json();
+        // return res.json({
+        //     message: "Fetch success",
+        //     data: fetched_json.data
+        // })
+        
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -349,52 +379,20 @@ router.get('/quiz_results/:subjectId', checkAuth, async (req, res) => {
 //check thong tin diem danh
 router.get('/attendance', checkAuth, async (req, res) => {
     try {
-        //const lessonId = req.params.lessonId;
-
-        // const currentLesson = await Lesson.findOne({
-        //     where: {
-        //         lesson_id: lessonId
-        //     }
-        // })
-
-        const currentUser = req.user.user_name;
-
-        const checkUser = await User.findOne({
-            where: {
-                user_name: currentUser
+        const fap_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im5nYW5udHQiLCJpYXQiOjE2MTA3OTI2NTYsImV4cCI6MTYxMDgyMTQ1Nn0.cE2yiPGS8YcjmGQMJsP7n7JffQsTLTXqXgz0nYgzh64'
+        const api_url = `http://localhost:8000/student/attendance`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            headers: {
+                'fap-token': fap_token
             }
         });
-        //check student
-        const currentStudent = await Student.findOne({
-            where: {
-                user_name: checkUser.user_name
-            },
-        });
 
-        const checkAttendance = await Is_Attended.findAll({
-            where: {
-                student_id: currentStudent.student_id,
-                ///lesson_id: currentLesson.lesson_id
-            },
-            include: [
-                { model: Lesson, attributes: ['lesson_name'] },
-                //{ model: Class, attributes: ['class_name'] }
-            ],
-        });
-
-        if (!checkAttendance) {
-            return res.json({
-                message: "Attendance information not found"
-            });
-        }
-
+        const fetched_json = await fetch_response.json();
         return res.json({
-            message: "Attendance information found",
-            data: {
-                attendances: checkAttendance,
-            }
-        });
-
+            message: "Fetch success",
+            data: fetched_json.data
+        })
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
