@@ -61,7 +61,10 @@ router.post('/classes', checkAuth, async (req, res) => {
         console.log(upsertClass);
         return res.json({
             message: "Classes upsert success",
-            data: upsertClass
+            data: {
+                deleted: deleteClass,
+                upsert: upsertClass
+            }
         });
     } catch (error) {
         console.error(error.message);

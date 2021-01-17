@@ -314,6 +314,33 @@ router.get('/quiz_results/:subjectId', checkAuth, async (req, res) => {
     }
 });
 
+//check thong tin diem danh
+router.get('/attendance', checkAuth, async (req, res) => {
+    try {
+        const fap_token = ''
+        const api_url = `http://localhost:8000/student/attendance`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            headers: {
+                'fap-token': fap_token
+            }
+        });
+
+        const fetched_json = await fetch_response.json();
+        return res.json({
+            message: "Fetch success",
+            data: fetched_json.data
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+
 //view a student quiz result by lesson id
 // router.get('/quiz_results/:lessonId', checkAuth, async(req, res) => {
 //     try {
@@ -375,31 +402,5 @@ router.get('/quiz_results/:subjectId', checkAuth, async (req, res) => {
 //         });
 //     }
 // });
-
-//check thong tin diem danh
-router.get('/attendance', checkAuth, async (req, res) => {
-    try {
-        const fap_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im5nYW5udHQiLCJpYXQiOjE2MTA3OTI2NTYsImV4cCI6MTYxMDgyMTQ1Nn0.cE2yiPGS8YcjmGQMJsP7n7JffQsTLTXqXgz0nYgzh64'
-        const api_url = `http://localhost:8000/student/attendance`;
-        const fetch_response = await fetch(api_url, {
-            method: 'GET',
-            headers: {
-                'fap-token': fap_token
-            }
-        });
-
-        const fetched_json = await fetch_response.json();
-        return res.json({
-            message: "Fetch success",
-            data: fetched_json.data
-        })
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
 
 module.exports = router;
