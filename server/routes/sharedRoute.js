@@ -319,6 +319,66 @@ router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
     }
 });
 
+//view class by id
+router.get('/classes/:classId', async (req, res) => {
+    try {
+        const classId = req.params.classId;
+
+        const findClass = await Class.findOne({
+            where: {
+                class_id: classId
+            }
+        });
+
+        if (!findClass) {
+            return res.status(404).json({
+                message: "Class not found"
+            })
+        }
+
+        return res.json({
+            message: "Class found",
+            data: findClass
+        });
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//view subject by id
+router.get('/subjects/:subjectId', async (req, res) => {
+    try {
+        const subjectId = req.params.subjectId;
+
+        const findSubject = await Subject.findOne({
+            where: {
+                subject_id: subjectId
+            }
+        });
+
+        if (!findSubject) {
+            return res.status(404).json({
+                message: "Subject not found"
+            })
+        }
+
+        return res.json({
+            message: "Subject found",
+            data: findSubject
+        })
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
 //view lesson by lesson id
 router.get('/lessons/:lessonId', checkAuth, async (req, res) => {
     try {

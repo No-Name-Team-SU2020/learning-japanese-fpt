@@ -19,7 +19,7 @@ require('dotenv').config();
 router.get('/classes', checkAuth, async (req, res) => {
     try {
         //const fap_token = ''
-        const api_url = `http://localhost:8000/classes`;
+        const api_url = `http://localhost:8000/api/classes`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
             // headers: {
@@ -44,7 +44,7 @@ router.get('/classes', checkAuth, async (req, res) => {
 router.post('/classes', checkAuth, async (req, res) => {
     try {
         //const fap_token = ''
-        const api_url = `http://localhost:8000/classes`;
+        const api_url = `http://localhost:8000/api/classes`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
             // headers: {
@@ -75,13 +75,13 @@ router.post('/classes', checkAuth, async (req, res) => {
 //fetch all subjects from fap and view list subjects
 router.get('/subjects', checkAuth, async (req, res) => {
     try {
-        const fap_token = ''
-        const api_url = `http://localhost:8000/admin/subjects`;
+        ////const fap_token = ''
+        const api_url = `http://localhost:8000/api/subjects`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
-            headers: {
-                'fap-token': fap_token
-            }
+            // headers: {
+            //     'fap-token': fap_token
+            // }
         });
         const fetched_json = await fetch_response.json();
         return res.json({
@@ -100,13 +100,13 @@ router.get('/subjects', checkAuth, async (req, res) => {
 //upsert subject
 router.post('/subjects', checkAuth, async (req, res) => {
     try {
-        const fap_token = ''
-        const api_url = `http://localhost:8000/admin/subjects`;
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/api/subjects`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
-            headers: {
-                'fap-token': fap_token
-            }
+            // headers: {
+            //     'fap-token': fap_token
+            // }
         });
         const fetched_json = await fetch_response.json();
         console.log(fetched_json);
@@ -133,7 +133,7 @@ router.post('/subjects', checkAuth, async (req, res) => {
 router.post('/classes-subjects', checkAuth, async (req, res) => {
     try {
         //const fap_token = ''
-        const api_url = `http://localhost:8000/classes-subjects`;
+        const api_url = `http://localhost:8000/api/classes-subjects`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
             // headers: {
@@ -164,7 +164,7 @@ router.post('/classes-subjects', checkAuth, async (req, res) => {
 router.post('/teachers-classes', checkAuth, async (req, res) => {
     try {
         //const fap_token = ''
-        const api_url = `http://localhost:8000/teachers-classes`;
+        const api_url = `http://localhost:8000/api/teachers-classes`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
             // headers: {
@@ -195,7 +195,7 @@ router.post('/teachers-classes', checkAuth, async (req, res) => {
 router.post('/teachers-subjects', checkAuth, async (req, res) => {
     try {
         //const fap_token = ''
-        const api_url = `http://localhost:8000/teachers-subjects`;
+        const api_url = `http://localhost:8000/api/teachers-subjects`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
             // headers: {
@@ -226,7 +226,7 @@ router.post('/teachers-subjects', checkAuth, async (req, res) => {
 router.post('/students-classes', checkAuth, async (req, res) => {
     try {
         //const fap_token = ''
-        const api_url = `http://localhost:8000/students-classes`;
+        const api_url = `http://localhost:8000/api/students-classes`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
             // headers: {
@@ -256,7 +256,7 @@ router.post('/students-classes', checkAuth, async (req, res) => {
 router.post('/students-subjects', checkAuth, async (req, res) => {
     try {
         //const fap_token = ''
-        const api_url = `http://localhost:8000/students-subjects`;
+        const api_url = `http://localhost:8000/api/students-subjects`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
             // headers: {
@@ -287,13 +287,13 @@ router.post('/students-subjects', checkAuth, async (req, res) => {
 router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
     try {
         const subjectId = req.params.subjectId;
-        const fap_token = ''
-        const api_url = `http://localhost:8000/admin/subjects/${subjectId}/lessons`;
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/api/subjects/${subjectId}/lessons`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
-            headers: {
-                'fap-token': fap_token
-            }
+            // headers: {
+            //     'fap-token': fap_token
+            // }
         });
         const fetched_json = await fetch_response.json();
         console.log(fetched_json);
@@ -314,13 +314,13 @@ router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
 router.post('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
     try {
         const subjectId = req.params.subjectId;
-        const fap_token = ''
-        const api_url = `http://localhost:8000/admin/subjects/${subjectId}/lessons`;
+        ///const fap_token = ''
+        const api_url = `http://localhost:8000/api/subjects/${subjectId}/lessons`;
         const fetch_response = await fetch(api_url, {
             method: 'GET',
-            headers: {
-                'fap-token': fap_token
-            }
+            // headers: {
+            //     'fap-token': fap_token
+            // }
         });
         const fetched_json = await fetch_response.json();
         console.log(fetched_json);
