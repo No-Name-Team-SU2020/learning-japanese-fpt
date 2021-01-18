@@ -6,7 +6,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
-import ClassIcon from "@material-ui/icons/Class";
+// import ClassIcon from "@material-ui/icons/Class";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import AssignmentIcon from "@material-ui/icons/Assignment";
@@ -36,7 +36,7 @@ const TeacherSidebar = () => {
   const styles = useStyles();
   const [openResultList, setOpenResultList] = useState(false);
   const [openProgressList, setOpenProgressList] = useState(false);
-  const [openClassList, setOpenClassList] = useState(false);
+  // const [openClassList, setOpenClassList] = useState(false);
 
   useEffect(() => {
     dispatch(getClassesByTeacher());
@@ -46,9 +46,9 @@ const TeacherSidebar = () => {
     setOpenResultList((prevState) => !prevState);
   };
 
-  const handleClassClick = () => {
-    setOpenClassList((prevState) => !prevState);
-  };
+  // const handleClassClick = () => {
+  //   setOpenClassList((prevState) => !prevState);
+  // };
   const handleProgressClick = () => {
     setOpenProgressList((prevState) => !prevState);
   };
@@ -63,7 +63,7 @@ const TeacherSidebar = () => {
         }
         className={styles.root}
       >
-        <ListItem button onClick={handleClassClick}>
+        {/* <ListItem button onClick={handleClassClick}>
           <ListItemIcon>
             <ClassIcon />
           </ListItemIcon>
@@ -83,13 +83,13 @@ const TeacherSidebar = () => {
                   onClick={() => history.push(`/manage-subject/${c.class_id}`)}
                 >
                   <ListItemIcon>
-                     
+                    <ArrowForwardIosIcon />
                   </ListItemIcon>
                   <ListItemText primary={c.class_name} />
                 </ListItem>
               ))}
           </List>
-        </Collapse>
+        </Collapse> */}
         <ListItem button onClick={handleProgressClick}>
           <ListItemIcon>
             <AssignmentIcon />
@@ -110,7 +110,7 @@ const TeacherSidebar = () => {
                   onClick={() => history.push(`/manage-progress/${c.class_id}`)}
                 >
                   <ListItemIcon>
-                     
+                    <ArrowForwardIosIcon />
                   </ListItemIcon>
                   <ListItemText primary={c.class_name} />
                 </ListItem>
@@ -137,7 +137,7 @@ const TeacherSidebar = () => {
                   onClick={() => history.push(`/manage-result/${c.class_id}`)}
                 >
                   <ListItemIcon>
-                     
+                    <ArrowForwardIosIcon />
                   </ListItemIcon>
                   <ListItemText primary={c.class_name} />
                 </ListItem>

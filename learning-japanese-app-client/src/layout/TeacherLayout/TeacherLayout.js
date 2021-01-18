@@ -12,7 +12,7 @@ import ManageProgressByClass from "../../pages/teacher/ManageProgressByClass";
 import StudentQuizResult from "../../pages/teacher/StudentQuizResult";
 import QuizDetail from "../../pages/teacher/QuizDetail";
 
-const AdminLayout = () => {
+const TeacherLayout = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
   return (
     <Fragment>
@@ -63,4 +63,4 @@ const AdminLayout = () => {
   );
 };
 
-export default AdminLayout;
+export default TeacherLayout;

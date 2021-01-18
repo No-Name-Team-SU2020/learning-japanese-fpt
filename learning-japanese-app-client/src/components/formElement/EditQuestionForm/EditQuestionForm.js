@@ -107,7 +107,7 @@ const EditQuestionForm = () => {
             <Grid item md={4}>
               QuestionID :
               <TextField
-                value={question.question_id ? question.question_id : ""}
+                value={question.question_id || ""}
                 onChange={handleChange}
                 name='question_id'
                 fullWidth
@@ -125,7 +125,7 @@ const EditQuestionForm = () => {
                 variant='outlined'
                 name='question_content'
                 fullWidth
-                value={question?.question_content}
+                value={question.question_content || ""}
                 inputProps={{ maxLength: 500 }}
                 onChange={handleChange}
               />
@@ -140,7 +140,7 @@ const EditQuestionForm = () => {
                 variant='outlined'
                 name='option_a'
                 fullWidth
-                value={question?.option_a}
+                value={question.option_a || ""}
                 inputProps={{ maxLength: 500 }}
                 onChange={handleChange}
               />
@@ -155,7 +155,7 @@ const EditQuestionForm = () => {
                 variant='outlined'
                 name='option_b'
                 fullWidth
-                value={question?.option_b}
+                value={question.option_b || ""}
                 inputProps={{ maxLength: 500 }}
                 onChange={handleChange}
               />
@@ -170,7 +170,7 @@ const EditQuestionForm = () => {
                 variant='outlined'
                 name='option_c'
                 fullWidth
-                value={question?.option_c}
+                value={question.option_c || ""}
                 inputProps={{ maxLength: 500 }}
                 onChange={handleChange}
               />
@@ -185,7 +185,7 @@ const EditQuestionForm = () => {
                 variant='outlined'
                 name='option_d'
                 fullWidth
-                value={question?.option_d}
+                value={question.option_d || ""}
                 inputProps={{ maxLength: 500 }}
                 onChange={handleChange}
               />
@@ -200,7 +200,7 @@ const EditQuestionForm = () => {
                 variant='outlined'
                 name='correct_answer'
                 fullWidth
-                value={question?.correct_answer}
+                value={question.correct_answer || ""}
                 inputProps={{ maxLength: 500 }}
                 onChange={handleChange}
               />
@@ -221,7 +221,7 @@ const EditQuestionForm = () => {
                 variant='contained'
                 color='secondary'
                 onClick={() => {
-                  window.location.href = "/manage-question";
+                  window.location.href = "/";
                 }}
               >
                 Cancel

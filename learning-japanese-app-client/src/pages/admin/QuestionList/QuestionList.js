@@ -43,17 +43,17 @@ const QuestionList = () => {
   return (
     <div className='app-container'>
       <div className='d-flex justify-content-between align-item-center'>
-        <h1>Question List Table</h1>
+        <h1>Question List</h1>
         <Button
           variant='contained'
           color='primary'
-          onClick={() => history.push("/manage-question/create")}
+          onClick={() => history.push("/create")}
           className='bg-orange-imp'
         >
           New Question
         </Button>
       </div>
-      {/* {error && (
+      {error && (
         <div className='alert alert-danger mt-3' role='alert'>
           {error}
         </div>
@@ -67,7 +67,7 @@ const QuestionList = () => {
         <div className='alert alert-danger mt-3' role='alert'>
           {adminLessonList.error}
         </div>
-      )} */}
+      )}
       {adminSubjectList.loading || adminLessonList.loading ? (
         <FilterQuestionEngineSkeleton />
       ) : (

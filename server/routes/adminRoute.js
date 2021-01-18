@@ -52,8 +52,8 @@ router.post('/classes', checkAuth, async (req, res) => {
             // }
         });
         const fetched_json = await fetch_response.json();
-        console.log(fetched_json);
-        //update and insert subjects
+        //console.log(fetched_json);
+        //update and insert classes
         const upsertClass = await Class.bulkCreate(fetched_json.data, {
             fields: ["class_id", "class_name"],
             updateOnDuplicate: ["class_name"]
@@ -61,10 +61,7 @@ router.post('/classes', checkAuth, async (req, res) => {
         console.log(upsertClass);
         return res.json({
             message: "Classes upsert success",
-            data: {
-                deleted: deleteClass,
-                upsert: upsertClass
-            }
+            data: upsertClass
         });
     } catch (error) {
         console.error(error.message);

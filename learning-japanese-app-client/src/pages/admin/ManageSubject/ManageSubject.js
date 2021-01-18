@@ -21,15 +21,14 @@ const ManageSubject = ({ match }) => {
     <div className='app-container'>
       <Route exact path={match.url}>
         {loading && <Loader />}
-        {/* {error && <div className='alert alert-danger'> {error} </div>} */}
-        <SubjectList url={match.url} subjects={subjectList} />
-        {/* {!error && !loading ? (
+        {error && <div className='alert alert-danger'> {error} </div>}
+        {!error && !loading ? (
           <SubjectList url={match.url} subjects={subjectList} />
         ) : (
           <center className='text-danger'>
             No Subject To Show. Please load again or checking error
           </center>
-        )} */}
+        )}
       </Route>
       <Route exact path={`${match.url}/create`}>
         <CreateSubjectForm />

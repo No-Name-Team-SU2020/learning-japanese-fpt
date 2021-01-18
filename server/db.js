@@ -11,29 +11,29 @@ require('dotenv').config();
 // });
 
 //New connecting method with sequelize
-// const db = new sequelize('Capstone_Project', 'postgres', '09001210', {
-//     host: 'localhost',
-//     dialect: 'postgres',
+const db = new sequelize('Capstone_Project', 'postgres', 'Nousems2you.', {
+    host: 'localhost',
+    dialect: 'postgres',
 
-//     pool: {
-//         max: 5,
-//         min: 0,
-//         acquire: 30000,
-//         idle: 10000
-//       },
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+      },
 
-//       define: {
-//         timestamps: false
-//       }
-//   });
+      define: {
+        timestamps: false
+      }
+  });
 
 //deploy process.env.DATABASE_URL
-const db = new sequelize('postgres://postgres:Nousems2you.@localhost:5432/Capstone_Project', {
-  dialect: 'postgres',
+// const db = new sequelize('postgres://postgres:Nousems2you.@localhost:5432/Capstone_Project', {
+//   dialect: 'postgres',
 
-    define: {
-      timestamps: false
-    }
-});
+//     define: {
+//       timestamps: false
+//     }
+// });
 
 module.exports = db;

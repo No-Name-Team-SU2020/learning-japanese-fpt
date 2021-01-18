@@ -5,7 +5,6 @@ const StudentMission = () => {
   const history = useHistory();
 
   return (
-
     <div className='row student-mission'>
       <div
         className='col-md-6 section'

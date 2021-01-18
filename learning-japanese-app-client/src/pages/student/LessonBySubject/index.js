@@ -65,8 +65,8 @@ const LessonBySubject = () => {
           </div>
         ))}
       <Button
-        className="my-3"
-        variant="contained"
+        className='my-3'
+        variant='contained'
         onClick={() => history.goBack()}
       >
         Go Back

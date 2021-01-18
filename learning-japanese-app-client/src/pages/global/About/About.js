@@ -1,6 +1,6 @@
 import React from "react";
 import Footer from "./Footer";
-import Member from "./Member";
+// import Member from "./Member";
 
 const About = () => {
   return (

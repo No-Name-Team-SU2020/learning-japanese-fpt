@@ -36,8 +36,6 @@ const QuizDetail = () => {
       });
   }, [lId, sId, dispatch]);
 
-  console.log(quizDetailData);
-
   return (
     <div>
       {loading && <Loader />}
@@ -46,7 +44,6 @@ const QuizDetail = () => {
           <div className='d-flex justify-content-between align-items-center'>
             <div>
               <h3>{quizDetailData.lesson.lesson_name}</h3>
-              <p>{quizDetailData.lesson.lesson_content}</p>
             </div>
             <div>
               <h5>Score : {quizDetailData.score} </h5>
@@ -62,7 +59,7 @@ const QuizDetail = () => {
           </div>
           <div>
             <h3> {quizDetailData.student_id} answers</h3>
-            <TableContainer className='shadow rounded'>
+            <TableContainer className='shadow rounded mt-1'>
               <Table aria-label='lessons table'>
                 <TableHead>
                   <TableRow>

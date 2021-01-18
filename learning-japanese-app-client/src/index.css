@@ -274,6 +274,7 @@ li {
 .dark-mode h1,
 .dark-mode h3,
 .dark-mode h4,
+.dark-mode h5,
 .dark-mode p {
   color: white;
 }
@@ -294,7 +295,7 @@ li {
 }
 .dark-mode .MuiFormLabel-root {
   color: rgb(233, 212, 212) !important;
-  transform: translate(14px, -15px)
+  transform: translate(14px, -15px) !important;
 }
 .dark-mode .SubMenu_SubMenu__PnK1O {
   background-color: rgb(34, 32, 43) !important;
@@ -349,7 +350,7 @@ li {
   border-bottom: none;
 }
 .dark-mode .teacher-body .list-group-item:last-child {
-  border-bottom: 1px solidrgb(233, 212, 212);
+  border-bottom: 1px solid rgb(233, 212, 212);
 }
 .dark-mode .teacher-body .hover-bg-blue:hover {
   color: white;

@@ -21,7 +21,7 @@ const QuestionItem = ({ question, showConfirm }) => {
         <IconButton
           onClick={() =>
             history.push(
-              `/manage-question/question/edit/${question.question_id}`
+              `/question/edit/${question.question_id}`
             )
           }
         >

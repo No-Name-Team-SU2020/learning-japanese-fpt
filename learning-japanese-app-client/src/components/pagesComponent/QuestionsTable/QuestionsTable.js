@@ -95,7 +95,7 @@ const QuestionTable = ({ questionList }) => {
         </Fragment>
       ) : (
         <p className='lead text-danger text-center my-3'>
-          Can not find questions
+          Question List Is Empty
         </p>
       )}
     </>

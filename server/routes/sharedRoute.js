@@ -302,12 +302,6 @@ router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
         }
 
         let findQuizPreset;
-        //get quiz preset for quiz
-        findQuizPreset = await Quiz_Preset.findOne({
-            where: {
-                is_chosen: true
-            }
-        });
         let checkAttendance;
         if (checkUser.role_id === 3) {
             //check diem danh danh cho student
@@ -331,6 +325,12 @@ router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
             });
 
         } else if (checkUser.role_id === 3 && checkAttendance) {
+            //get quiz preset for quiz
+            findQuizPreset = await Quiz_Preset.findOne({
+                where: {
+                    is_chosen: true
+                }
+            }); 
             listQuestions = await Question.findAll({
                 order: [
                     sequelize.literal('random()'),

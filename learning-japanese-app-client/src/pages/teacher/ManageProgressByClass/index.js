@@ -30,6 +30,7 @@ const ManageProgressByClass = ({ match, location }) => {
 
   useEffect(() => {
     setLoading(true);
+
     axios
       .get(`/teacher/lessons/${lessonId}/progress/${cId}`)
       .then((res) => {
@@ -60,7 +61,7 @@ const ManageProgressByClass = ({ match, location }) => {
             fullWidth
             variant='outlined'
           >
-            {/* <MenuItem value=''>Choose lesson</MenuItem> */}
+            <MenuItem value=''>Choose lesson</MenuItem>
             {lessonList?.map((option) => (
               <MenuItem key={option.lesson_id} value={option.lesson_id}>
                 {option.lesson_name}
@@ -85,12 +86,6 @@ const ManageProgressByClass = ({ match, location }) => {
                 <h4>
                   Total number of true/false question follow by class & question
                 </h4>
-                {console.log(
-                  Math.round(
-                    (Number(progressData.total_score[0].total_score) * 100) /
-                      (+progressData.count_total.count * 10)
-                  )
-                )}
               </div>
               <Pie
                 data={{

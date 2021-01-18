@@ -33,6 +33,7 @@ const ManageStudentByClass = ({ match, location }) => {
   const [loading, setLoading] = useState(false);
   const [classData, setClassData] = useState({});
   const [lessonId, setLessonId] = useState(1);
+  const [selectedStudent, setSelectedStudent] = useState(null);
   const { lessonList } = useSelector((state) => state.adminLessonList);
   const [attendanceResponse, setAttendanceResponse] = useState({});
   const dispatch = useDispatch();
@@ -53,13 +54,14 @@ const ManageStudentByClass = ({ match, location }) => {
           setClassData(res.data.data[0]);
         }
       })
-      .catch((err) => {
+      .catch((_) => {
         setLoading(false);
         alert("Something went wrong");
       });
   }, [cId, lessonId]);
 
   const attendanceHandler = async (data) => {
+    setSelectedStudent(data.student_id);
     if (data) {
       setAttendanceResponse((prevState) => ({
         ...prevState,
@@ -97,6 +99,7 @@ const ManageStudentByClass = ({ match, location }) => {
       }
     }
   };
+
   return (
     <div>
       <h3 className='mb-3'>Student List</h3>
@@ -112,7 +115,7 @@ const ManageStudentByClass = ({ match, location }) => {
             fullWidth
             variant='outlined'
           >
-            {/* <MenuItem value=''>Choose lesson</MenuItem> */}
+            <MenuItem value=''>Choose lesson</MenuItem>
             {lessonList?.map((option) => (
               <MenuItem key={option.lesson_id} value={option.lesson_id}>
                 {option.lesson_name}
@@ -164,7 +167,8 @@ const ManageStudentByClass = ({ match, location }) => {
                     )}
                     {isResult === "0" && (
                       <TableCell>
-                        {attendanceResponse.loading ? (
+                        {attendanceResponse.loading &&
+                        selectedStudent === student.student_id ? (
                           <Loader />
                         ) : (
                           <>

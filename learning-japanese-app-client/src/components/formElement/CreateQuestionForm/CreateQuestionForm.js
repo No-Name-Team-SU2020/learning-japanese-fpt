@@ -255,7 +255,7 @@ const CreateQuestionForm = () => {
               variant='contained'
               color='secondary'
               onClick={() => {
-                window.location.href = "/manage-question";
+                window.location.href = "/";
               }}
             >
               Cancel
