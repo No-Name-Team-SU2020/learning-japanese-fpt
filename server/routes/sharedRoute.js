@@ -54,7 +54,7 @@ router.get('/class-subjects/:classId', checkAuth, async (req, res) => {
         // const class_response = await fetch_class.json();
 
         //console.log(class_response);
-        
+
         let fetched_json;
         if (checkUser.role_id === 2 && currentTeacher) {
             data = await Class.findAll({
@@ -136,7 +136,7 @@ router.get('/class-subjects/:classId', checkAuth, async (req, res) => {
 
 
 //view all lessons in a subject
-router.get('/subjects/:subjectId/lessons', async(req, res) => {
+router.get('/subjects/:subjectId/lessons', async (req, res) => {
     try {
         const subjectId = req.params.subjectId;
 
@@ -146,7 +146,7 @@ router.get('/subjects/:subjectId/lessons', async(req, res) => {
             }
         });
 
-        if(!currentSubject){
+        if (!currentSubject) {
             return res.json({
                 message: "Subject not found"
             })
@@ -158,7 +158,7 @@ router.get('/subjects/:subjectId/lessons', async(req, res) => {
             }
         });
 
-        if(!listLesson){
+        if (!listLesson) {
             return res.json({
                 message: "Lessons not found"
             })
@@ -330,7 +330,8 @@ router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
                 where: {
                     is_chosen: true
                 }
-            }); 
+            });
+            
             listQuestions = await Question.findAll({
                 order: [
                     sequelize.literal('random()'),
