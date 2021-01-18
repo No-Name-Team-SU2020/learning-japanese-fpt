@@ -13,6 +13,7 @@ const Teacher_Class = require('../models/Teacher_Class');
 const Teacher_Subject = require('../models/Teacher_Subject');
 const Student_Class = require('../models/Student_Class');
 const Student_Subject = require('../models/Student_Subject');
+const Is_Attended = require('../models/Is_Attended');
 require('dotenv').config();
 
 //fetch all classes from fap and view list classes
@@ -335,6 +336,37 @@ router.post('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
             message: "Fetch success",
             data: upsertLesson
         })
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//update attendance infomation
+router.post('/attendances', checkAuth, async (req, res) => {
+    try {
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/api/attendance-info`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
+        });
+        const fetched_json = await fetch_response.json();
+        console.log(fetched_json);
+        const upsertAttendance = await Is_Attended.bulkCreate(fetched_json.data, {
+            fields: ["attended_id", "student_id", "lesson_id", "class_id"],
+            //updateOnDuplicate: ["class_name"]
+        });
+        console.log(upsertAttendance);
+        return res.json({
+            message: "Attendance info insert success",
+            data: upsertAttendance
+        });
     } catch (error) {
         console.error(error.message);
         return res.status(500).json({

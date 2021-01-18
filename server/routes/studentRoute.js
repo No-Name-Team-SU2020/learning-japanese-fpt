@@ -126,7 +126,7 @@ router.get('/student-subjects', checkAuth, async (req, res) => {
         //     message: "Fetch success",
         //     data: fetched_json.data
         // })
-        
+
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -317,20 +317,66 @@ router.get('/quiz_results/:subjectId', checkAuth, async (req, res) => {
 //check thong tin diem danh
 router.get('/attendance', checkAuth, async (req, res) => {
     try {
-        const fap_token = ''
-        const api_url = `http://localhost:8000/student/attendance`;
-        const fetch_response = await fetch(api_url, {
-            method: 'GET',
-            headers: {
-                'fap-token': fap_token
+        //const lessonId = req.params.lessonId;
+
+        // const currentLesson = await Lesson.findOne({
+        //     where: {
+        //         lesson_id: lessonId
+        //     }
+        // })
+
+        const currentUser = req.user.user_name;
+
+        const checkUser = await User.findOne({
+            where: {
+                user_name: currentUser
+            }
+        });
+        //check student
+        const currentStudent = await Student.findOne({
+            where: {
+                user_name: checkUser.user_name
+            },
+        });
+
+        const checkAttendance = await Is_Attended.findAll({
+            where: {
+                student_id: currentStudent.student_id,
+                ///lesson_id: currentLesson.lesson_id
+            },
+            include: [
+                { model: Lesson, attributes: ['lesson_name'] },
+                //{ model: Class, attributes: ['class_name'] }
+            ],
+        });
+
+        if (!checkAttendance) {
+            return res.json({
+                message: "Attendance information not found"
+            });
+        }
+
+        return res.json({
+            message: "Attendance information found",
+            data: {
+                attendances: checkAttendance,
             }
         });
 
-        const fetched_json = await fetch_response.json();
-        return res.json({
-            message: "Fetch success",
-            data: fetched_json.data
-        });
+        // const fap_token = ''
+        // const api_url = `http://localhost:8000/student/attendance`;
+        // const fetch_response = await fetch(api_url, {
+        //     method: 'GET',
+        //     headers: {
+        //         'fap-token': fap_token
+        //     }
+        // });
+
+        // const fetched_json = await fetch_response.json();
+        // return res.json({
+        //     message: "Fetch success",
+        //     data: fetched_json.data
+        // });
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
