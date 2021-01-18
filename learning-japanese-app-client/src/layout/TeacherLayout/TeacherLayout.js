@@ -44,7 +44,10 @@ const AdminLayout = () => {
                   path='/student-quiz-result/:sId'
                   component={StudentQuizResult}
                 />
-                <Route path='/quiz-detail/:qId' component={QuizDetail} />
+                <Route
+                  path='/quiz-detail/lesson/:lId/student/:sId'
+                  component={QuizDetail}
+                />
                 <Route
                   path='/manage-student/classes/:cId'
                   component={ManageStudentByClass}

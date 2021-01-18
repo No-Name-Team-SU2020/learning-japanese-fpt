@@ -11,9 +11,12 @@ import {
   Button,
 } from "@material-ui/core";
 import { useHistory, Link } from "react-router-dom";
+import { alert } from "../../../store/actions/ui/ui";
+import { useDispatch } from "react-redux";
 
 const StudentQuizResult = ({ match }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const { sId } = match.params;
   const [loading, setLoading] = useState(false);
   const [studentQuizResultData, setStudentQuizResultData] = useState([]);
@@ -28,34 +31,33 @@ const StudentQuizResult = ({ match }) => {
           setStudentQuizResultData(res.data.data);
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((_) => {
         setLoading(false);
-        alert("Something went wrong");
+        dispatch(alert("error", "Something went wrong"));
       });
-  }, [sId]);
+  }, [sId, dispatch]);
+
   return (
     <div>
       {loading && <Loader />}
       {!loading && studentQuizResultData?.length > 0 && (
         <>
           <h3>{studentQuizResultData?.class_name}</h3>
-          <TableContainer className="shadow rounded">
-            <Table aria-label="lessons table">
+          <TableContainer className='shadow rounded'>
+            <Table aria-label='lessons table'>
               <TableHead>
                 <TableRow>
                   <TableCell>Quiz ID</TableCell>
                   <TableCell>Lesson ID</TableCell>
                   <TableCell>Score</TableCell>
                   <TableCell>Num Of Failed</TableCell>
-                  <TableCell>Attendance Status</TableCell>
                   <TableCell>Quiz Detail</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {studentQuizResultData?.map((result) => (
                   <TableRow key={result.quiz_id}>
-                    <TableCell component="th" scope="row">
+                    <TableCell component='th' scope='row'>
                       {result.quiz_id}
                     </TableCell>
                     <TableCell>{result.lesson_id}</TableCell>
@@ -72,7 +74,7 @@ const StudentQuizResult = ({ match }) => {
                         : `0/10`}
                     </TableCell>
                     <TableCell>
-                      <Link to={`/quiz-detail/${result.quiz_id}`}>View</Link>
+                      <Link to={`/quiz-detail/lesson/${result.lesson_id}/student/${result.student_id}`}>View</Link>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -82,9 +84,9 @@ const StudentQuizResult = ({ match }) => {
         </>
       )}
       <Button
-        variant="contained"
+        variant='contained'
         onClick={() => history.goBack()}
-        className="mt-3"
+        className='mt-3'
       >
         Go Back
       </Button>
