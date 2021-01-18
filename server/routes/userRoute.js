@@ -9,8 +9,8 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const checkAuth = require('../middleware/checkAuth');
 const validInfo = require('../middleware/validInfo');
-
-let refreshTokens = [];
+const validInfoGoogle = require('../middleware/validInfoGoogle');
+const fetch = require('node-fetch');
 
 //login
 router.post('/login', validInfo, async (req, res) => {
@@ -56,8 +56,6 @@ router.post('/login', validInfo, async (req, res) => {
             }
         );
 
-        refreshTokens.push(refreshToken)
-
         //return token and username
         return res.json({
             message: "Login successfully!",
@@ -78,18 +76,13 @@ router.post('/login', validInfo, async (req, res) => {
     }
 });
 
-//logout (might not be needed, might be removed later)
-router.post('/logout', checkAuth, async(req, res) => {
+//view profile
+router.get('/profile',checkAuth, async(req, res) => {
     try {
-        const refreshToken = req.body.token;
-        // refreshTokens = refreshTokens.filter((refreshToken) => {
-        //     return refreshToken.token !== req.token
-        // })
-        refreshTokens.splice(0, refreshTokens.length)
-        //token successfully removed
         res.status(200).json({
-            message: "Logged out"
-        });
+            message: "Found user profile",
+            data: req.user
+        })
 
     } catch (error) {
         console.error(error.message);
@@ -100,14 +93,17 @@ router.post('/logout', checkAuth, async(req, res) => {
     }
 });
 
-//view profile
-router.get('/profile',checkAuth, async(req, res) => {
-    try {
-        res.status(200).json({
-            message: "Found user profile",
-            data: req.user
-        })
 
+//list user, test deploy and fetch
+router.get('/list-users', async(req, res) => {
+    try {
+        const api_url = 'http://localhost:8000/list-users';
+        const fetch_response = await fetch(api_url);
+        const json = await fetch_response.json();
+        return res.json({
+            message: "Fetch success",
+            data: json
+        })
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
