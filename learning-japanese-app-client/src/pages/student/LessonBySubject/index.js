@@ -24,7 +24,6 @@ const LessonBySubject = () => {
   useEffect(() => {
     dispatch(getResults(sId));
   }, [dispatch, sId]);
-
   return (
     <div>
       <h1>Lesson follow by Subject</h1>
@@ -46,7 +45,7 @@ const LessonBySubject = () => {
               <strong>{lesson.lesson_name} : </strong>
               {lesson.lesson_content.substr(0, 50)}
             </span>
-            {lesson.is_attendeds.length > 0 ? (
+            {lesson.is_attendeds?.length > 0 ? (
               !studentResult.data.find(
                 (r) => r.lesson_id === lesson.lesson_id
               ) ? (

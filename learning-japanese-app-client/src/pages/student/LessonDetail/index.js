@@ -28,7 +28,6 @@ const LessonDetail = ({ match, location }) => {
       dispatch(getLessons(location.search.split("=")[1]));
     }
   }, [lessonList.length, dispatch, location.search]);
-
   return (
     <div>
       {loading && <Loader />}
@@ -37,7 +36,13 @@ const LessonDetail = ({ match, location }) => {
         <>
           <h3>{lessonDetail?.lesson_name}</h3>
           <div className='p-3 bg-light'>
-            <p className='lead'> {lessonDetail?.lesson_content} </p>
+            <ul className=''>
+              {lessonDetail?.lesson_content
+                ?.split("(*)")
+                .map((item, index) =>
+                  item ? <li key={index}>(*) {item}</li> : null
+                )}
+            </ul>
             <div
               className={`p-2 badge badge-${
                 lessonDetail?.is_attendeds?.length > 0 ? "success" : "danger"

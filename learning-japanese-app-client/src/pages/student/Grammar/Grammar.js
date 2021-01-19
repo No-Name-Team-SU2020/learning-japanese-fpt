@@ -14,7 +14,7 @@ const Grammer = ({ match }) => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`/student/lessons/${lId}/grammars`)
+      .get(`/shared/lessons/${lId}/grammars`)
       .then((res) => {
         setGrammarData(res.data.data);
         setLoading(false);
@@ -27,10 +27,10 @@ const Grammer = ({ match }) => {
   return (
     <div>
       {loading && <Loader />}
-      {!loading && grammarData.subject && (
+      {!loading && grammarData.subject && grammarData.subject.subject_name && (
         <>
-          <h1> {grammarData.subject} </h1>
-          <p className='lead'> {grammarData.lesson} </p>
+          <h1> {grammarData.subject.subject_name} </h1>
+          <p className='lead'> {grammarData.lesson.lesson_name} </p>
           <h5 className='border-left-red-lg pl-2 my-4'>My grammar</h5>
           <GrammarTable lessonId={lId} />
           <Button

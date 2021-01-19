@@ -52,9 +52,10 @@ function* findQuestionWorker(action) {
     const res = yield searchQuestionRequest(action.term);
     yield put(getQuestionsSuccess(res.data.data));
   } catch (error) {
+    yield put(alert('error', error.response?.data || "Something went wrong" ))
     yield put(
       findQuestionFailed(
-        error.response?.data?.message || "Something went wrong"
+        error.response?.data || "Something went wrong"
       )
     );
   }

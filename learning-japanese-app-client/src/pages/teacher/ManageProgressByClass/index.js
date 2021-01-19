@@ -30,14 +30,12 @@ const ManageProgressByClass = ({ match, location }) => {
 
   useEffect(() => {
     setLoading(true);
-
     axios
       .get(`/teacher/lessons/${lessonId}/progress/${cId}`)
       .then((res) => {
         setLoading(false);
         if (res.data.data) {
           setProgressData(res.data.data);
-          console.log(res.data.data);
         }
       })
       .catch(() => {
