@@ -324,6 +324,17 @@ router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
                 //attributes: ['question_id', 'question_content', 'option_a', 'option_b', 'option_c', 'option_d','subject_id', 'lesson_id', 'correct_answer']
             });
 
+            return res.json(
+                {
+                    message: "All questions found",
+                    data: {
+                        questions: listQuestions,
+                        //time: findQuizPreset.quiz_time,
+                        lesson: currentLesson
+                    }
+                }
+            );
+
         } else if (checkUser.role_id === 3 && checkAttendance) {
             //get quiz preset for quiz
             findQuizPreset = await Quiz_Preset.findOne({
@@ -343,28 +354,39 @@ router.get('/lessons/:lessonId/questions', checkAuth, async (req, res) => {
                 },
                 attributes: ['question_id', 'question_content', 'option_a', 'option_b', 'option_c', 'option_d']
             })
+
+            return res.json(
+                {
+                    message: "All questions found",
+                    data: {
+                        questions: listQuestions,
+                        time: findQuizPreset.quiz_time,
+                        lesson: currentLesson
+                    }
+                }
+            );
         } else {
             return res.json({
                 message: "User dont have permission to view this resource"
             })
         }
 
-        if (!listQuestions) {
-            return res.json({
-                message: "questions not found",
-            });
-        }
+        // if (!listQuestions) {
+        //     return res.json({
+        //         message: "questions not found",
+        //     });
+        // }
 
-        return res.json(
-            {
-                message: "All questions found",
-                data: {
-                    questions: listQuestions,
-                    time: findQuizPreset.quiz_time,
-                    lesson: currentLesson
-                }
-            }
-        )
+        // return res.json(
+        //     {
+        //         message: "All questions found",
+        //         data: {
+        //             questions: listQuestions,
+        //             time: findQuizPreset.quiz_time,
+        //             lesson: currentLesson
+        //         }
+        //     }
+        // )
     } catch (error) {
         console.error(error.message);
         return res.status(500).json({
