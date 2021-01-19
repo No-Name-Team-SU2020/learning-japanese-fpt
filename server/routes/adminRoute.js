@@ -54,12 +54,12 @@ router.post('/classes', checkAuth, async (req, res) => {
         });
         const fetched_json = await fetch_response.json();
         //console.log(fetched_json);
-        //update and insert classes
+        //update and insert subjects
         const upsertClass = await Class.bulkCreate(fetched_json.data, {
             fields: ["class_id", "class_name"],
             updateOnDuplicate: ["class_name"]
         });
-        console.log(upsertClass);
+        //console.log(upsertClass);
         return res.json({
             message: "Classes upsert success",
             data: upsertClass
@@ -142,12 +142,15 @@ router.post('/classes-subjects', checkAuth, async (req, res) => {
             // }
         });
         const fetched_json = await fetch_response.json();
-        console.log(fetched_json);
+        ///console.log(fetched_json);
+        const deleteOldData = await Class_Subject.destroy({
+            truncate: true
+        });
         const upsertClassSubject = await Class_Subject.bulkCreate(fetched_json.data, {
             fields: ["class_id", "subject_id"],
-            //updateOnDuplicate: ["class_name"]
+            //updateOnDuplicate: ["class_id", "subject_id"]
         });
-        console.log(upsertClassSubject);
+        //console.log(upsertClassSubject);
         return res.json({
             message: "Class subject insert success",
             data: upsertClassSubject
@@ -173,12 +176,15 @@ router.post('/teachers-classes', checkAuth, async (req, res) => {
             // }
         });
         const fetched_json = await fetch_response.json();
-        console.log(fetched_json);
+        //console.log(fetched_json);
+        const deleteOldData = await Teacher_Class.destroy({
+            truncate: true
+        });
         const upsertTeacherClass = await Teacher_Class.bulkCreate(fetched_json.data, {
             fields: ["teacher_id", "class_id"],
             //updateOnDuplicate: ["class_name"]
         });
-        console.log(upsertTeacherClass);
+        //console.log(upsertTeacherClass);
         return res.json({
             message: "Teacher class insert success",
             data: upsertTeacherClass
@@ -204,12 +210,15 @@ router.post('/teachers-subjects', checkAuth, async (req, res) => {
             // }
         });
         const fetched_json = await fetch_response.json();
-        console.log(fetched_json);
+        //console.log(fetched_json);
+        const deleteOldData = await Teacher_Subject.destroy({
+            truncate: true
+        });
         const upsertTeacherSubject = await Teacher_Subject.bulkCreate(fetched_json.data, {
             fields: ["teacher_id", "subject_id"],
             //updateOnDuplicate: ["class_name"]
         });
-        console.log(upsertTeacherSubject);
+        ///console.log(upsertTeacherSubject);
         return res.json({
             message: "Teacher subject insert success",
             data: upsertTeacherSubject
@@ -235,12 +244,15 @@ router.post('/students-classes', checkAuth, async (req, res) => {
             // }
         });
         const fetched_json = await fetch_response.json();
-        console.log(fetched_json);
+        //console.log(fetched_json);
+        const deleteOldData = await Student_Class.destroy({
+            truncate: true
+        });
         const upsertStudentClass = await Student_Class.bulkCreate(fetched_json.data, {
             fields: ["student_id", "class_id"],
             //updateOnDuplicate: ["class_name"]
         });
-        console.log(upsertStudentClass);
+        //console.log(upsertStudentClass);
         return res.json({
             message: "Student class insert success",
             data: upsertStudentClass
@@ -265,12 +277,15 @@ router.post('/students-subjects', checkAuth, async (req, res) => {
             // }
         });
         const fetched_json = await fetch_response.json();
-        console.log(fetched_json);
+        //console.log(fetched_json);
+        const deleteOldData = await Student_Subject.destroy({
+            truncate: true
+        });
         const upsertStudentSubject = await Student_Subject.bulkCreate(fetched_json.data, {
             fields: ["student_id", "subject_id"],
             //updateOnDuplicate: ["class_name"]
         });
-        console.log(upsertStudentSubject);
+        //console.log(upsertStudentSubject);
         return res.json({
             message: "Student subject insert success",
             data: upsertStudentSubject
@@ -297,7 +312,7 @@ router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
             // }
         });
         const fetched_json = await fetch_response.json();
-        console.log(fetched_json);
+        //console.log(fetched_json);
         return res.json({
             message: "Fetch success",
             data: fetched_json.data
@@ -354,12 +369,15 @@ router.post('/attendances', checkAuth, async (req, res) => {
             // }
         });
         const fetched_json = await fetch_response.json();
-        console.log(fetched_json);
+        //console.log(fetched_json);
+        const deleteOldData = await Is_Attended.destroy({
+            truncate: true
+        });
         const upsertAttendance = await Is_Attended.bulkCreate(fetched_json.data, {
             fields: ["attended_id", "student_id", "lesson_id", "class_id"],
             //updateOnDuplicate: ["class_name"]
         });
-        console.log(upsertAttendance);
+        //console.log(upsertAttendance);
         return res.json({
             message: "Attendance info insert success",
             data: upsertAttendance
