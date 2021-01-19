@@ -134,7 +134,7 @@ router.get('/teacher-classes', async (req, res) => {
 });
 
 //view tất cả student trong 1 class kèm theo thông tin điểm danh theo lesson
-router.get('/lessons/:lessonId/attendance/:classId', async (req, res) => {
+router.get('/lessons/:lessonId/class-students/:classId', async (req, res) => {
     try {
         //const isSubmit = new Boolean(true);
 
