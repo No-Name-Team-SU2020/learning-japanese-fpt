@@ -133,6 +133,72 @@ router.get('/teacher-classes', async (req, res) => {
     }
 });
 
+//view tất cả student trong 1 class kèm theo thông tin điểm danh theo lesson
+router.get('/lessons/:lessonId/attendance/:classId', async (req, res) => {
+    try {
+        //const isSubmit = new Boolean(true);
+
+        const lessonId = req.params.lessonId;
+
+        const classId = req.params.classId;
+
+        const currentLesson = await Lesson.findOne({
+            where: {
+                lesson_id: lessonId
+            }
+        });
+
+        if (!currentLesson) {
+            return res.json({
+                message: "Cannot find lesson in db"
+            })
+        }
+
+        const currentClass = await Class.findOne({
+            where: {
+                class_id: classId
+            }
+        });
+
+        if (!currentClass) {
+            return res.json({
+                message: "Cannot find class in db"
+            })
+        }
+
+        const datas = await Class.findAll({
+            where: { class_id: currentClass.class_id },
+            include: [
+                {
+                    model: Student, through: { attributes: [] },
+                    include: [
+                        { model: Is_Attended, where: { lesson_id: currentLesson.lesson_id }, required: false },
+                    ]
+                },
+            ],
+        });
+
+        if (!datas) {
+            return res.json({
+                message: "Cannot find data",
+            })
+        }
+
+        return res.json({
+            message: "Students found",
+            data: datas
+        });
+
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
 //view student quiz results detail by lesson id
 router.get('/lessons/:lessonId/quiz-results/:studentId', async (req, res) => {
     try {
