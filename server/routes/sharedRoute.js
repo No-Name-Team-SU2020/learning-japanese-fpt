@@ -55,7 +55,7 @@ router.get('/class-subjects/:classId', checkAuth, async (req, res) => {
 
         //console.log(class_response);
 
-        let fetched_json;
+        let data;
         if (checkUser.role_id === 2 && currentTeacher) {
             data = await Class.findAll({
                 where: { class_id: currentClass.class_id },
