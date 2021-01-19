@@ -11,10 +11,10 @@ const ManageQuestion = ({ match }) => {
         <QuestionList />
       </Route>
       <div className='w-50 mx-auto'>
-        <Route path={`${match.url}/question/edit/:qId`}>
+        <Route path={`${match.url}question/edit/:qId`}>
           <EditQuestionForm />
         </Route>
-        <Route exact path={`${match.url}/create`}>
+        <Route exact path={`${match.url}create`}>
           <CreateQuestionForm />
         </Route>
       </div>

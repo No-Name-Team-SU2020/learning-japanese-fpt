@@ -3,15 +3,15 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
-import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { createQuestion } from "../../../store/actions/admin";
 import { getSubjects } from "../../../store/actions/admin";
 import Loader from "../../ui/Loader/Loader";
 import axios from "../../../store/api/axios";
+import { containManySpaceCharacters } from "../../../utils/validators";
+import { alert } from "../../../store/actions/ui/ui";
 
 const CreateQuestionForm = () => {
-  const history = useHistory();
   const { subjectList } = useSelector((state) => state.adminSubjectList);
   const { loading, error } = useSelector((state) => state.adminQuestionList);
   const [lessonList, setLessonList] = useState([]);
@@ -58,17 +58,30 @@ const CreateQuestionForm = () => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(
-      createQuestion({
-        ...question,
-        question_content: question.question_content.trim(),
-        option_a: question.option_a.trim(),
-        option_b: question.option_b.trim(),
-        option_c: question.option_c.trim(),
-        option_d: question.option_d.trim(),
-        correct_answer: question.correct_answer.trim(),
-      })
-    );
+    if (
+      containManySpaceCharacters(question.question_content) ||
+      containManySpaceCharacters(question.option_a) ||
+      containManySpaceCharacters(question.option_b) ||
+      containManySpaceCharacters(question.option_c) ||
+      containManySpaceCharacters(question.option_d) ||
+      containManySpaceCharacters(question.correct_answer)
+    ) {
+      dispatch(
+        alert("error", "Question Input fields should not contain many space")
+      );
+    } else {
+      dispatch(
+        createQuestion({
+          ...question,
+          question_content: question.question_content.trim(),
+          option_a: question.option_a.trim(),
+          option_b: question.option_b.trim(),
+          option_c: question.option_c.trim(),
+          option_d: question.option_d.trim(),
+          correct_answer: question.correct_answer.trim(),
+        })
+      );
+    }
   };
   return (
     <div className='bg-light p-4 rounded shadow'>
@@ -241,7 +254,9 @@ const CreateQuestionForm = () => {
             <Button
               variant='contained'
               color='secondary'
-              onClick={() => history.goBack()}
+              onClick={() => {
+                window.location.href = "/";
+              }}
             >
               Cancel
             </Button>

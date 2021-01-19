@@ -5,53 +5,32 @@ const Lesson = require('../models/Lesson');
 const Class = require('../models/Class');
 const { Op } = require('sequelize');
 const checkAuth = require('../middleware/checkAuth');
+const Grammar = require('../models/Grammar');
+const Quiz_Preset = require('../models/Quiz_Preset');
+const fetch = require('node-fetch');
+const Class_Subject = require('../models/Class_Subject');
+const Teacher_Class = require('../models/Teacher_Class');
+const Teacher_Subject = require('../models/Teacher_Subject');
+const Student_Class = require('../models/Student_Class');
+const Student_Subject = require('../models/Student_Subject');
+const Is_Attended = require('../models/Is_Attended');
+require('dotenv').config();
 
-//view all classes
+//fetch all classes from fap and view list classes
 router.get('/classes', checkAuth, async (req, res) => {
     try {
-        const classes = await Class.findAll();
-
-        if (!classes) {
-            return res.json({
-                message: "Classes not found",
-            });
-        }
-
-        return res.json(
-            {
-                message: "Classes found",
-                data: classes
-            }
-        );
-    } catch (error) {
-        console.error(error.message);
-        return res.status(500).json({
-            message: "Server error",
-            error: error
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/api/classes`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
         });
-    }
-});
-
-//view class by id
-router.get('/classes/:classId', checkAuth, async (req, res) => {
-    try {
-        const classId = req.params.classId;
-
-        const findClass = await Class.findOne({
-            where: {
-                class_id: classId
-            }
-        });
-
-        if (!findClass) {
-            return res.json({
-                message: "Class not found"
-            })
-        }
-
+        const fetched_json = await fetch_response.json();
         return res.json({
-            message: "Found class",
-            data: findClass
+            message: "Fetch success",
+            data: fetched_json.data
         })
     } catch (error) {
         console.error(error.message);
@@ -62,92 +41,28 @@ router.get('/classes/:classId', checkAuth, async (req, res) => {
     }
 });
 
-//Create new class
+//upsert classes
 router.post('/classes', checkAuth, async (req, res) => {
     try {
-        const { class_name } = req.body;
-
-        if (!class_name) {
-            return res.json({
-                message: "Class name is not valid",
-                data: null,
-            });
-        }
-
-        const checkDuplicate = await Class.findOne({
-            where: {
-                class_name: class_name
-            },
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/api/classes`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
         });
-
-        if(checkDuplicate){
-            return res.json({
-                message: "Class name already existed"
-            })
-        }
-
-        const newClass = await Class.create({
-            class_name,
+        const fetched_json = await fetch_response.json();
+        //console.log(fetched_json);
+        //update and insert subjects
+        const upsertClass = await Class.bulkCreate(fetched_json.data, {
+            fields: ["class_id", "class_name"],
+            updateOnDuplicate: ["class_name"]
         });
-
+        //console.log(upsertClass);
         return res.json({
-            message: 'Class created successfully',
-            data: newClass
-        });
-
-    } catch (error) {
-        console.error(error.message);
-        return res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
-
-//Update class
-router.put('/classes/:classId', checkAuth, async (req, res) => {
-    try {
-
-        const classId = req.params.classId;
-
-        const currentClass = await Class.findOne({
-            where: {
-                class_id: classId
-            }
-        })
-
-        if (!currentClass) {
-            return res.json({
-                message: 'Class not found',
-            });
-        }
-
-        const { class_name } = req.body;
-
-        const checkDuplicate = await Class.findOne({
-            where: {
-                class_name: class_name
-            },
-        });
-
-        if(checkDuplicate){
-            return res.json({
-                message: "Class name already existed"
-            })
-        }
-
-        const updateClass = await Class.update({
-            class_name,
-        },
-            {
-                where: {
-                    class_id: currentClass.class_id
-                }
-            });
-
-        return res.json({
-            message: 'Update successfully',
-            data: updateClass
+            message: "Classes upsert success",
+            data: upsertClass
         });
     } catch (error) {
         console.error(error.message);
@@ -158,82 +73,21 @@ router.put('/classes/:classId', checkAuth, async (req, res) => {
     }
 });
 
-//delete class
-router.delete('/classes/:classId', checkAuth, async (req, res) => {
-    try {
-        const classId = req.params.classId;
-
-        const deleteClass = await Class.destroy({
-            where: {
-                class_id: classId
-            }
-        });
-
-        if (!deleteClass) {
-            return res.json({
-                message: 'Class cannot be deleted',
-            });
-        }
-
-        return res.json({
-            message: 'Class deleted successfully',
-            data: deleteClass
-        });
-
-    } catch (error) {
-        console.error(error.message);
-        return res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
-
-//view all subject for admin
+//fetch all subjects from fap and view list subjects
 router.get('/subjects', checkAuth, async (req, res) => {
     try {
-        const subjects = await Subject.findAll();
-
-        if (!subjects) {
-            return res.json({
-                message: "Subjects not found",
-            });
-        }
-        return res.json(
-            {
-                message: "All subjects found",
-                data: subjects
-            }
-        );
-    } catch (error) {
-        console.error(error.message);
-        return res.status(500).json({
-            message: "Server error",
-            error: error
+        ////const fap_token = ''
+        const api_url = `http://localhost:8000/api/subjects`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
         });
-    }
-});
-
-//view subject by id
-router.get('/subjects/:subjectId', checkAuth, async (req, res) => {
-    try {
-        const subjectId = req.params.subjectId;
-
-        const findSubject = await Subject.findOne({
-            where: {
-                subject_id: subjectId
-            }
-        });
-
-        if (!findSubject) {
-            return res.json({
-                message: "Subject not found"
-            })
-        }
-
+        const fetched_json = await fetch_response.json();
         return res.json({
-            message: "Subject found",
-            data: findSubject
+            message: "Fetch success",
+            data: fetched_json.data
         })
     } catch (error) {
         console.error(error.message);
@@ -244,47 +98,29 @@ router.get('/subjects/:subjectId', checkAuth, async (req, res) => {
     }
 });
 
-//create new subject
+//upsert subject
 router.post('/subjects', checkAuth, async (req, res) => {
     try {
-        const { subject_code, subject_name } = req.body;
-
-        if (!subject_code) {
-            return res.json({
-                message: "subject id is not valid",
-                data: null,
-            });
-        }
-
-        if (!subject_name) {
-            return res.json({
-                message: "subject name is not valid",
-                data: null,
-            });
-        }
-
-        const checkDuplicate = await Subject.findOne({
-            where: {
-                subject_code: subject_code,
-                subject_name: subject_name
-            },
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/api/subjects`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
         });
-
-        if(checkDuplicate){
-            return res.json({
-                message: "Subject code and subject name already existed"
-            })
-        }
-
-        const newSubject = await Subject.create({
-            subject_code,
-            subject_name,
+        const fetched_json = await fetch_response.json();
+        console.log(fetched_json);
+        //update and insert subjects
+        const upsertSubject = await Subject.bulkCreate(fetched_json.data, {
+            fields: ["subject_id", "subject_code", "subject_name"],
+            updateOnDuplicate: ["subject_code", "subject_name"]
         });
-
+        console.log(upsertSubject);
         return res.json({
-            message: 'Subject created successfully',
-            data: newSubject
-        });
+            message: "Subjects upsert success",
+            data: upsertSubject
+        })
     } catch (error) {
         console.error(error.message);
         return res.status(500).json({
@@ -294,52 +130,30 @@ router.post('/subjects', checkAuth, async (req, res) => {
     }
 });
 
-//update subject
-router.put('/subjects/:subjectId', checkAuth, async (req, res) => {
+//insert class subject
+router.post('/classes-subjects', checkAuth, async (req, res) => {
     try {
-
-        const subjectId = req.params.subjectId;
-
-        const currentSubject = await Subject.findOne({
-            where: {
-                subject_id: subjectId
-            }
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/api/classes-subjects`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
         });
-
-        if(!currentSubject){
-            return res.json({
-                message: "Subject not found"
-            })
-        }
-
-        const { subject_code, subject_name } = req.body;
-
-        const checkDuplicate = await Subject.findOne({
-            where: {
-                subject_code: subject_code,
-                subject_name: subject_name
-            },
+        const fetched_json = await fetch_response.json();
+        ///console.log(fetched_json);
+        const deleteOldData = await Class_Subject.destroy({
+            truncate: true
         });
-
-        if(checkDuplicate){
-            return res.json({
-                message: "Subject code and subject name already existed"
-            })
-        }
-
-        const updateSubject = await Subject.update({
-            subject_code,
-            subject_name,
-        },
-            {
-                where: {
-                    subject_id: currentSubject.subject_id
-                }
-            });
-
+        const upsertClassSubject = await Class_Subject.bulkCreate(fetched_json.data, {
+            fields: ["class_id", "subject_id"],
+            //updateOnDuplicate: ["class_id", "subject_id"]
+        });
+        //console.log(upsertClassSubject);
         return res.json({
-            message: 'Update successfully',
-            data: updateSubject
+            message: "Class subject insert success",
+            data: upsertClassSubject
         });
     } catch (error) {
         console.error(error.message);
@@ -350,28 +164,159 @@ router.put('/subjects/:subjectId', checkAuth, async (req, res) => {
     }
 });
 
-//delete subject
-router.delete('/subjects/:subjectId', checkAuth, async (req, res) => {
+//insert teacher class
+router.post('/teachers-classes', checkAuth, async (req, res) => {
+    try {
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/api/teachers-classes`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
+        });
+        const fetched_json = await fetch_response.json();
+        //console.log(fetched_json);
+        const deleteOldData = await Teacher_Class.destroy({
+            truncate: true
+        });
+        const upsertTeacherClass = await Teacher_Class.bulkCreate(fetched_json.data, {
+            fields: ["teacher_id", "class_id"],
+            //updateOnDuplicate: ["class_name"]
+        });
+        //console.log(upsertTeacherClass);
+        return res.json({
+            message: "Teacher class insert success",
+            data: upsertTeacherClass
+        });
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//insert teacher subject
+router.post('/teachers-subjects', checkAuth, async (req, res) => {
+    try {
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/api/teachers-subjects`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
+        });
+        const fetched_json = await fetch_response.json();
+        //console.log(fetched_json);
+        const deleteOldData = await Teacher_Subject.destroy({
+            truncate: true
+        });
+        const upsertTeacherSubject = await Teacher_Subject.bulkCreate(fetched_json.data, {
+            fields: ["teacher_id", "subject_id"],
+            //updateOnDuplicate: ["class_name"]
+        });
+        ///console.log(upsertTeacherSubject);
+        return res.json({
+            message: "Teacher subject insert success",
+            data: upsertTeacherSubject
+        });
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//insert student class
+router.post('/students-classes', checkAuth, async (req, res) => {
+    try {
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/api/students-classes`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
+        });
+        const fetched_json = await fetch_response.json();
+        //console.log(fetched_json);
+        const deleteOldData = await Student_Class.destroy({
+            truncate: true
+        });
+        const upsertStudentClass = await Student_Class.bulkCreate(fetched_json.data, {
+            fields: ["student_id", "class_id"],
+            //updateOnDuplicate: ["class_name"]
+        });
+        //console.log(upsertStudentClass);
+        return res.json({
+            message: "Student class insert success",
+            data: upsertStudentClass
+        });
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+router.post('/students-subjects', checkAuth, async (req, res) => {
+    try {
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/api/students-subjects`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
+        });
+        const fetched_json = await fetch_response.json();
+        //console.log(fetched_json);
+        const deleteOldData = await Student_Subject.destroy({
+            truncate: true
+        });
+        const upsertStudentSubject = await Student_Subject.bulkCreate(fetched_json.data, {
+            fields: ["student_id", "subject_id"],
+            //updateOnDuplicate: ["class_name"]
+        });
+        //console.log(upsertStudentSubject);
+        return res.json({
+            message: "Student subject insert success",
+            data: upsertStudentSubject
+        });
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//view all lessons in a subject
+router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
     try {
         const subjectId = req.params.subjectId;
-
-        const deleteSubject = await Subject.destroy({
-            where: {
-                subject_id: subjectId
-            }
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/api/subjects/${subjectId}/lessons`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
         });
-
-        if (!deleteSubject) {
-            return res.json({
-                message: 'Subject cannot be deleted',
-            });
-        }
-
+        const fetched_json = await fetch_response.json();
+        //console.log(fetched_json);
         return res.json({
-            message: 'Subject deleted successfully',
-            data: deleteSubject
-        });
-
+            message: "Fetch success",
+            data: fetched_json.data
+        })
     } catch (error) {
         console.error(error.message);
         return res.status(500).json({
@@ -381,150 +326,65 @@ router.delete('/subjects/:subjectId', checkAuth, async (req, res) => {
     }
 });
 
-//create new lesson
+//upsert all lessons in a subject
 router.post('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
     try {
         const subjectId = req.params.subjectId;
-
-        const currentSubject = await Subject.findOne({
-            where: {
-                subject_id: subjectId
-            },
+        ///const fap_token = ''
+        const api_url = `http://localhost:8000/api/subjects/${subjectId}/lessons`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
         });
-
-        if(!currentSubject){
-            return res.json({
-                message: "Subject not found"
-            })
-        }
-
-        const { lesson_content, lesson_name } = req.body;
-
-        const checkDuplicate = await Lesson.findOne({
-            where: {
-                lesson_content: lesson_content,
-                lesson_name: lesson_name
-            },
-        });
-
-        if(checkDuplicate){
-            return res.json({
-                message: "Lesson content and lesson name already existed"
-            })
-        }
-
-        if (!lesson_content) {
-            return res.json({
-                message: "lesson content is not valid",
-                data: null,
-            });
-        }
-
-        if (!lesson_name) {
-            return res.json({
-                message: "lesson name is not valid",
-                data: null,
-            });
-        }
-
-        const newLesson = await Lesson.create({
-            lesson_content,
-            lesson_name,
-            subject_id: currentSubject.subject_id,
-        });
-
-        return res.json({
-            message: 'Lesson created successfully',
-            data: newLesson
-        });
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
-
-//update lesson
-router.put('/lessons/:lessonId', checkAuth, async (req, res) => {
-    try {
-        const lessonId = req.params.lessonId;
-
-        const currentLesson = await Lesson.findOne({
-            where: {
-                lesson_id: lessonId
-            }
+        const fetched_json = await fetch_response.json();
+        console.log(fetched_json);
+        const upsertLesson = await Lesson.bulkCreate(fetched_json.data, {
+            fields: ["lesson_id", "lesson_name", "lesson_content", "subject_id"],
+            updateOnDuplicate: ["lesson_name", "lesson_content", "subject_id"]
         })
-
-        if(!currentLesson){
-            return res.json({
-                message: "Lesson not found"
-            })
-        }
-
-        const { lesson_content, lesson_name } = req.body;
-
-        const checkDuplicate = await Lesson.findOne({
-            where: {
-                lesson_content: lesson_content,
-                lesson_name: lesson_name
-            },
-        });
-
-        if(checkDuplicate){
-            return res.json({
-                message: "Lesson content and lesson name already existed"
-            })
-        }
-
-        const updateLesson = await Lesson.update({
-            lesson_content,
-            lesson_name,
-        },
-            {
-                where: {
-                    lesson_id: currentLesson.lesson_id
-                }
-            });
-
-        return res.status(200).json({
-            message: 'Update successfully',
-            data: updateLesson
-        });
+        return res.json({
+            message: "Fetch success",
+            data: upsertLesson
+        })
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Server error",
             error: error
         });
     }
 });
 
-//delete lesson
-router.delete('/lessons/:lessonId', checkAuth, async (req, res) => {
+//update attendance infomation
+router.post('/attendances', checkAuth, async (req, res) => {
     try {
-        const lessonId = req.params.lessonId;
-
-        const deleteLesson = await Lesson.destroy({
-            where: {
-                lesson_id: lessonId
-            }
+        //const fap_token = ''
+        const api_url = `http://localhost:8000/api/attendance-info`;
+        const fetch_response = await fetch(api_url, {
+            method: 'GET',
+            // headers: {
+            //     'fap-token': fap_token
+            // }
         });
-
-        if (!deleteLesson) {
-            return res.json({
-                message: 'Lesson cannot be deleted',
-            });
-        }
-
+        const fetched_json = await fetch_response.json();
+        //console.log(fetched_json);
+        const deleteOldData = await Is_Attended.destroy({
+            truncate: true
+        });
+        const upsertAttendance = await Is_Attended.bulkCreate(fetched_json.data, {
+            fields: ["attended_id", "student_id", "lesson_id", "class_id"],
+            //updateOnDuplicate: ["class_name"]
+        });
+        //console.log(upsertAttendance);
         return res.json({
-            message: 'Lesson deleted successfully',
-            data: deleteLesson
+            message: "Attendance info insert success",
+            data: upsertAttendance
         });
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Server error",
             error: error
         });
@@ -532,7 +392,7 @@ router.delete('/lessons/:lessonId', checkAuth, async (req, res) => {
 });
 
 //view all question by subject
-router.get('/subjects/:subjectId/questions', checkAuth, async(req, res) => {
+router.get('/subjects/:subjectId/questions', checkAuth, async (req, res) => {
     try {
         const subjectId = req.params.subjectId;
 
@@ -542,8 +402,8 @@ router.get('/subjects/:subjectId/questions', checkAuth, async(req, res) => {
             },
         });
 
-        if(!currentSubject){
-            return res.json({
+        if (!currentSubject) {
+            return res.status(404).json({
                 message: "Subject not found"
             })
         }
@@ -554,8 +414,8 @@ router.get('/subjects/:subjectId/questions', checkAuth, async(req, res) => {
             }
         });
 
-        if(!listQuestions){
-            return res.json({
+        if (!listQuestions) {
+            return res.status(404).json({
                 message: "questions not found"
             })
         }
@@ -564,7 +424,7 @@ router.get('/subjects/:subjectId/questions', checkAuth, async(req, res) => {
             message: "questions found",
             data: listQuestions
         })
-        
+
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -586,8 +446,8 @@ router.post('/subjects/:subjectId/lessons/:lessonId/questions', checkAuth, async
             },
         })
 
-        if(!currentSubject){
-            return res.json({
+        if (!currentSubject) {
+            return res.status(404).json({
                 message: "Subject not found"
             })
         }
@@ -599,8 +459,8 @@ router.post('/subjects/:subjectId/lessons/:lessonId/questions', checkAuth, async
             },
         });
 
-        if(!currentLesson){
-            return res.json({
+        if (!currentLesson) {
+            return res.status(404).json({
                 message: "Lesson not found"
             })
         }
@@ -608,42 +468,43 @@ router.post('/subjects/:subjectId/lessons/:lessonId/questions', checkAuth, async
         const { question_content, option_a, option_b, option_c, option_d, correct_answer } = req.body;
 
         if (!question_content || question_content.length === 0) {
-            return res.json({
+            return res.status(406).json({
                 message: "question content is not valid",
                 data: null,
             });
         }
 
         if (!option_a || option_a.length === 0) {
-            return res.json({
+            return res.status(406).json({
                 message: "option A content is not valid",
                 data: null,
             });
         }
 
         if (!option_b || option_b.length === 0) {
-            return res.json({
+            return res.status(406).json({
                 message: "option B content is not valid",
                 data: null,
             });
         }
 
         if (!option_c || option_c.length === 0) {
-            return res.json({
+            return res.status(406).json({
                 message: "option C content is not valid",
                 data: null,
             });
         }
 
         if (!option_d || option_d.length === 0) {
-            return res.json({
+            return res.status(406).json({
                 message: "option D content is not valid",
                 data: null,
             });
         }
 
-        if (!correct_answer || correct_answer.length === 0) {
-            return res.json({
+        if (!correct_answer || correct_answer.length === 0 ||
+            (correct_answer !== option_a && correct_answer !== option_b && correct_answer !== option_c && correct_answer !== option_d)) {
+            return res.status(406).json({
                 message: "correct answer is not valid",
                 data: null,
             });
@@ -685,7 +546,7 @@ router.put('/questions/:questionId', checkAuth, async (req, res) => {
             }
         });
 
-        if(!currentQuestion){
+        if (!currentQuestion) {
             return res.json({
                 message: 'Question not found',
             });
@@ -762,15 +623,324 @@ router.get('/search', checkAuth, async (req, res) => {
                 question_content: {
                     [Op.like]: '%' + input + '%'
                 }
-            }
+            },
+            order: [
+                ['question_id', 'ASC']
+            ]
         });
 
         if (!questions || questions.length === 0) {
-            return res.json("No question founded");
+            return res.status(404).json("No question founded");
         }
         return res.json({
             message: "Found question",
             data: questions
+        })
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//create new grammar
+router.post('/lessons/:lessonId/grammars', checkAuth, async (req, res) => {
+    try {
+        const lessonId = req.params.lessonId;
+
+        const { vocabulary, explain, example, attention } = req.body;
+
+        const currentLesson = await Lesson.findOne({
+            where: {
+                lesson_id: lessonId
+            }
+        })
+
+        if (!currentLesson) {
+            return res.json({
+                message: "Lesson not found"
+            })
+        }
+
+        if (!vocabulary || vocabulary.length === 0) {
+            return res.json({
+                message: "Vocabulary is not valid",
+                data: null
+            })
+        }
+
+        if (!explain || explain.length === 0) {
+            return res.json({
+                message: "Explain is not valid",
+                data: null
+            })
+        }
+
+        if (!example || example.length === 0) {
+            return res.json({
+                message: "Example is not valid",
+                data: null
+            })
+        }
+
+        if (!attention || attention.length === 0) {
+            return res.json({
+                message: "Attention is not valid",
+                data: null
+            })
+        }
+
+        const newGrammar = await Grammar.create({
+            vocabulary,
+            explain,
+            example,
+            attention,
+            lesson_id: currentLesson.lesson_id
+        })
+
+        return res.json({
+            message: "Grammar create successfully",
+            data: newGrammar
+        })
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//update grammar
+router.put('/grammars/:grammarId', checkAuth, async (req, res) => {
+    try {
+        const grammarId = req.params.grammarId;
+
+        const currentGrammar = await Grammar.findOne({
+            where: {
+                grammar_id: grammarId
+            }
+        })
+
+        if (!currentGrammar) {
+            return res.json({
+                message: "Grammar not found",
+            })
+        }
+
+        const { vocabulary, explain, example, attention } = req.body;
+
+        const updateGrammar = await Grammar.update({
+            vocabulary,
+            explain,
+            example,
+            attention,
+        },
+            {
+                where: {
+                    grammar_id: currentGrammar.grammar_id
+                }
+            }
+        );
+
+        return res.json({
+            message: "Grammar update successfully",
+            data: updateGrammar
+        })
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//delete grammar
+router.delete('/grammars/:grammarId', checkAuth, async (req, res) => {
+    try {
+        const grammarId = req.params.grammarId;
+
+        const deleteGrammar = await Grammar.destroy({
+            where: {
+                grammar_id: grammarId
+            }
+        });
+
+        if (!deleteGrammar) {
+            return res.json({
+                message: "Grammar cannot be deleted"
+            });
+        }
+
+        return res.json({
+            message: "Delete successfully",
+            data: deleteGrammar
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//view all quiz preset
+router.get('/quiz-presets', checkAuth, async (req, res) => {
+    try {
+        const quiz_preset = await Quiz_Preset.findAll();
+
+        if (!quiz_preset) {
+            return res.status(404).json({
+                message: "Quiz preset not found"
+            })
+        }
+
+        return res.json({
+            message: "Quiz preset found",
+            data: quiz_preset
+        })
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//create new quiz preset
+router.post('/quiz-presets', checkAuth, async (req, res) => {
+    try {
+        const { number_of_questions, quiz_time } = req.body;
+
+        if (!number_of_questions || number_of_questions === 0) {
+            return res.json({
+                message: "Number of question is not valid",
+                data: null
+            })
+        }
+
+        if (!quiz_time) {
+            return res.json({
+                message: "Quiz time is not valid",
+                data: null
+            })
+        }
+
+        const newQuizPreset = await Quiz_Preset.create({
+            number_of_questions,
+            quiz_time
+        })
+
+        if (!newQuizPreset) {
+            return res.json({
+                message: "Cannot add new preset",
+                data: null
+            })
+        }
+
+        return res.json({
+            message: "Quiz preset create success",
+            data: newQuizPreset
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//edit a quiz preset
+router.put('/quiz-presets/:presetId', async (req, res) => {
+    try {
+        const presetId = req.params.presetId;
+
+        const { number_of_questions, quiz_time } = req.body;
+
+        const editPreset = await Quiz_Preset.update({
+            number_of_questions,
+            quiz_time,
+        }, {
+            where: {
+                preset_id: presetId
+            }
+        });
+
+        if (!editPreset) {
+            return res.status(400).json({
+                message: "Preset cannot be edited"
+            })
+        }
+
+        return res.json({
+            message: "Preset update success",
+            data: editPreset
+        })
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//delete a quiz preset
+router.delete('/quiz-presets/:presetId', async (req, res) => {
+    try {
+        const presetId = req.params.presetId;
+
+        const deletePreset = await Quiz_Preset.destroy({
+            where: {
+                preset_id: presetId
+            }
+        })
+
+        if (!deletePreset) {
+            return res.status(400).json({
+                message: "Preset cannot be deleted"
+            })
+        }
+
+        return res.json({
+            message: "Preset delete success",
+            data: deletePreset
+        })
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+//Choose a preset for student quiz
+router.patch("/quiz-presets/:presetId", async (req, res) => {
+    try {
+        const presetId = req.params.presetId;
+
+        const { is_chosen } = req.body;
+
+        const choosePreset = await Quiz_Preset.update({
+            is_chosen: is_chosen
+        },
+            {
+                where: {
+                    preset_id: presetId
+                }
+            }
+        );
+
+        return res.json({
+            message: "Preset chosen success",
+            data: choosePreset
         })
     } catch (error) {
         console.error(error.message);

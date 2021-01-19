@@ -19,17 +19,22 @@ const GrammerDetail = ({ match }) => {
   const [grammarDetailData, setGrammarDetailData] = useState({});
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`/student/grammars/${gId}`)
-      .then((res) => {
-        setGrammarDetailData(res.data.data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  }, [gId]);
+    if (gId) {
+      setLoading(true);
+      axios
+        .get(`/shared/grammars/${gId}`)
+        .then((res) => {
+          setGrammarDetailData(res.data.data);
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
+    } else {
+      history.goBack();
+    }
+  }, [gId, history]);
+  
   return (
     <div className='mb-3 p-3 border rounded'>
       {loading && <Loader />}

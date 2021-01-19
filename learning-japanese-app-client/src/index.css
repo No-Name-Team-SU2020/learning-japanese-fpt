@@ -241,6 +241,27 @@ li {
   margin-top: 15rem;
   border-top: 2px solid #555;
 }
+
+.google-login-btn {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge {
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+.success {
+  color: white;
+  background-color: green;
+}
+.danger {
+  color: white;
+  background-color: red;
+}
+
 /* // dark mode */
 
 .dark-mode {
@@ -253,6 +274,7 @@ li {
 .dark-mode h1,
 .dark-mode h3,
 .dark-mode h4,
+.dark-mode h5,
 .dark-mode p {
   color: white;
 }
@@ -263,7 +285,7 @@ li {
   background-color: #333 !important;
 }
 .dark-mode .main-header {
-  background-color:rgb(34, 32, 43) !important;
+  background-color: rgb(34, 32, 43) !important;
   border-bottom: 1px solid rgb(233, 212, 212);
 }
 .dark-mode .main-header .MuiSvgIcon-root,
@@ -272,10 +294,11 @@ li {
   color: rgb(255, 255, 255) !important;
 }
 .dark-mode .MuiFormLabel-root {
-  color:rgb(233, 212, 212) !important;
+  color: rgb(233, 212, 212) !important;
+  transform: translate(14px, -15px) !important;
 }
 .dark-mode .SubMenu_SubMenu__PnK1O {
-  background-color:rgb(34, 32, 43) !important;
+  background-color: rgb(34, 32, 43) !important;
   border: 1px solid rgb(34, 32, 43);
 }
 .dark-mode .main-header .MuiButtonBase-root,
@@ -327,9 +350,13 @@ li {
   border-bottom: none;
 }
 .dark-mode .teacher-body .list-group-item:last-child {
-  border-bottom: 1px solidrgb(233, 212, 212);
+  border-bottom: 1px solid rgb(233, 212, 212);
 }
 .dark-mode .teacher-body .hover-bg-blue:hover {
   color: white;
   background-color: #007bff;
+}
+.dark-mode .login-form {
+  border: 1px solid #fff;
+  border-radius: 3px;
 }

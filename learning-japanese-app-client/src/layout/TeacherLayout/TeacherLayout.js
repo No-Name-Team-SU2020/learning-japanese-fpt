@@ -10,8 +10,9 @@ import { useSelector } from "react-redux";
 import ManageStudentByClass from "../../pages/teacher/ManageStudentByClass";
 import ManageProgressByClass from "../../pages/teacher/ManageProgressByClass";
 import StudentQuizResult from "../../pages/teacher/StudentQuizResult";
+import QuizDetail from "../../pages/teacher/QuizDetail";
 
-const AdminLayout = () => {
+const TeacherLayout = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
   return (
     <Fragment>
@@ -44,6 +45,10 @@ const AdminLayout = () => {
                   component={StudentQuizResult}
                 />
                 <Route
+                  path='/quiz-detail/lesson/:lId/student/:sId'
+                  component={QuizDetail}
+                />
+                <Route
                   path='/manage-student/classes/:cId'
                   component={ManageStudentByClass}
                 />
@@ -58,4 +63,4 @@ const AdminLayout = () => {
   );
 };
 
-export default AdminLayout;
+export default TeacherLayout;

@@ -22,10 +22,10 @@ const QuestionList = () => {
   const adminLessonList = useSelector((state) => state.adminLessonList);
   const dispatch = useDispatch();
   const [subject, setSubject] = useState(
-    localStorage.getItem("subject") ? localStorage.getItem("subject") : "JPD111"
+    localStorage.getItem("subject") ? localStorage.getItem("subject") : ""
   );
   const [lesson, setLesson] = useState(
-    localStorage.getItem("lesson") ? localStorage.getItem("lesson") : "1"
+    localStorage.getItem("lesson") ? localStorage.getItem("lesson") : ""
   );
 
   useEffect(() => {
@@ -39,15 +39,24 @@ const QuestionList = () => {
   useEffect(() => {
     dispatch(getQuestions(lesson));
   }, [dispatch, lesson]);
-
+  useEffect(() => {
+    if (!subject && adminSubjectList.subjectList.length > 0) {
+      setSubject(adminSubjectList.subjectList[0].subject_id);
+    }
+  }, [subject, adminSubjectList.subjectList]);
+  useEffect(() => {
+    if (!lesson && adminLessonList.lessonList.length > 0) {
+      setLesson(adminLessonList.lessonList[0].lesson_id);
+    }
+  }, [lesson, adminLessonList.lessonList]);
   return (
     <div className='app-container'>
       <div className='d-flex justify-content-between align-item-center'>
-        <h1>Question List Table</h1>
+        <h1>Question List</h1>
         <Button
           variant='contained'
           color='primary'
-          onClick={() => history.push("/manage-question/create")}
+          onClick={() => history.push("/create")}
           className='bg-orange-imp'
         >
           New Question

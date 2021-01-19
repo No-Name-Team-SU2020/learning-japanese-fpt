@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
       return /^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(fpt.edu|fe.edu)\.vn$/.test(userEmail);
     }
     
-    if (req.path === "/login") {
+    if (req.path === "/google") {
       if (![email, password].every(Boolean)) {
         return res.status(401).json({
           message: "Missing Credentials"
@@ -17,5 +17,6 @@ module.exports = (req, res, next) => {
         });
       }
     }
-  next();
-}
+
+    next();
+  };

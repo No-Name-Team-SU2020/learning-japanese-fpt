@@ -35,7 +35,7 @@ const QuestionItem = ({ index, question, updateUserAnswers, listAnswers }) => {
   return (
     <div className='shadow p-3 rounded mb-3'>
       <p>
-        {index}. {question.question_content}
+        {index + 1}. {question.question_content}
       </p>
       <ul>
         <li className='form-control-radio'>

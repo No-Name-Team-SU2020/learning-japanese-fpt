@@ -10,10 +10,13 @@ import {
   TableBody,
   Button,
 } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
+import { alert } from "../../../store/actions/ui/ui";
+import { useDispatch } from "react-redux";
 
 const StudentQuizResult = ({ match }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const { sId } = match.params;
   const [loading, setLoading] = useState(false);
   const [studentQuizResultData, setStudentQuizResultData] = useState([]);
@@ -28,12 +31,12 @@ const StudentQuizResult = ({ match }) => {
           setStudentQuizResultData(res.data.data);
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((_) => {
         setLoading(false);
-        alert("Something went wrong");
+        dispatch(alert("error", "Something went wrong"));
       });
-  }, [sId]);
+  }, [sId, dispatch]);
+
   return (
     <div>
       {loading && <Loader />}
@@ -48,7 +51,7 @@ const StudentQuizResult = ({ match }) => {
                   <TableCell>Lesson ID</TableCell>
                   <TableCell>Score</TableCell>
                   <TableCell>Num Of Failed</TableCell>
-                  <TableCell>Attendance Status</TableCell>
+                  <TableCell>Quiz Detail</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -71,7 +74,7 @@ const StudentQuizResult = ({ match }) => {
                         : `0/10`}
                     </TableCell>
                     <TableCell>
-                      <span className='text-success'>Present</span>
+                      <Link to={`/quiz-detail/lesson/${result.lesson_id}/student/${result.student_id}`}>View</Link>
                     </TableCell>
                   </TableRow>
                 ))}

@@ -8,11 +8,11 @@ const Subject = require('../models/Subject');
 const Lesson = require('../models/Lesson');
 const User = require('../models/User');
 const Quiz_Result = require('../models/Quiz_Result');
-const Grammar = require('../models/Grammar');
 const Is_Attended = require('../models/Is_Attended');
 const Class_Subject = require('../models/Class_Subject');
 const Student_Subject = require('../models/Student_Subject');
 const Student_Class = require('../models/Student_Class');
+const { Op } = require("sequelize");
 
 //view all class of a student
 router.get('/student-classes', checkAuth, async (req, res) => {
@@ -50,6 +50,21 @@ router.get('/student-classes', checkAuth, async (req, res) => {
             message: "Classes found",
             data: data
         });
+
+        // const fap_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im5nYW5udHQiLCJpYXQiOjE2MTA3OTI2NTYsImV4cCI6MTYxMDgyMTQ1Nn0.cE2yiPGS8YcjmGQMJsP7n7JffQsTLTXqXgz0nYgzh64'
+        // const api_url = `http://localhost:8000/student/student-classes`;
+        // const fetch_response = await fetch(api_url, {
+        //     method: 'GET',
+        //     headers: {
+        //         'fap-token': fap_token
+        //     }
+        // });
+
+        // const fetched_json = await fetch_response.json();
+        // return res.json({
+        //     message: "Fetch success",
+        //     data: fetched_json.data
+        // })
 
     } catch (error) {
         console.error(error.message);
@@ -97,6 +112,21 @@ router.get('/student-subjects', checkAuth, async (req, res) => {
             data: data
         });
 
+        // const fap_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im5nYW5udHQiLCJpYXQiOjE2MTA3OTI2NTYsImV4cCI6MTYxMDgyMTQ1Nn0.cE2yiPGS8YcjmGQMJsP7n7JffQsTLTXqXgz0nYgzh64'
+        // const api_url = `http://localhost:8000/student/student-subjects`;
+        // const fetch_response = await fetch(api_url, {
+        //     method: 'GET',
+        //     headers: {
+        //         'fap-token': fap_token
+        //     }
+        // });
+
+        // const fetched_json = await fetch_response.json();
+        // return res.json({
+        //     message: "Fetch success",
+        //     data: fetched_json.data
+        // })
+
     } catch (error) {
         console.error(error.message);
         res.status(500).json({
@@ -140,20 +170,22 @@ router.post('/answer/:lessonId', checkAuth, async (req, res) => {
             },
         });
 
-        // [ {question_id, answer} ]
+        // [ {question_id, question_content, option_a, option_b, option_c, option_d, answer} ]
         const userResponses = req.body.answers;
 
         if (!userResponses) {
             // return loi
             return res.json({
-                message: "user response is not valid"
+                message: "user response is not valid",
+                data: null
             })
         }
 
         if (!Array.isArray(userResponses)) {
             // return loi vi khong phai la array
             return res.json({
-                message: "user response is not an array"
+                message: "user response is not an array",
+                data: null
             })
         }
 
@@ -191,13 +223,14 @@ router.post('/answer/:lessonId', checkAuth, async (req, res) => {
             student_id: currentStudent.student_id,
             lesson_id: currentLesson.lesson_id,
             score: score,
-            percentage: percentage
+            percentage: percentage,
+            student_answer: userResponses
         });
 
         return res.json({
             message: "Answer and score",
             data: {
-                answers: userResponses,
+                //answers: userResponses,
                 score: resultToDb,
                 subject: currentSubject.subject_code,
                 lesson: currentLesson.lesson_name
@@ -281,6 +314,79 @@ router.get('/quiz_results/:subjectId', checkAuth, async (req, res) => {
     }
 });
 
+//check thong tin diem danh
+router.get('/attendance', checkAuth, async (req, res) => {
+    try {
+        //const lessonId = req.params.lessonId;
+
+        // const currentLesson = await Lesson.findOne({
+        //     where: {
+        //         lesson_id: lessonId
+        //     }
+        // })
+
+        const currentUser = req.user.user_name;
+
+        const checkUser = await User.findOne({
+            where: {
+                user_name: currentUser
+            }
+        });
+        //check student
+        const currentStudent = await Student.findOne({
+            where: {
+                user_name: checkUser.user_name
+            },
+        });
+
+        const checkAttendance = await Is_Attended.findAll({
+            where: {
+                student_id: currentStudent.student_id,
+                ///lesson_id: currentLesson.lesson_id
+            },
+            include: [
+                { model: Lesson, attributes: ['lesson_name'] },
+                //{ model: Class, attributes: ['class_name'] }
+            ],
+        });
+
+        if (!checkAttendance) {
+            return res.json({
+                message: "Attendance information not found"
+            });
+        }
+
+        return res.json({
+            message: "Attendance information found",
+            data: {
+                attendances: checkAttendance,
+            }
+        });
+
+        // const fap_token = ''
+        // const api_url = `http://localhost:8000/student/attendance`;
+        // const fetch_response = await fetch(api_url, {
+        //     method: 'GET',
+        //     headers: {
+        //         'fap-token': fap_token
+        //     }
+        // });
+
+        // const fetched_json = await fetch_response.json();
+        // return res.json({
+        //     message: "Fetch success",
+        //     data: fetched_json.data
+        // });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
+
+
 //view a student quiz result by lesson id
 // router.get('/quiz_results/:lessonId', checkAuth, async(req, res) => {
 //     try {
@@ -342,157 +448,5 @@ router.get('/quiz_results/:subjectId', checkAuth, async (req, res) => {
 //         });
 //     }
 // });
-
-//view all grammars in a lesson
-router.get('/lessons/:lessonId/grammars', checkAuth, async (req, res) => {
-    try {
-        const lessonId = req.params.lessonId
-
-        const currentLesson = await Lesson.findOne({
-            where: {
-                lesson_id: lessonId
-            }
-        })
-
-        const currentSubject = await Subject.findOne({
-            where: {
-                subject_id: currentLesson.subject_id
-            }
-        })
-
-        const grammars = await Grammar.findAll({
-            where: {
-                lesson_id: currentLesson.lesson_id
-            }
-        });
-
-        if (!grammars) {
-            return res.json({
-                message: "grammars not found"
-            });
-        }
-
-        return res.json({
-            message: "grammars found",
-            data: {
-                grammars: grammars,
-                subject: currentSubject.subject_code,
-                lesson: currentLesson.lesson_name
-            }
-        });
-
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
-
-//view grammar by grammar id
-router.get('/grammars/:grammarId', checkAuth, async (req, res) => {
-    try {
-        const grammarId = req.params.grammarId
-
-        const grammar = await Grammar.findOne({
-            where: {
-                grammar_id: grammarId
-            }
-        });
-
-        const currentLesson = await Lesson.findOne({
-            where: {
-                lesson_id: grammar.lesson_id
-            }
-        });
-
-        const currentSubject = await Subject.findOne({
-            where: {
-                subject_id: currentLesson.subject_id
-            }
-        })
-
-        if (!grammar) {
-            return res.json({
-                message: "grammar not found"
-            })
-        }
-
-        return res.json({
-            message: "grammar found",
-            data: {
-                grammars: grammar,
-                subject: currentSubject.subject_code,
-                lesson: currentLesson.lesson_name
-            }
-        });
-
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
-
-//check thong tin diem danh
-router.get('/attendance', checkAuth, async (req, res) => {
-    try {
-        //const lessonId = req.params.lessonId;
-
-        // const currentLesson = await Lesson.findOne({
-        //     where: {
-        //         lesson_id: lessonId
-        //     }
-        // })
-
-        const currentUser = req.user.user_name;
-
-        const checkUser = await User.findOne({
-            where: {
-                user_name: currentUser
-            }
-        });
-        //check student
-        const currentStudent = await Student.findOne({
-            where: {
-                user_name: checkUser.user_name
-            },
-        });
-
-        const checkAttendance = await Is_Attended.findAll({
-            where: {
-                student_id: currentStudent.student_id,
-                ///lesson_id: currentLesson.lesson_id
-            },
-            include: [
-                { model: Lesson, attributes: ['lesson_name'] },
-                //{ model: Class, attributes: ['class_name'] }
-            ],
-        });
-
-        if (!checkAttendance) {
-            return res.json({
-                message: "Attendance information not found"
-            });
-        }
-
-        return res.json({
-            message: "Attendance information found",
-            data: {
-                attendances: checkAttendance,
-            }
-        });
-
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
 
 module.exports = router;

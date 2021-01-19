@@ -36,7 +36,6 @@ const ManageProgressByClass = ({ match, location }) => {
         setLoading(false);
         if (res.data.data) {
           setProgressData(res.data.data);
-          console.log(res.data.data);
         }
       })
       .catch(() => {
@@ -85,12 +84,6 @@ const ManageProgressByClass = ({ match, location }) => {
                 <h4>
                   Total number of true/false question follow by class & question
                 </h4>
-                {console.log(
-                  Math.round(
-                    (Number(progressData.total_score[0].total_score) * 100) /
-                      (+progressData.count_total.count * 10)
-                  )
-                )}
               </div>
               <Pie
                 data={{

@@ -55,11 +55,12 @@ const JoinQuestion = ({ location }) => {
       );
     }
   };
-  const questionListMarkup = adminQuestionList.questionList?.map((q) => (
+  const questionListMarkup = adminQuestionList.questionList?.map((q, index) => (
     <QuestionItem
       key={q.question_id}
       question={q}
-      index={q.question_id}
+      // index={q.question_id}
+      index={index}
       listAnswers={userAnswers}
       updateUserAnswers={setUserAnswers}
     />

@@ -28,7 +28,7 @@ function AdminMenu() {
       ? Number(localStorage.getItem("menuPosition"))
       : 0
   );
-  const handleChange = (event, newValue) => {
+  const handleChange = (_, newValue) => {
     setValue(newValue);
     localStorage.setItem("menuPosition", newValue);
   };
@@ -36,7 +36,7 @@ function AdminMenu() {
     <div className={classes.root}>
       <AppBar position='static' className='bg-yellow-imp'>
         <Tabs value={value} onChange={handleChange} aria-label='Admin Menu Top'>
-          <Tab
+          {/* <Tab
             label='Class'
             {...a11yProps(0)}
             onClick={() => history.push("/manage-class")}
@@ -45,11 +45,11 @@ function AdminMenu() {
             label='Subject'
             {...a11yProps(1)}
             onClick={() => history.push("/manage-subject")}
-          />
+          /> */}
           <Tab
             label='Quesion'
-            {...a11yProps(2)}
-            onClick={() => history.push("/manage-question")}
+            {...a11yProps(0)}
+            onClick={() => history.push("/")}
           />
         </Tabs>
       </AppBar>

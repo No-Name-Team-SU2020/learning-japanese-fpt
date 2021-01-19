@@ -9,14 +9,14 @@ const Lesson = db.define('lesson', {
         primaryKey: true,
         allowNull: false
     },
+    lesson_name: {
+        type: sequelize.STRING,
+        allowNull: false
+    },
     lesson_content: {
         type: sequelize.STRING,
         allowNull: false
 
-    },
-    lesson_name: {
-        type: sequelize.STRING,
-        allowNull: false
     },
     subject_id: {
         type: sequelize.INTEGER,

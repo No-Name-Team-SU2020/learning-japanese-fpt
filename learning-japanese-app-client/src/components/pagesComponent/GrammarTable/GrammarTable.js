@@ -10,7 +10,7 @@ const GrammarTable = ({ lessonId, activeGrammar }) => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`/student/lessons/${lessonId}/grammars`)
+      .get(`/shared/lessons/${lessonId}/grammars`)
       .then((res) => {
         setGrammarData(res.data.data);
         setLoading(false);
