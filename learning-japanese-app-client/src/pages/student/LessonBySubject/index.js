@@ -45,6 +45,12 @@ const LessonBySubject = () => {
               <strong>{lesson.lesson_name} : </strong>
               {lesson.lesson_content.substr(0, 50)}
             </span>
+            {/* <Link
+                  to={`/quiz/${lesson.lesson_id}?lCt=${lesson.lesson_content}`}
+                  className='font-weight-bold'
+                >
+                  Start Quiz
+                </Link> */}
             {lesson.is_attendeds?.length > 0 ? (
               !studentResult.data.find(
                 (r) => r.lesson_id === lesson.lesson_id
@@ -56,7 +62,7 @@ const LessonBySubject = () => {
                   Start Quiz
                 </Link>
               ) : (
-                <span className='text-success'>Joined Before</span>
+                <span className='text-success'>Done Quiz</span>
               )
             ) : (
               <p>Please Attend Lesson</p>
