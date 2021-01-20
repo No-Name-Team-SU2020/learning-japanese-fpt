@@ -136,46 +136,46 @@ router.get('/class-subjects/:classId', checkAuth, async (req, res) => {
 
 
 //view all lessons in a subject
-router.get('/subjects/:subjectId/lessons', async (req, res) => {
-    try {
-        const subjectId = req.params.subjectId;
+// router.get('/subjects/:subjectId/lessons', async (req, res) => {
+//     try {
+//         const subjectId = req.params.subjectId;
 
-        const currentSubject = await Subject.findOne({
-            where: {
-                subject_id: subjectId
-            }
-        });
+//         const currentSubject = await Subject.findOne({
+//             where: {
+//                 subject_id: subjectId
+//             }
+//         });
 
-        if (!currentSubject) {
-            return res.json({
-                message: "Subject not found"
-            })
-        }
+//         if (!currentSubject) {
+//             return res.json({
+//                 message: "Subject not found"
+//             })
+//         }
 
-        const listLesson = await Lesson.findAll({
-            where: {
-                subject_id: currentSubject.subject_id
-            }
-        });
+//         const listLesson = await Lesson.findAll({
+//             where: {
+//                 subject_id: currentSubject.subject_id
+//             }
+//         });
 
-        if (!listLesson) {
-            return res.json({
-                message: "Lessons not found"
-            })
-        }
+//         if (!listLesson) {
+//             return res.json({
+//                 message: "Lessons not found"
+//             })
+//         }
 
-        return res.json({
-            message: "List lesson found",
-            data: listLesson
-        })
-    } catch (error) {
-        console.error(error.message);
-        return res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
+//         return res.json({
+//             message: "List lesson found",
+//             data: listLesson
+//         })
+//     } catch (error) {
+//         console.error(error.message);
+//         return res.status(500).json({
+//             message: "Server error",
+//             error: error
+//         });
+//     }
+// });
 
 //view class by id
 router.get('/classes/:classId', async (req, res) => {
@@ -563,188 +563,188 @@ router.get('/grammars/:grammarId', checkAuth, async (req, res) => {
 });
 
 // //view all lesson in a subject
-// router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
-//     try {
+router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
+    try {
 
-//         const currentUser = req.user.user_name;
+        const currentUser = req.user.user_name;
 
-//         const subjectId = req.params.subjectId;
+        const subjectId = req.params.subjectId;
 
-//         const currentSubject = await Subject.findOne({
-//             where: {
-//                 subject_id: subjectId
-//             }
-//         });
+        const currentSubject = await Subject.findOne({
+            where: {
+                subject_id: subjectId
+            }
+        });
 
-//         if (!currentSubject) {
-//             return res.json({
-//                 message: "Subject not found"
-//             });
-//         }
+        if (!currentSubject) {
+            return res.json({
+                message: "Subject not found"
+            });
+        }
 
-//         const checkUser = await User.findOne({
-//             where: {
-//                 user_name: currentUser
-//             }
-//         });
+        const checkUser = await User.findOne({
+            where: {
+                user_name: currentUser
+            }
+        });
 
-//         let listLessons;
-//         //let currentStudent;
-//         //let checkStudentSubject;
-//         //let currentTeacher;
-//         //let checkTeacherSubject;
-//         if (checkUser.role_id === 3) {
-//             //const permission = new Boolean(true);
+        let listLessons;
+        //let currentStudent;
+        //let checkStudentSubject;
+        //let currentTeacher;
+        //let checkTeacherSubject;
+        if (checkUser.role_id === 3) {
+            //const permission = new Boolean(true);
 
-//             //check student
-//             const currentStudent = await Student.findOne({
-//                 where: {
-//                     user_name: checkUser.user_name
-//                 }
-//             });
+            //check student
+            const currentStudent = await Student.findOne({
+                where: {
+                    user_name: checkUser.user_name
+                }
+            });
 
-//             const checkStudentSubject = await Student_Subject.findOne({
-//                 where: {
-//                     student_id: currentStudent.student_id,
-//                     subject_id: currentSubject.subject_id
-//                 }
-//             });
+            const checkStudentSubject = await Student_Subject.findOne({
+                where: {
+                    student_id: currentStudent.student_id,
+                    subject_id: currentSubject.subject_id
+                }
+            });
 
-//             if (!checkStudentSubject) {
-//                 return res.json({
-//                     message: "Student not study this subject"
-//                 })
-//             }
+            if (!checkStudentSubject) {
+                return res.json({
+                    message: "Student not study this subject"
+                })
+            }
 
-//             //check diem danh danh cho student
-//             // const checkAttendance = await Is_Attended.findOne({
-//             //     where: {
-//             //         student_id: currentStudent.student_id,
-//             //     },
-//             // })
+            //check diem danh danh cho student
+            // const checkAttendance = await Is_Attended.findOne({
+            //     where: {
+            //         student_id: currentStudent.student_id,
+            //     },
+            // })
 
-//             listLessons = await Lesson.findAll({
-//                 where: {
-//                     subject_id: currentSubject.subject_id
-//                 },
-//                 order: [
-//                     ['lesson_id', 'ASC']
-//                 ],
-//                 // include: [
-//                 //     {
-//                 //         model: Is_Attended, where: {
-//                 //             student_id: currentStudent.student_id
-//                 //         },
-//                 //         required: false
-//                 //     }
-//                 // ]
-//             });
+            listLessons = await Lesson.findAll({
+                where: {
+                    subject_id: currentSubject.subject_id
+                },
+                order: [
+                    ['lesson_id', 'ASC']
+                ],
+                include: [
+                    {
+                        model: Is_Attended, where: {
+                            student_id: currentStudent.student_id
+                        },
+                        required: false
+                    }
+                ]
+            });
 
-//             // if (!listLessons) {
-//             //     return res.json({
-//             //         message: "Lesson not found",
-//             //     });
-//             // }
+            // if (!listLessons) {
+            //     return res.json({
+            //         message: "Lesson not found",
+            //     });
+            // }
 
-//             // return res.json(
-//             //     {
-//             //         message: "Lessons found",
-//             //         data: listLessons
-//             //     }
-//             // )
-//         }
-//         else if (checkUser.role_id === 2) {
-//             //check teacher
-//             const currentTeacher = await Teacher.findOne({
-//                 where: {
-//                     user_name: checkUser.user_name
-//                 },
-//             });
+            // return res.json(
+            //     {
+            //         message: "Lessons found",
+            //         data: listLessons
+            //     }
+            // )
+        }
+        else if (checkUser.role_id === 2) {
+            //check teacher
+            const currentTeacher = await Teacher.findOne({
+                where: {
+                    user_name: checkUser.user_name
+                },
+            });
 
-//             const checkTeacherSubject = await Teacher_Subject.findOne({
-//                 where: {
-//                     teacher_id: currentTeacher.teacher_id,
-//                     subject_id: currentSubject.subject_id
-//                 }
-//             })
+            const checkTeacherSubject = await Teacher_Subject.findOne({
+                where: {
+                    teacher_id: currentTeacher.teacher_id,
+                    subject_id: currentSubject.subject_id
+                }
+            })
 
-//             if (!checkTeacherSubject) {
-//                 return res.json({
-//                     message: "Teacher not teach this subject"
-//                 })
-//             }
+            if (!checkTeacherSubject) {
+                return res.json({
+                    message: "Teacher not teach this subject"
+                })
+            }
 
-//             listLessons = await Lesson.findAll({
-//                 where: {
-//                     subject_id: currentSubject.subject_id
-//                 },
-//                 order: [
-//                     ['lesson_id', 'ASC']
-//                 ],
-//             });
+            listLessons = await Lesson.findAll({
+                where: {
+                    subject_id: currentSubject.subject_id
+                },
+                order: [
+                    ['lesson_id', 'ASC']
+                ],
+            });
 
-//             // if (!listLessons) {
-//             //     return res.json({
-//             //         message: "Lesson not found",
-//             //     });
-//             // }
+            // if (!listLessons) {
+            //     return res.json({
+            //         message: "Lesson not found",
+            //     });
+            // }
 
-//             // return res.json(
-//             //     {
-//             //         message: "Lessons found",
-//             //         data: listLessons
-//             //     }
-//             // )
-//         }
-//         else if(checkUser.role_id === 1){
-//             listLessons = await Lesson.findAll({
-//                 where: {
-//                     subject_id: currentSubject.subject_id
-//                 },
-//                 order: [
-//                     ['lesson_id', 'ASC']
-//                 ],
-//             });
+            // return res.json(
+            //     {
+            //         message: "Lessons found",
+            //         data: listLessons
+            //     }
+            // )
+        }
+        else if(checkUser.role_id === 1){
+            listLessons = await Lesson.findAll({
+                where: {
+                    subject_id: currentSubject.subject_id
+                },
+                order: [
+                    ['lesson_id', 'ASC']
+                ],
+            });
 
-//             // if (!listLessons) {
-//             //     return res.json({
-//             //         message: "Lesson not found",
-//             //     });
-//             // }
+            // if (!listLessons) {
+            //     return res.json({
+            //         message: "Lesson not found",
+            //     });
+            // }
 
-//             // return res.json(
-//             //     {
-//             //         message: "Lessons found",
-//             //         data: listLessons
-//             //     }
-//             // )
-//         }
-//         else {
-//             return res.json({
-//                 message: "You don't have permission to view this resource"
-//             })
-//         }
+            // return res.json(
+            //     {
+            //         message: "Lessons found",
+            //         data: listLessons
+            //     }
+            // )
+        }
+        else {
+            return res.json({
+                message: "You don't have permission to view this resource"
+            })
+        }
 
-//         if (!listLessons) {
-//             return res.json({
-//                 message: "Lesson not found",
-//             });
-//         }
+        if (!listLessons) {
+            return res.json({
+                message: "Lesson not found",
+            });
+        }
 
-//         return res.json(
-//             {
-//                 message: "Lessons found",
-//                 data: listLessons
-//             }
-//         )
+        return res.json(
+            {
+                message: "Lessons found",
+                data: listLessons
+            }
+        )
 
-//     } catch (error) {
-//         console.error(error.message);
-//         return res.status(500).json({
-//             message: "Server error",
-//             error: error
-//         });
-//     }
-// });
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({
+            message: "Server error",
+            error: error
+        });
+    }
+});
 
 module.exports = router;

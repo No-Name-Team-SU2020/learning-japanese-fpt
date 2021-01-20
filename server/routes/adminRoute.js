@@ -28,6 +28,10 @@ router.get('/classes', checkAuth, async (req, res) => {
             // }
         });
         const fetched_json = await fetch_response.json();
+        const upsertClass = await Class.bulkCreate(fetched_json.data, {
+            fields: ["class_id", "class_name"],
+            updateOnDuplicate: ["class_name"]
+        });
         return res.json({
             message: "Fetch success",
             data: fetched_json.data
@@ -42,36 +46,36 @@ router.get('/classes', checkAuth, async (req, res) => {
 });
 
 //upsert classes
-router.post('/classes', checkAuth, async (req, res) => {
-    try {
-        //const fap_token = ''
-        const api_url = `http://localhost:8000/api/classes`;
-        const fetch_response = await fetch(api_url, {
-            method: 'GET',
-            // headers: {
-            //     'fap-token': fap_token
-            // }
-        });
-        const fetched_json = await fetch_response.json();
-        //console.log(fetched_json);
-        //update and insert subjects
-        const upsertClass = await Class.bulkCreate(fetched_json.data, {
-            fields: ["class_id", "class_name"],
-            updateOnDuplicate: ["class_name"]
-        });
-        //console.log(upsertClass);
-        return res.json({
-            message: "Classes upsert success",
-            data: upsertClass
-        });
-    } catch (error) {
-        console.error(error.message);
-        return res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
+// router.post('/classes', checkAuth, async (req, res) => {
+//     try {
+//         //const fap_token = ''
+//         const api_url = `http://localhost:8000/api/classes`;
+//         const fetch_response = await fetch(api_url, {
+//             method: 'GET',
+//             // headers: {
+//             //     'fap-token': fap_token
+//             // }
+//         });
+//         const fetched_json = await fetch_response.json();
+//         //console.log(fetched_json);
+//         //update and insert subjects
+//         const upsertClass = await Class.bulkCreate(fetched_json.data, {
+//             fields: ["class_id", "class_name"],
+//             updateOnDuplicate: ["class_name"]
+//         });
+//         //console.log(upsertClass);
+//         return res.json({
+//             message: "Classes upsert success",
+//             data: upsertClass
+//         });
+//     } catch (error) {
+//         console.error(error.message);
+//         return res.status(500).json({
+//             message: "Server error",
+//             error: error
+//         });
+//     }
+// });
 
 //fetch all subjects from fap and view list subjects
 router.get('/subjects', checkAuth, async (req, res) => {
@@ -85,6 +89,10 @@ router.get('/subjects', checkAuth, async (req, res) => {
             // }
         });
         const fetched_json = await fetch_response.json();
+        const upsertSubject = await Subject.bulkCreate(fetched_json.data, {
+            fields: ["subject_id", "subject_code", "subject_name"],
+            updateOnDuplicate: ["subject_code", "subject_name"]
+        });
         return res.json({
             message: "Fetch success",
             data: fetched_json.data
@@ -99,36 +107,36 @@ router.get('/subjects', checkAuth, async (req, res) => {
 });
 
 //upsert subject
-router.post('/subjects', checkAuth, async (req, res) => {
-    try {
-        //const fap_token = ''
-        const api_url = `http://localhost:8000/api/subjects`;
-        const fetch_response = await fetch(api_url, {
-            method: 'GET',
-            // headers: {
-            //     'fap-token': fap_token
-            // }
-        });
-        const fetched_json = await fetch_response.json();
-        console.log(fetched_json);
-        //update and insert subjects
-        const upsertSubject = await Subject.bulkCreate(fetched_json.data, {
-            fields: ["subject_id", "subject_code", "subject_name"],
-            updateOnDuplicate: ["subject_code", "subject_name"]
-        });
-        console.log(upsertSubject);
-        return res.json({
-            message: "Subjects upsert success",
-            data: upsertSubject
-        })
-    } catch (error) {
-        console.error(error.message);
-        return res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
+// router.post('/subjects', checkAuth, async (req, res) => {
+//     try {
+//         //const fap_token = ''
+//         const api_url = `http://localhost:8000/api/subjects`;
+//         const fetch_response = await fetch(api_url, {
+//             method: 'GET',
+//             // headers: {
+//             //     'fap-token': fap_token
+//             // }
+//         });
+//         const fetched_json = await fetch_response.json();
+//         console.log(fetched_json);
+//         //update and insert subjects
+//         const upsertSubject = await Subject.bulkCreate(fetched_json.data, {
+//             fields: ["subject_id", "subject_code", "subject_name"],
+//             updateOnDuplicate: ["subject_code", "subject_name"]
+//         });
+//         console.log(upsertSubject);
+//         return res.json({
+//             message: "Subjects upsert success",
+//             data: upsertSubject
+//         })
+//     } catch (error) {
+//         console.error(error.message);
+//         return res.status(500).json({
+//             message: "Server error",
+//             error: error
+//         });
+//     }
+// });
 
 //insert class subject
 router.post('/classes-subjects', checkAuth, async (req, res) => {
@@ -312,6 +320,10 @@ router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
             // }
         });
         const fetched_json = await fetch_response.json();
+        const upsertLesson = await Lesson.bulkCreate(fetched_json.data, {
+            fields: ["lesson_id", "lesson_name", "lesson_content", "subject_id"],
+            updateOnDuplicate: ["lesson_name", "lesson_content", "subject_id"]
+        })
         //console.log(fetched_json);
         return res.json({
             message: "Fetch success",
@@ -327,35 +339,35 @@ router.get('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
 });
 
 //upsert all lessons in a subject
-router.post('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
-    try {
-        const subjectId = req.params.subjectId;
-        ///const fap_token = ''
-        const api_url = `http://localhost:8000/api/subjects/${subjectId}/lessons`;
-        const fetch_response = await fetch(api_url, {
-            method: 'GET',
-            // headers: {
-            //     'fap-token': fap_token
-            // }
-        });
-        const fetched_json = await fetch_response.json();
-        console.log(fetched_json);
-        const upsertLesson = await Lesson.bulkCreate(fetched_json.data, {
-            fields: ["lesson_id", "lesson_name", "lesson_content", "subject_id"],
-            updateOnDuplicate: ["lesson_name", "lesson_content", "subject_id"]
-        })
-        return res.json({
-            message: "Fetch success",
-            data: upsertLesson
-        })
-    } catch (error) {
-        console.error(error.message);
-        return res.status(500).json({
-            message: "Server error",
-            error: error
-        });
-    }
-});
+// router.post('/subjects/:subjectId/lessons', checkAuth, async (req, res) => {
+//     try {
+//         const subjectId = req.params.subjectId;
+//         ///const fap_token = ''
+//         const api_url = `http://localhost:8000/api/subjects/${subjectId}/lessons`;
+//         const fetch_response = await fetch(api_url, {
+//             method: 'GET',
+//             // headers: {
+//             //     'fap-token': fap_token
+//             // }
+//         });
+//         const fetched_json = await fetch_response.json();
+//         console.log(fetched_json);
+//         const upsertLesson = await Lesson.bulkCreate(fetched_json.data, {
+//             fields: ["lesson_id", "lesson_name", "lesson_content", "subject_id"],
+//             updateOnDuplicate: ["lesson_name", "lesson_content", "subject_id"]
+//         })
+//         return res.json({
+//             message: "Fetch success",
+//             data: upsertLesson
+//         })
+//     } catch (error) {
+//         console.error(error.message);
+//         return res.status(500).json({
+//             message: "Server error",
+//             error: error
+//         });
+//     }
+// });
 
 //update attendance infomation
 router.post('/attendances', checkAuth, async (req, res) => {
@@ -927,6 +939,30 @@ router.patch("/quiz-presets/:presetId", async (req, res) => {
         const presetId = req.params.presetId;
 
         const { is_chosen } = req.body;
+
+        const checkChosen = await Quiz_Preset.findOne({
+            where: {
+                is_chosen: true
+            },
+            raw: true
+        });
+
+        //console.log(checkChosen);
+
+        if(checkChosen){
+            checkChosen.is_chosen = false;
+            const deactive = await Quiz_Preset.update({
+                is_chosen: checkChosen.is_chosen
+            },{
+                where: {
+                    preset_id: checkChosen.preset_id
+                }
+            }
+            );
+            return res.json({
+                message: "You already choosing a preset"
+            })
+        }
 
         const choosePreset = await Quiz_Preset.update({
             is_chosen: is_chosen
