@@ -28,7 +28,7 @@ const SubjectListByClass = ({ match }) => {
 
   return (
     <div>
-      <h1>My Current Subject</h1>
+      <h1>My Subject</h1>
       {loading && <Loader />}
       {error && <div className='alert mb-2 alert-danger'> {error} </div>}
       {subjectData.subjects &&

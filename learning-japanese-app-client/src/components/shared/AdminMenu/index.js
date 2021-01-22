@@ -36,20 +36,25 @@ function AdminMenu() {
     <div className={classes.root}>
       <AppBar position='static' className='bg-yellow-imp'>
         <Tabs value={value} onChange={handleChange} aria-label='Admin Menu Top'>
-          {/* <Tab
-            label='Class'
-            {...a11yProps(0)}
-            onClick={() => history.push("/manage-class")}
-          />
-          <Tab
-            label='Subject'
-            {...a11yProps(1)}
-            onClick={() => history.push("/manage-subject")}
-          /> */}
           <Tab
             label='Quesion'
             {...a11yProps(0)}
             onClick={() => history.push("/")}
+          />
+                    <Tab
+            label='Grammars'
+            {...a11yProps(1)}
+            onClick={() => history.push("/manage-grammar")}
+          />
+          <Tab
+            label='Quiz Setting'
+            {...a11yProps(2)}
+            onClick={() => history.push("/quiz-setting")}
+          />
+          <Tab
+            label='Update Data'
+            {...a11yProps(3)}
+            onClick={() => history.push("/update-data")}
           />
         </Tabs>
       </AppBar>

@@ -12,7 +12,9 @@ import singleQuestionReducer from "./question/singleQuestion";
 import { studentQuizReducer } from "./student/quiz";
 import teacherClassReducer from "./teacher/class";
 import teacherSubjectReducer from "./teacher/subject";
-import { studentResultReducer } from './student/result';
+import { studentResultReducer } from "./student/result";
+import quizPresetReducer from "./admin/quiz";
+import grammarReducer, { singleGrammarReducer } from "./admin/grammar";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -30,6 +32,9 @@ const rootReducer = combineReducers({
   teacherClass: teacherClassReducer,
   teacherSubject: teacherSubjectReducer,
   studentResult: studentResultReducer,
+  quizPreset: quizPresetReducer,
+  grammar: grammarReducer,
+  singleGrammar: singleGrammarReducer,
 });
 
 export default rootReducer;

@@ -77,6 +77,9 @@ button:focus {
   margin: 20px auto;
   width: 100px;
 }
+.min-width-150 {
+  min-width: 150px;
+}
 li {
   list-style-type: none;
 }
@@ -230,6 +233,9 @@ li {
   margin-bottom: 0.5rem;
   margin-top: 1rem;
 }
+.max-width-200 {
+  max-width: 200px !important;
+}
 .member-avatar.member-bigger {
   width: 140px;
   height: 140px;
@@ -262,10 +268,14 @@ li {
   background-color: red;
 }
 
+.mt-100px {
+  margin-top: 100px;
+}
+
 /* // dark mode */
 
 .dark-mode {
-  background-color: rgb(34, 32, 43);
+  background-color: rgb(26, 29, 40);
 }
 .dark-mode th,
 .dark-mode td {
@@ -275,6 +285,7 @@ li {
 .dark-mode h3,
 .dark-mode h4,
 .dark-mode h5,
+.dark-mode div,
 .dark-mode p {
   color: white;
 }
@@ -285,7 +296,7 @@ li {
   background-color: #333 !important;
 }
 .dark-mode .main-header {
-  background-color: rgb(34, 32, 43) !important;
+  background-color: rgb(26, 29, 40) !important;
   border-bottom: 1px solid rgb(233, 212, 212);
 }
 .dark-mode .main-header .MuiSvgIcon-root,
@@ -298,15 +309,16 @@ li {
   transform: translate(14px, -15px) !important;
 }
 .dark-mode .SubMenu_SubMenu__PnK1O {
-  background-color: rgb(34, 32, 43) !important;
-  border: 1px solid rgb(34, 32, 43);
+  background-color: rgb(26, 29, 40) !important;
+  border: 1px solid rgb(26, 29, 40);
 }
 .dark-mode .main-header .MuiButtonBase-root,
 .dark-mode .main-header h5 {
   color: rgb(233, 212, 212) !important;
+  
 }
 .dark-mode .bg-light {
-  background-color: rgb(34, 32, 43) !important;
+  background-color: rgb(26, 29, 40) !important;
   border: 1px solid rgb(233, 212, 212);
   color: white;
 }
@@ -331,7 +343,7 @@ li {
   color: white;
 }
 .dark-mode .teacher-sidebar .makeStyles-root-1 {
-  background-color: rgb(34, 32, 43);
+  background-color: rgb(26, 29, 40);
   border: 1px solid rgb(233, 212, 212);
   color: white !important;
   padding-top: 15px;
@@ -340,12 +352,12 @@ li {
   color: white;
 }
 .dark-mode .teacher-body .MuiPaper-root {
-  background-color: rgb(34, 32, 43);
+  background-color: rgb(26, 29, 40);
   border: 1px solid rgb(233, 212, 212);
   color: white;
 }
 .dark-mode .teacher-body .list-group-item {
-  background-color: rgb(34, 32, 43);
+  background-color: rgb(26, 29, 40);
   border: 1px solid rgb(233, 212, 212);
   border-bottom: none;
 }
@@ -359,4 +371,15 @@ li {
 .dark-mode .login-form {
   border: 1px solid #fff;
   border-radius: 3px;
+}
+@media (max-width: 500px) {
+  .app-container {
+    padding: 0 10px;
+  }
+  .header-container {
+    padding: 12px !important;
+  }
+  .main-header a img {
+    width: 120px !important;
+  }
 }

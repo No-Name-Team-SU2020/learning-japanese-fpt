@@ -940,30 +940,6 @@ router.patch("/quiz-presets/:presetId", async (req, res) => {
 
         const { is_chosen } = req.body;
 
-        const checkChosen = await Quiz_Preset.findOne({
-            where: {
-                is_chosen: true
-            },
-            raw: true
-        });
-
-        //console.log(checkChosen);
-
-        if(checkChosen){
-            checkChosen.is_chosen = false;
-            const deactive = await Quiz_Preset.update({
-                is_chosen: checkChosen.is_chosen
-            },{
-                where: {
-                    preset_id: checkChosen.preset_id
-                }
-            }
-            );
-            return res.json({
-                message: "You already choosing a preset"
-            })
-        }
-
         const choosePreset = await Quiz_Preset.update({
             is_chosen: is_chosen
         },

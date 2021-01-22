@@ -47,16 +47,16 @@ const Header = () => {
         >
           <IconButton onClick={toggleMessagesHandler}>
             <Badge color='primary' badgeContent={0}>
-              <MailIcon />
+              {/* <MailIcon /> */}
             </Badge>
-            <SubMenu show={openMessages}>Messages</SubMenu>
+            {/* <SubMenu show={openMessages}>Messages</SubMenu> */}
           </IconButton>
-          <IconButton onClick={toggleNotificationsHandler}>
+          {/* <IconButton onClick={toggleNotificationsHandler}> */}
             <Badge color='secondary' badgeContent={0}>
-              <NotificationsIcon />
+              {/* <NotificationsIcon /> */}
             </Badge>
-            <SubMenu show={openNotifications}>Norifications</SubMenu>
-          </IconButton>
+            {/* <SubMenu show={openNotifications}>Norifications</SubMenu> */}
+          {/* </IconButton> */}
           <Avatar src='https://images.pexels.com/photos/5177790/pexels-photo-5177790.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' />
           <ProfileMenu
             show={openProfileMenu}

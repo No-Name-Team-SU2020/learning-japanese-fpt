@@ -17,12 +17,12 @@ const LogoutModal = ({ closeModal, open }) => {
       <Button
         variant='contained'
         color='secondary'
-        className='mr-2'
+        className='ml-4'
         onClick={logoutHandler}
       >
         Confirm
       </Button>
-      <Button variant='contained' color='default' onClick={closeModal}>
+      <Button variant='contained' color='default' className='ml-4' onClick={closeModal}>
         Cancel
       </Button>
     </ConfirmAction>

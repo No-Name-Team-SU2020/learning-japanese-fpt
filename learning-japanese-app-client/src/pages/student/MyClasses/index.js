@@ -27,7 +27,7 @@ const MyClasses = () => {
 
   return (
     <div>
-      <h1>My Current Classes</h1>
+      <h1>My Classes</h1>
       {loading && <Loader />}
       {error && <div className='alert mb-2 alert-danger'> {error} </div>}
       {classesData.classes &&

@@ -56,7 +56,7 @@ const QuestionList = () => {
         <Button
           variant='contained'
           color='primary'
-          onClick={() => history.push("/create")}
+          onClick={() => history.push("/question/create")}
           className='bg-orange-imp'
         >
           New Question
