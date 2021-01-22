@@ -37,12 +37,12 @@ function AdminMenu() {
       <AppBar position='static' className='bg-yellow-imp'>
         <Tabs value={value} onChange={handleChange} aria-label='Admin Menu Top'>
           <Tab
-            label='Quesion'
+            label='Question'
             {...a11yProps(0)}
             onClick={() => history.push("/")}
           />
                     <Tab
-            label='Grammars'
+            label='Grammar'
             {...a11yProps(1)}
             onClick={() => history.push("/manage-grammar")}
           />

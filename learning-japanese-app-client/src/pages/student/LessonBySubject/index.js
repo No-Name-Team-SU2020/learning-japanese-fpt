@@ -26,7 +26,7 @@ const LessonBySubject = () => {
   }, [dispatch, sId]);
   return (
     <div>
-      <h1>Lesson follow by Subject</h1>
+      <h1>Lesson List</h1>
       {loading && <Loader />}
       {error && <h3> {error || "Something wrong!!!"} </h3>}
       {!studentResult.loading &&

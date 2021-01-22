@@ -21,8 +21,8 @@ const TimeCountDown = ({ seconds, countDown }) => {
       <span>
         <AccessTimeIcon />
       </span>
-      <span> {minutes > 10 ? minutes : `0${minutes}`} </span>:
-      <span> {scnds > 10 ? scnds : `0${scnds}`} </span>
+      <span> {minutes >= 10 ? minutes : `0${minutes}`} </span>:
+      <span> {scnds >= 10 ? scnds : `0${scnds}`} </span>
     </div>
   );
 };

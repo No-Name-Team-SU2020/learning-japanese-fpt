@@ -13,7 +13,7 @@ const LogoutModal = ({ closeModal, open }) => {
   };
   return (
     <ConfirmAction open={open} close={closeModal}>
-      <h5 className='mb-4'>Do you really want to logout ? </h5>
+      <h5 className='mb-4'>Do you really want to log out ? </h5>
       <Button
         variant='contained'
         color='secondary'

@@ -35,7 +35,7 @@ const CreateSetting = ({ show, close, loading }) => {
   return (
     <div>
       <ConfirmAction open={show} close={close}>
-        <h3>Create New Quiz Setting</h3>
+        <h3>New Setting</h3>
         <form className='my-3' onSubmit={submitHandler}>
           <TextField
             label='Number Of Questions'

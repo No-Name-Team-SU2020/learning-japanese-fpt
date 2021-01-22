@@ -48,7 +48,7 @@ const EditGrammar = () => {
         <form onSubmit={submitHandler}>
           <Grid container spacing={3}>
             <Grid item md={4}>
-              Location
+              Subject
             </Grid>
             <Grid item md={8}>
               <p className='lead'>

@@ -29,7 +29,7 @@ const SidebarLinks = () => {
           ABOUT
         </NavLink>
       </li>
-      <li onClick={openLogoutModal}> LOGOUT </li>
+      <li onClick={openLogoutModal}> LOG OUT </li>
       <LogoutModal closeModal={closeLogoutModal} open={showLogout} />
     </nav>
   );

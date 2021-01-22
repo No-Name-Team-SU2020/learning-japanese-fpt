@@ -9,7 +9,7 @@ const About = () => {
         Japanese Learning Management System (JLMS)
       </h1>
       <section className='mt-5'>
-        <h3>I. Một vài điều về hệ thống (trang)</h3>
+        <h3>I. Một vài điều về hệ thống</h3>
         <p className='lead'>
           JLMS là một hệ thống, ứng dụng web quản lý học tập tiếng Nhật cho đội
           ngũ giáo viên và sinh viên của trường đại học FPT. Hệ thống được xây
@@ -59,7 +59,7 @@ const About = () => {
           tin cậy của bạn có giá trị cao nhất. Vì vậy chúng tôi thu thập lượng
           thông tin tối thiểu chỉ khi có sự cho phép của bạn và sử dụng thông
           tin này chỉ cho các mục đích đã dự định. Chúng tôi không cung cấp
-          thông tin cho các bên thứ ba mà không có sự hiểu biết của bạn.
+          thông tin cho các bên thứ ba mà không có sự cho phép của bạn.
         </p>
         <p className='lead'>
           Cảm ơn bạn vẫn tiếp tục quan tâm và ủng hộ chúng tôi.

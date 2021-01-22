@@ -50,7 +50,7 @@ const StudentQuizResult = ({ match }) => {
                   <TableCell>Quiz ID</TableCell>
                   <TableCell>Lesson ID</TableCell>
                   <TableCell>Score</TableCell>
-                  <TableCell>Num Of Failed</TableCell>
+                  <TableCell>Number Of Failed</TableCell>
                   <TableCell>Quiz Detail</TableCell>
                 </TableRow>
               </TableHead>

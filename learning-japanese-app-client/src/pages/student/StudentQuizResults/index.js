@@ -29,7 +29,7 @@ const StudentQuizResults = () => {
           data.map((r) => (
             <div key={r.quiz_id} className={classes.ResultItem}>
               <h3>{r.lesson.lesson_name}</h3>
-              <p>Score: {r.score}</p>
+              <p>Correct answer: {r.score}</p>
               <div
                 className={[
                   classes.Badge,

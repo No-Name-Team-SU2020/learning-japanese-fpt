@@ -36,6 +36,7 @@ function* getQuestionsWorker(action) {
   yield put(getQuestionsStart());
   try {
     const res = yield getQuestionsRequest(action.lessonId);
+    yield localStorage.setItem('tdq', res.data.data.time);
     yield put(getQuestionsSuccess(res.data.data.questions || []));
   } catch (error) {
     yield put(

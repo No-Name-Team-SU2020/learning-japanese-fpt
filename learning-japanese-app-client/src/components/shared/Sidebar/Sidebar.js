@@ -35,7 +35,7 @@ const Sidebar = () => {
         <p> {profile.email} </p>
         <SidebarLinks />
         <p className='small'>
-          © 2020 FTP University by JLMS. All Rights Reserved.
+          © 2020 FPT University by JLMS. All Rights Reserved.
         </p>
       </aside>
       <Backdrop show={showSidebar} clicked={() => dispatch(hideSidebar())} />

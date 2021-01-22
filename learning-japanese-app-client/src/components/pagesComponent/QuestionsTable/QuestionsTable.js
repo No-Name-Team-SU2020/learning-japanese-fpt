@@ -55,7 +55,7 @@ const QuestionTable = ({ questionList }) => {
                   <TableCell>OPTION C </TableCell>
                   <TableCell>OPTION D </TableCell>
                   <TableCell>CORRECT ANSWER </TableCell>
-                  <TableCell>Actions</TableCell>
+                  <TableCell>ACTION</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

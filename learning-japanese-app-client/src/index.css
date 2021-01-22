@@ -282,6 +282,7 @@ li {
 .dark-mode h3,
 .dark-mode h4,
 .dark-mode h5,
+.dark-mode h6,
 .dark-mode div,
 .dark-mode p {
   color: white;
@@ -369,6 +370,12 @@ li {
   border: 1px solid #fff;
   border-radius: 3px;
 }
+
+.dark-mode .modal-ui .MuiPaper-root {
+  background-color:  rgb(34, 32, 43) !important;
+  border: 1px solid #fff;
+}
+
 @media (max-width: 500px) {
   .app-container {
     padding: 0 10px;
@@ -379,4 +386,13 @@ li {
   .main-header a img {
     width: 120px !important;
   }
+}
+
+.disable-copy {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }

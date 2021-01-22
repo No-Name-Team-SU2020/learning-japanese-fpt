@@ -18,7 +18,7 @@ const LessonBySubject = () => {
 
   return (
     <div>
-      <h1>Lesson Grammar follow by Subject</h1>
+      <h1>Lesson List</h1>
       {loading && <Loader />}
       {lessonList.map((lesson) => (
         <div

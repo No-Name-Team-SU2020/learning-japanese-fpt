@@ -36,7 +36,7 @@ const ProfileMenu = ({ show, toggleMenu }) => {
       </Button>
       <SubMenu show={show}>
         <div className='d-flex align-items-center'>
-          <Avatar src='https://images.pexels.com/photos/5177790/pexels-photo-5177790.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' />
+          <Avatar src='https://cdn.iconscout.com/icon/free/png-256/avatar-380-456332.png' />
           <h5 className='ml-3'>
             {profile?.display_name ? profile.display_name : "Please Login"}
           </h5>

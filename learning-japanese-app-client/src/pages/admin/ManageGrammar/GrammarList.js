@@ -70,7 +70,7 @@ const GrammarList = () => {
         <>
           <div>
             <p className='lead font-weight-bold'>
-              Grammar for {grammar.data.subject.subject_name} -{" "}
+              {grammar.data.subject.subject_name} -{" "}
               {grammar.data.lesson.lesson_name}
             </p>
           </div>

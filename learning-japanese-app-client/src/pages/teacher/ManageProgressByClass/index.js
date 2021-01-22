@@ -82,7 +82,7 @@ const ManageProgressByClass = ({ match, location }) => {
             <div className='shadow p-3 rounded'>
               <div className='header'>
                 <h4>
-                  Total number of true/false question follow by class & question
+                  Pie Chart show total number of true/false questions 
                 </h4>
               </div>
               <Pie
@@ -119,7 +119,7 @@ const ManageProgressByClass = ({ match, location }) => {
               />
             </div>
             <div className='top-5'>
-              <h4 className='mt-3'>Five student best score</h4>
+              <h4 className='mt-3'>TOP five students high score</h4>
               <TableContainer className='shadow rounded'>
                 <Table aria-label='lessons table'>
                   <TableHead>

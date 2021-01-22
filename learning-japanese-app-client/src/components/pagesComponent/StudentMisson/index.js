@@ -37,7 +37,7 @@ const StudentMission = () => {
           className='w-100'
           alt=''
         />
-        <h3>Quiz Results</h3>
+        <h3>Result</h3>
       </div>
       <div
         className='col-md-6 section'

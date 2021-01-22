@@ -57,7 +57,7 @@ const Header = () => {
             </Badge>
             {/* <SubMenu show={openNotifications}>Norifications</SubMenu> */}
           {/* </IconButton> */}
-          <Avatar src='https://images.pexels.com/photos/5177790/pexels-photo-5177790.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' />
+          <Avatar src='https://cdn.iconscout.com/icon/free/png-256/avatar-380-456332.png' />
           <ProfileMenu
             show={openProfileMenu}
             toggleMenu={toggleProfileMenuHandler}

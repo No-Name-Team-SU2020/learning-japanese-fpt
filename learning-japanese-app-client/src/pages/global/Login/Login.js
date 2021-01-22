@@ -29,7 +29,7 @@ const Login = () => {
       }}
     >
       <h2 className='my-4 text-center'>
-        JLMS _ Japanese Learning Management System
+        Japanese Learning Management System
       </h2>
       <div className='mb-5 shadow p-3 pb-5 pt-0 rounded bg-white'>
         <h1 className='my-4 text-center'>Login</h1>

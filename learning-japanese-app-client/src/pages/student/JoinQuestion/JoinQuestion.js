@@ -20,8 +20,10 @@ const JoinQuestion = ({ location }) => {
   const history = useHistory();
   const { lId } = useParams();
   const adminQuestionList = useSelector((state) => state.adminQuestionList);
-  const [time, setTime] = useState(900);
-  const [finishTime, setFinishTime] = useState(900);
+  const [time, setTime] = useState(parseInt(localStorage.getItem("tdq")) * 60);
+  const [finishTime, setFinishTime] = useState(
+    parseInt(localStorage.getItem("tdq")) * 60
+  );
   const { loading, error, response } = useSelector(
     (state) => state.studentQuiz
   );
@@ -47,7 +49,7 @@ const JoinQuestion = ({ location }) => {
       );
     } else {
       setIsSubmit(false);
-      setFinishTime(900 - time);
+      setFinishTime(finishTime - time);
       dispatch(
         submitAnswers(lId, {
           answers: userAnswers,
@@ -76,7 +78,7 @@ const JoinQuestion = ({ location }) => {
               <h3> {adminQuestionList.questionList?.lesson} </h3>
               <TimeCountDown seconds={time} countDown={setTime} />
             </div>
-            <p className='lead'>{location.search.split("=")[1]}</p>
+            <p className='lead'>{location.search?.split("=")[1] || ""}</p>
             <form>
               {questionListMarkup}
               {loading && <Loader />}
@@ -128,6 +130,24 @@ const JoinQuestion = ({ location }) => {
                 </div>
               </ConfirmAction>
             )}
+          </>
+        )}
+      {!adminQuestionList.loading &&
+        adminQuestionList.questionList.length === 0 && (
+          <>
+            <p className='text-danger lead'>
+              This quiz has no questions yet!
+            </p>
+            <Button
+              type='button'
+              variant='contained'
+              color='primary'
+              onClick={() => {
+                history.goBack();
+              }}
+            >
+              Go Back
+            </Button>
           </>
         )}
       {!adminQuestionList.loading &&

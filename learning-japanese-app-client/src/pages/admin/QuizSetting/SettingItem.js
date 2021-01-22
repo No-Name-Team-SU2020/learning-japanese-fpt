@@ -11,14 +11,7 @@ import {
 const SettingItem = ({ setting }) => {
   const dispatch = useDispatch();
   const changeActiveModeHandler = () => {
-    // if (setting.is_chosen === true) {
-    //   setting.is_chosen = false;
-    //   dispatch(updateQuizPresetStatus(setting.is_chosen, setting.preset_id));
-    // } else {
-    //   setting.is_chosen = true;
-    //   dispatch(updateQuizPresetStatus(setting.is_chosen, setting.preset_id));
-    // }
-    dispatch(updateQuizPresetStatus(setting.is_chosen, setting.preset_id));
+    dispatch(updateQuizPresetStatus(!setting.is_chosen, setting.preset_id));
   };
   return (
     <div className="d-flex align-items-center justify-content-around rounded shadow p-3 mt-2">
