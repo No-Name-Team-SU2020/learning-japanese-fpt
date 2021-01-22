@@ -74,7 +74,11 @@ const StudentQuizResult = ({ match }) => {
                         : `0/10`}
                     </TableCell>
                     <TableCell>
-                      <Link to={`/quiz-detail/lesson/${result.lesson_id}/student/${result.student_id}`}>View</Link>
+                      <Link
+                        to={`/quiz-detail/lesson/${result.lesson_id}/student/${result.student_id}`}
+                      >
+                        View
+                      </Link>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -82,6 +86,9 @@ const StudentQuizResult = ({ match }) => {
             </Table>
           </TableContainer>
         </>
+      )}
+      {!loading && studentQuizResultData?.length === 0 && (
+        <p className='lead text-danger'>This student has not done any quiz</p>
       )}
       <Button
         variant='contained'

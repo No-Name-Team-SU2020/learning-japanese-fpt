@@ -45,7 +45,7 @@ const reducer = (state = initialState, action) => {
       history.push("/");
       localStorage.removeItem("darkMode");
       localStorage.removeItem("refreshToken");
-      localStorage.setItem("menuPosition", 0);
+      localStorage.removeItem("menuPosition");
       return {
         loading: false,
         isAuthenticated: false,

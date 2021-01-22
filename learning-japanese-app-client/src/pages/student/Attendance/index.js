@@ -87,7 +87,7 @@ const Attendance = ({ match }) => {
                 ) ? (
                   <span className='text-success'>Present </span>
                 ) : (
-                  <span className='text-danger'>Absent </span>
+                  <span className='text-danger'>Not Present </span>
                 )}
               </span>
             </div>

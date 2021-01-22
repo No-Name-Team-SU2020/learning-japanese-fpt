@@ -42,12 +42,12 @@ const ProfileMenu = ({ show, toggleMenu }) => {
           </h5>
         </div>
         <List>
-          <ListItem button>
+          {/* <ListItem button>
             <ListItemIcon>
               <AccountCircleIcon />
             </ListItemIcon>
             <ListItemText primary='Profile' />
-          </ListItem>
+          </ListItem> */}
           <ListItem button>
             <ListItemIcon>
               <Brightness4Icon />
@@ -68,7 +68,7 @@ const ProfileMenu = ({ show, toggleMenu }) => {
               <ListItemIcon>
                 <ExitToAppIcon />
               </ListItemIcon>
-              <ListItemText primary='Sign Out' />
+              <ListItemText primary='Log Out' />
             </ListItem>
           )}
         </List>

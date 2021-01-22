@@ -44,11 +44,11 @@ const StudentMission = () => {
         onClick={() => history.push("/my-classes")}
       >
         <img
-          src='https://images.pexels.com/photos/5088022/pexels-photo-5088022.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+          src='https://cdn.doctailieu.com/images/2020/05/21/attendance-nghia-la-gi.jpg'
           className='w-100'
           alt=''
         />
-        <h3>Attendance</h3>
+        {/* <h3>Attendance</h3> */}
       </div>
     </div>
   );

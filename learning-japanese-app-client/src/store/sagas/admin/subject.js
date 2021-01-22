@@ -36,6 +36,7 @@ function* getSubjectsWorker() {
     yield put(
       getSubjectsFailed(error.response?.data?.message || "Something went wrong")
     );
+    yield put(alert("error", "Getting Subject List Failed"));
   }
 }
 

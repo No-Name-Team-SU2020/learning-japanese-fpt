@@ -8,7 +8,7 @@ import { getResults } from "../../../store/actions/student/quiz";
 import { Button } from "@material-ui/core";
 
 const LessonBySubject = () => {
-  const { lessonList, loading, error } = useSelector(
+  const { lessonList, loading, error, d } = useSelector(
     (state) => state.adminLessonList
   );
   const studentResult = useSelector((state) => state.studentResult);
@@ -42,15 +42,9 @@ const LessonBySubject = () => {
               }
               className='cursor-pointer hover-text-blue'
             >
-              <strong>{lesson.lesson_name} : </strong>
-              {lesson.lesson_content.substr(0, 50)}
+              <strong>{lesson.lesson_name} </strong>
+              {/* {lesson.lesson_content.substr(0, 50)} */}
             </span>
-            {/* <Link
-                  to={`/quiz/${lesson.lesson_id}?lCt=${lesson.lesson_content}`}
-                  className='font-weight-bold'
-                >
-                  Start Quiz
-                </Link> */}
             {lesson.is_attendeds?.length > 0 ? (
               !studentResult.data.find(
                 (r) => r.lesson_id === lesson.lesson_id
@@ -65,7 +59,7 @@ const LessonBySubject = () => {
                 <span className='text-success'>Done Quiz</span>
               )
             ) : (
-              <p>Please Attend Lesson</p>
+              <p>Not Allowed</p>
             )}
           </div>
         ))}

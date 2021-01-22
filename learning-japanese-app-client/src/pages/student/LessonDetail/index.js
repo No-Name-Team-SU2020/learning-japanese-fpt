@@ -48,7 +48,7 @@ const LessonDetail = ({ match, location }) => {
                 lessonDetail?.is_attendeds?.length > 0 ? "success" : "danger"
               }`}
             >
-              {lessonDetail?.is_attendeds?.length > 0 ? "Present" : "Absent"}
+              {lessonDetail?.is_attendeds?.length > 0 ? "Present" : "Not Present"}
             </div>
           </div>
         </>

@@ -11,3 +11,7 @@ export {
 export {
    getClassesRequest, getSingleClassRequest, createClassRequest, updateClassRequest, deleteClassRequest
 } from './class';
+
+export { getAllQuizPresetRequest, createQuizPresetRequest, deleteQuizPresetRequest, updateQuizPresetStatusRequest, updateQuizPresetRequest } from './quiz';
+
+export { getListGrammarRequest, getSingleGrammarRequest, createGrammarRequest, updateGrammarRequest, deleteGrammarRequest } from './grammar';

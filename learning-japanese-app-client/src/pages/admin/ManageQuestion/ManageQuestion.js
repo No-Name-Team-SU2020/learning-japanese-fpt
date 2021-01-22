@@ -14,7 +14,7 @@ const ManageQuestion = ({ match }) => {
         <Route path={`${match.url}question/edit/:qId`}>
           <EditQuestionForm />
         </Route>
-        <Route exact path={`${match.url}create`}>
+        <Route path={`${match.url}question/create`}>
           <CreateQuestionForm />
         </Route>
       </div>
