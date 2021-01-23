@@ -96,12 +96,12 @@ const SubjectList = ({ subjects, url }) => {
         <Button
           variant='contained'
           color='secondary'
-          className='mr-2'
+          className='ml-5'
           onClick={deleteSubjectHandler}
         >
           Confirm
         </Button>
-        <Button variant='contained' color='default' onClick={closeModal}>
+        <Button variant='contained' color='default' className='ml-5' onClick={closeModal}>
           Cancel
         </Button>
       </ConfirmAction>

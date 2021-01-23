@@ -8,13 +8,17 @@
 }
 
 .slick-dots li.slick-active button:before {
-	color: white !important;
+	color: rgb(0, 0, 0) !important;
 }
 .slick-dots li button:before {
 	font-size: 18px !important;
 }
 .h-80 {
 	height: 50px;
+	color:rgb(0, 0, 0) !important;
+}
+h5{
+	color:rgb(0, 0, 0) !important;
 }
 .MuiAvatar-root {
 	width: 50px !important;

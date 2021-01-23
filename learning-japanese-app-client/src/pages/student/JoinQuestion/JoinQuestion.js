@@ -78,7 +78,7 @@ const JoinQuestion = ({ location }) => {
               <h3> {adminQuestionList.questionList?.lesson} </h3>
               <TimeCountDown seconds={time} countDown={setTime} />
             </div>
-            <p className='lead'>{location.search?.split("=")[1] || ""}</p>
+            <h1 className="text-center line-height-lg ml-1">Test</h1>
             <form>
               {questionListMarkup}
               {loading && <Loader />}

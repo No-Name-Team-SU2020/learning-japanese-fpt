@@ -11,7 +11,7 @@ const StudentMission = () => {
         onClick={() => history.push("/subject-list")}
       >
         <img
-          src='https://images.pexels.com/photos/313690/pexels-photo-313690.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+          src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAhYXmfwSbXGcmNJ4DIL3kkHEeoC-dL6ZRkQ&usqp=CAU'
           alt=''
           className='w-100'
         />
@@ -22,7 +22,7 @@ const StudentMission = () => {
         onClick={() => history.push("/grammar-subject-list")}
       >
         <img
-          src='https://images.pexels.com/photos/5088008/pexels-photo-5088008.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+          src='https://64.media.tumblr.com/49cdbc9a168cbaaad5449e6ab909e463/tumblr_pc34zatx6q1uv74o4_og_1280.jpg'
           className='w-100'
           alt=''
         />
@@ -33,7 +33,7 @@ const StudentMission = () => {
         onClick={() => history.push("/result-subject-list")}
       >
         <img
-          src='https://images.pexels.com/photos/256468/pexels-photo-256468.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+          src='https://files.tofugu.com/articles/japan/2017-05-02-omiyage/header-1280x.jpg'
           className='w-100'
           alt=''
         />
@@ -44,11 +44,11 @@ const StudentMission = () => {
         onClick={() => history.push("/my-classes")}
       >
         <img
-          src='https://cdn.doctailieu.com/images/2020/05/21/attendance-nghia-la-gi.jpg'
+          src='https://www.liveworkplayjapan.com/wp-content/uploads/2018/11/Kindergarten-in-Japan-FI-e1542239445343.jpg'
           className='w-100'
           alt=''
         />
-        {/* <h3>Attendance</h3> */}
+        <h3>Attendance</h3>
       </div>
     </div>
   );

@@ -17,7 +17,7 @@
   position: fixed;
   left: 0;
   top: 0;
-  background-color: var(--light-color);
+  background-color: #dbdbdb;
   min-height: 100vh;
   max-width: 320px;
   padding: 60px 15px;
@@ -32,6 +32,13 @@
   opacity: 0.5;
 	pointer-events: none;
 	cursor: not-allowed;
+}
+
+.avatar{
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
 
 @media (max-width: 991px) {

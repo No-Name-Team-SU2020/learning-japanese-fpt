@@ -17,6 +17,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { deleteClass, getClasses } from "../../../store/actions/admin";
 import Loader from "../../ui/Loader/Loader";
 
+//Class table in menu
 const ClassTable = () => {
   const history = useHistory();
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);

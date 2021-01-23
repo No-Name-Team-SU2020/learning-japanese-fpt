@@ -36,7 +36,7 @@ const QuestionItem = ({ index, question, updateUserAnswers, listAnswers }) => {
   };
   return (
     <div className='shadow p-3 rounded mb-3'>
-      <p>
+      <p className="disable-copy">
         {index + 1}. {question.question_content}
       </p>
       <ul>

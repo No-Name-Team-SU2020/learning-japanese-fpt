@@ -12,7 +12,7 @@ const SubjectItem = ({
           <img
             src={
               image ||
-              "https://images.pexels.com/photos/5436925/pexels-photo-5436925.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+              "https://files.tofugu.com/series/2018-11-13-japanese-learning-resources/header-640x.jpg"
             }
             alt={subject_name}
             className='img-fluid mb-2 img-hover-border'

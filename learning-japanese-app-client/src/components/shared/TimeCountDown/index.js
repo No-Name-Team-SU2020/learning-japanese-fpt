@@ -17,7 +17,7 @@ const TimeCountDown = ({ seconds, countDown }) => {
     };
   }, [countDown, seconds]);
   return (
-    <div className='bg-success text-white rounded p-2 px-3'>
+    <div className='bg-success text-white rounded p-2 px-4'>
       <span>
         <AccessTimeIcon />
       </span>

@@ -144,7 +144,7 @@ const ManageStudentByClass = ({ match, location }) => {
                 {classData?.students?.map((student, index) => (
                   <TableRow key={student.student_id}>
                     <TableCell component='th' scope='row'>
-                      {index}
+                      {index+1}
                     </TableCell>
                     <TableCell>
                       <img

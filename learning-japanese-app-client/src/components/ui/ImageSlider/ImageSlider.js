@@ -17,7 +17,7 @@ const settings = {
 
 const ImageSlider = () => {
   return (
-    <div className="custom-image-slider" style={{ background: `url('https://images.pexels.com/photos/1089438/pexels-photo-1089438.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940')` }} >
+    <div className="custom-image-slider" style={{ background: `url('https://png.pngtree.com/thumb_back/fw800/background/20190221/ourmid/pngtree-japanese-style-zephyr-romantic-japan-image_16882.jpg` }} >
       <Slider {...settings}>
         {
           quotes.map(quote => <div key={quote.id} className="text-white text-center px-3 pt-5 mt-3">

@@ -29,13 +29,17 @@ const Sidebar = () => {
         <img src={logo} alt='aside logo' />
         <Avatar
           className='mx-auto mt-4'
-          src='https://images.pexels.com/photos/5177790/pexels-photo-5177790.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
         />
         <h5> {profile.display_name} </h5>
         <p> {profile.email} </p>
         <SidebarLinks />
-        <p className='small'>
-          © 2020 FPT University by JLMS. All Rights Reserved.
+        <p
+          className='small'
+          style={{
+            marginTop: "310px",
+          }}
+        >
+          © 2020 FTP University by JLMS. All Rights Reserved.
         </p>
       </aside>
       <Backdrop show={showSidebar} clicked={() => dispatch(hideSidebar())} />
